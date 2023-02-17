@@ -88,16 +88,16 @@ public class UploadPortTest {
 
     @Autowired
     private PendingService pendingService;
-    
+
     @Autowired
     private MtdTestIntegrityUploadPort mtdTestIntegrityUploadPort;
-    
+
     @Autowired
     private WorktimeMaterialPropertyUploadSettingService propService;
 
     @Before
     public void initTestData() {
-//        w = worktimeService.findByModel("PDCW240A10BGE0-ES");
+        w = worktimeService.findByModel("AVAS402MVAB2205-T");
         worktimes = worktimeService.findAll();
 //        worktimes = newArrayList(w);
 //        worktimes = worktimes.stream().filter(o -> o.getTwm2Flag() == 1).collect(toList());
@@ -180,8 +180,11 @@ public class UploadPortTest {
         });
     }
 
-//    @Test
+    @Test
     public void testSopUpload() throws Exception {
+        w = worktimeService.findByModel("IDP31-215WP25HIC3");
+        sopPort.update(w);
+
         List<Worktime> l = this.worktimes;
         for (Worktime worktime : l) {
             System.out.println("Upload " + worktime.getModelName());
@@ -212,9 +215,10 @@ public class UploadPortTest {
     public void testMaterialPropertyUploadPort() throws Exception {
 
         List<Worktime> l = worktimeService.findWithFlowRelation();
-        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(4, 43);
+        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(3, 43);
         assertEquals(2, settings.size());
         materialPropertyUploadPort.initSettings(settings);
+        materialPropertyUploadPort.update(w);
 
         for (Worktime worktime : l) {
             System.out.println("Upload " + worktime.getModelName());
