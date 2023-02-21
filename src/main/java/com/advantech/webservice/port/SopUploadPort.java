@@ -36,8 +36,10 @@ public class SopUploadPort implements UploadPort {
 
     private final String regex = "[(\\r\\n|\\n),\" ]+";
 
-    private final String[] assyType = {"ASSY", "PKG"};
-    private final String[] testType = {"T1", "T2"};
+    private final String[] assyType = {"組包","組裝","包裝"};
+    private final String[] testType = {"測試"};
+//    private final String[] assyType = {"ASSY", "PKG"};
+//    private final String[] testType = {"T1", "T2"};
 
     @Autowired
     private SopQueryPort sopQueryPort;

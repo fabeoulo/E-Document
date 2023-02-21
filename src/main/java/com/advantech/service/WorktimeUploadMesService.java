@@ -103,14 +103,6 @@ public class WorktimeUploadMesService {
     public void update(Worktime w) throws Exception {
         if (isUpdated) {
             Worktime rowLastStatus = worktimeAuditService.findLastStatusBeforeUpdate(w.getId());
-            if (isUploadSop && isSopChanged(rowLastStatus, w)) {
-                try {
-                    sopUploadPort.update(w);
-                } catch (Exception e) {
-                    throw new Exception("SOP更新至MES失敗<br />" + e.getMessage());
-                }
-            }
-
             if (isUploadResponsor && isModelResponsorChanged(rowLastStatus, w)) {
                 try {
                     responsorUploadPort.update(w);
@@ -132,6 +124,14 @@ public class WorktimeUploadMesService {
                     materialPropertyUploadPort.update(w);
                 } catch (Exception e) {
                     throw new Exception("料號屬性值更新至MES失敗<br />" + e.getMessage());
+                }
+            }
+
+            if (isUploadSop && isSopChanged(rowLastStatus, w)) {
+                try {
+                    sopUploadPort.update(w);
+                } catch (Exception e) {
+                    throw new Exception("SOP更新至MES失敗<br />" + e.getMessage());
                 }
             }
         }
