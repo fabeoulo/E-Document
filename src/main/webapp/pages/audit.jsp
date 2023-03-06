@@ -93,6 +93,7 @@
                     {label: 'Setup Time', name: "setupTime", jsonmap: "0.setupTime", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'CleanPanel', name: "cleanPanel", jsonmap: "0.cleanPanel", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Total Module', name: "totalModule", jsonmap: "0.totalModule", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
+                    {label: 'PreAssy Module', name: "preAssyModuleQty", jsonmap: "0.preAssyModuleQty", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Assembly', name: "assy", jsonmap: "0.assy", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'T1', name: "t1", jsonmap: "0.t1", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'T2', name: "t2", jsonmap: "0.t2", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options},

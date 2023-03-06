@@ -29,7 +29,7 @@ public abstract class HibernateBaseDAO<PK extends Serializable, T> {
 
     @Autowired
     private SessionFactory sessionFactory;
-
+    
     public HibernateBaseDAO() {
         this.persistentClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
     }

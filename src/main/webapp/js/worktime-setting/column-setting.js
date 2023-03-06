@@ -7,6 +7,7 @@ var worktimeCol = [
     {name: "totalModule"},
     {name: "setupTime"},
     {name: "cleanPanel"},
+    {name: "preAssyModuleQty"},
     {name: "assy"},
     {name: "t1"},
     {name: "t2"},

@@ -115,6 +115,9 @@ public class Worktime implements java.io.Serializable {
     private BigDecimal cleanPanel = BigDecimal.ZERO;
     
     @JsonView(View.Public.class)
+    private int preAssyModuleQty;
+    
+    @JsonView(View.Public.class)
     private BigDecimal assy = BigDecimal.ZERO;
     
     @JsonView(View.Public.class)
@@ -498,6 +501,15 @@ public class Worktime implements java.io.Serializable {
 
     public void setCleanPanel(BigDecimal cleanPanel) {
         this.cleanPanel = autoFixScale(cleanPanel, 1);
+    }
+
+    @Column(name = "pre_assy_moduleQty", nullable = true)
+    public int getPreAssyModuleQty() {
+        return preAssyModuleQty;
+    }
+
+    public void setPreAssyModuleQty(int preAssyModuleQty) {
+        this.preAssyModuleQty = preAssyModuleQty;
     }
 
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
