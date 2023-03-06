@@ -98,12 +98,12 @@ public class QueryPortTest {
 
     @Before
     public void init() {
-        w = worktimeService.findByPrimaryKey(897);
+        w = worktimeService.findByPrimaryKey(2202);
     }
 
-//    @Test
+    @Test
     public void testSopQueryPort() throws Exception {
-        sopQueryPort.setTypes("T1");
+        sopQueryPort.setTypes("組裝");
         List l = sopQueryPort.query(w);
         assertEquals(1, l.size());
 

@@ -167,7 +167,7 @@ public class UploadPortTest {
     @Test
     public void testWorktimeUploadPort() throws Exception {
 
-        Worktime w = worktimeService.findByPrimaryKey(2193);
+        Worktime w = worktimeService.findByPrimaryKey(2202);
 //        sopQueryPort.setTypes("組包","測試");
 //        List l = sopQueryPort.query(w);
 //        assertEquals(1, l.size());
@@ -176,7 +176,7 @@ public class UploadPortTest {
         //responsorUploadPort.update(w);
         ////flowUploadPort.insert(w);
 //        flowUploadPort.update(w);
-        materialPropertyUploadPort.update(w);
+//        materialPropertyUploadPort.update(w);
 
     }
 //    @Test
