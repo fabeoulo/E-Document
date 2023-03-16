@@ -7,6 +7,8 @@ package com.advantech.converter;
 
 import com.advantech.model.Cobot;
 import com.advantech.service.CobotService;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * @author Wei.Cheng
+ * @author Justin.Yeh
  */
 @Component
 public class CobotConverter implements Converter<String, Cobot> {
@@ -27,7 +29,18 @@ public class CobotConverter implements Converter<String, Cobot> {
         return cobotService.findByPrimaryKey(Integer.parseInt(s));
     }
 
-    public String convertToString(Set<Cobot> cobots){
+    public Set<Cobot> convertToCobots(String s, Map<String, Cobot> cobotOptions) {
+        Set<Cobot> cobotSets = new HashSet<>(0);
+        if (s != null && !"".equals(s)) {
+            String[] names = s.split(",");
+            for (String sc : names) {
+                cobotSets.add((cobotOptions.get(sc.trim())));
+            }
+        }
+        return cobotSets;
+    }
+
+    public String convertToString(Set<Cobot> cobots) {
         String[] names = cobots.stream().map(c -> c.getName()).toArray(String[]::new);
         return String.join(",", names);
     }

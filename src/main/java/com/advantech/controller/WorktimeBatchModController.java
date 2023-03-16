@@ -5,11 +5,13 @@
  */
 package com.advantech.controller;
 
+import com.advantech.converter.CobotConverter;
 import com.advantech.helper.WorktimeMailManager;
 import com.advantech.excel.XlsWorkBook;
 import com.advantech.excel.XlsWorkSheet;
 import com.advantech.helper.WorktimeValidator;
 import com.advantech.model.BusinessGroup;
+import com.advantech.model.Cobot;
 import com.advantech.model.Floor;
 import com.advantech.model.Flow;
 import com.advantech.model.Pending;
@@ -20,6 +22,7 @@ import com.advantech.model.User;
 import com.advantech.model.WorkCenter;
 import com.advantech.model.Worktime;
 import com.advantech.service.BusinessGroupService;
+import com.advantech.service.CobotService;
 import com.advantech.service.FloorService;
 import com.advantech.service.FlowService;
 import com.advantech.service.PendingService;
@@ -87,16 +90,22 @@ public class WorktimeBatchModController {
 
     @Autowired
     private BusinessGroupService businessGroupService;
-    
+
     @Autowired
     private WorkCenterService workCenterService;
-    
+
     @Autowired
     private RemarkService remarkService;
 
     @Autowired
+    private CobotService cobotService;
+
+    @Autowired
+    private CobotConverter cobotConverter;
+
+    @Autowired
     private WorktimeAuditService worktimeAuditService;
-    
+
     @Autowired
     private WorktimeValidator worktimeValidator;
 
@@ -177,7 +186,7 @@ public class WorktimeBatchModController {
     private List<Worktime> transToWorktimes(MultipartFile file, boolean checkRevision) throws Exception {
         //固定sheet name為sheet1
 
-        try (XlsWorkBook workbook = new XlsWorkBook(file.getInputStream())) {
+        try ( XlsWorkBook workbook = new XlsWorkBook(file.getInputStream())) {
             XlsWorkSheet sheet = workbook.getSheet("sheet1");
             if (sheet == null) {
                 throw new Exception("Sheet named \"sheet1\" not found");
@@ -274,7 +283,7 @@ public class WorktimeBatchModController {
     /*
         若欄位為relative column, 要將excel template的欄位名稱加上*Name, ex: bpeOwner -> bpeOwnerName, packingFlow -> packingFlowName
         無加name在XlsWorkSheet的method.invoke會出錯(無法將值轉換為class的錯誤)
-    */
+     */
     private List retrieveRelativeColumns(XlsWorkSheet sheet, List<Worktime> hgList) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, Exception {
         Map<String, Type> typeOptions = toSelectOptions(typeService.findAll());
         Map<String, Floor> floorOptions = toSelectOptions(floorService.findAll());
@@ -285,6 +294,7 @@ public class WorktimeBatchModController {
         Map<String, BusinessGroup> businessGroupOptions = toSelectOptions(businessGroupService.findAll());
         Map<String, WorkCenter> workCenterOptions = toSelectOptions(workCenterService.findAll());
         Map<String, Remark> remarkOptions = toSelectOptions(remarkService.findAll());
+        Map<String, Cobot> cobotOptions = toSelectOptions(cobotService.findAll());
 
         //設定關聯by name
         for (int i = 0; i < hgList.size(); i++) {
@@ -317,13 +327,16 @@ public class WorktimeBatchModController {
 
             String businessGroupName = sheet.getValue(i, "businessGroupName").toString();
             w.setBusinessGroup(valid(businessGroupName, businessGroupOptions.get(businessGroupName)));
-            
+
             String workCenterName = sheet.getValue(i, "workCenterName").toString();
             w.setWorkCenter(valid(workCenterName, workCenterOptions.get(workCenterName)));
-            
+
             String remarkName = sheet.getValue(i, "remarkName").toString();
             w.setRemark(valid(remarkName, remarkOptions.get(remarkName)));
 
+            String cobotsName = sheet.getValue(i, "cobotsName").toString();
+            Set<Cobot> cobotSets = cobotConverter.convertToCobots(cobotsName, cobotOptions);
+            w.setCobots(valid(cobotsName, cobotSets));
         }
 
         return hgList;
