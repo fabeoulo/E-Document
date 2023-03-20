@@ -40,7 +40,7 @@ public class ModelResponsorQueryPort extends BasicQueryPort {
         return (List<ModelResponsor>) super.query(w); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+    @Override   //OK
     public Map<String, String> transformData(Worktime w) throws Exception {
         Map<String, String> xmlResults = new HashMap();
 

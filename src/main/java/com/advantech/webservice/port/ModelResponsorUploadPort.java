@@ -48,13 +48,13 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
         比對看是否有更新，有則去MES抓人員ID作update
         假使是新增則呼叫新增UploadType
      */
-    @Override
+    @Override   //done
     public void update(Worktime w) throws Exception {
         try {
             String userIdsString = concatUserId(getWorktimeOwners(w));
             PartMappingUserRoot root = new PartMappingUserRoot();
-            root.setPARTNO(w.getModelName()); //機種
-            root.setUSERIDs(userIdsString); //人員代碼
+            root.getUsers().setPARTNO(w.getModelName()); //機種
+            root.getUsers().setUSERIDs(userIdsString); //人員代碼
             super.upload(root, UploadType.UPDATE);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -70,8 +70,8 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
     public void delete(Worktime w) throws Exception {
         try {
             PartMappingUserRoot root = new PartMappingUserRoot();
-            root.setPARTNO(w.getModelName()); //機種
-            root.setUSERIDs(""); //人員代碼
+            root.getUsers().setPARTNO(w.getModelName()); //機種
+            root.getUsers().setUSERIDs(""); //人員代碼
             super.upload(root, UploadType.UPDATE);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -86,7 +86,7 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
 
     private String concatUserId(List<MesUserInfo> l) {
         l = l.stream().distinct().collect(toList());
-        
+
         StringBuilder sb = new StringBuilder();
         l.forEach((info) -> {
             sb.append("/");

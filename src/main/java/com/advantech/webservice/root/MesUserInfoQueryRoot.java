@@ -4,8 +4,6 @@
 // 一旦重新編譯來源綱要, 對此檔案所做的任何修改都將會遺失. 
 // 產生時間: 2017.11.01 於 11:38:04 AM CST 
 //
-
-
 package com.advantech.webservice.root;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,12 +14,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
-
 /**
- * <p>anonymous complex type 的 Java 類別.
- * 
- * <p>下列綱要片段會指定此類別中包含的預期內容.
- * 
+ * <p>
+ * anonymous complex type 的 Java 類別.
+ *
+ * <p>
+ * 下列綱要片段會指定此類別中包含的預期內容.
+ *
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
@@ -52,13 +51,14 @@ import javax.xml.bind.annotation.XmlValue;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "method",
-    "userinfo"
+    "userinfo",
+    "extdept"
 })
 @XmlRootElement(name = "root")
 public class MesUserInfoQueryRoot {
@@ -67,19 +67,19 @@ public class MesUserInfoQueryRoot {
     protected MesUserInfoQueryRoot.METHOD method;
     @XmlElement(name = "USER_INFO", required = true)
     protected MesUserInfoQueryRoot.USERINFO userinfo;
-    
-    public MesUserInfoQueryRoot(){
+    @XmlElement(name = "EXT_DEPT", required = true)
+    protected String extdept = "PD03";
+
+    public MesUserInfoQueryRoot() {
         this.method = new MesUserInfoQueryRoot.METHOD();
         this.userinfo = new MesUserInfoQueryRoot.USERINFO();
     }
 
     /**
      * 取得 method 特性的值.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Root.METHOD }
-     *     
+     *
+     * @return possible object is {@link Root.METHOD }
+     *
      */
     public MesUserInfoQueryRoot.METHOD getMETHOD() {
         return method;
@@ -87,11 +87,9 @@ public class MesUserInfoQueryRoot {
 
     /**
      * 設定 method 特性的值.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Root.METHOD }
-     *     
+     *
+     * @param value allowed object is {@link Root.METHOD }
+     *
      */
     public void setMETHOD(MesUserInfoQueryRoot.METHOD value) {
         this.method = value;
@@ -99,11 +97,9 @@ public class MesUserInfoQueryRoot {
 
     /**
      * 取得 users 特性的值.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Root.USERS }
-     *     
+     *
+     * @return possible object is {@link Root.USERS }
+     *
      */
     public MesUserInfoQueryRoot.USERINFO getUSERS() {
         return userinfo;
@@ -111,22 +107,29 @@ public class MesUserInfoQueryRoot {
 
     /**
      * 設定 users 特性的值.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Root.USERS }
-     *     
+     *
+     * @param value allowed object is {@link Root.USERS }
+     *
      */
     public void setUSERS(MesUserInfoQueryRoot.USERINFO value) {
         this.userinfo = value;
     }
 
+    public String getExtdept() {
+        return extdept;
+    }
+
+    public void setExtdept(String extdept) {
+        this.extdept = extdept;
+    }
 
     /**
-     * <p>anonymous complex type 的 Java 類別.
-     * 
-     * <p>下列綱要片段會指定此類別中包含的預期內容.
-     * 
+     * <p>
+     * anonymous complex type 的 Java 類別.
+     *
+     * <p>
+     * 下列綱要片段會指定此類別中包含的預期內容.
+     *
      * <pre>
      * &lt;complexType>
      *   &lt;simpleContent>
@@ -136,8 +139,8 @@ public class MesUserInfoQueryRoot {
      *   &lt;/simpleContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
@@ -148,15 +151,13 @@ public class MesUserInfoQueryRoot {
         @XmlValue
         protected String value;
         @XmlAttribute(name = "ID")
-        protected String id = "SYSSO.QryUserInfo002";
+        protected String id = "Advantech.IMG.SYS.BLL.QryUserInfo002";
 
         /**
          * 取得 value 特性的值.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         *
+         * @return possible object is {@link String }
+         *
          */
         public String getValue() {
             return value;
@@ -164,11 +165,9 @@ public class MesUserInfoQueryRoot {
 
         /**
          * 設定 value 特性的值.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *
+         * @param value allowed object is {@link String }
+         *
          */
         public void setValue(String value) {
             this.value = value;
@@ -176,11 +175,9 @@ public class MesUserInfoQueryRoot {
 
         /**
          * 取得 id 特性的值.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         *
+         * @return possible object is {@link String }
+         *
          */
         public String getID() {
             return id;
@@ -188,11 +185,9 @@ public class MesUserInfoQueryRoot {
 
         /**
          * 設定 id 特性的值.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *
+         * @param value allowed object is {@link String }
+         *
          */
         public void setID(String value) {
             this.id = value;
@@ -200,12 +195,13 @@ public class MesUserInfoQueryRoot {
 
     }
 
-
     /**
-     * <p>anonymous complex type 的 Java 類別.
-     * 
-     * <p>下列綱要片段會指定此類別中包含的預期內容.
-     * 
+     * <p>
+     * anonymous complex type 的 Java 類別.
+     *
+     * <p>
+     * 下列綱要片段會指定此類別中包含的預期內容.
+     *
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -217,8 +213,8 @@ public class MesUserInfoQueryRoot {
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
@@ -229,17 +225,15 @@ public class MesUserInfoQueryRoot {
 
         @XmlElement(name = "USER_NO", required = true, nillable = true)
         protected String userno;
-        
+
         @XmlElement(name = "USER_ID", required = true, nillable = true)
         protected String userid;
 
         /**
          * 取得 userno 特性的值.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         *
+         * @return possible object is {@link String }
+         *
          */
         public String getUSERNO() {
             return userno;
@@ -247,11 +241,9 @@ public class MesUserInfoQueryRoot {
 
         /**
          * 設定 userno 特性的值.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *
+         * @param value allowed object is {@link String }
+         *
          */
         public void setUSERNO(String value) {
             this.userno = value;
@@ -265,7 +257,6 @@ public class MesUserInfoQueryRoot {
             this.userid = value;
         }
 
-        
     }
 
 }

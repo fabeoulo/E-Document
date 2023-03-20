@@ -57,7 +57,8 @@ import javax.xml.bind.annotation.XmlValue;
     "userid",
     "deptid",
     "deptno",
-    "deptdescch"
+    "deptdescch",
+    "extdept"
 })
 @XmlRootElement(name = "root")
 public class ModelResponsorQueryRoot {
@@ -76,6 +77,8 @@ public class ModelResponsorQueryRoot {
     protected String deptno;
     @XmlElement(name = "DEPT_DESC_CH", required = true, nillable = true)
     protected String deptdescch;
+    @XmlElement(name = "EXT_DEPT", required = true)
+    protected String extdept = "PD03";
 
     public ModelResponsorQueryRoot() {
         this.method = new ModelResponsorQueryRoot.METHOD();
@@ -221,6 +224,14 @@ public class ModelResponsorQueryRoot {
         this.deptdescch = value;
     }
 
+    public String getExtdept() {
+        return extdept;
+    }
+
+    public void setExtdept(String extdept) {
+        this.extdept = extdept;
+    }
+
     /**
      * <p>
      * anonymous complex type 的 Java 類別.
@@ -249,7 +260,7 @@ public class ModelResponsorQueryRoot {
         @XmlValue
         protected String value;
         @XmlAttribute(name = "ID")
-        protected String id = "MIMSO.QryPart_Mapping_User";
+        protected String id = "Advantech.QAM.PQE.BLL.QryPart_Mapping_User";
 
         /**
          * 取得 value 特性的值.

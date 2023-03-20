@@ -60,7 +60,8 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "method",
-    "flowrule"
+    "flowrule",
+    "extdept"
 })
 @XmlRootElement(name = "root")
 public class FlowRuleQueryRoot {
@@ -69,6 +70,8 @@ public class FlowRuleQueryRoot {
     protected FlowRuleQueryRoot.METHOD method;
     @XmlElement(name = "FLOW_RULE", required = true)
     protected FlowRuleQueryRoot.FLOWRULE flowrule;
+    @XmlElement(name = "EXT_DEPT", required = true)
+    protected String extdept = "PD03";
 
     public FlowRuleQueryRoot() {
         this.method = new FlowRuleQueryRoot.METHOD();
@@ -118,6 +121,14 @@ public class FlowRuleQueryRoot {
      */
     public void setFLOWRULE(FlowRuleQueryRoot.FLOWRULE value) {
         this.flowrule = value;
+    }
+
+    public String getExtdept() {
+        return extdept;
+    }
+
+    public void setExtdept(String extdept) {
+        this.extdept = extdept;
     }
 
     /**
@@ -276,7 +287,7 @@ public class FlowRuleQueryRoot {
         @XmlValue
         protected String value;
         @XmlAttribute(name = "ID")
-        protected String id = "INITSO.QryFlowRule001";
+        protected String id = "Advantech.SFC.PBD.BLL.QryFlowRule001";
 
         /**
          * 取得 value 特性的值.

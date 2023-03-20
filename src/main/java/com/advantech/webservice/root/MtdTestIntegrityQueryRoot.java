@@ -57,7 +57,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "method",
-    "mtdtestintegrity"
+    "mtdtestintegrity",
+    "extdept"
 })
 @XmlRootElement(name = "root")
 public class MtdTestIntegrityQueryRoot {
@@ -66,6 +67,8 @@ public class MtdTestIntegrityQueryRoot {
     protected MtdTestIntegrityQueryRoot.METHOD method;
     @XmlElement(name = "MTD_TEST_INTEGRITY", required = true)
     protected MtdTestIntegrityQueryRoot.MTDTESTINTEGRITY mtdtestintegrity;
+    @XmlElement(name = "EXT_DEPT", required = true)
+    protected String extdept = "PD03";
 
     public MtdTestIntegrityQueryRoot() {
         this.method = new MtdTestIntegrityQueryRoot.METHOD();
@@ -117,6 +120,14 @@ public class MtdTestIntegrityQueryRoot {
         this.mtdtestintegrity = value;
     }
 
+    public String getExtdept() {
+        return extdept;
+    }
+
+    public void setExtdept(String extdept) {
+        this.extdept = extdept;
+    }
+
     /**
      * <p>
      * anonymous complex type 的 Java 類別.
@@ -141,7 +152,7 @@ public class MtdTestIntegrityQueryRoot {
     public static class METHOD {
 
         @XmlAttribute(name = "ID", required = true)
-        protected String id = "ETLSO.QryMtdTestIntegrity001";
+        protected String id = "Advantech.SFC.PRA.BLL.QryMtdTestIntegrity001";
 
         /**
          * 取得 id 特性的值.

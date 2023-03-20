@@ -58,7 +58,8 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "method",
-    "matproperty"
+    "matproperty",
+    "extdept"
 })
 @XmlRootElement(name = "root")
 public class MaterialPropertyQueryRoot {
@@ -67,6 +68,8 @@ public class MaterialPropertyQueryRoot {
     protected MaterialPropertyQueryRoot.METHOD method;
     @XmlElement(name = "MAT_PROPERTY", required = true)
     protected MaterialPropertyQueryRoot.MATPROPERTY matproperty;
+    @XmlElement(name = "EXT_DEPT", required = true)
+    protected String extdept = "PD03";
     
     public MaterialPropertyQueryRoot(){
         this.method = new MaterialPropertyQueryRoot.METHOD();
@@ -124,6 +127,14 @@ public class MaterialPropertyQueryRoot {
      */
     public void setMATPROPERTY(MaterialPropertyQueryRoot.MATPROPERTY value) {
         this.matproperty = value;
+    }
+
+    public String getExtdept() {
+        return extdept;
+    }
+
+    public void setExtdept(String extdept) {
+        this.extdept = extdept;
     }
 
 
@@ -216,7 +227,7 @@ public class MaterialPropertyQueryRoot {
         @XmlValue
         protected String value;
         @XmlAttribute(name = "ID")
-        protected String id = "MIMSO.QryMatProperty";
+        protected String id = "Advantech.SFC.MAM.BLL.QryMatProperty";
 
         /**
          * 取得 value 特性的值.

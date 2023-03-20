@@ -88,7 +88,7 @@ public class WorktimeFieldValueRetrieve {
 
     public void notifyUser() {
         String[] to = getMailByNotification("worktime_column_retrieve_alarm");
-        String[] cc = new String[0];
+        String[] cc = getMailByNotification("worktime_column_retrieve_alarm_cc");//new String[0];
 
         String subject = "【" + pageTitle + "系統訊息】大表同步";
         String text = generateTextBody();

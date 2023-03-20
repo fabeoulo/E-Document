@@ -45,7 +45,7 @@ public class SopQueryPort extends BasicQueryPort {
         }
     }
 
-    @Override
+    @Override   //OK
     public List query(Worktime w) throws Exception {
         return (List<SopInfo>) super.query(w); //To change body of generated methods, choose Tools | Templates.
     }

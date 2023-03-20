@@ -33,6 +33,7 @@ public class MaterialPropertyUserPermissionQueryPort extends BasicQueryPort {
         }
     }
 
+    //OK
     public List query(String jobnumber) throws Exception {
         MaterialPropertyUserPermissionQueryRoot root = new MaterialPropertyUserPermissionQueryRoot();
         MaterialPropertyUserPermissionQueryRoot.MATPROPERTYUSER prop = root.getMATPROPERTYUSER();

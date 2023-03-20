@@ -116,7 +116,7 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
         super.upload(root, UploadType.UPDATE);
     }
 
-    @Override
+    @Override   //done
     public void delete(Worktime w) throws Exception {
         //因為要刪除全部設定，固直接將遠端setting丟給checkMatPermission檢查即可
         List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.query(w);

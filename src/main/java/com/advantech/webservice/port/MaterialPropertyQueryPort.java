@@ -34,6 +34,7 @@ public class MaterialPropertyQueryPort extends BasicQueryPort {
         }
     }
     
+    //OK
     public List<MaterialProperty> query(String matPropNo) throws Exception{
         return this.query(new MaterialPropertyQueryRoot(matPropNo));
     }

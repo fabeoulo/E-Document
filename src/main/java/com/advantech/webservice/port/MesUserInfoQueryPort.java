@@ -41,9 +41,9 @@ public class MesUserInfoQueryPort extends BasicQueryPort {
         }
     }
 
-    @Override
+    @Override   //OK
     public List query(Worktime w) throws Exception {
-        return (List<MesUserInfo>) super.query(w); //To change body of generated methods, choose Tools | Templates.
+        return (List<MesUserInfo>) super.query(w);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class MesUserInfoQueryPort extends BasicQueryPort {
         if (eeOwner != null) {
             m.put("eeOwner", userService.findByPrimaryKey(eeOwner.getId()).getJobnumber());
         }
-        
+
         if (mpmOwner != null) {
             m.put("mpmOwner", userService.findByPrimaryKey(mpmOwner.getId()).getJobnumber());
         }

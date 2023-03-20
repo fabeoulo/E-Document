@@ -17,10 +17,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author MFG.ESOP
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "root")
+@XmlRootElement(name = "NewDataSet")
 public class MtdTestIntegritys  implements Serializable, QueryResult<MtdTestIntegrity>{
 
-    @XmlElement(name = "QryData", type = MtdTestIntegrity.class)
+    @XmlElement(name = "QryMtdTestIntegrity001", type = MtdTestIntegrity.class)
     private List<MtdTestIntegrity> QryData;
 
     @Override

@@ -45,6 +45,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -107,7 +108,7 @@ public class RemoteAndLocalDataTest {
     @Before
     public void init() {
         Criteria c = sessionFactory.getCurrentSession().createCriteria(Worktime.class);
-//        c.add(Restrictions.eq("modelName", "SES-DM015W-AE"));
+        c.add(Restrictions.eq("modelName", "SES-DM015W-AE"));//SES-DM015W-AE
         c.setFetchMode("userByEeOwnerId", FetchMode.EAGER);
         c.setFetchMode("userByQcOwnerId", FetchMode.EAGER);
         c.setFetchMode("userBySpeOwnerId", FetchMode.EAGER);
@@ -120,7 +121,7 @@ public class RemoteAndLocalDataTest {
     }
 
     //*************************************
-    @Test
+//    @Test
     public void testResponsor() throws Exception {
         ExcelGenerator generator = new ExcelGenerator();
         List<Map> errors = new ArrayList();
@@ -336,11 +337,11 @@ public class RemoteAndLocalDataTest {
     //*************************************
     private final String regex = "[(\\r\\n|\\n),\" ]+";
 
-//    @Test
+    @Test
     public void testSop() throws Exception {
         List<Map> errors = new ArrayList();
         ExcelGenerator generator = new ExcelGenerator();
-        String[] testingType = {"ASSY", "T1"};
+        String[] testingType = {"組包", "測試"};
         sopQueryPort.setTypes(testingType);
 
         for (Worktime worktime : l) {

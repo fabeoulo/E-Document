@@ -36,7 +36,7 @@ public class MaterialPropertyValueQueryPort extends BasicQueryPort {
         }
     }
 
-    @Override
+    @Override   //done
     public List query(Worktime w) throws Exception {
         List<MaterialPropertyValue> l = super.query(w);
         //因接口採模糊查詢，相似機種會被撈出

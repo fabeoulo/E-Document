@@ -67,7 +67,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "method",
-    "standardworktime"
+    "standardworktime",
+    "extdept"
 })
 @XmlRootElement(name = "root")
 public class StandardtimeRoot {
@@ -76,6 +77,8 @@ public class StandardtimeRoot {
     protected StandardtimeRoot.METHOD method;
     @XmlElement(name = "STANDARD_WORKTIME", required = true)
     protected StandardtimeRoot.STANDARDWORKTIME standardworktime;
+    @XmlElement(name = "EXT_DEPT", required = true)
+    protected String extdept = "PD03";
 
     public StandardtimeRoot() {
         this.method = new StandardtimeRoot.METHOD();
@@ -122,6 +125,14 @@ public class StandardtimeRoot {
         this.standardworktime = value;
     }
 
+    public String getExtdept() {
+        return extdept;
+    }
+
+    public void setExtdept(String extdept) {
+        this.extdept = extdept;
+    }
+
     /**
      * <p>
      * anonymous complex type 的 Java 類別.
@@ -146,7 +157,7 @@ public class StandardtimeRoot {
     public static class METHOD {
 
         @XmlAttribute(name = "ID")
-        protected String id = "WBASSO.TxStandardWorktime";
+        protected String id = "Advantech.SFC.WTM.BLL.TxStandardWorktime";
 
         /**
          * 取得 id 特性的值.

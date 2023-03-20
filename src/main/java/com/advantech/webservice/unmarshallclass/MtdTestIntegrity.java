@@ -16,7 +16,7 @@ import org.joda.time.DateTime;
  * @author MFG.ESOP
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "QryData")
+@XmlRootElement(name = "QryMtdTestIntegrity001")
 public class MtdTestIntegrity {
 
     @XmlElement(name = "DUT_PART_NO")
@@ -31,7 +31,7 @@ public class MtdTestIntegrity {
     @XmlElement(name = "TOTALTESTITEM")
     private int itemCnt;
 
-    @XmlElement(name = "USER_NAME_CH")
+    @XmlElement(name = "UPDATE_USER")
     private String userName;
 
     @XmlElement(name = "UPDATE_DATE")

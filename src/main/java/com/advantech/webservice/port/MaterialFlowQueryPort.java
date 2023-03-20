@@ -41,7 +41,7 @@ public class MaterialFlowQueryPort extends BasicQueryPort {
         return (List<MaterialFlow>) super.query(w);
     }
 
-    @Override
+    @Override   //OK
     public Map<String, String> transformData(Worktime w) throws Exception {
         Map<String, String> xmlResults = new HashMap();
 

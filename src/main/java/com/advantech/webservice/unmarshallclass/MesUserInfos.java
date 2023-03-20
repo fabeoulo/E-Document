@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Wei.Cheng
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "root")
+@XmlRootElement(name = "NewDataSet")
 public class MesUserInfos implements Serializable, QueryResult<MesUserInfo> {
 
     @XmlElement(name = "QryUserInfo002", type = MesUserInfo.class)

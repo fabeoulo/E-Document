@@ -34,6 +34,7 @@ public class StandardWorkReasonQueryPort extends BasicQueryPort {
         }
     }
 
+    //OK
     public List<StandardWorkReason> query() throws Exception {
         return this.query(new StandardWorkReasonQueryRoot());
     }

@@ -17,10 +17,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Wei.Cheng
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "root")
+@XmlRootElement(name = "NewDataSet")
 public class MaterialPropertyValues implements Serializable, QueryResult<MaterialPropertyValue> {
 
-    @XmlElement(name = "QryData", type = MaterialPropertyValue.class)
+    @XmlElement(name = "QryMatValue", type = MaterialPropertyValue.class)
     private List<MaterialPropertyValue> QryData;
 
     @Override

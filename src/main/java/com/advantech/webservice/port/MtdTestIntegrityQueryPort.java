@@ -33,7 +33,7 @@ public class MtdTestIntegrityQueryPort extends BasicQueryPort {
         }
     }
 
-    @Override
+    @Override   //OK
     public Map<String, String> transformData(Worktime w) throws Exception {
         Map<String, String> xmlResults = new HashMap();
 

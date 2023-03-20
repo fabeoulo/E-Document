@@ -34,6 +34,7 @@ public class FlowRuleQueryPort extends BasicQueryPort {
         }
     }
 
+    //OK
     public FlowRule query(String unitNo, String flowName) throws Exception {
         List<FlowRule> l = this.query(new FlowRuleQueryRoot(unitNo, flowName));
         return l.isEmpty() ? null : l.get(0);
