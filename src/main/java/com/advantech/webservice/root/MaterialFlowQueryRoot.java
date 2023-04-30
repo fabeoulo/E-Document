@@ -62,7 +62,8 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "method",
-    "materialflow"
+    "materialflow",
+    "extdept"
 })
 @XmlRootElement(name = "root")
 public class MaterialFlowQueryRoot {
@@ -71,6 +72,8 @@ public class MaterialFlowQueryRoot {
     protected MaterialFlowQueryRoot.METHOD method;
     @XmlElement(name = "MATERIAL_FLOW", required = true)
     protected MaterialFlowQueryRoot.MATERIALFLOW materialflow;
+    @XmlElement(name = "EXT_DEPT", required = true)
+    protected String extdept = "PD03";
 
     public MaterialFlowQueryRoot() {
         this.method = new MaterialFlowQueryRoot.METHOD();
@@ -120,6 +123,14 @@ public class MaterialFlowQueryRoot {
      */
     public void setMATERIALFLOW(MaterialFlowQueryRoot.MATERIALFLOW value) {
         this.materialflow = value;
+    }
+
+    public String getExtdept() {
+        return extdept;
+    }
+
+    public void setExtdept(String extdept) {
+        this.extdept = extdept;
     }
 
     /**
@@ -318,7 +329,7 @@ public class MaterialFlowQueryRoot {
         @XmlValue
         protected String value;
         @XmlAttribute(name = "ID")
-        protected String id = "INITSO.QryMaterialFlow";
+        protected String id = "Advantech.SFC.MAM.BLL.QryMaterialFlow";
 
         /**
          * 取得 value 特性的值.

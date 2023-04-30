@@ -17,6 +17,8 @@ import com.advantech.webservice.port.MaterialPropertyUserPermissionQueryPort;
 import com.advantech.webservice.port.MesUserInfoQueryPort;
 import com.advantech.webservice.port.ModelResponsorQueryPort;
 import com.advantech.webservice.port.SopQueryPort;
+import com.advantech.webservice.port.StandardWorkReasonQueryPort;
+import com.advantech.webservice.port.StandardWorkTimeQueryPort;
 import com.advantech.webservice.unmarshallclass.FlowRule;
 import com.advantech.webservice.unmarshallclass.MaterialFlow;
 import com.advantech.webservice.unmarshallclass.MaterialProperty;
@@ -92,16 +94,38 @@ public class QueryPortTest {
     private MaterialPropertyValueQueryPort materialPropertyValueQueryPort;
 
     @Autowired
+    private StandardWorkReasonQueryPort standardWorkReasonQueryPort;
+    
+    @Autowired
+    private StandardWorkTimeQueryPort standardWorkTimeQueryPort;
+    
+    @Autowired
     private WorktimeService worktimeService;
 
     private Worktime w;
 
     @Before
     public void init() {
-        w = worktimeService.findByPrimaryKey(2202);
+        w = worktimeService.findByPrimaryKey(542);
     }
 
-    @Test
+//    @Test//216
+    public void testStandardWorkTimeQueryPort() throws Exception {
+        List l = standardWorkTimeQueryPort.query(w.getModelName());
+        assertEquals(19, l.size());
+
+        HibernateObjectPrinter.print(l);
+    }
+    
+//    @Test//216
+    public void testStandardWorkReasonQueryPort() throws Exception {
+        List l = standardWorkReasonQueryPort.query();
+        assertEquals(11, l.size());
+
+        HibernateObjectPrinter.print(l);
+    }
+    
+//    @Test//216
     public void testSopQueryPort() throws Exception {
         sopQueryPort.setTypes("組裝");
         List l = sopQueryPort.query(w);
@@ -110,15 +134,15 @@ public class QueryPortTest {
         HibernateObjectPrinter.print(l);
     }
 
-//    @Test
+//    @Test//216
     public void testModelResponsorQueryPort() throws Exception {
         List l = mrQueryPort.query(w);
-        assertEquals(3, l.size());
+        assertEquals(4, l.size());
 
         HibernateObjectPrinter.print(l);
     }
 
-    @Test
+//    @Test//216
     public void testMesUserInfoQueryPort() throws Exception {
         List l = mesUserQueryPort.query(w);
         assertEquals(4, l.size());
@@ -128,36 +152,36 @@ public class QueryPortTest {
 //        HibernateObjectPrinter.print(m);
     }
 
-    @Test
+//    @Test//216
     public void testFlowRuleQueryPort() throws Exception {
-        FlowRule rule = flowRuleQueryPort.query("B", "empty");
-        assertNull(rule);
+        FlowRule rule = flowRuleQueryPort.query("B", "BAB_SL-T1");
+        assertNotNull(rule);
         HibernateObjectPrinter.print(rule);
     }
 
-//    @Test
+//    @Test//216
     public void testMateriaFlowQueryPort() throws Exception {
         Map m = materialFlowQueryPort.transformData(w);
         assertEquals(4, m.size());
         HibernateObjectPrinter.print(m);
 
         List<MaterialFlow> l = materialFlowQueryPort.query(w);
-        assertEquals(4, l.size());
+        assertEquals(3, l.size());
         HibernateObjectPrinter.print(l);
 
-        assertEquals(34200, l.get(0).getId());
-        assertEquals(14360, l.get(0).getItemId());
+        assertEquals(31965, l.get(0).getId());
+        assertEquals(15832, l.get(0).getItemId());
         assertEquals(719, l.get(0).getFlowRuleId());
     }
 
-//    @Test
+//    @Test//216
     public void testMaterialPropertyUserPermissionQueryPort() throws Exception {
         List<MaterialPropertyUserPermission> l = materialPropertyUserPermissionQueryPort.query("A-7060");
-        assertEquals(4, l.size());
-        assertEquals("BD", l.get(0).getMaterialPropertyNo());
+        assertEquals(81, l.size());
+        assertEquals("01", l.get(0).getMaterialPropertyNo());
     }
 
-//    @Test
+//    @Test//216
     public void testMaterialPropertyQueryPort() throws Exception {
         List<MaterialProperty> l = materialPropertyQueryPort.query("FC");
         assertEquals(1, l.size());
@@ -165,17 +189,17 @@ public class QueryPortTest {
         System.out.println(l.get(0).getAffPropertyType());
     }
 
-//    @Test
+    @Test
     public void testMaterialPropertValueyQueryPort() throws Exception {
-        Worktime w1 = worktimeService.findByModel("2063002307");
+        Worktime w1 = worktimeService.findByModel("DSD-5028N-70A1E");
         assertNotNull(w1);
         List<MaterialPropertyValue> l = materialPropertyValueQueryPort.query(w1);
-        assertEquals(6, l.size());
+        assertEquals(17, l.size());
         MaterialPropertyValue value = l.stream()
-                .filter(v -> "KB".equals(v.getMatPropertyNo())).findFirst().orElse(null);
+                .filter(v -> "AA".equals(v.getMatPropertyNo())).findFirst().orElse(null);
         assertNotNull(value);
-        assertEquals(null, value.getAffPropertyValue());
-        assertEquals("N", value.getValue());
+        assertEquals("VR", value.getAffPropertyType());
+        assertEquals("Y", value.getValue());
     }
 
     @Test

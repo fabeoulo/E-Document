@@ -91,7 +91,8 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "method",
-    "sopinfo"
+    "sopinfo",
+    "extdep"
 })
 @XmlRootElement(name = "root")
 public class SopBatchInsertRoot {
@@ -100,6 +101,8 @@ public class SopBatchInsertRoot {
     protected SopBatchInsertRoot.METHOD method;
     @XmlElement(name = "SOP_INFO", required = true)
     protected SopBatchInsertRoot.SOPINFO sopinfo;
+    @XmlElement(name = "EXT_DEPT", required = true)
+    protected String extdep = "PD03";
 
     public SopBatchInsertRoot() {
         this.method = new SopBatchInsertRoot.METHOD();
@@ -146,6 +149,14 @@ public class SopBatchInsertRoot {
         this.sopinfo = value;
     }
 
+    public String getExtdep() {
+        return extdep;
+    }
+
+    public void setExtdep(String extdep) {
+        this.extdep = extdep;
+    }
+
     /**
      * <p>
      * anonymous complex type 的 Java 類別.
@@ -174,7 +185,7 @@ public class SopBatchInsertRoot {
         @XmlValue
         protected String value;
         @XmlAttribute(name = "ID")
-        protected String id = "ETLSO.TxSopInfo001";
+        protected String id = "Advantech.SFC.PRA.BLL.TxSopInfo001";
 
         /**
          * 取得 value 特性的值.
@@ -273,10 +284,10 @@ public class SopBatchInsertRoot {
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "partno",
         "typeno",
         "itemno",
         "sopname",
+        "partno",
         "stationno",
         "soppageno",
         "typenoold",

@@ -65,7 +65,8 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "method",
-    "sopinfo"
+    "sopinfo",
+    "extdep"
 })
 @XmlRootElement(name = "root")
 public class SopRoot {
@@ -74,6 +75,8 @@ public class SopRoot {
     protected SopRoot.METHOD method;
     @XmlElement(name = "SOP_INFO", required = true)
     protected SopRoot.SOPINFO sopinfo;
+    @XmlElement(name = "EXT_DEPT", required = true)
+    protected String extdep = "PD03";
 
     public SopRoot() {
         this.method = new SopRoot.METHOD();
@@ -120,6 +123,14 @@ public class SopRoot {
         this.sopinfo = value;
     }
 
+    public String getExtdep() {
+        return extdep;
+    }
+
+    public void setExtdep(String extdep) {
+        this.extdep = extdep;
+    }
+
     /**
      * <p>
      * anonymous complex type 的 Java 類別.
@@ -148,7 +159,7 @@ public class SopRoot {
         @XmlValue
         protected String value;
         @XmlAttribute(name = "ID")
-        protected String id = "ETLSO.TxSopInfo001";
+        protected String id = "Advantech.SFC.PRA.BLL.TxSopInfo001";
 
         /**
          * 取得 value 特性的值.

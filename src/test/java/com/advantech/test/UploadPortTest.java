@@ -62,13 +62,10 @@ public class UploadPortTest {
     private FlowUploadPort flowUploadPort;
 
     @Autowired
-    private ModelResponsorUploadPort responsorUploadPort;
-
-    @Autowired
     private ModelResponsorUploadPort modelResponsorUploadPort;
 
     @Autowired
-    private SopUploadPort sopPort;
+    private SopUploadPort sopUploadPort;
 
     @Autowired
     private WorktimeService worktimeService;
@@ -126,13 +123,16 @@ public class UploadPortTest {
         assertFalse(isUploadMatProp);
     }
 
-    @Test
+//    @Test//216
     @Rollback(true)
     public void testStandardtimeUpload() throws Exception {
         List<Worktime> l = worktimeService.findAll();
         assertNotNull(l.get(0));
 //        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(19, 20, 21, 22);
         standardtimePort.initSettings();
+
+        Worktime w = worktimeService.findByModel("IDK-2107WP-1KWSA1");
+        standardtimePort.update(w);
 
         l.forEach((worktime) -> {
             try {
@@ -144,53 +144,55 @@ public class UploadPortTest {
         });
     }
 
-//    @Test
-//    @Rollback(true)
+//    @Test//216
     public void testFlowUpload() throws Exception {
+        Worktime w = worktimeService.findByPrimaryKey(529);
+        Flow f;
 
+        f = flowService.findByFlowName("TEST_T2");
+        w.setFlowByTestFlowId(f);
+        flowUploadPort.update(w);//insert
+
+        f = flowService.findByFlowName("TEST_T2-T3");
+        w.setFlowByTestFlowId(f);
+        flowUploadPort.update(w);//update
+
+        f = flowService.findByFlowName("");//f=null
+        w.setFlowByTestFlowId(f);
+        flowUploadPort.update(w);//delete
     }
 
-//    @Test
-    public void testPartMappingUserUpload() throws Exception {
-//        Map result = mappingUserPort.transformData(w);
-//        assertEquals(1, result.size());
-//        mappingUserPort.upload(w);
-    }
 
-    @Autowired
-    private SopUploadPort sopUploadPort;
-    @Autowired
-    private WorktimeAuditService worktimeAuditService;
-    @Autowired
-    private WorktimeUploadMesService worktimeUploadMesService;
-
-    @Test
+//    @Test//216
     public void testWorktimeUploadPort() throws Exception {
 
-        Worktime w = worktimeService.findByPrimaryKey(2202);
+        modelResponsorUploadPort.update(w);//216
+//        this.testSopUpload();//216
+//        this.testFlowUpload();//216
+//        materialPropertyUploadPort.update(w);//216
+    }
+
+//    @Test//216
+    public void testSopUpload() throws Exception {
 //        sopQueryPort.setTypes("組包","測試");
 //        List l = sopQueryPort.query(w);
 //        assertEquals(1, l.size());
 
-        sopUploadPort.update(w);
-        //responsorUploadPort.update(w);
-        ////flowUploadPort.insert(w);
-//        flowUploadPort.update(w);
-//        materialPropertyUploadPort.update(w);
+        Worktime w = worktimeService.findByPrimaryKey(529);
+        w.setTestSop("M-07-ET002");
+//        sopUploadPort.update(w);//insert
 
-    }
-//    @Test
+        w.setTestSop(null);
+        sopUploadPort.update(w);//delete
 
-    public void testSopUpload() throws Exception {
-        List<Worktime> l = worktimeService.findAll();
-        for (Worktime worktime : l) {
-            System.out.println("Upload " + worktime.getModelName());
-            sopPort.update(w);
-        }
+//        List<Worktime> l = worktimeService.findAll();
+//        for (Worktime worktime : l) {
+//            System.out.println("Upload " + worktime.getModelName());
+//            sopUploadPort.update(w);
     }
 
-    //暫時用
-//    @Test
+//暫時用
+//    @Test//216
     public void testStandardtimeUpload2() throws Exception {
         PageInfo info = new PageInfo();
         info.setSearchField("modifiedDate");
@@ -207,46 +209,18 @@ public class UploadPortTest {
         }
     }
 
-//    @Test
+//    @Test//216
     @Rollback(true)
     public void testMaterialPropertyUploadPort() throws Exception {
 
-        Integer[] ids = {6189,
-            6231,
-            6232,
-            6233,
-            7723,
-            7996,
-            8109,
-            8110,
-            8209,
-            8416,
-            8419,
-            8440,
-            8499,
-            8503,
-            8504,
-            8505,
-            8534,
-            8628,
-            8805};
+        Integer[] ids = {529};
         List<Worktime> l = worktimeService.findByPrimaryKeys(ids);
         materialPropertyUploadPort.initSetting();
 
         for (Worktime worktime : l) {
             materialPropertyUploadPort.update(worktime);
+//            materialPropertyUploadPort.delete(worktime);
         }
-
-//        materialPropertyUploadPort.update(worktime);
-//        materialPropertyUploadPort.delete(worktime);
-    }
-
-    @Test
-    @Rollback(true)
-    public void testFlowServiceM6() throws Exception {
-        int key = 260;
-        Flow ff = flowService.findByPrimaryKey(key);
-        System.out.println(ff.getName());
     }
 
     @Autowired
@@ -273,7 +247,7 @@ public class UploadPortTest {
 //        Flow ff = flowService.findByPrimaryKey(key);
 //        System.out.println(ff.getName());
         uploadMesService.portParamInit();
-        uploadMesService.insert(cloneW);
+        uploadMesService.update(cloneW);
 
         int i = 1;
         for (Worktime w : ll) {
@@ -295,7 +269,7 @@ public class UploadPortTest {
     @Autowired
     private StandardTimeUpload standardTimeUpload;
 
-//    @Test
+//    @Test//216
     @Rollback(true)
     public void testStandardTimeUploadJob() {
         standardTimeUpload.uploadToMes();

@@ -74,7 +74,8 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "method",
-    "matvalue"
+    "matvalue",
+    "extdep"
 })
 @XmlRootElement(name = "root")
 public class MaterialPropertyBatchUploadRoot {
@@ -83,6 +84,8 @@ public class MaterialPropertyBatchUploadRoot {
     protected MaterialPropertyBatchUploadRoot.METHOD method;
     @XmlElement(name = "MAT_VALUE", required = true)
     protected MaterialPropertyBatchUploadRoot.MATVALUE matvalue;
+    @XmlElement(name = "EXT_DEPT", required = true)
+    protected String extdep = "PD03";
 
     public MaterialPropertyBatchUploadRoot() {
         this.method = new MaterialPropertyBatchUploadRoot.METHOD();
@@ -127,6 +130,14 @@ public class MaterialPropertyBatchUploadRoot {
      */
     public void setMATVALUE(MaterialPropertyBatchUploadRoot.MATVALUE value) {
         this.matvalue = value;
+    }
+
+    public String getExtdep() {
+        return extdep;
+    }
+
+    public void setExtdep(String extdep) {
+        this.extdep = extdep;
     }
 
     /**
@@ -411,7 +422,7 @@ public class MaterialPropertyBatchUploadRoot {
         @XmlValue
         protected String value;
         @XmlAttribute(name = "ID")
-        protected String id = "MIMSO.TxMatValue002";
+        protected String id = "Advantech.SFC.MAM.BLL.TxMatValue002";
 
         /**
          * 取得 value 特性的值.

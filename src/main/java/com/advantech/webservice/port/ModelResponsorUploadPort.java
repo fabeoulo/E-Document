@@ -52,8 +52,8 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
         try {
             String userIdsString = concatUserId(getWorktimeOwners(w));
             PartMappingUserRoot root = new PartMappingUserRoot();
-            root.setPARTNO(w.getModelName()); //機種
-            root.setUSERIDs(userIdsString); //人員代碼
+            root.getUsers().setPARTNO(w.getModelName()); //機種
+            root.getUsers().setUSERIDs(userIdsString); //人員代碼
             super.upload(root, UploadType.UPDATE);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -69,8 +69,8 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
     public void delete(Worktime w) throws Exception {
         try {
             PartMappingUserRoot root = new PartMappingUserRoot();
-            root.setPARTNO(w.getModelName()); //機種
-            root.setUSERIDs(""); //人員代碼
+            root.getUsers().setPARTNO(w.getModelName()); //機種
+            root.getUsers().setUSERIDs(""); //人員代碼
             super.upload(root, UploadType.UPDATE);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

@@ -4,8 +4,6 @@
 // 一旦重新編譯來源綱要, 對此檔案所做的任何修改都將會遺失. 
 // 產生時間: 2017.12.13 於 11:28:01 AM CST 
 //
-
-
 package com.advantech.webservice.root;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,12 +14,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
-
 /**
- * <p>anonymous complex type 的 Java 類別.
- * 
- * <p>下列綱要片段會指定此類別中包含的預期內容.
- * 
+ * <p>
+ * anonymous complex type 的 Java 類別.
+ *
+ * <p>
+ * 下列綱要片段會指定此類別中包含的預期內容.
+ *
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
@@ -52,13 +51,14 @@ import javax.xml.bind.annotation.XmlValue;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "method",
-    "matproperty"
+    "matproperty",
+    "extdept"
 })
 @XmlRootElement(name = "root")
 public class MaterialPropertyQueryRoot {
@@ -67,24 +67,24 @@ public class MaterialPropertyQueryRoot {
     protected MaterialPropertyQueryRoot.METHOD method;
     @XmlElement(name = "MAT_PROPERTY", required = true)
     protected MaterialPropertyQueryRoot.MATPROPERTY matproperty;
-    
-    public MaterialPropertyQueryRoot(){
+    @XmlElement(name = "EXT_DEPT", required = true)
+    protected String extdept = "PD03";
+
+    public MaterialPropertyQueryRoot() {
         this.method = new MaterialPropertyQueryRoot.METHOD();
         this.matproperty = new MaterialPropertyQueryRoot.MATPROPERTY();
     }
-    
-    public MaterialPropertyQueryRoot(String matPropNo){
+
+    public MaterialPropertyQueryRoot(String matPropNo) {
         this.method = new MaterialPropertyQueryRoot.METHOD();
         this.matproperty = new MaterialPropertyQueryRoot.MATPROPERTY(matPropNo);
     }
 
     /**
      * 取得 method 特性的值.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Root.METHOD }
-     *     
+     *
+     * @return possible object is {@link Root.METHOD }
+     *
      */
     public MaterialPropertyQueryRoot.METHOD getMETHOD() {
         return method;
@@ -92,11 +92,9 @@ public class MaterialPropertyQueryRoot {
 
     /**
      * 設定 method 特性的值.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Root.METHOD }
-     *     
+     *
+     * @param value allowed object is {@link Root.METHOD }
+     *
      */
     public void setMETHOD(MaterialPropertyQueryRoot.METHOD value) {
         this.method = value;
@@ -104,11 +102,9 @@ public class MaterialPropertyQueryRoot {
 
     /**
      * 取得 matproperty 特性的值.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Root.MATPROPERTY }
-     *     
+     *
+     * @return possible object is {@link Root.MATPROPERTY }
+     *
      */
     public MaterialPropertyQueryRoot.MATPROPERTY getMATPROPERTY() {
         return matproperty;
@@ -116,22 +112,29 @@ public class MaterialPropertyQueryRoot {
 
     /**
      * 設定 matproperty 特性的值.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Root.MATPROPERTY }
-     *     
+     *
+     * @param value allowed object is {@link Root.MATPROPERTY }
+     *
      */
     public void setMATPROPERTY(MaterialPropertyQueryRoot.MATPROPERTY value) {
         this.matproperty = value;
     }
 
+    public String getExtdept() {
+        return extdept;
+    }
+
+    public void setExtdept(String extdept) {
+        this.extdept = extdept;
+    }
 
     /**
-     * <p>anonymous complex type 的 Java 類別.
-     * 
-     * <p>下列綱要片段會指定此類別中包含的預期內容.
-     * 
+     * <p>
+     * anonymous complex type 的 Java 類別.
+     *
+     * <p>
+     * 下列綱要片段會指定此類別中包含的預期內容.
+     *
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -143,8 +146,8 @@ public class MaterialPropertyQueryRoot {
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
@@ -154,22 +157,20 @@ public class MaterialPropertyQueryRoot {
 
         @XmlElement(name = "MAT_PROPERTY_NO", required = true)
         protected String matpropertyno;
-        
-        public MATPROPERTY(){
-        
+
+        public MATPROPERTY() {
+
         }
-        
-        public MATPROPERTY(String matpropertyno){
+
+        public MATPROPERTY(String matpropertyno) {
             this.matpropertyno = matpropertyno;
         }
 
         /**
          * 取得 matpropertyno 特性的值.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         *
+         * @return possible object is {@link String }
+         *
          */
         public String getMATPROPERTYNO() {
             return matpropertyno;
@@ -177,11 +178,9 @@ public class MaterialPropertyQueryRoot {
 
         /**
          * 設定 matpropertyno 特性的值.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *
+         * @param value allowed object is {@link String }
+         *
          */
         public void setMATPROPERTYNO(String value) {
             this.matpropertyno = value;
@@ -189,12 +188,13 @@ public class MaterialPropertyQueryRoot {
 
     }
 
-
     /**
-     * <p>anonymous complex type 的 Java 類別.
-     * 
-     * <p>下列綱要片段會指定此類別中包含的預期內容.
-     * 
+     * <p>
+     * anonymous complex type 的 Java 類別.
+     *
+     * <p>
+     * 下列綱要片段會指定此類別中包含的預期內容.
+     *
      * <pre>
      * &lt;complexType>
      *   &lt;simpleContent>
@@ -204,8 +204,8 @@ public class MaterialPropertyQueryRoot {
      *   &lt;/simpleContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
@@ -216,15 +216,13 @@ public class MaterialPropertyQueryRoot {
         @XmlValue
         protected String value;
         @XmlAttribute(name = "ID")
-        protected String id = "MIMSO.QryMatProperty";
+        protected String id = "Advantech.SFC.MAM.BLL.QryMatProperty";
 
         /**
          * 取得 value 特性的值.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         *
+         * @return possible object is {@link String }
+         *
          */
         public String getValue() {
             return value;
@@ -232,11 +230,9 @@ public class MaterialPropertyQueryRoot {
 
         /**
          * 設定 value 特性的值.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *
+         * @param value allowed object is {@link String }
+         *
          */
         public void setValue(String value) {
             this.value = value;
@@ -244,11 +240,9 @@ public class MaterialPropertyQueryRoot {
 
         /**
          * 取得 id 特性的值.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         *
+         * @return possible object is {@link String }
+         *
          */
         public String getID() {
             return id;
@@ -256,11 +250,9 @@ public class MaterialPropertyQueryRoot {
 
         /**
          * 設定 id 特性的值.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *
+         * @param value allowed object is {@link String }
+         *
          */
         public void setID(String value) {
             this.id = value;

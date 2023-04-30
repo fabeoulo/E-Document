@@ -17,10 +17,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Wei.Cheng
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "root")
+@XmlRootElement(name = "NewDataSet")
 public class StandardWorkTimes implements Serializable, QueryResult<StandardWorkTime> {
 
-    @XmlElement(name = "QryData", type = StandardWorkTime.class)
+    @XmlElement(name = "Table1", type = StandardWorkTime.class)
     private List<StandardWorkTime> QryData;
 
     @Override

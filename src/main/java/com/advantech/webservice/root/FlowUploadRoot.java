@@ -63,7 +63,8 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "method",
-    "materialflow"
+    "materialflow",
+    "extdep"
 })
 @XmlRootElement(name = "root")
 public class FlowUploadRoot {
@@ -72,6 +73,8 @@ public class FlowUploadRoot {
     protected FlowUploadRoot.METHOD method;
     @XmlElement(name = "MATERIAL_FLOW", required = true)
     protected FlowUploadRoot.MATERIALFLOW materialflow;
+    @XmlElement(name = "EXT_DEPT", required = true)
+    protected String extdep = "PD03";
 
     public FlowUploadRoot() {
         this.method = new FlowUploadRoot.METHOD();
@@ -118,6 +121,14 @@ public class FlowUploadRoot {
         this.materialflow = value;
     }
 
+    public String getExtdep() {
+        return extdep;
+    }
+
+    public void setExtdep(String extdep) {
+        this.extdep = extdep;
+    }
+
     /**
      * <p>
      * anonymous complex type 的 Java 類別.
@@ -152,8 +163,7 @@ public class FlowUploadRoot {
         "flowruleid",
         "flowseq",
         "itemid",
-        "unitno",
-        "updateflowflag"
+        "unitno"
     })
     public static class MATERIALFLOW {
 
@@ -169,8 +179,6 @@ public class FlowUploadRoot {
         protected Integer itemid = -1;
         @XmlElement(name = "UNIT_NO", required = true, nillable = true)
         protected String unitno;
-        @XmlElement(name = "UPDATE_FLOW_FLAG", required = true, nillable = true)
-        protected String updateflowflag = "N";
 
         /**
          * 取得 mfid 特性的值.
@@ -279,27 +287,6 @@ public class FlowUploadRoot {
         public void setUNITNO(String value) {
             this.unitno = value;
         }
-
-        /**
-         * 取得 updateflowflag 特性的值.
-         *
-         * @return possible object is {@link String }
-         *
-         */
-        public String getUPDATEFLOWFLAG() {
-            return updateflowflag;
-        }
-
-        /**
-         * 設定 updateflowflag 特性的值.
-         *
-         * @param value allowed object is {@link String }
-         *
-         */
-        public void setUPDATEFLOWFLAG(String value) {
-            this.updateflowflag = value;
-        }
-
     }
 
     /**
@@ -330,7 +317,7 @@ public class FlowUploadRoot {
         @XmlValue
         protected String value;
         @XmlAttribute(name = "ID")
-        protected String id = "INITSO.TxMaterialFlow";
+        protected String id = "Advantech.SFC.MAM.BLL.TxMaterialFlow";
 
         /**
          * 取得 value 特性的值.
