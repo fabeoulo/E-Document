@@ -129,7 +129,7 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
                     swt.setCHANGEREASONNO("A3");
                 }
             } else {
-                swt.setMACHINECNT(0);
+                swt.setMACHINECNT(1);
                 swt.setOPCNT(1);
             }
             super.upload(root, standardWorktime == null ? UploadType.INSERT : UploadType.UPDATE);

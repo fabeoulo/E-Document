@@ -9,7 +9,9 @@ import com.advantech.helper.EmployeeZoneUtils;
 import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.helper.SpringExpressionUtils;
 import com.advantech.jqgrid.PageInfo;
+import com.advantech.model.Flow;
 import com.advantech.model.Worktime;
+import com.advantech.service.FlowService;
 import com.advantech.service.WorktimeMaterialPropertyUploadSettingService;
 import com.advantech.service.WorktimeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -75,6 +77,23 @@ public class SpringExpressionTest {
     public void testExp2() throws JsonProcessingException {
         String exp = "nsInOneCollectionBox.intValue() == 0 ? new java.math.BigDecimal(0.8) : new java.math.BigDecimal(0.8 / nsInOneCollectionBox)";
         Worktime worktime = worktimeService.findByPrimaryKey(16204);
+        Object o1 = expressionUtils.getValueFromFormula(worktime, exp);
+        System.out.println(o1);
+        System.out.println(o1.getClass());
+    }
+    
+    @Autowired
+    private FlowService flowService;
+    
+    @Test
+    public void testExp3() throws JsonProcessingException {
+        String exp = "(flowByBabFlowId == null || flowByBabFlowId.name == null || !flowByBabFlowId.name.contains(\"BI\") || biTime == null) ? 0 : (biTime.signum() == 0 || biTime.scale() <= 0 || biTime.stripTrailingZeros().scale() <= 0 ? biTime.intValue() : biTime)";
+        Worktime worktime = worktimeService.findByPrimaryKey(16618);
+                
+        Flow f = worktime.getFlowByBabFlowId();
+        f = this.flowService.findByPrimaryKey(f.getId());
+        worktime.setFlowByBabFlowId(f);
+        
         Object o1 = expressionUtils.getValueFromFormula(worktime, exp);
         System.out.println(o1);
         System.out.println(o1.getClass());

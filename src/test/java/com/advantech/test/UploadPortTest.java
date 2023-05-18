@@ -103,7 +103,7 @@ public class UploadPortTest {
 
     @Before
     public void initTestData() {
-        w = worktimeService.findByModel("AVAS402MVAB2205-T");
+        w = worktimeService.findByModel("UTC115GPBM02-T9");
         worktimes = worktimeService.findAll();
 //        worktimes = newArrayList(w);
 //        worktimes = worktimes.stream().filter(o -> o.getTwm2Flag() == 1).collect(toList());
@@ -208,7 +208,7 @@ public class UploadPortTest {
         w = worktimeService.findByModel("2063002307");
         w.setAssyPackingSop("M-07-TP2397");
         sopPort.update(w);
-        
+
         w.setAssyPackingSop(null);
         w.setTestSop(null);
         sopPort.update(w);
@@ -221,7 +221,7 @@ public class UploadPortTest {
     }
 
     //暫時用
-//    @Test
+    @Test
     public void testStandardtimeUpload2() throws Exception {
         PageInfo info = new PageInfo();
         info.setSearchField("modifiedDate");
@@ -231,6 +231,7 @@ public class UploadPortTest {
         List<Worktime> l = worktimeService.findAll(info);
 
         standardtimePort.initSettings();
+        standardtimePort.update(w);
 
         for (Worktime worktime : l) {
             System.out.println(worktime.getModelName());
@@ -238,13 +239,14 @@ public class UploadPortTest {
         }
     }
 
-//    @Test//245
+    @Test//245
     @Rollback(true)
     public void testMaterialPropertyUploadPort() throws Exception {
 
         List<Worktime> l = worktimeService.findWithFlowRelation();
-        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(3, 43);
-        assertEquals(2, settings.size());
+//        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(3, 43);
+//        assertEquals(2, settings.size());
+        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findAll();
         materialPropertyUploadPort.initSettings(settings);
         materialPropertyUploadPort.update(w);
 
