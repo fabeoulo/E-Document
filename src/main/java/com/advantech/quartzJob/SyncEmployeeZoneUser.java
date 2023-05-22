@@ -37,7 +37,7 @@ public class SyncEmployeeZoneUser {
         List<User> updatedUsers = new ArrayList<>(users.size());
 
         for (User user : users) {
-            if (specialAccount.contains(user.getUsername())) {
+            if (specialAccount.contains(user.getJobnumber())) {
                 continue;
             }
 
