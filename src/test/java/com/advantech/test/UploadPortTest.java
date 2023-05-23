@@ -10,6 +10,7 @@ import com.advantech.model.Flow;
 import com.advantech.model.Pending;
 import com.advantech.model.PreAssy;
 import com.advantech.model.Worktime;
+import com.advantech.model.WorktimeAutouploadSetting;
 import com.advantech.quartzJob.StandardTimeUpload;
 import com.advantech.service.FlowService;
 import com.advantech.service.PendingService;
@@ -123,25 +124,26 @@ public class UploadPortTest {
         assertFalse(isUploadMatProp);
     }
 
-//    @Test//216
+    @Test//216
     @Rollback(true)
     public void testStandardtimeUpload() throws Exception {
         List<Worktime> l = worktimeService.findAll();
         assertNotNull(l.get(0));
-//        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(19, 20, 21, 22);
-        standardtimePort.initSettings();
+        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(1,2,14,34);
+        standardtimePort.initSettings(settings);
+//        standardtimePort.initSettings();
 
         Worktime w = worktimeService.findByModel("IDK-2107WP-1KWSA1");
         standardtimePort.update(w);
 
-        l.forEach((worktime) -> {
-            try {
-                System.out.println("Upload model: " + worktime.getModelName());
-                standardtimePort.update(worktime);
-            } catch (Exception ex) {
-                System.out.println(ex);
-            }
-        });
+//        l.forEach((worktime) -> {
+//            try {
+//                System.out.println("Upload model: " + worktime.getModelName());
+//                standardtimePort.update(worktime);
+//            } catch (Exception ex) {
+//                System.out.println(ex);
+//            }
+//        });
     }
 
 //    @Test//216

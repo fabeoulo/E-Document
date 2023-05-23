@@ -73,7 +73,7 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
         settings.forEach((setting) -> {
             try {
                 StandardWorkTime worktimeOnMes = standardWorktimes.stream()
-                        .filter(p -> (Objects.equals(p.getSTATIONID(), setting.getStationId()) || ((p.getSTATIONID() == -1 || p.getSTATIONID() == 0) && setting.getStationId() == null))
+                        .filter(p -> (Objects.equals(p.getSTATIONID(), setting.getStationId()) || ((p.getSTATIONID() == -1) && setting.getStationId() == null))
                         && (p.getLINEID() == setting.getLineId())
                         && Objects.equals(p.getUNITNO(), setting.getColumnUnit())
                         && Objects.equals(p.getITEMNO(), w.getModelName()))
@@ -101,7 +101,7 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
             StandardtimeRoot root = new StandardtimeRoot();
             StandardtimeRoot.STANDARDWORKTIME swt = root.getSTANDARDWORKTIME();
             swt.setUNITNO(columnUnit);
-            swt.setSTATIONID(setting.getStationId());
+            swt.setSTATIONID(setting.getStationId() == null ? -1 : setting.getStationId());
             swt.setLINEID(setting.getLineId());
             swt.setITEMNO(w.getModelName());
             swt.setTOTALCT(totalCt);
