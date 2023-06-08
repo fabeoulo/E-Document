@@ -13,7 +13,6 @@ import com.advantech.model.Worktime;
 import com.advantech.service.UserService;
 import com.advantech.service.WorktimeService;
 import com.advantech.webservice.port.ModelResponsorUploadPort;
-import com.advantech.webservice.port.SopUploadPort;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileInputStream;
@@ -97,9 +96,6 @@ public class ExcelTest {
             }
         }
     }
-
-    @Autowired
-    private SopUploadPort sopPort;
     
     @Autowired
     private ModelResponsorUploadPort mappingUserPort;

@@ -22,7 +22,6 @@ import com.advantech.service.WorktimeUploadMesService;
 import com.advantech.webservice.port.FlowUploadPort;
 import com.advantech.webservice.port.MaterialPropertyUploadPort;
 import com.advantech.webservice.port.ModelResponsorUploadPort;
-import com.advantech.webservice.port.SopUploadPort;
 import com.advantech.webservice.port.StandardtimeUploadPort;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,9 +63,6 @@ public class UploadPortTest {
 
     @Autowired
     private ModelResponsorUploadPort modelResponsorUploadPort;
-
-    @Autowired
-    private SopUploadPort sopUploadPort;
 
     @Autowired
     private WorktimeService worktimeService;
@@ -172,25 +168,6 @@ public class UploadPortTest {
 //        this.testSopUpload();//216
 //        this.testFlowUpload();//216
 //        materialPropertyUploadPort.update(w);//216
-    }
-
-//    @Test//216
-    public void testSopUpload() throws Exception {
-//        sopQueryPort.setTypes("組包","測試");
-//        List l = sopQueryPort.query(w);
-//        assertEquals(1, l.size());
-
-        Worktime w = worktimeService.findByPrimaryKey(529);
-        w.setTestSop("M-07-ET002");
-//        sopUploadPort.update(w);//insert
-
-        w.setTestSop(null);
-        sopUploadPort.update(w);//delete
-
-//        List<Worktime> l = worktimeService.findAll();
-//        for (Worktime worktime : l) {
-//            System.out.println("Upload " + worktime.getModelName());
-//            sopUploadPort.update(w);
     }
 
 //暫時用

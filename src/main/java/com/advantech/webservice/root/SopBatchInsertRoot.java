@@ -88,6 +88,8 @@ import javax.xml.bind.annotation.XmlValue;
  *
  *
  */
+
+// Dismiss SopUploadPort,SopRoot and SopBatchInsertRoot class
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "method",
