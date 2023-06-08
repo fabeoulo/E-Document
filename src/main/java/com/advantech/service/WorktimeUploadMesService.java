@@ -9,7 +9,6 @@ import com.advantech.model.Worktime;
 import com.advantech.webservice.port.FlowUploadPort;
 import com.advantech.webservice.port.MaterialPropertyUploadPort;
 import com.advantech.webservice.port.ModelResponsorUploadPort;
-import com.advantech.webservice.port.SopUploadPort;
 import com.advantech.webservice.port.MtdTestIntegrityUploadPort;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,6 @@ public class WorktimeUploadMesService {
     private WorktimeAuditService auditService;
 
     @Autowired
-    private SopUploadPort sopUploadPort;
-
-    @Autowired
     private ModelResponsorUploadPort responsorUploadPort;
 
     @Autowired
@@ -49,11 +45,8 @@ public class WorktimeUploadMesService {
     @Value("${WORKTIME.UPLOAD.UPDATE: true}")
     private boolean isUpdated;
 
-    @Value("${WORKTIME.UPLOAD.DELETE: true}")
+    @Value("${WORKTIME.UPLOAD.DELETE: false}")
     private boolean isDeleted;
-
-    @Value("${WORKTIME.UPLOAD.SOP: true}")
-    private boolean isUploadSop;
 
     @Value("${WORKTIME.UPLOAD.RESPONSOR: true}")
     private boolean isUploadResponsor;
@@ -75,13 +68,6 @@ public class WorktimeUploadMesService {
 
     public void insert(Worktime w) throws Exception {
         if (isInserted) {
-            if (isUploadSop) {
-                try {
-                    sopUploadPort.insert(w);
-                } catch (Exception e) {
-                    throw new Exception("SOP新增至MES失敗<br />" + e.getMessage());
-                }
-            }
             if (isUploadResponsor) {
                 try {
                     responsorUploadPort.insert(w);
@@ -116,13 +102,6 @@ public class WorktimeUploadMesService {
     public void update(Worktime w) throws Exception {
         if (isUpdated) {
             Worktime rowLastStatus = (Worktime) auditService.findLastStatusBeforeUpdate(w.getId());
-            if (isUploadSop && isSopChanged(rowLastStatus, w)) {
-                try {
-                    sopUploadPort.update(w);
-                } catch (Exception e) {
-                    throw new Exception("SOP更新至MES失敗<br />" + e.getMessage());
-                }
-            }
 
             if (isUploadResponsor && isModelResponsorChanged(rowLastStatus, w)) {
                 try {
@@ -235,13 +214,6 @@ public class WorktimeUploadMesService {
 
     public void delete(Worktime w) throws Exception {
         if (isDeleted) {
-            if (isUploadSop) {
-                try {
-                    sopUploadPort.delete(w);
-                } catch (Exception e) {
-                    throw new Exception("SOP刪除至MES失敗<br />" + e.getMessage());
-                }
-            }
 
             if (isUploadResponsor) {
                 try {

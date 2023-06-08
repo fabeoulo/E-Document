@@ -5,6 +5,7 @@
  */
 package com.advantech.test;
 
+import com.advantech.dao.WorktimeDAO;
 import com.advantech.excel.WorktimeJxlsModel;
 import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.model.Cobot;
@@ -22,9 +23,12 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.transaction.Transactional;
+import org.apache.commons.beanutils.BeanUtils;
 import static org.junit.Assert.*;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -97,6 +101,57 @@ public class ExcelTest {
             assertTrue(readStatus.isStatusOK());
             System.out.println(new Gson().toJson(l));
 
+        }
+    }
+
+    @Autowired
+    private WorktimeDAO dao;
+
+//    @Test
+//    @Transactional
+//    @Rollback(false)
+    public void testFileCobotSyncToDb() throws Exception {
+
+        String syncFilePath = "C:\\Users\\Justin.yeh\\Downloads\\附件盒螺絲包自動化20230526.xlsx";
+        try ( InputStream is = new FileInputStream(new File(syncFilePath))) {
+
+            Session session = sessionFactory.getCurrentSession();
+            List<Worktime> l = worktimeService.findAll();
+
+            Workbook workbook = WorkbookFactory.create(is);
+
+            Cobot cobot = session.get(Cobot.class, 5);
+
+            for (int sheetPage = 0; sheetPage <= 0; sheetPage++) {
+                Sheet sheet = workbook.getSheetAt(sheetPage);
+                for (int i = 1, maxNumberfRows = sheet.getPhysicalNumberOfRows(); i < maxNumberfRows; i++) {
+                    Row row = sheet.getRow(i); // 取得第 i Row
+                    if (row != null) {
+
+                        //Because cell_A will auto convert to number if modelName only contains numbers.
+                        //Search will cause exception when not add convert lines
+                        Cell model_cell = CellUtil.getCell(row, CellReference.convertColStringToIndex("A"));
+                        model_cell.setCellType(CellType.STRING);
+
+                        String modelName = ((String) getCellValue(row, "A")).trim();
+
+                        Worktime w = l.stream().filter(o -> Objects.equals(o.getModelName(), modelName)).findFirst().orElse(null);
+                        if (w == null) {
+                            System.out.println("\tCan't find modelName: " + modelName + " in worktime");
+                            continue;
+                        }
+
+                        //Insert cobots setting
+                        Set<Cobot> cobots = w.getCobots();                        
+                        cobots.add(cobot);
+                        w.setCobots(cobots);
+                        dao.merge(w);
+                        System.out.println("Update modelName: " + modelName);
+                    }
+                }
+            }
+//            WorktimeService instance = new WorktimeService();
+//            int result = instance.mergeByExcel(l);
         }
     }
 

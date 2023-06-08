@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
  *
  * @author Wei.Cheng SOP資料設定 因insert & delete所用的xml不同，固用subclass處理
  */
+//2023/06/08 Dismiss SopUploadPort class and SopRoot,SopBatchInsertRoot class
 @Component
 public class SopUploadPort implements UploadPort {
 

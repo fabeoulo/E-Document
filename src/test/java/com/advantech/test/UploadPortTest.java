@@ -23,7 +23,6 @@ import com.advantech.webservice.port.MaterialPropertyUploadPort;
 import com.advantech.webservice.port.ModelResponsorUploadPort;
 import com.advantech.webservice.port.MtdTestIntegrityQueryPort;
 import com.advantech.webservice.port.MtdTestIntegrityUploadPort;
-import com.advantech.webservice.port.SopUploadPort;
 import com.advantech.webservice.port.StandardtimeUploadPort;
 import java.math.BigDecimal;
 import java.util.List;
@@ -71,8 +70,8 @@ public class UploadPortTest {
     @Autowired
     private ModelResponsorUploadPort mappingUserPort;
 
-    @Autowired
-    private SopUploadPort sopPort;
+//    @Autowired
+//    private SopUploadPort sopPort;
 
     @Autowired
     private WorktimeService worktimeService;
@@ -115,11 +114,8 @@ public class UploadPortTest {
     @Value("${WORKTIME.UPLOAD.UPDATE: true}")
     private boolean isUpdated;
 
-    @Value("${WORKTIME.UPLOAD.DELETE: true}")
+    @Value("${WORKTIME.UPLOAD.DELETE: false}")
     private boolean isDeleted;
-
-    @Value("${WORKTIME.UPLOAD.SOP: true}")
-    private boolean isUploadSop;
 
     @Value("${WORKTIME.UPLOAD.RESPONSOR: true}")
     private boolean isUploadResponsor;
@@ -136,7 +132,6 @@ public class UploadPortTest {
         assertTrue(isInserted);
         assertTrue(isUpdated);
         assertFalse(isDeleted);
-//        assertTrue(isUploadSop);
         assertTrue(isUploadResponsor);
         assertTrue(isUploadFlow);
         assertTrue(isUploadMatProp);
@@ -204,21 +199,21 @@ public class UploadPortTest {
     }
 
 //    @Test//245
-    public void testSopUpload() throws Exception {
-        w = worktimeService.findByModel("2063002307");
-        w.setAssyPackingSop("M-07-TP2397");
-        sopPort.update(w);
-
-        w.setAssyPackingSop(null);
-        w.setTestSop(null);
-        sopPort.update(w);
-
+//    public void testSopUpload() throws Exception {
+////        w = worktimeService.findByModel("2063002307");
+////        w.setAssyPackingSop("M-07-TP2397");
+////        sopPort.update(w);
+//
+////        w.setAssyPackingSop(null);
+////        w.setTestSop(null);
+////        sopPort.update(w);
+//
 //        List<Worktime> l = this.worktimes;
 //        for (Worktime worktime : l) {
 //            System.out.println("Upload " + worktime.getModelName());
 //            sopPort.update(worktime);
 //        }
-    }
+//    }
 
     //暫時用
     @Test
