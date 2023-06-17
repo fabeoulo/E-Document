@@ -20,6 +20,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Table1")
 public class StandardWorkTime implements Serializable {
 
+    @XmlElement(name = "STANDARD_ID", required = true, nillable = true)
+    protected Long standardid;
     @XmlElement(name = "UNIT_NO", required = true, nillable = true)
     protected String unitno;
     @XmlElement(name = "STATION_ID", required = true, nillable = true)
@@ -46,6 +48,14 @@ public class StandardWorkTime implements Serializable {
     protected BigDecimal mixct;
     @XmlElement(name = "AUTO_CT", required = true, nillable = true)
     protected BigDecimal autoct;
+
+    public Long getSTANDARDID() {
+        return standardid;
+    }
+
+    public void setSTANDARDID(Long standardid) {
+        this.standardid = standardid;
+    }
 
     /**
      * 取得 unitno 特性的值.

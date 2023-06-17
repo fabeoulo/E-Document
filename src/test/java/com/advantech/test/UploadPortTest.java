@@ -125,11 +125,11 @@ public class UploadPortTest {
     public void testStandardtimeUpload() throws Exception {
         List<Worktime> l = worktimeService.findAll();
         assertNotNull(l.get(0));
-        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(1,2,14,34);
+        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(39,40);
         standardtimePort.initSettings(settings);
 //        standardtimePort.initSettings();
 
-        Worktime w = worktimeService.findByModel("IDK-2107WP-1KWSA1");
+        Worktime w = worktimeService.findByModel("IDK2115N2201-T");
         standardtimePort.update(w);
 
 //        l.forEach((worktime) -> {
@@ -188,6 +188,16 @@ public class UploadPortTest {
         }
     }
 
+    //QUARTZ
+    @Autowired
+    private StandardTimeUpload standardTimeUpload;
+
+    @Test//216
+    @Rollback(true)
+    public void testStandardTimeUploadJob() {
+        standardTimeUpload.uploadToMes();
+    }
+    
 //    @Test//216
     @Rollback(true)
     public void testMaterialPropertyUploadPort() throws Exception {
@@ -245,14 +255,6 @@ public class UploadPortTest {
 //        materialPropertyUploadPort.delete(worktime);
     }
 
-    @Autowired
-    private StandardTimeUpload standardTimeUpload;
-
-//    @Test//216
-    @Rollback(true)
-    public void testStandardTimeUploadJob() {
-        standardTimeUpload.uploadToMes();
-    }
 
 //    @Test
     @Rollback(true)

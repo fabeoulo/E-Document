@@ -214,6 +214,7 @@ public class StandardtimeRoot {
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
+        "standardid",
         "unitno",
         "stationid",
         "lineid",
@@ -231,6 +232,8 @@ public class StandardtimeRoot {
     })
     public static class STANDARDWORKTIME {
 
+        @XmlElement(name = "STANDARD_ID", required = true, nillable = true)
+        protected Long standardid;
         @XmlElement(name = "UNIT_NO", required = true, nillable = true)
         protected String unitno;
         @XmlElement(name = "STATION_ID", required = true, nillable = true)
@@ -259,6 +262,14 @@ public class StandardtimeRoot {
         protected BigDecimal autoct;
         @XmlElement(name = "CHANGE_REASON_NO", required = true, nillable = true)
         protected String changeReasonNo;
+
+        public Long getSTANDARDID() {
+            return standardid;
+        }
+
+        public void setSTANDARDID(Long standardid) {
+            this.standardid = standardid;
+        }
 
         /**
          * 取得 unitno 特性的值.
