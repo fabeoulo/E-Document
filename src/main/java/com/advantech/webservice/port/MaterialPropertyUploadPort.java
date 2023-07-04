@@ -149,11 +149,12 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
         List<MaterialPropertyValue> updatedMatProps = new ArrayList();
 
         settings.forEach((setting) -> {
-            boolean isUpdated = false;
+            boolean isUserUpdated = false;
             //先計算，等於初始值者跳過
             //省去找MaterialPropertyValue的時間
             String mainValue = getValueFromFormula(w, setting.getFormula());
             String secondValue = getValueFromFormula(w, setting.getAffFormula());
+            secondValue = (secondValue != null) ? secondValue : "";
 
             if (!Objects.equals(mainValue, setting.getDefaultValue()) || (Objects.equals(mainValue, setting.getDefaultValue()) && setting.getUploadWhenDefault() == 1)) {
 
@@ -167,9 +168,9 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
                     mp.setMatPropertyNo(setting.getMatPropNo());
                     MaterialProperty prop = findMatPropInfo(setting.getMatPropNo());
                     mp.setAffPropertyType(prop.getAffPropertyType());
-                    isUpdated = true;
+                    isUserUpdated = true;
                 } else if (ObjectUtils.compare(mp.getValue(), mainValue) != 0 || ObjectUtils.compare(mp.getAffPropertyValue(), secondValue) != 0) {
-                    isUpdated = true;
+                    isUserUpdated = true;
                 }
 
                 //不等於null只蓋掉其value，剩下保留
@@ -177,7 +178,7 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
                 mp.setAffPropertyValue(secondValue);
                 propSettingInLocal.add(mp);
 
-                if (isUpdated) {
+                if (isUserUpdated) {
                     updatedMatProps.add(mp);
                 }
             }
@@ -185,6 +186,8 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
         this.checkMatPermission(updatedMatProps);
         List<MaterialPropertyValue> allProp = Stream.concat(propSettingInLocal.stream(), propNotSettingInLocal.stream())
                 .collect(Collectors.toList());
+        checkState(allProp.containsAll(propNotSettingInLocal), "MES自有屬性數量不對");
+
         MaterialPropertyBatchUploadRoot root = this.toJaxbElement(allProp);
         root.getMATVALUE().setITEMNO(w.getModelName());
         return root;
@@ -250,7 +253,7 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
 
     private void retrieveWorktimeBabFlowRelative(Worktime w) {
         Flow f = w.getFlowByBabFlowId();
-        
+
         //Don't retrieve model when flow is already initialized or flow is not present
         if (f == null || f.getId() == 0 || !(f.getName() == null || "".equals(f.getName()))) {
             return;

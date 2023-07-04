@@ -102,7 +102,7 @@ public class UploadPortTest {
 
     @Before
     public void initTestData() {
-        w = worktimeService.findByModel("UTC115GPBM02-T9");
+        w = worktimeService.findByModel("UTC-532CH-P00E");
         worktimes = worktimeService.findAll();
 //        worktimes = newArrayList(w);
 //        worktimes = worktimes.stream().filter(o -> o.getTwm2Flag() == 1).collect(toList());
@@ -137,18 +137,18 @@ public class UploadPortTest {
         assertTrue(isUploadMatProp);
     }
 
-//    @Test//245
+    @Test//245
     @Rollback(true)
     public void testStandardtimeUpload() throws Exception {
-        List<Worktime> l = worktimeService.findWithFlowRelation(12343);
+        List<Worktime> l = worktimeService.findWithFlowRelation(16641);
         assertNotNull(l.get(0));
-        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(2, 4);
+        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(9,10,11,12);
         standardtimePort.initSettings(settings);
 
         for (Worktime worktime : l) {
             System.out.println("Upload model: " + worktime.getModelName());
-            worktime.setAssy(new BigDecimal(26));
-            worktime.setReasonCode("A6");
+//            worktime.setAssy(new BigDecimal(26));
+//            worktime.setReasonCode("A6");
             standardtimePort.update(worktime);
         }
     }
@@ -245,10 +245,10 @@ public class UploadPortTest {
         materialPropertyUploadPort.initSettings(settings);
         materialPropertyUploadPort.update(w);
 
-        for (Worktime worktime : l) {
-            System.out.println("Upload " + worktime.getModelName());
-            materialPropertyUploadPort.update(worktime);
-        }
+//        for (Worktime worktime : l) {
+//            System.out.println("Upload " + worktime.getModelName());
+//            materialPropertyUploadPort.update(worktime);
+//        }
 
 //        materialPropertyUploadPort.update(worktime);
 //        materialPropertyUploadPort.delete(worktime);
