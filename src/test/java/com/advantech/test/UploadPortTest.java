@@ -72,7 +72,6 @@ public class UploadPortTest {
 
 //    @Autowired
 //    private SopUploadPort sopPort;
-
     @Autowired
     private WorktimeService worktimeService;
 
@@ -102,7 +101,7 @@ public class UploadPortTest {
 
     @Before
     public void initTestData() {
-        w = worktimeService.findByModel("UTC-532CH-P00E");
+        w = worktimeService.findByModel("ADAM-4017+-CE");
         worktimes = worktimeService.findAll();
 //        worktimes = newArrayList(w);
 //        worktimes = worktimes.stream().filter(o -> o.getTwm2Flag() == 1).collect(toList());
@@ -140,9 +139,9 @@ public class UploadPortTest {
     @Test//245
     @Rollback(true)
     public void testStandardtimeUpload() throws Exception {
-        List<Worktime> l = worktimeService.findWithFlowRelation(16641);
+        List<Worktime> l = worktimeService.findWithFlowRelationAndCobot(16642);
         assertNotNull(l.get(0));
-        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(9,10,11,12);
+        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(4,16,29);
         standardtimePort.initSettings(settings);
 
         for (Worktime worktime : l) {
@@ -214,7 +213,6 @@ public class UploadPortTest {
 //            sopPort.update(worktime);
 //        }
 //    }
-
     //暫時用
     @Test
     public void testStandardtimeUpload2() throws Exception {
@@ -226,12 +224,34 @@ public class UploadPortTest {
         List<Worktime> l = worktimeService.findAll(info);
 
         standardtimePort.initSettings();
-        standardtimePort.update(w);
+//        standardtimePort.update(w);
 
         for (Worktime worktime : l) {
             System.out.println(worktime.getModelName());
             standardtimePort.update(worktime);
         }
+    }
+
+//    @Test
+    public void testStandardtimeDelete() throws Exception {
+//        PageInfo info = new PageInfo();
+//        info.setSearchField("modifiedDate");
+//        info.setSearchOper("gt");
+//        info.setSearchString("2017-11-26");
+//        info.setRows(Integer.MAX_VALUE);
+//        List<Worktime> l = worktimeService.findAll(info);
+//
+//        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(29, 31);
+//        standardtimePort.initSettings(settings);
+////        standardtimePort.delete(w);
+//
+//        l = l.stream().filter(w -> w.getCobots().isEmpty()
+//                || !w.getCobots().stream().anyMatch(c -> c.getName().contains("ADAM"))
+//        ).collect(toList());
+////        for (Worktime worktime : l) {
+////            System.out.println(worktime.getModelName());
+////            standardtimePort.delete(worktime);
+////        }
     }
 
     @Test//245
@@ -249,7 +269,6 @@ public class UploadPortTest {
 //            System.out.println("Upload " + worktime.getModelName());
 //            materialPropertyUploadPort.update(worktime);
 //        }
-
 //        materialPropertyUploadPort.update(worktime);
 //        materialPropertyUploadPort.delete(worktime);
     }

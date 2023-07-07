@@ -31,6 +31,7 @@ public class WorktimeAutouploadSetting implements java.io.Serializable {
     private Integer stationId;
     private BigDecimal ct;
     private int lineId;
+    private String formulaCt;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -95,6 +96,15 @@ public class WorktimeAutouploadSetting implements java.io.Serializable {
 
     public void setLineId(int lineId) {
         this.lineId = lineId;
+    }
+
+    @Column(name = "formula_ct", length = 500)
+    public String getFormulaCt() {
+        return formulaCt;
+    }
+
+    public void setFormulaCt(String formulaCt) {
+        this.formulaCt = formulaCt;
     }
 
 }
