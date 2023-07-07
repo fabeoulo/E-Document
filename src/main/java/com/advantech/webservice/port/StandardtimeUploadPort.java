@@ -146,11 +146,11 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
         return s == null || totalCt.compareTo(s.getTOTALCT()) != 0 || changeTimeCt.compareTo(s.getCT()) != 0;
     }
 
-    private boolean isAutoReason(Integer stationPeople, StandardWorkTime standardWorktime, Worktime w) {
+//    private boolean isAutoReason(Integer stationPeople, StandardWorkTime standardWorktime, Worktime w) {
 //        return standardWorktime != null
 //                && !Objects.equals(stationPeople, standardWorktime.getOPCNT())
 //                && (w.getReasonCode() == null || "0".equals(w.getReasonCode()));
-    }
+//    }
 
     private void generateRootAndDelete(WorktimeAutouploadSetting setting, StandardWorkTime standardWorktime, Worktime w) throws Exception {
 //        String columnUnit = setting.getColumnUnit();

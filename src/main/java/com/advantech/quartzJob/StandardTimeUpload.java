@@ -85,7 +85,6 @@ public class StandardTimeUpload {
         List<String> errorMessages = new ArrayList();
         this.updatePageInfo();
         List<Worktime> modifiedWorktimes = worktimeService.findAll(tempInfo);
-
         log.info("Begin upload standardtime to mes: " + modifiedWorktimes.size() + " datas.");
 
         port.initSettings();
