@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * @author Wei.Cheng CRUD都用同個XML & 相同 UploadType "A"
+ * @author Wei.Cheng CRUD都用同個XML & 相同 UploadType "A"// not same UploadType 20230707
  */
 @Component
 public class StandardtimeUploadPort extends BasicUploadPort implements UploadPort {
@@ -91,13 +91,36 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
     @Override
     public void delete(Worktime w) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+//dont execute it.//!!! import!!! be careful.
+//        //dont execute it.//!!! import!!! be careful.
+//        Map<String, String> errorFields = new HashMap();
+//        List<StandardWorkTime> standardWorktimes = worktimeQueryPort.query(w.getModelName());
+//
+//        settings.forEach((setting) -> {
+//            try {
+//                StandardWorkTime worktimeOnMes = standardWorktimes.stream()
+//                        .filter(p -> (Objects.equals(p.getSTATIONID(), setting.getStationId()) || (p.getSTATIONID() == -1 && setting.getStationId() == null))
+//                        && (p.getLINEID() == setting.getLineId())
+//                        && Objects.equals(p.getUNITNO(), setting.getColumnUnit())
+//                        && Objects.equals(p.getITEMNO(), w.getModelName()))
+//                        .findFirst().orElse(null);
+//                this.generateRootAndDelete(setting, worktimeOnMes, w);
+//            } catch (Exception e) {
+//                errorFields.put(setting.getColumnName(), e.getMessage());
+//            }
+//        });
+//        if (!errorFields.isEmpty()) {
+//            throw new Exception(errorFields.toString());
+//        }
     }
 
     private void generateRootAndUpload(WorktimeAutouploadSetting setting, StandardWorkTime standardWorktime, Worktime w) throws Exception {
         String columnUnit = setting.getColumnUnit();
         BigDecimal totalCt = (BigDecimal) expressionUtils.getValueFromFormula(w, setting.getFormula());
+        BigDecimal changeTimeCt = (BigDecimal) expressionUtils.getValueFromFormula(w, setting.getFormulaCt());
 
-        if (isCtChanged(totalCt, standardWorktime)) {
+        if (isCtChanged(totalCt,changeTimeCt, standardWorktime)) {
             StandardtimeRoot root = new StandardtimeRoot();
             StandardtimeRoot.STANDARDWORKTIME swt = root.getSTANDARDWORKTIME();
             swt.setSTANDARDID(standardWorktime == null ? 0 : standardWorktime.getSTANDARDID());
@@ -107,7 +130,7 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
             swt.setITEMNO(w.getModelName());
             swt.setTOTALCT(totalCt);
             swt.setFIRSTTIME(BigDecimal.ZERO);
-            swt.setCT(setting.getCt());
+            swt.setCT(changeTimeCt);
             swt.setSIDE(5010);
             swt.setMIXCT(totalCt); //Temporarily set this column equal to totalCt
             swt.setCHANGEREASONNO("A0");
@@ -119,8 +142,27 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
         }
     }
 
-    private boolean isCtChanged(BigDecimal totalCt, StandardWorkTime s) {
-        return s == null || totalCt.compareTo(s.getTOTALCT()) != 0;
+    private boolean isCtChanged(BigDecimal totalCt, BigDecimal changeTimeCt, StandardWorkTime s) {
+        return s == null || totalCt.compareTo(s.getTOTALCT()) != 0 || changeTimeCt.compareTo(s.getCT()) != 0;
     }
 
+    private boolean isAutoReason(Integer stationPeople, StandardWorkTime standardWorktime, Worktime w) {
+//        return standardWorktime != null
+//                && !Objects.equals(stationPeople, standardWorktime.getOPCNT())
+//                && (w.getReasonCode() == null || "0".equals(w.getReasonCode()));
+    }
+
+    private void generateRootAndDelete(WorktimeAutouploadSetting setting, StandardWorkTime standardWorktime, Worktime w) throws Exception {
+//        String columnUnit = setting.getColumnUnit();
+//
+//        StandardtimeRoot root = new StandardtimeRoot();
+//        StandardtimeRoot.STANDARDWORKTIME swt = root.getSTANDARDWORKTIME();
+//        swt.setUNITNO(columnUnit);
+//        swt.setSTATIONID(setting.getStationId() == null ? -1 : setting.getStationId());
+//        swt.setLINEID(setting.getLineId());
+//        swt.setITEMNO(w.getModelName());
+//        swt.setSIDE(5010);
+//
+//        super.upload(root, UploadType.DELETE);
+    }
 }

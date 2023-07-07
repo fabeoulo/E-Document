@@ -188,7 +188,23 @@ public class UploadPortTest {
         }
     }
 
-    //QUARTZ
+//    @Test//216
+    @Rollback(true)
+    public void testMaterialPropertyUploadPort() throws Exception {
+
+        Integer[] ids = {529};
+        List<Worktime> l = worktimeService.findByPrimaryKeys(ids);
+        materialPropertyUploadPort.initSetting();
+
+//        materialPropertyUploadPort.update(worktime);
+//        materialPropertyUploadPort.delete(worktime);
+        for (Worktime worktime : l) {
+            materialPropertyUploadPort.update(worktime);
+//            materialPropertyUploadPort.delete(worktime);
+        }
+    }
+    
+        //QUARTZ
     @Autowired
     private StandardTimeUpload standardTimeUpload;
 
@@ -198,18 +214,35 @@ public class UploadPortTest {
         standardTimeUpload.uploadToMes();
     }
     
-//    @Test//216
+//    @Test
+    public void testStandardtimeDelete() throws Exception {
+//        PageInfo info = new PageInfo();
+//        info.setSearchField("modifiedDate");
+//        info.setSearchOper("gt");
+//        info.setSearchString("2017-11-26");
+//        info.setRows(Integer.MAX_VALUE);
+//        List<Worktime> l = worktimeService.findAll(info);
+//
+//        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(29, 31);
+//        standardtimePort.initSettings(settings);
+////        standardtimePort.delete(w);
+//
+//        l = l.stream().filter(w -> w.getCobots().isEmpty()
+//                || !w.getCobots().stream().anyMatch(c -> c.getName().contains("ADAM"))
+//        ).collect(toList());
+////        for (Worktime worktime : l) {
+////            System.out.println(worktime.getModelName());
+////            standardtimePort.delete(worktime);
+////        }
+    }
+
+
+//    @Test
     @Rollback(true)
-    public void testMaterialPropertyUploadPort() throws Exception {
-
-        Integer[] ids = {529};
-        List<Worktime> l = worktimeService.findByPrimaryKeys(ids);
-        materialPropertyUploadPort.initSetting();
-
-        for (Worktime worktime : l) {
-            materialPropertyUploadPort.update(worktime);
-//            materialPropertyUploadPort.delete(worktime);
-        }
+    public void testModelResponsorUploadPort() throws Exception {
+        Worktime obj = new Worktime();
+        obj.setModelName("TEST-MODEL-2");
+        modelResponsorUploadPort.delete(obj);
     }
 
     @Autowired
@@ -248,19 +281,7 @@ public class UploadPortTest {
         materialPropertyUploadPort.initSetting();
 
         for (Worktime worktime : l) {
+//            System.out.println("Upload " + worktime.getModelName());
             materialPropertyUploadPort.update(worktime);
         }
 
-//        materialPropertyUploadPort.update(worktime);
-//        materialPropertyUploadPort.delete(worktime);
-    }
-
-
-//    @Test
-    @Rollback(true)
-    public void testModelResponsorUploadPort() throws Exception {
-        Worktime obj = new Worktime();
-        obj.setModelName("TEST-MODEL-2");
-        modelResponsorUploadPort.delete(obj);
-    }
-}
