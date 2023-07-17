@@ -186,6 +186,8 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
         this.checkMatPermission(updatedMatProps);
         List<MaterialPropertyValue> allProp = Stream.concat(propSettingInLocal.stream(), propNotSettingInLocal.stream())
                 .collect(Collectors.toList());
+        checkState(allProp.containsAll(propNotSettingInLocal), "MES自有屬性數量不對");
+
         MaterialPropertyBatchUploadRoot root = this.toJaxbElement(allProp);
         root.getMATVALUE().setITEMNO(w.getModelName());
         return root;

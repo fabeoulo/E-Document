@@ -89,12 +89,13 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         return result;
     }
 
-    public List<Worktime> findWithFlowRelation(Integer... ids) {
+    public List<Worktime> findWithFlowRelationAndCobot(Integer... ids) {
         List<Worktime> result = dao.findByPrimaryKeys(ids);
         result.forEach(w -> {
             Hibernate.initialize(w.getFlowByBabFlowId());
             Hibernate.initialize(w.getFlowByTestFlowId());
             Hibernate.initialize(w.getFlowByPackingFlowId());
+            Hibernate.initialize(w.getCobots());
         });
         return result;
     }

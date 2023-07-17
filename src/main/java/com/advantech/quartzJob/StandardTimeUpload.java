@@ -75,16 +75,16 @@ public class StandardTimeUpload {
                 "totalModule", "cleanPanel", "assy", "t1", "t2",
                 "t3", "t4", "hiPotLeakage", "coldBoot", "warmBoot",
                 "vibration", "upBiRi", "downBiRi", "packing", "assyStation",
-                "packingStation"
+                "packingStation","productionWt"
         );
     }
 
     public void uploadToMes() {
         List<String> errorMessages = new ArrayList();
-        List<Worktime> modifiedWorktimes = this.findFieldChangeInDate(new DateTime().minusDays(1).withTime(0, 0, 0, 0), new DateTime().withTime(23, 59, 0, 0));
+        List<Worktime> modifiedWorktimes = this.findFieldChangeInDate(new DateTime().minusDays(4).withTime(0, 0, 0, 0), new DateTime().withTime(23, 59, 0, 0));
 
         Integer[] ids = modifiedWorktimes.stream().map(Worktime::getId).toArray(Integer[]::new);
-        List<Worktime> worktimes = this.worktimeService.findWithFlowRelation(ids);
+        List<Worktime> worktimes = this.worktimeService.findWithFlowRelationAndCobot(ids);
         
         log.info("Begin upload standardtime to mes: " + modifiedWorktimes.size() + " datas.");
 

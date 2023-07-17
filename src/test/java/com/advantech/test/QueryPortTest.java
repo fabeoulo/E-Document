@@ -7,6 +7,8 @@ package com.advantech.test;
 
 import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.model.Worktime;
+import com.advantech.model.WorktimeMaterialPropertyUploadSetting;
+import com.advantech.service.WorktimeMaterialPropertyUploadSettingService;
 import com.advantech.service.WorktimeService;
 import com.advantech.webservice.port.StandardWorkReasonQueryPort;
 import com.advantech.webservice.port.FlowRuleQueryPort;
@@ -30,10 +32,13 @@ import com.advantech.webservice.unmarshallclass.MtdTestIntegrity;
 import com.advantech.webservice.unmarshallclass.SopInfo;
 import com.advantech.webservice.unmarshallclass.StandardWorkTime;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import static org.junit.Assert.*;
@@ -96,10 +101,10 @@ public class QueryPortTest {
 
     @Autowired
     private StandardWorkTimeQueryPort worktimeQueryPort;
-    
+
     @Autowired
     private MtdTestIntegrityQueryPort mtdTestIntegrityQueryPort;
-    
+
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -119,7 +124,7 @@ public class QueryPortTest {
 //        l.forEach(s -> {
 //            System.out.println(s.getSopName());
 //        });
-        
+
         System.out.println(l.stream().sorted(Comparator.comparing(SopInfo::getSopName)).distinct().map(n -> n.getSopName()).collect(Collectors.joining(",")));
     }
 
@@ -178,12 +183,33 @@ public class QueryPortTest {
         System.out.println(l.get(0).getAffPropertyType());
     }
 
+    @Autowired
+    private WorktimeMaterialPropertyUploadSettingService propSettingService;
+
+    @Test
+    public void testListAllSame() throws Exception {
+        List<WorktimeMaterialPropertyUploadSetting> settings = propSettingService.findAll();
+        Set<String> localMatPropNo = settings.stream()
+                .map(WorktimeMaterialPropertyUploadSetting::getMatPropNo)
+                .collect(Collectors.toSet());
+
+        Worktime w1 = worktimeService.findByModel("UTC-532CH-P00E");
+        List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.query(w);
+        //Find setting not in local
+        List<MaterialPropertyValue> propNotSettingInLocal = remotePropSettings.stream()
+                .filter(r -> Objects.equals(w.getModelName(), r.getItemNo()) && !localMatPropNo.contains(r.getMatPropertyNo()))
+                .collect(Collectors.toList());
+        boolean check = remotePropSettings.containsAll(propNotSettingInLocal);
+        HibernateObjectPrinter.print(check);
+    }
+
 //    @Test//245
     public void testMaterialPropertyValueQueryPort() throws Exception {
-        Worktime w1 = worktimeService.findByModel("2063002307");
+
+        Worktime w1 = worktimeService.findByModel("UTC-532CH-P00E");
         assertNotNull(w1);
         List<MaterialPropertyValue> l = materialPropertyValueQueryPort.query(w1);
-        assertEquals(13, l.size());
+        assertEquals(19, l.size());
         MaterialPropertyValue value = l.stream()
                 .filter(v -> "BD".equals(v.getMatPropertyNo())).findFirst().orElse(null);
         assertNotNull(value);
@@ -195,7 +221,7 @@ public class QueryPortTest {
     @Rollback(false)
     public void testRetriveMatPropertyValue() throws Exception {
         Session session = sessionFactory.getCurrentSession();
-        
+
         List<Worktime> worktimes = worktimeService.findAll();
 
         for (Worktime worktime : worktimes) {
@@ -282,17 +308,17 @@ public class QueryPortTest {
 //        l = l.stream().filter(s -> s.getITEMNO().equals("IMC-450-SL")).collect(toList());
 
         HibernateObjectPrinter.print(l);
-         l = this.worktimeQueryPort.query(w.getModelName());
+        l = this.worktimeQueryPort.query(w.getModelName());
         HibernateObjectPrinter.print(l);
     }
-    
+
 //    @Test//245
     @Rollback(true)
-    public void testMtdTestIntegrityQueryPort() throws Exception{
+    public void testMtdTestIntegrityQueryPort() throws Exception {
         Session session = sessionFactory.getCurrentSession();
         Worktime worktime = session.get(Worktime.class, 4653);
         List<MtdTestIntegrity> l = this.mtdTestIntegrityQueryPort.query(worktime);
-        
+
         assertEquals(2, l.size());
         assertEquals("T2", l.get(1).getStationName());
         assertEquals("系統", l.get(0).getUserName());
