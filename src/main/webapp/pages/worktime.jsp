@@ -18,11 +18,7 @@
     }
 
     .DataTD .ui-widget-content{
-        width: 60%;
-    }
-
-    .CaptionTD{
-        width: 30%;
+        width: 300px;
     }
 
     .danger{
@@ -31,6 +27,16 @@
     .hide-emptyName-flow{
         color: transparent;
     }
+
+    #mod-reason label{
+        display : block;
+    }
+    #mod-reason select{
+        width: 150px;
+    }
+    
+
+
     .noselect {
         -webkit-touch-callout: none; /* iOS Safari */
         -webkit-user-select: none; /* Safari */
@@ -53,6 +59,9 @@
 <script src="<c:url value="/webjars/github-com-johnculviner-jquery-fileDownload/1.4.6/src/Scripts/jquery.fileDownload.js" />"></script>
 <script src="<c:url value="/js/worktime-setting/column-custom-callback.js" />"></script>
 <script src="<c:url value="/js/jquery.multi-select.js" />"></script>
+<link href="<c:url value="/css/attribute-style.css" />" rel="stylesheet">
+<link href="<c:url value="/css/Input-Style.css" />" rel="stylesheet">
+<script src="<c:url value="/js/selectBar.js" />"></script>
 
 <script>
     $(function () {
@@ -106,7 +115,9 @@
                 {name: "preAssy", isNullable: true},
                 {name: "pending", isNullable: false},
                 {name: "modReasonCode", isNullable: true},
-                {name: "cobots", isNullable: false}
+                {name: "cobots", isNullable: false},
+                {name: "cartonlabel", isNullable: false},
+                {name: "outlabel", isNullable: false}
             ]
         });
 
@@ -131,6 +142,7 @@
                 return " class='hide-emptyName-flow noselect'";
             }
         };
+        
 
         var checkRevision = function (form) {
             selected_row_revision = getRowRevision();
@@ -218,7 +230,6 @@
                 }
             }
         ];
-
         //Jqgrid initialize.
         grid.jqGrid({
             url: '<c:url value="/Worktime/read" />',
@@ -231,10 +242,10 @@
                 {label: 'Model', name: "modelName", frozen: true, editable: true, searchrules: {required: true}, searchoptions: search_string_options, editrules: {required: true}, editoptions: {dataInit: autoUpperCase}, formoptions: required_form_options},
                 {label: 'TYPE', name: "type.id", edittype: "select", editoptions: {value: selectOptions["type"]}, formatter: selectOptions["type_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["type"], sopt: ['eq']}},
                 {label: 'BU', name: "businessGroup.id", edittype: "select", editoptions: {value: selectOptions["businessGroup"], dataEvents: businessGroup_select_event}, formatter: selectOptions["businessGroup_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["businessGroup"], sopt: ['eq']}},
-                {label: 'Work Center', name: "workCenter", width: 100, searchrules: {required: true}, searchoptions: search_string_options, editrules: {required: false}},
-                {label: 'SapWT', name: "sapWt", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'ProductionWT', name: "productionWt", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("productionWt")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'Setup Time', name: "setupTime", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("setupTime")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'PRE-ASSY', name: "preAssy.id", edittype: "select", editoptions: {value: selectOptions["preAssy"]}, formatter: selectOptions["preAssy_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["preAssy"], sopt: ['eq']}},
+                {label: 'BAB_FLOW', name: "flowByBabFlowId.id", edittype: "select", editoptions: {value: selectOptions["bab_flow"], dataEvents: babFlow_select_event, defaultValue: "111"}, formatter: selectOptions["bab_flow_func"], cellattr: hideEmptyBabFlow, width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["bab_flow"], sopt: ['eq']}},
+                {label: 'TEST_FLOW', name: "flowByTestFlowId.id", edittype: "select", editoptions: {value: selectOptions["test_flow"], dataEvents: testFlow_select_event}, formatter: selectOptions["test_flow_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["test_flow"], sopt: ['eq']}},
+                {label: 'PACKING_FLOW', name: "flowByPackingFlowId.id", edittype: "select", editoptions: {value: selectOptions["pkg_flow"]}, formatter: selectOptions["pkg_flow_func"], width: 140, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["pkg_flow"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>確認秤重途程</b>"}},
                 {label: 'CleanPanel', name: "cleanPanel", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Total Module', name: "totalModule", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Assembly', name: "assy", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
@@ -250,22 +261,24 @@
                 {label: 'Hi-Pot/Leakage', name: "hiPotLeakage", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Cold Boot', name: "coldBoot", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Warm Boot', name: "warmBoot", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'ASS_T1', name: "assyToT1", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("assyToT1")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'T2_PACKING', name: "t2ToPacking", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("t2ToPacking")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'Floor', name: "floor.id", edittype: "select", editoptions: {value: selectOptions["floor"]}, width: 100, formatter: selectOptions["floor_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["floor"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>適用封箱機設6F</b>"}},
+                {label: 'Floor', name: "floor.id", edittype: "select", editoptions: {value: selectOptions["floor"]}, width: 100, formatter: selectOptions["floor_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["floor"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>適用封箱機設5F</b>"}},
                 {label: 'Pending', name: "pending.id", edittype: "select", editoptions: {value: selectOptions["pending"], defaultValue: 'N', dataEvents: pending_select_event}, formatter: selectOptions["pending_func"], width: 100, searchrules: number_search_rule, stype: "select", searchoptions: {value: selectOptions["pending"], sopt: ['eq']}},
                 {label: 'Pending TIME', name: "pendingTime", width: 100, searchrules: {required: true}, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
                 {label: 'BI Sampling', name: "biSampling", edittype: "select", editoptions: {value: "N:N;Y:Y", dataEvents: biSample_change_event}, width: 100, searchrules: {required: true}, searchoptions: search_string_options, formoptions: {elmsuffix: "<b class='danger'>抽燒選Y</b>"}},
                 {label: 'BurnIn', name: "burnIn", edittype: "select", editoptions: {value: "N:N;BI:BI;RI:RI", dataEvents: burnIn_select_event}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
-                {label: '機器工時', name: "machineWorktime", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("machineWorktime")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'B/I Time', name: "biTime", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
-                {label: 'BI_Temperature', name: "biTemperature", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
+                {label: 'BI_Temperature', name: "biTemperature", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},         
+                {label: 'Work Center', name: "workCenter", width: 100, searchrules: {required: true}, searchoptions: search_string_options, editrules: {required: false}},
+                {label: 'SapWT', name: "sapWt", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'ProductionWT', name: "productionWt", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("productionWt")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'Setup Time', name: "setupTime", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("setupTime")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: '機器工時', name: "machineWorktime", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("machineWorktime")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'SPE Owner', name: "userBySpeOwnerId.id", edittype: "select", editoptions: {value: selectOptions["spe_user"]}, formatter: selectOptions["spe_user_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["spe_user"], sopt: ['eq']}},
                 {label: 'BPE Owner', name: "userByEeOwnerId.id", edittype: "select", editoptions: {value: selectOptions["ee_user"]}, formatter: selectOptions["ee_user_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["ee_user"], sopt: ['eq']}},
                 {label: 'QC Owner', name: "userByQcOwnerId.id", edittype: "select", editoptions: {value: selectOptions["qc_user"]}, formatter: selectOptions["qc_user_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["qc_user"], sopt: ['eq']}},
                 {label: 'MPM Owner', name: "userByMpmOwnerId.id", edittype: "select", editoptions: {value: selectOptions["mpm_user"]}, formatter: selectOptions["mpm_user_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["mpm_user"], sopt: ['eq']}},
-                {label: '組包SOP', name: "assyPackingSop", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "textarea", editoptions: {maxlength: 500}},
-                {label: '測試SOP', name: "testSop", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "textarea", editoptions: {maxlength: 500}, formoptions: {elmsuffix: "<b class='danger'>M-07-TT0986 測試通則SOP</b>"}},
+               // {label: '組包SOP', name: "assyPackingSop", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "textarea", editoptions: {maxlength: 500}},
+               // {label: '測試SOP', name: "testSop", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "textarea", editoptions: {maxlength: 500}, formoptions: {elmsuffix: "<b class='danger'>M-07-TT0986 測試通則SOP</b>"}},
                 {label: 'KEYPART_A', name: "keypartA", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'KEYPART_B', name: "keypartB", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T1狀態數', name: "t1StatusQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
@@ -274,10 +287,15 @@
                 {label: 'T2項目數', name: "t2ItemsQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: '自動帶入MAC數', name: "macTotalQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: '確校數量', name: "macPrintedQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'PRE-ASSY', name: "preAssy.id", edittype: "select", editoptions: {value: selectOptions["preAssy"]}, formatter: selectOptions["preAssy_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["preAssy"], sopt: ['eq']}},
-                {label: 'BAB_FLOW', name: "flowByBabFlowId.id", edittype: "select", editoptions: {value: selectOptions["bab_flow"], dataEvents: babFlow_select_event, defaultValue: "111"}, formatter: selectOptions["bab_flow_func"], cellattr: hideEmptyBabFlow, width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["bab_flow"], sopt: ['eq']}},
-                {label: 'TEST_FLOW', name: "flowByTestFlowId.id", edittype: "select", editoptions: {value: selectOptions["test_flow"], dataEvents: testFlow_select_event}, formatter: selectOptions["test_flow_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["test_flow"], sopt: ['eq']}},
-                {label: 'PACKING_FLOW', name: "flowByPackingFlowId.id", edittype: "select", editoptions: {value: selectOptions["pkg_flow"]}, formatter: selectOptions["pkg_flow_func"], width: 140, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["pkg_flow"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>確認秤重途程</b>"}},
+                {label: 'MAC標籤', name: "labelMac", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'MAC列印位置', name: "macPrintedLocation", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤列印MAC來源', name: "macPrintedFrom", width: 100, edittype: "select", editoptions: {value: "E:E;K:K"}, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'ETL取值標籤變量1', name: "etlVariable1", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'ETL取值標籤變量1(附加屬性質)', name: "etlVariable1Aff", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'ETL取值標籤變量2', name: "etlVariable2", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'ETL取值標籤變量2(附加屬性質)', name: "etlVariable2Aff", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'ETL取值標籤變量3', name: "etlVariable3", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'ETL取值標籤變量3(附加屬性質)', name: "etlVariable3Aff", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'PART-LINK', name: "partLink", edittype: "select", editoptions: {value: "Y:Y;N:N", defaultValue: 'Y'}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: 'CE', name: "ce", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
                 {label: 'UL', name: "ul", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
@@ -289,6 +307,48 @@
                 {label: 'KC', name: "kc", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
                 {label: 'N合1集合箱', name: "nsInOneCollectionBox", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0', dataEvents: nsInOneCollectionBox_change_event}},
                 {label: 'SN是否等於SSN', name: "partNoAttributeMaintain", edittype: "select", editoptions: {value: "N:N; :empty", defaultValue: ' '}, width: 120, searchrules: {required: true}, searchoptions: search_string_options},
+                {label: '標籤信息是否啟用料號屬性定義', name: "labelYN",edittype: "select",editoptions: {value: "Y:Y;N:N", defaultValue: 'Y'} ,width: 100, searchrules: {required: true}, searchoptions: search_string_options},       
+                {label: 'OuterLable標準套版選單', name: "labelOuterId.id", edittype: "select", editoptions: {value: selectOptions["outlabel"],dataEvents:[{ type: 'change', fn: function(e){if(this.value == 1){$('#tr_labelOuterCustom').removeClass("ui-state-disabled hidden");}else{$('#tr_labelOuterCustom').addClass("ui-state-disabled hidden"); $('#labelOuterCustom').value = "";} }}]}, width: 100, formatter: selectOptions["outlabel_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["outlabel"], sopt: ['eq']}},
+                {label: 'OuterLable標籤名稱定義', name: "labelOuterCustom", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},                       
+                {label: 'CartonLable標準套版選單', name: "labelCartonId.id", edittype: "select", editoptions: {value: selectOptions["cartonlabel"],dataEvents:[{ type: 'change', fn: function(e){if(this.value == 1){$('#tr_labelCartonCustom').removeClass("ui-state-disabled hidden");}else{$('#tr_labelCartonCustom').addClass("ui-state-disabled hidden"); $('#labelCartonCustom').value = "";} }}]}, width: 100, formatter: selectOptions["cartonlabel_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["cartonlabel"], sopt: ['eq']}},
+                {label: 'CartonLable標籤名稱定義', name: "labelCartonCustom", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},               
+                {label: 'BigCartonLable標籤名稱定義', name: "labelBigCarton", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '2D-標籤變量名稱', name: "label2D", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '客戶序號標籤名稱定義', name: "labelCustomerSn", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '研華內部SN標籤名稱定義', name: "labelSn", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '料號綁定標簽', name: "labelPn", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'N機種A label名稱', name: "labelNmodelA", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'N機種B label名稱', name: "labelNmodelB", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'Packing01標籤名稱', name: "labelPacking1", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'Packing02標籤名稱', name: "labelPacking2", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'Packing03標籤名稱', name: "labelPacking3", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'Packing04標籤名稱', name: "labelPacking4", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'Packing05標籤名稱', name: "labelPacking5", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                //{label: 'Packing06標籤名稱', name: "labelPacking6", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                //{label: 'Packing07標籤名稱', name: "labelPacking7", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                //{label: 'Packing08標籤名稱', name: "labelPacking8", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                //{label: 'Packing09標籤名稱', name: "labelPacking9", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                //{label: 'Packing10標籤名稱', name: "labelPacking10", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱1', name: "labelVariable1", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱1(附加屬性質)', name: "labelVariable1Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱2', name: "labelVariable2", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱2(附加屬性質)', name: "labelVariable2Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱3', name: "labelVariable3", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱3(附加屬性質)', name: "labelVariable3Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱4', name: "labelVariable4", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱4(附加屬性質)', name: "labelVariable4Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱5', name: "labelVariable5", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱5(附加屬性質)', name: "labelVariable5Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱6', name: "labelVariable6", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱6(附加屬性質)', name: "labelVariable6Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱7', name: "labelVariable7", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱7(附加屬性質)', name: "labelVariable7Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱8', name: "labelVariable8", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱8(附加屬性質)', name: "labelVariable8Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱9', name: "labelVariable9", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱9(附加屬性質)', name: "labelVariable9Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱10', name: "labelVariable10", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},   
+                {label: '標籤變量名稱10(附加屬性質)', name: "labelVariable10Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},             
                 {label: 'Test Profile', name: "testProfile", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;M5:M5;601:601;B-B:B-B;EKI9528:EKI9528;EKI9516:EKI9516", defaultValue: "0", dataEvents: testProfile_select_event}},
                 {label: 'ACW Voltage', name: "acwVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
                 {label: 'IR Voltage', name: "irVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
@@ -334,6 +394,7 @@
             stringResult: true,
             gridview: true,
             loadui: "block",
+
             jsonReader: {
                 root: "rows",
                 page: "page",
@@ -343,7 +404,7 @@
             },
             navOptions: {reloadGridOptions: {fromServer: true}},
             caption: "工時大表",
-            height: 450,
+            height: 460,
             sortname: 'id', sortorder: 'desc',
             onSelectRow: function (rowid) {
                 scrollPosition = grid.closest(".ui-jqgrid-bdiv").scrollTop();
@@ -366,9 +427,9 @@
         grid.jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
             groupHeaders: [
-                {startColumnName: 'macTotalQty', numberOfColumns: 2, titleText: '<em>MAC</em>'},
+                {startColumnName: 'macTotalQty', numberOfColumns: 11, titleText: '<em>MAC</em>'},
                 {startColumnName: 'ce', numberOfColumns: 8, titleText: '<em>外箱Label產品資訊 (1：要印   0：不印)</em>'},
-                {startColumnName: 'partNoAttributeMaintain', numberOfColumns: 1, titleText: '<em>料號屬性值維護</em>'},
+                {startColumnName: 'partNoAttributeMaintain', numberOfColumns: 36, titleText: '<em>料號屬性值維護</em>'},
                 {startColumnName: 'assyLeadTime', numberOfColumns: 2, titleText: '<em>組裝看板工時</em>'},
                 {startColumnName: 'packingLeadTime', numberOfColumns: 2, titleText: '<em>包裝看板工時</em>'},
                 {startColumnName: 'testProfile', numberOfColumns: 5, titleText: '<em>hi-pot Test</em>'},
@@ -380,8 +441,8 @@
                 {edit: isUpdatable || isFullTableControllable, add: isFullTableControllable, del: isFullTableControllable, search: true},
                 {
                     url: '<c:url value="/Worktime/update" />',
-                    dataheight: 350,
-                    width: 450,
+                    dataheight: 660,
+                    width: 650,
                     closeAfterEdit: closed_after_edit,
                     reloadAfterSubmit: true,
                     errorTextFormat: errorTextFormatF,
@@ -390,10 +451,14 @@
                         setTimeout(function () {
                             // do here all what you need (like alert('yey');)
                             $("#flowByBabFlowId\\.id, #businessGroup\\.id").trigger("change");
+                            checkLabelisEmpty();
                             settingFormulaCheckbox();
                             addModReasonCode();
                             addModReasonTextarea();
+                            addNarPage();
+                            addType();
                         }, 50);
+
                         greyout(form);
                     },
                     afterShowForm: function (form) {
@@ -411,8 +476,8 @@
                 },
                 {
                     url: '<c:url value="/Worktime/create" />',
-                    dataheight: 350,
-                    width: 450,
+                    dataheight: 660,
+                    width: 650,
                     closeAfterAdd: closed_after_add,
                     reloadAfterSubmit: true,
                     errorTextFormat: errorTextFormatF,
@@ -427,6 +492,8 @@
                     afterShowForm: function (form) {
                         modelNameFormat();
                         checkRevision(form);
+                        addNarPage();
+                        addType();
                     },
                     afterSubmit: showServerModifyMessage,
                     recreateForm: true,
@@ -624,7 +691,7 @@
         }
 
         function addFormulaCheckbox(fieldName) {
-            var str = "<input type='checkbox' id='f_" +
+            var str = "<br><input type='checkbox' id='f_" +
                     fieldName + "' name='f_" + fieldName +
                     "' class='ui-checkbox' checked/><label for='f_" + fieldName + "'>套入公式</label>";
             return str;
@@ -641,7 +708,8 @@
         }
 
         function getSelectedRowId() {
-            return grid.jqGrid('getGridParam', 'selrow');
+            var s = grid.jqGrid('getGridParam', 'selrow');
+            return s;
         }
 
         function settingFormulaCheckbox() {
@@ -688,6 +756,12 @@
                 }
             });
             return result;
+        }
+
+        function setEditTDWidth(w) {
+            return function (elem) {
+                $(elem).width(w);
+            };
         }
 
         function closeEditDialogWhenError(error_message) {
@@ -753,10 +827,73 @@
             $(sel).prependTo("#Act_Buttons>td.EditButton");
         }
 
+        function addNarPage() {
+            $("<div id='input-bar'><div class='progress_inner tab-menu'>" +
+                    "<div class='progress_inner__step tab-option'  id='tab0'><label for='step-1'>基本設定</label></div>" +
+                    "<div class='progress_inner__step tab-option'  id='tab1'><label for='step-2'>工時管理</label></div>" +
+                    "<div class='progress_inner__step tab-option'  id='tab2'><label for='step-3'>客製化標籤</label></div>" +
+                    "<div class='progress_inner__step tab-option'  id='tab3'><label for='step-4'>MAC設定</label></div>" +
+                    "<div class='progress_inner__step tab-option'  id='tab4'><label for='step-5'>HI-POT設定</label></div>" +
+                    "<div class='progress_inner__step tab-option'  id='tab5'><label for='step-6'>測試設定</label></div>" +
+                    "<input checked='checked' id='step-1' name='step' type='radio'><input id='step-2' name='step' type='radio'>" +
+                    "<input id='step-3' name='step' type='radio'><input id='step-4' name='step' type='radio'>" +
+                    "<input id='step-5' name='step' type='radio'><input id='step-6' name='step' type='radio'>" +
+                    "<div class='progress_inner__bar'></div><div class='progress_inner__bar--set'></div></div></div>")
+                    .prependTo("#FrmGrid_list");
+            var listTab = ["#tab0", "#tab1", "#tab2", "#tab3", "#tab4", "#tab5"];
+            for (var i = 0; i < listTab.length; i++) {
+                $(listTab[i]).on("click", function (e) {
+                    for (var s = 0; s < listTab.length; s++)
+                    {
+                        $(".Type" + s).addClass("hiddenTab");
+                    }
+                    var val = $(this).attr("id").toString().substr(3, 1);
+                    $(".Type" + val).removeClass("hiddenTab");
+                });
+            }
+            ;
+        }
+
+        function addType() {
+            var model = $("#list").getGridParam("colModel");
+            for (var i = 0; i <= model.length; i++)
+            {
+                var r = model[i];
+                var id = "tr_" + r?.name;
+                var type = getClassification_Type(id);
+                if (id.includes('.')) {
+                    var index = id.indexOf('.');
+                    var id = id.splice(index, '\\');
+                }
+                var cssid = " tr#" + id;
+                if (type === 'Type0')
+                {
+                    $(cssid).addClass(type);
+                } else {
+                    $(cssid).addClass(type + ' hiddenTab');
+                }
+            }
+        }
+        ;
+        String.prototype.splice = function (start, newStr) {
+            return this.slice(0, start) + newStr + this.slice(start);
+        };
+        
+         function checkLabelisEmpty() {
+            if($('#labelOuterid\\.id').val() != '1'){
+                $('#tr_labelOuterCustom').addClass("ui-state-disabled hidden"); 
+            }
+            
+             if($('#labelCartonid\\.id').val() != '1'){
+                $('#tr_labelCartonCustom').addClass("ui-state-disabled hidden");
+             }
+        };
+        
         function addModReasonTextarea() {
             var html = "<div><label>工時修改原因描述: </label><textarea id='standardWorkReason'></textarea></div>";
             $(html).prependTo("#mod-reason");
         }
+
 
         function setReasonCodeRelateFieldEvent(form) {
             var relativeObj = form.find("#productionWt, #setupTime, #cleanPanel, \n\
@@ -772,7 +909,7 @@
 </script>
 <div id="worktime-content">
     <div class="form-inline">
-        <h5 class="form-control">Your permission is: 
+        <h5 class="form-control">Your permission is:
             <b class="permission-hint">
                 R
                 <c:if test="${isAdmin || isOper || isAuthor || isContributor}">
@@ -782,10 +919,10 @@
         </h5>
         <c:if test="${isAdmin || isAuthor || isContributor}">
             <h5 style="color:red" class="form-control">
-                ※料號負責人、途程、SOP及料號屬性質在該欄位有更動時會上傳至MES，請務必確認資料是否正確
+                ※料號負責人、途程、料號屬性質在該欄位有更動時會上傳至FIMP，請務必確認資料是否正確
             </h5>
         </c:if>
     </div>
-    <table id="list"></table> 
+    <table id="list"></table>
     <div id="pager"></div>
 </div>

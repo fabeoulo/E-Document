@@ -40,7 +40,8 @@ public class WorktimeDAO extends BasicDAOImpl<Integer, Worktime> {
         String[] fetchField = {
             "type", "businessGroup", "floor", "pending", "preAssy",
             "flowByBabFlowId", "flowByPackingFlowId", "flowByTestFlowId",
-            "userBySpeOwnerId", "userByEeOwnerId", "userByQcOwnerId", "userByMpmOwnerId"
+            "userBySpeOwnerId", "userByEeOwnerId", "userByQcOwnerId", "userByMpmOwnerId",
+            "labelOuterId","labelCartonId"
         };
 
         Criteria criteria = createEntityCriteria();

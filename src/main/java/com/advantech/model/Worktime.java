@@ -59,43 +59,43 @@ public class Worktime implements java.io.Serializable {
 
     @JsonView(View.Public.class)
     private int id;
-    
+
     @JsonView(View.Public.class)
     private Floor floor;
-    
+
     @JsonView(View.Public.class)
     private Flow flowByTestFlowId;
-    
+
     @JsonView(View.Public.class)
     private Flow flowByPackingFlowId;
-    
+
     @JsonView(View.Public.class)
     private Flow flowByBabFlowId;
-    
+
     @JsonView(View.Public.class)
     private User userByEeOwnerId; //EE teams name has been changed to BPE
-    
+
     @JsonView(View.Public.class)
     private User userByQcOwnerId;
-    
+
     @JsonView(View.Public.class)
     private User userBySpeOwnerId;
-    
+
     @JsonView(View.Public.class)
     private User userByMpmOwnerId;
-    
+
     @JsonView(View.Public.class)
     private Pending pending;
-    
+
     @JsonView(View.Public.class)
     private PreAssy preAssy;
-    
+
     @JsonView(View.Public.class)
     private Type type;
-    
+
     @JsonView(View.Public.class)
     private BusinessGroup businessGroup;
-    
+
     @JsonView(View.Public.class)
     private String modelName;
 
@@ -107,205 +107,205 @@ public class Worktime implements java.io.Serializable {
 
     @JsonView(View.Public.class)
     private String workCenter;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal totalModule = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal cleanPanel = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private int preAssyModuleQty;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal assy = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal t1 = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal t2 = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal t3 = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal t4 = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal packing = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal upBiRi = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal downBiRi = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal biCost = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal vibration = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal hiPotLeakage = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal coldBoot = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal warmBoot = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal pendingTime;
-    
+
     @JsonView(View.Public.class)
     private String biSampling;
-    
+
     @JsonView(View.Public.class)
     private String burnIn;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal biTime;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal biTemperature;
-    
+
     @JsonView(View.Public.class)
     private String assyPackingSop;
-    
+
     @JsonView(View.Public.class)
     private String testSop;
-    
+
     @JsonView(View.Public.class)
     private Integer keypartA = 0;
-    
+
     @JsonView(View.Public.class)
     private Integer keypartB = 0;
-    
+
     @JsonView(View.Public.class)
     private Integer macTotalQty = 0;
-    
+
     @JsonView(View.Public.class)
     private Integer macPrintedQty = 0;
-    
+
     @JsonView(View.Public.class)
     private Character partLink;
-    
+
     @JsonView(View.Public.class)
     private int ce;
-    
+
     @JsonView(View.Public.class)
     private int ul;
-    
+
     @JsonView(View.Public.class)
     private int rohs;
-    
+
     @JsonView(View.Public.class)
     private int weee;
-    
+
     @JsonView(View.Public.class)
     private int madeInTaiwan;
-    
+
     @JsonView(View.Public.class)
     private int fcc;
-    
+
     @JsonView(View.Public.class)
     private int eac;
-    
+
     @JsonView(View.Public.class)
     private int kc;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal nsInOneCollectionBox = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private char partNoAttributeMaintain;
-    
+
     @JsonView(View.Public.class)
     private String acwVoltage;
-    
+
     @JsonView(View.Public.class)
     private String irVoltage;
-    
+
     @JsonView(View.Public.class)
     private String testProfile;
-    
+
     @JsonView(View.Public.class)
     private String lltValue;
-    
+
     @JsonView(View.Public.class)
     private String gndValue;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal weight = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal weightAff = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal tolerance = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal assyLeadTime = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal packingLeadTime = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal productionWt = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal setupTime = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal assyToT1 = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal t2ToPacking = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private Integer burnInQuantity = 0;
-    
+
     @JsonView(View.Public.class)
     private Integer assyStation = 0;
-    
+
     @JsonView(View.Public.class)
     private Integer packingStation = 0;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal assyKanbanTime = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal packingKanbanTime = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal cleanPanelAndAssembly = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal machineWorktime = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
     private Integer t1StatusQty = 0;
-    
+
     @JsonView(View.Public.class)
     private Integer t1ItemsQty = 0;
-    
+
     @JsonView(View.Public.class)
     private Integer t2StatusQty = 0;
-    
+
     @JsonView(View.Public.class)
     private Integer t2ItemsQty = 0;
 
     @JsonView(View.Public.class)
     private Date createDate;
-    
+
     @JsonView(View.Public.class)
     private Date modifiedDate;
 
     @JsonView(View.Public.class)
     private String reasonCode;
-    
+
     @JsonView(View.Public.class)
     private String worktimeModReason;
 
@@ -318,6 +318,159 @@ public class Worktime implements java.io.Serializable {
 
     @JsonView(View.Internal.class)
     private Set<Cobot> cobots = new HashSet<Cobot>(0);
+
+    @JsonView(View.Public.class)
+    private String labelMac;
+
+    @JsonView(View.Public.class)
+    private String macPrintedLocation;
+
+    @JsonView(View.Public.class)
+    private String macPrintedFrom;
+
+    @JsonView(View.Public.class)
+    private String etlVariable1;
+
+    @JsonView(View.Public.class)
+    private String etlVariable2;
+
+    @JsonView(View.Public.class)
+    private String etlVariable3;
+
+    @JsonView(View.Public.class)
+    private String etlVariable1Aff;
+
+    @JsonView(View.Public.class)
+    private String etlVariable2Aff;
+
+    @JsonView(View.Public.class)
+    private String etlVariable3Aff;
+
+    @JsonView(View.Public.class)
+    private Character labelYN;
+
+    @JsonView(View.Public.class)
+    private OutLabel labelOuterId;
+
+    @JsonView(View.Public.class)
+    private String labelOuterCustom;
+    
+    @JsonView(View.Public.class)
+    private CartonLabel labelCartonId;
+    
+    @JsonView(View.Public.class)
+    private String labelCartonCustom;
+ 
+    @JsonView(View.Public.class)
+    private String labelBigCarton;
+
+    @JsonView(View.Public.class)
+    private String label2D;
+
+    @JsonView(View.Public.class)
+    private String labelCustomerSn;
+
+    @JsonView(View.Public.class)
+    private String labelSn;
+
+    @JsonView(View.Public.class)
+    private String labelPn;
+
+    @JsonView(View.Public.class)
+    private String labelNmodelA;
+
+    @JsonView(View.Public.class)
+    private String labelNmodelB;
+
+    @JsonView(View.Public.class)
+    private String labelVariable1;
+
+    @JsonView(View.Public.class)
+    private String labelVariable2;
+
+    @JsonView(View.Public.class)
+    private String labelVariable3;
+
+    @JsonView(View.Public.class)
+    private String labelVariable4;
+
+    @JsonView(View.Public.class)
+    private String labelVariable5;
+
+    @JsonView(View.Public.class)
+    private String labelVariable6;
+
+    @JsonView(View.Public.class)
+    private String labelVariable7;
+
+    @JsonView(View.Public.class)
+    private String labelVariable8;
+
+    @JsonView(View.Public.class)
+    private String labelVariable9;
+
+    @JsonView(View.Public.class)
+    private String labelVariable10;
+
+    @JsonView(View.Public.class)
+    private String labelVariable1Aff;
+
+    @JsonView(View.Public.class)
+    private String labelVariable2Aff;
+
+    @JsonView(View.Public.class)
+    private String labelVariable3Aff;
+
+    @JsonView(View.Public.class)
+    private String labelVariable4Aff;
+
+    @JsonView(View.Public.class)
+    private String labelVariable5Aff;
+
+    @JsonView(View.Public.class)
+    private String labelVariable6Aff;
+
+    @JsonView(View.Public.class)
+    private String labelVariable7Aff;
+
+    @JsonView(View.Public.class)
+    private String labelVariable8Aff;
+
+    @JsonView(View.Public.class)
+    private String labelVariable9Aff;
+
+    @JsonView(View.Public.class)
+    private String labelVariable10Aff;
+
+    @JsonView(View.Public.class)
+    private String labelPacking1;
+
+    @JsonView(View.Public.class)
+    private String labelPacking2;
+
+    @JsonView(View.Public.class)
+    private String labelPacking3;
+
+    @JsonView(View.Public.class)
+    private String labelPacking4;
+
+    @JsonView(View.Public.class)
+    private String labelPacking5;
+
+    @JsonView(View.Public.class)
+    private String labelPacking6;
+
+    @JsonView(View.Public.class)
+    private String labelPacking7;
+
+    @JsonView(View.Public.class)
+    private String labelPacking8;
+
+    @JsonView(View.Public.class)
+    private String labelPacking9;
+
+    @JsonView(View.Public.class)
+    private String labelPacking10;
 
     public Worktime() {
     }
@@ -1144,6 +1297,16 @@ public class Worktime implements java.io.Serializable {
         this.worktimeModReason = worktimeModReason;
     }
 
+    @Size(min = 0, max = 50)
+    @Column(name = "label_mac", length = 50)
+    public String getLabelMac() {
+        return labelMac;
+    }
+
+    public void setLabelMac(String labelMac) {
+        this.labelMac = labelMac;
+    }
+
     @NotAudited
     @Column(name = "twm2_flag", nullable = false)
     public int getTwm2Flag() {
@@ -1152,6 +1315,507 @@ public class Worktime implements java.io.Serializable {
 
     public void setTwm2Flag(int twm2Flag) {
         this.twm2Flag = twm2Flag;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "mac_printed_location", length = 50)
+    public String getMacPrintedLocation() {
+        return macPrintedLocation;
+    }
+
+    public void setMacPrintedLocation(String macPrintedLocation) {
+        this.macPrintedLocation = macPrintedLocation;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "mac_printed_from", length = 50)
+    public String getMacPrintedFrom() {
+        return macPrintedFrom;
+    }
+
+    public void setMacPrintedFrom(String macPrintedFrom) {
+        this.macPrintedFrom = macPrintedFrom;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "etl_variable_1", length = 50)
+    public String getEtlVariable1() {
+        return etlVariable1;
+    }
+
+    public void setEtlVariable1(String etlVariable1) {
+        this.etlVariable1 = etlVariable1;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "etl_variable_2", length = 50)
+    public String getEtlVariable2() {
+        return etlVariable2;
+    }
+
+    public void setEtlVariable2(String etlVariable2) {
+        this.etlVariable2 = etlVariable2;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "etl_variable_3", length = 50)
+    public String getEtlVariable3() {
+        return etlVariable3;
+    }
+
+    public void setEtlVariable3(String etlVariable3) {
+        this.etlVariable3 = etlVariable3;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "etl_variable_1_aff", length = 50)
+    public String getEtlVariable1Aff() {
+        return etlVariable1Aff;
+    }
+
+    public void setEtlVariable1Aff(String etlVariable1Aff) {
+        this.etlVariable1Aff = etlVariable1Aff;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "etl_variable_2_aff", length = 50)
+    public String getEtlVariable2Aff() {
+        return etlVariable2Aff;
+    }
+
+    public void setEtlVariable2Aff(String etlVariable2Aff) {
+        this.etlVariable2Aff = etlVariable2Aff;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "etl_variable_3_aff", length = 50)
+    public String getEtlVariable3Aff() {
+        return etlVariable3Aff;
+    }
+
+    public void setEtlVariable3Aff(String etlVariable3Aff) {
+        this.etlVariable3Aff = etlVariable3Aff;
+    }
+
+    @NotNull
+    @Column(name = "label_yn",nullable = false)
+    public Character getLabelYN() {
+        return labelYN;
+    }
+
+    public void setLabelYN(Character labelYN) {
+        this.labelYN = labelYN;
+    }
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "label_outer_id")
+    public OutLabel getLabelOuterId() {
+        return labelOuterId;
+    }
+
+    public void setLabelOuterId(OutLabel labelOuterId) {
+        this.labelOuterId = labelOuterId;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "label_carton_id")
+    public CartonLabel getLabelCartonId() {
+        return labelCartonId;
+    }
+
+    public void setLabelCartonId(CartonLabel labelCartonId) {
+        this.labelCartonId = labelCartonId;
+    }  
+    
+    @Size(min = 0, max = 50)
+    @Column(name = "label_outer_custom", length = 50)
+    public String getLabelOuterCustom() {
+        return labelOuterCustom;
+    }
+
+    public void setLabelOuterCustom(String labelOuterCustom) {
+        this.labelOuterCustom = labelOuterCustom;
+    }
+
+    
+    @Size(min = 0, max = 50)
+    @Column(name = "label_carton_custom", length = 50)
+    public String getLabelCartonCustom() {
+        return labelCartonCustom;
+    }
+
+    public void setLabelCartonCustom(String labelCartonCustom) {
+        this.labelCartonCustom = labelCartonCustom;
+    }
+    
+    @Size(min = 0, max = 50)
+    @Column(name = "label_bigCarton", length = 50)
+    public String getLabelBigCarton() {
+        return labelBigCarton;
+    }
+
+    public void setLabelBigCarton(String labelBigCarton) {
+        this.labelBigCarton = labelBigCarton;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_2D", length = 50)
+    public String getLabel2D() {
+        return label2D;
+    }
+
+    public void setLabel2D(String label2D) {
+        this.label2D = label2D;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_customer_sn", length = 50)
+    public String getLabelCustomerSn() {
+        return labelCustomerSn;
+    }
+
+    public void setLabelCustomerSn(String labelCustomerSn) {
+        this.labelCustomerSn = labelCustomerSn;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_sn", length = 50)
+    public String getLabelSn() {
+        return labelSn;
+    }
+
+    public void setLabelSn(String labelSn) {
+        this.labelSn = labelSn;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_pn", length = 50)
+    public String getLabelPn() {
+        return labelPn;
+    }
+
+    public void setLabelPn(String labelPn) {
+        this.labelPn = labelPn;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_n_model_a", length = 50)
+    public String getLabelNmodelA() {
+        return labelNmodelA;
+    }
+
+    public void setLabelNmodelA(String labelNmodelA) {
+        this.labelNmodelA = labelNmodelA;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_n_model_b", length = 50)
+    public String getLabelNmodelB() {
+        return labelNmodelB;
+    }
+
+    public void setLabelNmodelB(String labelNmodelB) {
+        this.labelNmodelB = labelNmodelB;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_1", length = 50)
+    public String getLabelVariable1() {
+        return labelVariable1;
+    }
+
+    public void setLabelVariable1(String labelVariable1) {
+        this.labelVariable1 = labelVariable1;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_2", length = 50)
+    public String getLabelVariable2() {
+        return labelVariable2;
+    }
+
+    public void setLabelVariable2(String labelVariable2) {
+        this.labelVariable2 = labelVariable2;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_3", length = 50)
+    public String getLabelVariable3() {
+        return labelVariable3;
+    }
+
+    public void setLabelVariable3(String labelVariable3) {
+        this.labelVariable3 = labelVariable3;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_4", length = 50)
+    public String getLabelVariable4() {
+        return labelVariable4;
+    }
+
+    public void setLabelVariable4(String labelVariable4) {
+        this.labelVariable4 = labelVariable4;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_5", length = 50)
+    public String getLabelVariable5() {
+        return labelVariable5;
+    }
+
+    public void setLabelVariable5(String labelVariable5) {
+        this.labelVariable5 = labelVariable5;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_6", length = 50)
+    public String getLabelVariable6() {
+        return labelVariable6;
+    }
+
+    public void setLabelVariable6(String labelVariable6) {
+        this.labelVariable6 = labelVariable6;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_7", length = 50)
+    public String getLabelVariable7() {
+        return labelVariable7;
+    }
+
+    public void setLabelVariable7(String labelVariable7) {
+        this.labelVariable7 = labelVariable7;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_8", length = 50)
+    public String getLabelVariable8() {
+        return labelVariable8;
+    }
+
+    public void setLabelVariable8(String labelVariable8) {
+        this.labelVariable8 = labelVariable8;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_9", length = 50)
+    public String getLabelVariable9() {
+        return labelVariable9;
+    }
+
+    public void setLabelVariable9(String labelVariable9) {
+        this.labelVariable9 = labelVariable9;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_10", length = 50)
+    public String getLabelVariable10() {
+        return labelVariable10;
+    }
+
+    public void setLabelVariable10(String labelVariable10) {
+        this.labelVariable10 = labelVariable10;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_1_aff", length = 50)
+    public String getLabelVariable1Aff() {
+        return labelVariable1Aff;
+    }
+
+    public void setLabelVariable1Aff(String labelVariable1Aff) {
+        this.labelVariable1Aff = labelVariable1Aff;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_2_aff", length = 50)
+    public String getLabelVariable2Aff() {
+        return labelVariable2Aff;
+    }
+
+    public void setLabelVariable2Aff(String labelVariable2Aff) {
+        this.labelVariable2Aff = labelVariable2Aff;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_3_aff", length = 50)
+    public String getLabelVariable3Aff() {
+        return labelVariable3Aff;
+    }
+
+    public void setLabelVariable3Aff(String labelVariable3Aff) {
+        this.labelVariable3Aff = labelVariable3Aff;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_4_aff", length = 50)
+    public String getLabelVariable4Aff() {
+        return labelVariable4Aff;
+    }
+
+    public void setLabelVariable4Aff(String labelVariable4Aff) {
+        this.labelVariable4Aff = labelVariable4Aff;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_5_aff", length = 50)
+    public String getLabelVariable5Aff() {
+        return labelVariable5Aff;
+    }
+
+    public void setLabelVariable5Aff(String labelVariable5Aff) {
+        this.labelVariable5Aff = labelVariable5Aff;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_6_aff", length = 50)
+    public String getLabelVariable6Aff() {
+        return labelVariable6Aff;
+    }
+
+    public void setLabelVariable6Aff(String labelVariable6Aff) {
+        this.labelVariable6Aff = labelVariable6Aff;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_7_aff", length = 50)
+    public String getLabelVariable7Aff() {
+        return labelVariable7Aff;
+    }
+
+    public void setLabelVariable7Aff(String labelVariable7Aff) {
+        this.labelVariable7Aff = labelVariable7Aff;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_8_aff", length = 50)
+    public String getLabelVariable8Aff() {
+        return labelVariable8Aff;
+    }
+
+    public void setLabelVariable8Aff(String labelVariable8Aff) {
+        this.labelVariable8Aff = labelVariable8Aff;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_9_aff", length = 50)
+    public String getLabelVariable9Aff() {
+        return labelVariable9Aff;
+    }
+
+    public void setLabelVariable9Aff(String labelVariable9Aff) {
+        this.labelVariable9Aff = labelVariable9Aff;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_variable_10_aff", length = 50)
+    public String getLabelVariable10Aff() {
+        return labelVariable10Aff;
+    }
+
+    public void setLabelVariable10Aff(String labelVariable10Aff) {
+        this.labelVariable10Aff = labelVariable10Aff;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_packing_1", length = 50)
+    public String getLabelPacking1() {
+        return labelPacking1;
+    }
+
+    public void setLabelPacking1(String labelPacking1) {
+        this.labelPacking1 = labelPacking1;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_packing_2", length = 50)
+    public String getLabelPacking2() {
+        return labelPacking2;
+    }
+
+    public void setLabelPacking2(String labelPacking2) {
+        this.labelPacking2 = labelPacking2;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_packing_3", length = 50)
+    public String getLabelPacking3() {
+        return labelPacking3;
+    }
+
+    public void setLabelPacking3(String labelPacking3) {
+        this.labelPacking3 = labelPacking3;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_packing_4", length = 50)
+    public String getLabelPacking4() {
+        return labelPacking4;
+    }
+
+    public void setLabelPacking4(String labelPacking4) {
+        this.labelPacking4 = labelPacking4;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_packing_5", length = 50)
+    public String getLabelPacking5() {
+        return labelPacking5;
+    }
+
+    public void setLabelPacking5(String labelPacking5) {
+        this.labelPacking5 = labelPacking5;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_packing_6", length = 50)
+    public String getLabelPacking6() {
+        return labelPacking6;
+    }
+
+    public void setLabelPacking6(String labelPacking6) {
+        this.labelPacking6 = labelPacking6;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_packing_7", length = 50)
+    public String getLabelPacking7() {
+        return labelPacking7;
+    }
+
+    public void setLabelPacking7(String labelPacking7) {
+        this.labelPacking7 = labelPacking7;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_packing_8", length = 50)
+    public String getLabelPacking8() {
+        return labelPacking8;
+    }
+
+    public void setLabelPacking8(String labelPacking8) {
+        this.labelPacking8 = labelPacking8;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_packing_9", length = 50)
+    public String getLabelPacking9() {
+        return labelPacking9;
+    }
+
+    public void setLabelPacking9(String labelPacking9) {
+        this.labelPacking9 = labelPacking9;
+    }
+
+    @Size(min = 0, max = 50)
+    @Column(name = "label_packing_10", length = 50)
+    public String getLabelPacking10() {
+        return labelPacking10;
+    }
+
+    public void setLabelPacking10(String labelPacking10) {
+        this.labelPacking10 = labelPacking10;
     }
 
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)

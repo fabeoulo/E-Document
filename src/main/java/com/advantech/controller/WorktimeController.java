@@ -121,7 +121,10 @@ public class WorktimeController extends CrudController<Worktime> {
         //Check reasonCode user input is valid
         validator.checkReasonCode(worktime);
 
+        resetEmptyCustomLabel(worktime);
+        
         resetNullableColumn(worktime);
+        
 
         modifyMessage = worktimeService.mergeWithMesUpload(worktime) == 1 ? this.SUCCESS_MESSAGE : FAIL_MESSAGE;
 
@@ -168,11 +171,22 @@ public class WorktimeController extends CrudController<Worktime> {
         if (worktime.getUserByEeOwnerId().getId() == 0) {
             worktime.setUserByEeOwnerId(null);
         }
+        
         if (worktime.getUserByMpmOwnerId().getId() == 0) {
             worktime.setUserByMpmOwnerId(null);
         }
-
+    }    
+    
+     public void resetEmptyCustomLabel(Worktime w) {    
+        if(w.getLabelCartonId().getId() != 1 ) {
+            w.setLabelCartonCustom("");
+        }
+        
+        if(w.getLabelOuterId().getId() != 1 ) {
+            w.setLabelOuterCustom("");
+        }
     }
+   
 
     private void removeModelNameExtraSpaceCharacter(Worktime w) {
         String modelName = w.getModelName();

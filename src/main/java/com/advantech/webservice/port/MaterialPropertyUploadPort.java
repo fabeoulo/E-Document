@@ -11,6 +11,8 @@ import com.advantech.model.User;
 import com.advantech.model.Worktime;
 import com.advantech.model.WorktimeMaterialPropertyUploadSetting;
 import com.advantech.service.FlowService;
+import com.advantech.service.OutLabelService;
+import com.advantech.service.CartonLabelService;
 import com.advantech.service.PendingService;
 import com.advantech.service.WorktimeMaterialPropertyUploadSettingService;
 import com.advantech.webservice.root.MaterialPropertyBatchUploadRoot;
@@ -58,6 +60,12 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
 
     @Autowired
     private PendingService pendingService;
+
+    @Autowired
+    private OutLabelService outlabelService;
+
+    @Autowired
+    private CartonLabelService cartonlabelService;
 
     @Autowired
     private FlowService flowService;
@@ -135,6 +143,8 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
         checkArgument(!settings.isEmpty(), "Can't find any upload setting in WorktimeMaterialPropertyUploadSetting table");
 
         w.setPending(pendingService.findByPrimaryKey(w.getPending().getId()));
+        w.setLabelOuterId(outlabelService.findByPrimaryKey(w.getLabelOuterId().getId()));
+        w.setLabelCartonId(cartonlabelService.findByPrimaryKey(w.getLabelCartonId().getId()));
 
         Set<String> localMatPropNo = settings.stream()
                 .map(WorktimeMaterialPropertyUploadSetting::getMatPropNo)
@@ -174,10 +184,13 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
                 }
 
                 //不等於null只蓋掉其value，剩下保留
-                mp.setValue(mainValue);
-                mp.setAffPropertyValue(secondValue);
-                propSettingInLocal.add(mp);
-
+                if(!mainValue.isEmpty())
+                {
+                    mp.setValue(mainValue);
+                    mp.setAffPropertyValue(secondValue);
+                    propSettingInLocal.add(mp);
+                }
+                
                 if (isUserUpdated) {
                     updatedMatProps.add(mp);
                 }

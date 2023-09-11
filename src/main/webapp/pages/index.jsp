@@ -219,6 +219,12 @@
                                             <li>
                                                 <a class="redirect-link" href="mod/cobot.jsp">Cobot</a>
                                             </li>
+                                             <li>
+                                                <a class="redirect-link" href="mod/outlabel.jsp">OutLabel</a>
+                                            </li>
+                                             <li>
+                                                <a class="redirect-link" href="mod/cartonlabel.jsp">CartonLabel</a>
+                                            </li>
                                             <li>
                                                 <a class="redirect-link" href="mod/batchUpdate.jsp">大表批次更新</a>
                                             </li>

@@ -17,6 +17,8 @@ import com.advantech.model.Unit;
 import com.advantech.model.User;
 import com.advantech.model.UserNotification;
 import com.advantech.model.UserProfile;
+import com.advantech.model.OutLabel;
+import com.advantech.model.CartonLabel;
 import com.advantech.service.BusinessGroupService;
 import com.advantech.service.CobotService;
 import com.advantech.service.FloorService;
@@ -29,6 +31,8 @@ import com.advantech.service.TypeService;
 import com.advantech.service.UnitService;
 import com.advantech.service.UserNotificationService;
 import com.advantech.service.UserProfileService;
+import com.advantech.service.OutLabelService;
+import com.advantech.service.CartonLabelService;
 import com.advantech.webservice.port.StandardWorkReasonQueryPort;
 import com.advantech.webservice.unmarshallclass.StandardWorkReason;
 import java.util.List;
@@ -83,9 +87,27 @@ public class WorktimeSelectOptionController {
 
     @Autowired
     private StandardWorkReasonQueryPort standardWorkReasonQueryPort;
-    
+
     @Autowired
     private CobotService cobotService;
+
+    @Autowired
+    private OutLabelService outlabelService;
+
+    @Autowired
+    private CartonLabelService cartonlabelService;
+
+    @ResponseBody
+    @RequestMapping(value = "/outlabel", method = {RequestMethod.GET})
+    protected List<OutLabel> getOutlabelService() {
+        return outlabelService.findAll();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/cartonlabel", method = {RequestMethod.GET})
+    protected List<CartonLabel> getCartonlabelService() {
+        return cartonlabelService.findAll();
+    }
 
     @ResponseBody
     @RequestMapping(value = "/floor", method = {RequestMethod.GET})
@@ -151,6 +173,7 @@ public class WorktimeSelectOptionController {
         return pendingService.findAll();
     }
 
+
     @ResponseBody
     @RequestMapping(value = "/unit", method = {RequestMethod.GET})
     protected List<Unit> getUnitOption() {
@@ -188,7 +211,7 @@ public class WorktimeSelectOptionController {
             throw new Exception("Error while getting mod reason code select options");
         }
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/cobots", method = {RequestMethod.GET})
     protected List<Cobot> getCobotOption() throws Exception {

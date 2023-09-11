@@ -195,8 +195,45 @@ public class WorktimeUploadMesService {
                 || (current.getPartNoAttributeMaintain() != ' '
                 && !isEquals(prev.getPartNoAttributeMaintain(), current.getPartNoAttributeMaintain()))
                 || !isEquals(prev.getPartLink(), current.getPartLink())
-                || !isEquals(prev.getBurnInQuantity(), current.getBurnInQuantity());
-
+                || !isEquals(prev.getBurnInQuantity(), current.getBurnInQuantity())
+                || !isEquals(prev.getLabelMac(), current.getLabelMac())
+                || !isEquals(prev.getMacPrintedLocation(), current.getMacPrintedLocation())
+                || !isEquals(prev.getMacPrintedFrom(), current.getMacPrintedFrom())
+                || !isEquals(prev.getEtlVariable1(), current.getEtlVariable1())
+                || !isEquals(prev.getEtlVariable2(), current.getEtlVariable2())
+                || !isEquals(prev.getEtlVariable3(), current.getEtlVariable3())
+                || !isEquals(prev.getLabelYN(), current.getLabelYN())
+                || !isEquals(prev.getLabelOuterId(), current.getLabelOuterId())
+                || !isEquals(prev.getLabelOuterCustom(), current.getLabelOuterCustom())
+                || !isEquals(prev.getLabelCartonId(), current.getLabelCartonId())
+                || !isEquals(prev.getLabelCartonCustom(), current.getLabelCartonCustom())
+                || !isEquals(prev.getLabelBigCarton(), current.getLabelBigCarton())
+                || !isEquals(prev.getLabel2D(), current.getLabel2D())
+                || !isEquals(prev.getLabelCustomerSn(), current.getLabelCustomerSn())
+                || !isEquals(prev.getLabelSn(), current.getLabelSn())
+                || !isEquals(prev.getLabelPn(), current.getLabelPn())
+                || !isEquals(prev.getLabelNmodelA(), current.getLabelNmodelA())
+                || !isEquals(prev.getLabelNmodelB(), current.getLabelNmodelB())
+                || !isEquals(prev.getLabelVariable1(), current.getLabelVariable1())
+                || !isEquals(prev.getLabelVariable2(), current.getLabelVariable2())
+                || !isEquals(prev.getLabelVariable3(), current.getLabelVariable3())
+                || !isEquals(prev.getLabelVariable4(), current.getLabelVariable4())
+                || !isEquals(prev.getLabelVariable5(), current.getLabelVariable5())
+                || !isEquals(prev.getLabelVariable6(), current.getLabelVariable6())
+                || !isEquals(prev.getLabelVariable7(), current.getLabelVariable7())
+                || !isEquals(prev.getLabelVariable8(), current.getLabelVariable8())
+                || !isEquals(prev.getLabelVariable9(), current.getLabelVariable9())
+                || !isEquals(prev.getLabelVariable10(), current.getLabelVariable10())
+                || !isEquals(prev.getLabelPacking1(), current.getLabelPacking1())
+                || !isEquals(prev.getLabelPacking2(), current.getLabelPacking2())
+                || !isEquals(prev.getLabelPacking3(), current.getLabelPacking3())
+                || !isEquals(prev.getLabelPacking4(), current.getLabelPacking4())
+                || !isEquals(prev.getLabelPacking5(), current.getLabelPacking5())
+                || !isEquals(prev.getLabelPacking6(), current.getLabelPacking6())
+                || !isEquals(prev.getLabelPacking7(), current.getLabelPacking7())
+                || !isEquals(prev.getLabelPacking8(), current.getLabelPacking8())
+                || !isEquals(prev.getLabelPacking9(), current.getLabelPacking9())
+                || !isEquals(prev.getLabelPacking10(), current.getLabelPacking10());
         return b;
     }
 
@@ -238,7 +275,7 @@ public class WorktimeUploadMesService {
                     throw new Exception("料號屬性值刪除至MES失敗<br />" + e.getMessage());
                 }
             }
-            
+
             if (isUploadTestIntegrity) {
                 try {
                     testIntegrityUploadPort.delete(w);
