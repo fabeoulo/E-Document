@@ -34,7 +34,10 @@
     #mod-reason select{
         width: 150px;
     }
-    
+    #fbox_list td select{
+        width: auto;
+        margin: 4px;
+    }
 
 
     .noselect {
@@ -47,6 +50,8 @@
                               supported by Chrome and Opera */
     }
 </style>
+<link href="<c:url value="/css/attribute-style.css" />" rel="stylesheet">
+<link href="<c:url value="/css/Input-Style.css" />" rel="stylesheet">
 
 <script src="<c:url value="/js/urlParamGetter.js" />"></script>
 <script src="<c:url value="/js/jqgrid-custom-select-option-reader.js" />"></script>
@@ -59,8 +64,6 @@
 <script src="<c:url value="/webjars/github-com-johnculviner-jquery-fileDownload/1.4.6/src/Scripts/jquery.fileDownload.js" />"></script>
 <script src="<c:url value="/js/worktime-setting/column-custom-callback.js" />"></script>
 <script src="<c:url value="/js/jquery.multi-select.js" />"></script>
-<link href="<c:url value="/css/attribute-style.css" />" rel="stylesheet">
-<link href="<c:url value="/css/Input-Style.css" />" rel="stylesheet">
 <script src="<c:url value="/js/selectBar.js" />"></script>
 
 <script>
@@ -142,7 +145,7 @@
                 return " class='hide-emptyName-flow noselect'";
             }
         };
-        
+
 
         var checkRevision = function (form) {
             selected_row_revision = getRowRevision();
@@ -230,6 +233,34 @@
                 }
             }
         ];
+
+        var labelOuter_change_event = [
+            {
+                type: 'change',
+                fn: function (e) {
+                    if (this.value == 1) {
+                        $('#tr_labelOuterCustom').removeClass("ui-state-disabled hidden");
+                    } else {
+                        $('#tr_labelOuterCustom').addClass("ui-state-disabled hidden");
+                        $('#labelOuterCustom').value = "";
+                    }
+                }
+            }
+        ];
+        var labelCarton_change_event = [
+            {
+                type: 'change',
+                fn: function (e) {
+                    if (this.value == 1) {
+                        $('#tr_labelCartonCustom').removeClass("ui-state-disabled hidden");
+                    } else {
+                        $('#tr_labelCartonCustom').addClass("ui-state-disabled hidden");
+                        $('#labelCartonCustom').value = "";
+                    }
+                }
+            }
+        ];
+
         //Jqgrid initialize.
         grid.jqGrid({
             url: '<c:url value="/Worktime/read" />',
@@ -267,7 +298,7 @@
                 {label: 'BI Sampling', name: "biSampling", edittype: "select", editoptions: {value: "N:N;Y:Y", dataEvents: biSample_change_event}, width: 100, searchrules: {required: true}, searchoptions: search_string_options, formoptions: {elmsuffix: "<b class='danger'>抽燒選Y</b>"}},
                 {label: 'BurnIn', name: "burnIn", edittype: "select", editoptions: {value: "N:N;BI:BI;RI:RI", dataEvents: burnIn_select_event}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: 'B/I Time', name: "biTime", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
-                {label: 'BI_Temperature', name: "biTemperature", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},         
+                {label: 'BI_Temperature', name: "biTemperature", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
                 {label: 'Work Center', name: "workCenter", width: 100, searchrules: {required: true}, searchoptions: search_string_options, editrules: {required: false}},
                 {label: 'SapWT', name: "sapWt", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'ProductionWT', name: "productionWt", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("productionWt")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
@@ -277,8 +308,8 @@
                 {label: 'BPE Owner', name: "userByEeOwnerId.id", edittype: "select", editoptions: {value: selectOptions["ee_user"]}, formatter: selectOptions["ee_user_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["ee_user"], sopt: ['eq']}},
                 {label: 'QC Owner', name: "userByQcOwnerId.id", edittype: "select", editoptions: {value: selectOptions["qc_user"]}, formatter: selectOptions["qc_user_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["qc_user"], sopt: ['eq']}},
                 {label: 'MPM Owner', name: "userByMpmOwnerId.id", edittype: "select", editoptions: {value: selectOptions["mpm_user"]}, formatter: selectOptions["mpm_user_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["mpm_user"], sopt: ['eq']}},
-               // {label: '組包SOP', name: "assyPackingSop", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "textarea", editoptions: {maxlength: 500}},
-               // {label: '測試SOP', name: "testSop", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "textarea", editoptions: {maxlength: 500}, formoptions: {elmsuffix: "<b class='danger'>M-07-TT0986 測試通則SOP</b>"}},
+                // {label: '組包SOP', name: "assyPackingSop", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "textarea", editoptions: {maxlength: 500}},
+                // {label: '測試SOP', name: "testSop", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "textarea", editoptions: {maxlength: 500}, formoptions: {elmsuffix: "<b class='danger'>M-07-TT0986 測試通則SOP</b>"}},
                 {label: 'KEYPART_A', name: "keypartA", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'KEYPART_B', name: "keypartB", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T1狀態數', name: "t1StatusQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
@@ -307,11 +338,11 @@
                 {label: 'KC', name: "kc", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
                 {label: 'N合1集合箱', name: "nsInOneCollectionBox", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0', dataEvents: nsInOneCollectionBox_change_event}},
                 {label: 'SN是否等於SSN', name: "partNoAttributeMaintain", edittype: "select", editoptions: {value: "N:N; :empty", defaultValue: ' '}, width: 120, searchrules: {required: true}, searchoptions: search_string_options},
-                {label: '標籤信息是否啟用料號屬性定義', name: "labelYN",edittype: "select",editoptions: {value: "Y:Y;N:N", defaultValue: 'Y'} ,width: 100, searchrules: {required: true}, searchoptions: search_string_options},       
-                {label: 'OuterLable標準套版選單', name: "labelOuterId.id", edittype: "select", editoptions: {value: selectOptions["outlabel"],dataEvents:[{ type: 'change', fn: function(e){if(this.value == 1){$('#tr_labelOuterCustom').removeClass("ui-state-disabled hidden");}else{$('#tr_labelOuterCustom').addClass("ui-state-disabled hidden"); $('#labelOuterCustom').value = "";} }}]}, width: 100, formatter: selectOptions["outlabel_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["outlabel"], sopt: ['eq']}},
-                {label: 'OuterLable標籤名稱定義', name: "labelOuterCustom", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},                       
-                {label: 'CartonLable標準套版選單', name: "labelCartonId.id", edittype: "select", editoptions: {value: selectOptions["cartonlabel"],dataEvents:[{ type: 'change', fn: function(e){if(this.value == 1){$('#tr_labelCartonCustom').removeClass("ui-state-disabled hidden");}else{$('#tr_labelCartonCustom').addClass("ui-state-disabled hidden"); $('#labelCartonCustom').value = "";} }}]}, width: 100, formatter: selectOptions["cartonlabel_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["cartonlabel"], sopt: ['eq']}},
-                {label: 'CartonLable標籤名稱定義', name: "labelCartonCustom", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},               
+                {label: '標籤信息是否啟用料號屬性定義', name: "labelYN", edittype: "select", editoptions: {value: "Y:Y;N:N", defaultValue: 'Y'}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
+                {label: 'OuterLable標準套版選單', name: "labelOuterId.id", width: 100, edittype: "select", editoptions: {value: selectOptions["outlabel"], dataEvents: labelOuter_change_event}, formatter: selectOptions["outlabel_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["outlabel"], sopt: ['eq']}},
+                {label: 'OuterLable標籤名稱定義', name: "labelOuterCustom", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'CartonLable標準套版選單', name: "labelCartonId.id", width: 100, edittype: "select", editoptions: {value: selectOptions["cartonlabel"], dataEvents: labelCarton_change_event}, formatter: selectOptions["cartonlabel_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["cartonlabel"], sopt: ['eq']}},
+                {label: 'CartonLable標籤名稱定義', name: "labelCartonCustom", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'BigCartonLable標籤名稱定義', name: "labelBigCarton", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '2D-標籤變量名稱', name: "label2D", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '客戶序號標籤名稱定義', name: "labelCustomerSn", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
@@ -347,8 +378,8 @@
                 {label: '標籤變量名稱8(附加屬性質)', name: "labelVariable8Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱9', name: "labelVariable9", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱9(附加屬性質)', name: "labelVariable9Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: '標籤變量名稱10', name: "labelVariable10", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},   
-                {label: '標籤變量名稱10(附加屬性質)', name: "labelVariable10Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},             
+                {label: '標籤變量名稱10', name: "labelVariable10", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱10(附加屬性質)', name: "labelVariable10Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'Test Profile', name: "testProfile", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;M5:M5;601:601;B-B:B-B;EKI9528:EKI9528;EKI9516:EKI9516", defaultValue: "0", dataEvents: testProfile_select_event}},
                 {label: 'ACW Voltage', name: "acwVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
                 {label: 'IR Voltage', name: "irVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
@@ -429,7 +460,7 @@
             groupHeaders: [
                 {startColumnName: 'macTotalQty', numberOfColumns: 11, titleText: '<em>MAC</em>'},
                 {startColumnName: 'ce', numberOfColumns: 8, titleText: '<em>外箱Label產品資訊 (1：要印   0：不印)</em>'},
-                {startColumnName: 'partNoAttributeMaintain', numberOfColumns: 36, titleText: '<em>料號屬性值維護</em>'},
+                {startColumnName: 'partNoAttributeMaintain', numberOfColumns: 38, titleText: '<em>料號屬性值維護</em>'},
                 {startColumnName: 'assyLeadTime', numberOfColumns: 2, titleText: '<em>組裝看板工時</em>'},
                 {startColumnName: 'packingLeadTime', numberOfColumns: 2, titleText: '<em>包裝看板工時</em>'},
                 {startColumnName: 'testProfile', numberOfColumns: 5, titleText: '<em>hi-pot Test</em>'},
@@ -691,7 +722,7 @@
         }
 
         function addFormulaCheckbox(fieldName) {
-            var str = "<br><input type='checkbox' id='f_" +
+            var str = "<input type='checkbox' id='f_" +
                     fieldName + "' name='f_" + fieldName +
                     "' class='ui-checkbox' checked/><label for='f_" + fieldName + "'>套入公式</label>";
             return str;
@@ -708,8 +739,7 @@
         }
 
         function getSelectedRowId() {
-            var s = grid.jqGrid('getGridParam', 'selrow');
-            return s;
+            return grid.jqGrid('getGridParam', 'selrow');
         }
 
         function settingFormulaCheckbox() {
@@ -874,21 +904,21 @@
                 }
             }
         }
-        ;
         String.prototype.splice = function (start, newStr) {
             return this.slice(0, start) + newStr + this.slice(start);
         };
-        
-         function checkLabelisEmpty() {
-            if($('#labelOuterid\\.id').val() != '1'){
-                $('#tr_labelOuterCustom').addClass("ui-state-disabled hidden"); 
+
+        function checkLabelisEmpty() {
+            if ($('#labelOuterId\\.id').val() != '1') {
+                $('#tr_labelOuterCustom').addClass("ui-state-disabled hidden");
             }
-            
-             if($('#labelCartonid\\.id').val() != '1'){
+
+            if ($('#labelCartonId\\.id').val() != '1') {
                 $('#tr_labelCartonCustom').addClass("ui-state-disabled hidden");
-             }
-        };
-        
+            }
+        }
+        ;
+
         function addModReasonTextarea() {
             var html = "<div><label>工時修改原因描述: </label><textarea id='standardWorkReason'></textarea></div>";
             $(html).prependTo("#mod-reason");

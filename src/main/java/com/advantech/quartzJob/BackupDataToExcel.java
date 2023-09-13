@@ -30,11 +30,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Wei.Cheng
  */
+@Component
 public class BackupDataToExcel {
 
     private static final Logger log = LoggerFactory.getLogger(BackupDataToExcel.class);

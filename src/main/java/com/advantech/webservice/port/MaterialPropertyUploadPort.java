@@ -143,8 +143,8 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
         checkArgument(!settings.isEmpty(), "Can't find any upload setting in WorktimeMaterialPropertyUploadSetting table");
 
         w.setPending(pendingService.findByPrimaryKey(w.getPending().getId()));
-        w.setLabelOuterId(outlabelService.findByPrimaryKey(w.getLabelOuterId().getId()));
-        w.setLabelCartonId(cartonlabelService.findByPrimaryKey(w.getLabelCartonId().getId()));
+//        w.setLabelOuterId(outlabelService.findByPrimaryKey(w.getLabelOuterId().getId()));
+//        w.setLabelCartonId(cartonlabelService.findByPrimaryKey(w.getLabelCartonId().getId()));
 
         Set<String> localMatPropNo = settings.stream()
                 .map(WorktimeMaterialPropertyUploadSetting::getMatPropNo)
@@ -183,13 +183,13 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
                     isUserUpdated = true;
                 }
 
-                //不等於null只蓋掉其value，剩下保留
-                if(!mainValue.isEmpty())
-                {
+                ////不等於null只蓋掉其value，剩下保留
+//                if(!mainValue.isEmpty())
+//                {
                     mp.setValue(mainValue);
                     mp.setAffPropertyValue(secondValue);
                     propSettingInLocal.add(mp);
-                }
+//                }
                 
                 if (isUserUpdated) {
                     updatedMatProps.add(mp);

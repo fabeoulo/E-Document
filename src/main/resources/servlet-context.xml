@@ -56,9 +56,9 @@
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
         <property name="connectionTestQuery" value="SELECT 1" />
         <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
-        <property name="jdbcUrl" value="jdbc:jtds:sqlserver://172.19.10.210/E_Document" />
-        <property name="username" value="eric" />
-        <property name="password" value="Asdf9896545" />
+        <property name="jdbcUrl" value="jdbc:jtds:sqlserver://172.20.131.241/E_Document" />
+        <property name="username" value="waychien" />
+        <property name="password" value="m3server" />
     </bean>
     
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" destroy-method="destroy"> 
