@@ -1,4 +1,5 @@
 package com.advantech.model;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -20,14 +21,14 @@ import org.apache.commons.lang3.ObjectUtils;
  */
 @Entity
 @Table(name = "CartonLabel",
-                uniqueConstraints = @UniqueConstraint(columnNames = "name")
+        uniqueConstraints = @UniqueConstraint(columnNames = "name")
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class CartonLabel implements java.io.Serializable, Comparable<CartonLabel> {
 
     private int id;
     private String name;
-    
+
     @JsonIgnore
     private Set<Worktime> worktimes = new HashSet<Worktime>(0);
 
@@ -37,7 +38,7 @@ public class CartonLabel implements java.io.Serializable, Comparable<CartonLabel
     public CartonLabel(int id) {
         this.id = id;
     }
-    
+
     public CartonLabel(int id, String name, Set<Worktime> worktimes) {
         this.id = id;
         this.name = name;

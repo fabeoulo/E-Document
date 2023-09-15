@@ -164,6 +164,7 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
             //省去找MaterialPropertyValue的時間
             String mainValue = getValueFromFormula(w, setting.getFormula());
             String secondValue = getValueFromFormula(w, setting.getAffFormula());
+            mainValue = (mainValue != null) ? mainValue : "";
             secondValue = (secondValue != null) ? secondValue : "";
 
             if (!Objects.equals(mainValue, setting.getDefaultValue()) || (Objects.equals(mainValue, setting.getDefaultValue()) && setting.getUploadWhenDefault() == 1)) {
@@ -184,13 +185,10 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
                 }
 
                 //不等於null只蓋掉其value，剩下保留
-                if(!mainValue.isEmpty())
-                {
-                    mp.setValue(mainValue);
-                    mp.setAffPropertyValue(secondValue);
-                    propSettingInLocal.add(mp);
-                }
-                
+                mp.setValue(mainValue);
+                mp.setAffPropertyValue(secondValue);
+                propSettingInLocal.add(mp);
+
                 if (isUserUpdated) {
                     updatedMatProps.add(mp);
                 }

@@ -6,6 +6,7 @@
 package com.advantech.test;
 
 import com.advantech.helper.HibernateObjectPrinter;
+import com.advantech.quartzJob.BackupDataToExcel;
 import com.advantech.quartzJob.StandardTimeUpload;
 import com.advantech.quartzJob.SyncEmployeeZoneUser;
 import com.advantech.quartzJob.WorktimeEventLog1;
@@ -36,34 +37,43 @@ public class QuartzJobTest {
     @Autowired
     @Qualifier("standardTimeUpload")
     private StandardTimeUpload job2;
-    
+
     @Autowired
     @Qualifier("worktimeFieldValueRetrieve")
     private WorktimeFieldValueRetrieve job3;
-    
+
     @Autowired
     @Qualifier("syncEmployeeZoneUser")
     private SyncEmployeeZoneUser job4;
+
+    @Autowired
+    @Qualifier("backupDataToExcel")
+    private BackupDataToExcel job5;
+
+//    @Test
+    public void testBackupDataToExcel() throws Exception {
+        job5.backupToDisk();
+    }
 
 //    @Test
     public void testWorktimeEventLog() {
         job1.execute();
     }
 
-    @Test
+//    @Test
     public void testStandardTimeUpload() {
 
         job2.uploadToMes();
 //        HibernateObjectPrinter.print(job2.getMailByNotification("worktime_ie_alarm"));
     }
-    
-    @Test
+
+//    @Test
     public void testWorktimeFieldValueRetrieve() {
 
         HibernateObjectPrinter.print(job3.getMailByNotification("worktime_ie_alarm"));
     }
-    
-    @Test
+
+//    @Test
     public void testSyncEmployeeZoneUser() {
         job4.execute();
     }

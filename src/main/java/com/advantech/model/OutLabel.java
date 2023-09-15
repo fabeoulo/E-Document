@@ -22,14 +22,14 @@ import org.apache.commons.lang3.ObjectUtils;
  */
 @Entity
 @Table(name = "OutLabel",
-                uniqueConstraints = @UniqueConstraint(columnNames = "name")
+        uniqueConstraints = @UniqueConstraint(columnNames = "name")
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class OutLabel implements java.io.Serializable, Comparable<OutLabel> {
 
     private int id;
     private String name;
-    
+
     @JsonIgnore
     private Set<Worktime> worktimes = new HashSet<Worktime>(0);
 
@@ -39,22 +39,13 @@ public class OutLabel implements java.io.Serializable, Comparable<OutLabel> {
     public OutLabel(int id) {
         this.id = id;
     }
-    
+
     public OutLabel(int id, String name, Set<Worktime> worktimes) {
         this.id = id;
         this.name = name;
         this.worktimes = worktimes;
     }
 
-    @Column(name = "name", length = 50)
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
@@ -65,8 +56,16 @@ public class OutLabel implements java.io.Serializable, Comparable<OutLabel> {
     public void setId(int id) {
         this.id = id;
     }
-       
-    
+
+    @Column(name = "name", length = 50)
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "labelOuterId")
     public Set<Worktime> getWorktimes() {
         return this.worktimes;

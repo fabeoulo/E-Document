@@ -136,7 +136,7 @@ public class UploadPortTest {
         assertTrue(isUploadMatProp);
     }
 
-    @Test//245
+//    @Test//245
     @Rollback(true)
     public void testStandardtimeUpload() throws Exception {
         List<Worktime> l = worktimeService.findWithFlowRelationAndCobot(16642);
@@ -214,7 +214,7 @@ public class UploadPortTest {
 //        }
 //    }
     //暫時用
-    @Test
+//    @Test
     public void testStandardtimeUpload2() throws Exception {
         PageInfo info = new PageInfo();
         info.setSearchField("modifiedDate");
@@ -256,12 +256,13 @@ public class UploadPortTest {
 
     @Test//245
     @Rollback(true)
-    public void testMaterialPropertyUploadPort() throws Exception {
-
+    public void testMaterialPropertyUploadPort() throws Exception {        
+        Worktime w = worktimeService.findByModel("ARS-2510T3-T40A1E");
+        
         List<Worktime> l = worktimeService.findWithFlowRelation();
-//        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(3, 43);
-//        assertEquals(2, settings.size());
-        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findAll();
+        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(48,67);
+        assertEquals(2, settings.size());
+//        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findAll();
         materialPropertyUploadPort.initSettings(settings);
         materialPropertyUploadPort.update(w);
 

@@ -177,7 +177,7 @@ public class WorktimeController extends CrudController<Worktime> {
         }
     }    
     
-     public void resetEmptyCustomLabel(Worktime w) {    
+     private void resetEmptyCustomLabel(Worktime w) {    
         if(w.getLabelCartonId().getId() != 1 ) {
             w.setLabelCartonCustom("");
         }

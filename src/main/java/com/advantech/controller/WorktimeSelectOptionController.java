@@ -99,13 +99,13 @@ public class WorktimeSelectOptionController {
 
     @ResponseBody
     @RequestMapping(value = "/outlabel", method = {RequestMethod.GET})
-    protected List<OutLabel> getOutlabelService() {
+    protected List<OutLabel> getOutLabelOption() {
         return outlabelService.findAll();
     }
 
     @ResponseBody
     @RequestMapping(value = "/cartonlabel", method = {RequestMethod.GET})
-    protected List<CartonLabel> getCartonlabelService() {
+    protected List<CartonLabel> getCartonLabelOption() {
         return cartonlabelService.findAll();
     }
 

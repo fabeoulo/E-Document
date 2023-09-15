@@ -354,13 +354,13 @@ public class Worktime implements java.io.Serializable {
 
     @JsonView(View.Public.class)
     private String labelOuterCustom;
-    
+
     @JsonView(View.Public.class)
     private CartonLabel labelCartonId;
-    
+
     @JsonView(View.Public.class)
     private String labelCartonCustom;
- 
+
     @JsonView(View.Public.class)
     private String labelBigCarton;
 
@@ -1297,8 +1297,8 @@ public class Worktime implements java.io.Serializable {
         this.worktimeModReason = worktimeModReason;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_mac", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_mac", length = 150)
     public String getLabelMac() {
         return labelMac;
     }
@@ -1337,8 +1337,8 @@ public class Worktime implements java.io.Serializable {
         this.macPrintedFrom = macPrintedFrom;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "etl_variable_1", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "etl_variable_1", length = 150)
     public String getEtlVariable1() {
         return etlVariable1;
     }
@@ -1347,8 +1347,8 @@ public class Worktime implements java.io.Serializable {
         this.etlVariable1 = etlVariable1;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "etl_variable_2", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "etl_variable_2", length = 150)
     public String getEtlVariable2() {
         return etlVariable2;
     }
@@ -1357,8 +1357,8 @@ public class Worktime implements java.io.Serializable {
         this.etlVariable2 = etlVariable2;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "etl_variable_3", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "etl_variable_3", length = 150)
     public String getEtlVariable3() {
         return etlVariable3;
     }
@@ -1367,8 +1367,8 @@ public class Worktime implements java.io.Serializable {
         this.etlVariable3 = etlVariable3;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "etl_variable_1_aff", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "etl_variable_1_aff", length = 150)
     public String getEtlVariable1Aff() {
         return etlVariable1Aff;
     }
@@ -1377,8 +1377,8 @@ public class Worktime implements java.io.Serializable {
         this.etlVariable1Aff = etlVariable1Aff;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "etl_variable_2_aff", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "etl_variable_2_aff", length = 150)
     public String getEtlVariable2Aff() {
         return etlVariable2Aff;
     }
@@ -1387,8 +1387,8 @@ public class Worktime implements java.io.Serializable {
         this.etlVariable2Aff = etlVariable2Aff;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "etl_variable_3_aff", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "etl_variable_3_aff", length = 150)
     public String getEtlVariable3Aff() {
         return etlVariable3Aff;
     }
@@ -1397,8 +1397,7 @@ public class Worktime implements java.io.Serializable {
         this.etlVariable3Aff = etlVariable3Aff;
     }
 
-    @NotNull
-    @Column(name = "label_yn",nullable = false)
+    @Column(name = "label_yn", nullable = true)
     public Character getLabelYN() {
         return labelYN;
     }
@@ -1406,7 +1405,7 @@ public class Worktime implements java.io.Serializable {
     public void setLabelYN(Character labelYN) {
         this.labelYN = labelYN;
     }
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "label_outer_id")
     public OutLabel getLabelOuterId() {
@@ -1425,10 +1424,10 @@ public class Worktime implements java.io.Serializable {
 
     public void setLabelCartonId(CartonLabel labelCartonId) {
         this.labelCartonId = labelCartonId;
-    }  
-    
-    @Size(min = 0, max = 50)
-    @Column(name = "label_outer_custom", length = 50)
+    }
+
+    @Size(min = 0, max = 150)
+    @Column(name = "label_outer_custom", length = 150)
     public String getLabelOuterCustom() {
         return labelOuterCustom;
     }
@@ -1437,9 +1436,8 @@ public class Worktime implements java.io.Serializable {
         this.labelOuterCustom = labelOuterCustom;
     }
 
-    
-    @Size(min = 0, max = 50)
-    @Column(name = "label_carton_custom", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_carton_custom", length = 150)
     public String getLabelCartonCustom() {
         return labelCartonCustom;
     }
@@ -1447,9 +1445,9 @@ public class Worktime implements java.io.Serializable {
     public void setLabelCartonCustom(String labelCartonCustom) {
         this.labelCartonCustom = labelCartonCustom;
     }
-    
-    @Size(min = 0, max = 50)
-    @Column(name = "label_bigCarton", length = 50)
+
+    @Size(min = 0, max = 150)
+    @Column(name = "label_bigCarton", length = 150)
     public String getLabelBigCarton() {
         return labelBigCarton;
     }
@@ -1458,8 +1456,8 @@ public class Worktime implements java.io.Serializable {
         this.labelBigCarton = labelBigCarton;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_2D", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_2D", length = 150)
     public String getLabel2D() {
         return label2D;
     }
@@ -1468,8 +1466,8 @@ public class Worktime implements java.io.Serializable {
         this.label2D = label2D;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_customer_sn", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_customer_sn", length = 150)
     public String getLabelCustomerSn() {
         return labelCustomerSn;
     }
@@ -1478,8 +1476,8 @@ public class Worktime implements java.io.Serializable {
         this.labelCustomerSn = labelCustomerSn;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_sn", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_sn", length = 150)
     public String getLabelSn() {
         return labelSn;
     }
@@ -1488,8 +1486,8 @@ public class Worktime implements java.io.Serializable {
         this.labelSn = labelSn;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_pn", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_pn", length = 150)
     public String getLabelPn() {
         return labelPn;
     }
@@ -1498,8 +1496,8 @@ public class Worktime implements java.io.Serializable {
         this.labelPn = labelPn;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_n_model_a", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_n_model_a", length = 150)
     public String getLabelNmodelA() {
         return labelNmodelA;
     }
@@ -1508,8 +1506,8 @@ public class Worktime implements java.io.Serializable {
         this.labelNmodelA = labelNmodelA;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_n_model_b", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_n_model_b", length = 150)
     public String getLabelNmodelB() {
         return labelNmodelB;
     }
@@ -1518,8 +1516,8 @@ public class Worktime implements java.io.Serializable {
         this.labelNmodelB = labelNmodelB;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_1", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_1", length = 150)
     public String getLabelVariable1() {
         return labelVariable1;
     }
@@ -1528,8 +1526,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable1 = labelVariable1;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_2", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_2", length = 150)
     public String getLabelVariable2() {
         return labelVariable2;
     }
@@ -1538,8 +1536,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable2 = labelVariable2;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_3", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_3", length = 150)
     public String getLabelVariable3() {
         return labelVariable3;
     }
@@ -1548,8 +1546,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable3 = labelVariable3;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_4", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_4", length = 150)
     public String getLabelVariable4() {
         return labelVariable4;
     }
@@ -1558,8 +1556,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable4 = labelVariable4;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_5", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_5", length = 150)
     public String getLabelVariable5() {
         return labelVariable5;
     }
@@ -1568,8 +1566,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable5 = labelVariable5;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_6", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_6", length = 150)
     public String getLabelVariable6() {
         return labelVariable6;
     }
@@ -1578,8 +1576,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable6 = labelVariable6;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_7", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_7", length = 150)
     public String getLabelVariable7() {
         return labelVariable7;
     }
@@ -1588,8 +1586,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable7 = labelVariable7;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_8", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_8", length = 150)
     public String getLabelVariable8() {
         return labelVariable8;
     }
@@ -1598,8 +1596,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable8 = labelVariable8;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_9", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_9", length = 150)
     public String getLabelVariable9() {
         return labelVariable9;
     }
@@ -1608,8 +1606,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable9 = labelVariable9;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_10", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_10", length = 150)
     public String getLabelVariable10() {
         return labelVariable10;
     }
@@ -1618,8 +1616,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable10 = labelVariable10;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_1_aff", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_1_aff", length = 150)
     public String getLabelVariable1Aff() {
         return labelVariable1Aff;
     }
@@ -1628,8 +1626,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable1Aff = labelVariable1Aff;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_2_aff", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_2_aff", length = 150)
     public String getLabelVariable2Aff() {
         return labelVariable2Aff;
     }
@@ -1638,8 +1636,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable2Aff = labelVariable2Aff;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_3_aff", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_3_aff", length = 150)
     public String getLabelVariable3Aff() {
         return labelVariable3Aff;
     }
@@ -1648,8 +1646,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable3Aff = labelVariable3Aff;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_4_aff", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_4_aff", length = 150)
     public String getLabelVariable4Aff() {
         return labelVariable4Aff;
     }
@@ -1658,8 +1656,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable4Aff = labelVariable4Aff;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_5_aff", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_5_aff", length = 150)
     public String getLabelVariable5Aff() {
         return labelVariable5Aff;
     }
@@ -1668,8 +1666,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable5Aff = labelVariable5Aff;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_6_aff", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_6_aff", length = 150)
     public String getLabelVariable6Aff() {
         return labelVariable6Aff;
     }
@@ -1678,8 +1676,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable6Aff = labelVariable6Aff;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_7_aff", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_7_aff", length = 150)
     public String getLabelVariable7Aff() {
         return labelVariable7Aff;
     }
@@ -1688,8 +1686,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable7Aff = labelVariable7Aff;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_8_aff", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_8_aff", length = 150)
     public String getLabelVariable8Aff() {
         return labelVariable8Aff;
     }
@@ -1698,8 +1696,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable8Aff = labelVariable8Aff;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_9_aff", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_9_aff", length = 150)
     public String getLabelVariable9Aff() {
         return labelVariable9Aff;
     }
@@ -1708,8 +1706,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable9Aff = labelVariable9Aff;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_variable_10_aff", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_10_aff", length = 150)
     public String getLabelVariable10Aff() {
         return labelVariable10Aff;
     }
@@ -1718,8 +1716,8 @@ public class Worktime implements java.io.Serializable {
         this.labelVariable10Aff = labelVariable10Aff;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_packing_1", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_1", length = 150)
     public String getLabelPacking1() {
         return labelPacking1;
     }
@@ -1728,8 +1726,8 @@ public class Worktime implements java.io.Serializable {
         this.labelPacking1 = labelPacking1;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_packing_2", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_2", length = 150)
     public String getLabelPacking2() {
         return labelPacking2;
     }
@@ -1738,8 +1736,8 @@ public class Worktime implements java.io.Serializable {
         this.labelPacking2 = labelPacking2;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_packing_3", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_3", length = 150)
     public String getLabelPacking3() {
         return labelPacking3;
     }
@@ -1748,8 +1746,8 @@ public class Worktime implements java.io.Serializable {
         this.labelPacking3 = labelPacking3;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_packing_4", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_4", length = 150)
     public String getLabelPacking4() {
         return labelPacking4;
     }
@@ -1758,8 +1756,8 @@ public class Worktime implements java.io.Serializable {
         this.labelPacking4 = labelPacking4;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_packing_5", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_5", length = 150)
     public String getLabelPacking5() {
         return labelPacking5;
     }
@@ -1768,8 +1766,8 @@ public class Worktime implements java.io.Serializable {
         this.labelPacking5 = labelPacking5;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_packing_6", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_6", length = 150)
     public String getLabelPacking6() {
         return labelPacking6;
     }
@@ -1778,8 +1776,8 @@ public class Worktime implements java.io.Serializable {
         this.labelPacking6 = labelPacking6;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_packing_7", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_7", length = 150)
     public String getLabelPacking7() {
         return labelPacking7;
     }
@@ -1788,8 +1786,8 @@ public class Worktime implements java.io.Serializable {
         this.labelPacking7 = labelPacking7;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_packing_8", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_8", length = 150)
     public String getLabelPacking8() {
         return labelPacking8;
     }
@@ -1798,8 +1796,8 @@ public class Worktime implements java.io.Serializable {
         this.labelPacking8 = labelPacking8;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_packing_9", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_9", length = 150)
     public String getLabelPacking9() {
         return labelPacking9;
     }
@@ -1808,8 +1806,8 @@ public class Worktime implements java.io.Serializable {
         this.labelPacking9 = labelPacking9;
     }
 
-    @Size(min = 0, max = 50)
-    @Column(name = "label_packing_10", length = 50)
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_10", length = 150)
     public String getLabelPacking10() {
         return labelPacking10;
     }

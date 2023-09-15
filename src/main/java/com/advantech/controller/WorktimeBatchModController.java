@@ -10,9 +10,11 @@ import com.advantech.excel.XlsWorkBook;
 import com.advantech.excel.XlsWorkSheet;
 import com.advantech.helper.WorktimeValidator;
 import com.advantech.model.BusinessGroup;
+import com.advantech.model.CartonLabel;
 import com.advantech.model.Cobot;
 import com.advantech.model.Floor;
 import com.advantech.model.Flow;
+import com.advantech.model.OutLabel;
 import com.advantech.model.Pending;
 import com.advantech.model.PreAssy;
 import com.advantech.model.Type;
@@ -20,9 +22,11 @@ import com.advantech.model.User;
 import com.advantech.model.Worktime;
 import com.advantech.service.WorktimeAuditService;
 import com.advantech.service.BusinessGroupService;
+import com.advantech.service.CartonLabelService;
 import com.advantech.service.CobotService;
 import com.advantech.service.FloorService;
 import com.advantech.service.FlowService;
+import com.advantech.service.OutLabelService;
 import com.advantech.service.PendingService;
 import com.advantech.service.PreAssyService;
 import com.advantech.service.TypeService;
@@ -90,6 +94,12 @@ public class WorktimeBatchModController {
 
     @Autowired
     private CobotService cobotService;
+
+    @Autowired
+    private OutLabelService outLabelService;
+
+    @Autowired
+    private CartonLabelService cartonLabelService;
 
     @Autowired
     private WorktimeAuditService auditService;
@@ -310,6 +320,8 @@ public class WorktimeBatchModController {
         Map<String, PreAssy> preAssyOptions = toSelectOptions(preAssyService.findAll());
         Map<String, BusinessGroup> businessGroupOptions = toSelectOptions(businessGroupService.findAll());
         Map<String, Cobot> cobotOptions = toSelectOptions(cobotService.findAll());
+        Map<String, OutLabel> outLabelOptions = toSelectOptions(outLabelService.findAll());
+        Map<String, CartonLabel> cartonLabelOptions = toSelectOptions(cartonLabelService.findAll());
 
         //設定關聯by name
         for (int i = 0; i < hgList.size(); i++) {
@@ -353,6 +365,11 @@ public class WorktimeBatchModController {
                 }
             }
             w.setCobots(c);
+            
+            String labelOuterName = sheet.getValue(i, "labelOuterName").toString();
+            String labelCartonName = sheet.getValue(i, "labelCartonName").toString();
+            w.setLabelOuterId(valid(labelOuterName, outLabelOptions.get(labelOuterName)));
+            w.setLabelCartonId(valid(labelCartonName, cartonLabelOptions.get(labelCartonName)));
         }
 
         return hgList;
