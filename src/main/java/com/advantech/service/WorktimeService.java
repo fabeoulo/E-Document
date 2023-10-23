@@ -167,6 +167,8 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
             cloneW.setWorktimeFormulaSettings(null);
             cloneW.setBwFields(null);
             cloneW.setCobots(null);
+            cloneW.setPreAssyModuleQty(0);
+            cloneW.setCobotManualWt(BigDecimal.ZERO);
 
             l.add(cloneW);
         }
@@ -306,6 +308,9 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
             //Set machine worktime
             w = setCobotWorktime(w);
         }
+        if (isColumnCalculated(setting.getCobotManualWt())) {
+            w = setCobotManualWtFormula(w);
+        }
     }
 
     private boolean isColumnCalculated(int i) {
@@ -324,6 +329,24 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
                     .reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
         }
         w.setMachineWorktime(machineWorktime);
+
+        return w;
+    }
+
+    public Worktime setCobotManualWtFormula(Worktime w) {
+        //Find cobots setting if cobots is not provide when user use excel batch update model
+        Set<Cobot> cobots = w.getCobots() == null ? this.findCobots(w.getId()) : w.getCobots();
+        BigDecimal cobotManualWt = BigDecimal.ZERO;
+        if (w.getTwm2Flag() == 1) {
+            cobotManualWt = w.getProductionWt();
+            
+            if (cobots != null && !cobots.isEmpty()
+                    && cobots.stream().anyMatch(c -> c.getName().contains("ADAM"))) {
+                WorktimeFormulaSetting setting = w.getWorktimeFormulaSettings().get(0);
+                setting.setCobotManualWt(0);
+            }
+        }
+        w.setCobotManualWt(cobotManualWt);
 
         return w;
     }

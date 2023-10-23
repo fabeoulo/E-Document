@@ -292,6 +292,8 @@
                 {label: 'Hi-Pot/Leakage', name: "hiPotLeakage", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Cold Boot', name: "coldBoot", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Warm Boot', name: "warmBoot", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'ASS_T1', name: "assyToT1", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("assyToT1")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'T2_PACKING', name: "t2ToPacking", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("t2ToPacking")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Floor', name: "floor.id", edittype: "select", editoptions: {value: selectOptions["floor"]}, width: 100, formatter: selectOptions["floor_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["floor"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>適用封箱機設5F</b>"}},
                 {label: 'Pending', name: "pending.id", edittype: "select", editoptions: {value: selectOptions["pending"], defaultValue: 'N', dataEvents: pending_select_event}, formatter: selectOptions["pending_func"], width: 100, searchrules: number_search_rule, stype: "select", searchoptions: {value: selectOptions["pending"], sopt: ['eq']}},
                 {label: 'Pending TIME', name: "pendingTime", width: 100, searchrules: {required: true}, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
@@ -402,7 +404,8 @@
                 {label: '藍燈組裝(秒)', width: 80, name: "bwFields.0.assyAvg", index: "bwFields.assyAvg", sortable: true, searchrules: number_search_rule, searchoptions: search_decimal_options},
                 {label: '藍燈包裝(秒)', width: 80, name: "bwFields.0.packingAvg", index: "bwFields.packingAvg", sortable: true, searchrules: number_search_rule, searchoptions: search_decimal_options},
                 {label: 'M2機種', width: 80, name: "twm2Flag", search: true, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:N;1:Y"}},
-                {label: '自動化人機協作', name: "cobots", width: 60, editable: true, hidden: false, formatter: cobotsFormatter, editrules: {edithidden: true, required: false}, edittype: "select",
+                {label: 'M2手動工時', name: "cobotManualWt", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("cobotManualWt")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: '自動化人機協作', name: "cobots", width: 100, editable: true, hidden: false, formatter: cobotsFormatter, editrules: {edithidden: true, required: false}, edittype: "select",
                     editoptions: {
                         multiple: true, value: selectOptions["cobots"],
                         dataInit: function (elem) {
@@ -465,6 +468,7 @@
                 {startColumnName: 'packingLeadTime', numberOfColumns: 2, titleText: '<em>包裝看板工時</em>'},
                 {startColumnName: 'testProfile', numberOfColumns: 5, titleText: '<em>hi-pot Test</em>'},
                 {startColumnName: 'weight', numberOfColumns: 3, titleText: '<em>包裝重量</em>'},
+                {startColumnName: 'twm2Flag', numberOfColumns: 2, titleText: '<em>M2機種</em>'},
                 {startColumnName: 't1StatusQty', numberOfColumns: 4, titleText: '<em>T1/T2_測試訊息資料維護</em>'}
             ]
         });

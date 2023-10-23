@@ -25,6 +25,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -312,6 +313,12 @@ public class Worktime implements java.io.Serializable {
     @JsonView(View.Public.class)
     private int twm2Flag = 0;
 
+    @JsonView(View.Public.class)
+    private BigDecimal cobotAutoWt = BigDecimal.ZERO;
+    
+    @JsonView(View.Public.class)
+    private BigDecimal cobotManualWt = BigDecimal.ZERO;
+    
     //This value almost equals to productionWt in sap
     @JsonView(View.Public.class)
     private BigDecimal sapWt = BigDecimal.ZERO;
@@ -1317,6 +1324,26 @@ public class Worktime implements java.io.Serializable {
         this.twm2Flag = twm2Flag;
     }
 
+    @Transient
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    public BigDecimal getCobotAutoWt() {
+        return cobotAutoWt;
+    }
+
+    public void setCobotAutoWt(BigDecimal cobotAutoWt) {
+        this.cobotAutoWt = cobotAutoWt;
+    }
+
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    @Column(name = "cobotManualWt", precision = 10, scale = 1)
+    public BigDecimal getCobotManualWt() {
+        return cobotManualWt;
+    }
+
+    public void setCobotManualWt(BigDecimal cobotManualWt) {
+        this.cobotManualWt = cobotManualWt;
+    }
+    
     @Size(min = 0, max = 50)
     @Column(name = "mac_printed_location", length = 50)
     public String getMacPrintedLocation() {
@@ -1975,6 +2002,23 @@ public class Worktime implements java.io.Serializable {
 
     private BigDecimal notEmpty(BigDecimal d) {
         return d == null ? BigDecimal.ZERO : d;
+    }
+
+//---------------------------------------------------------------------
+//  For Cobots in Worktime_Autoupload_Setting formula
+
+    // save data in memory
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    public BigDecimal initCobotAutoWt() {
+        BigDecimal cobotAutoWt = isM2CobotAdam() ? productionWt : new BigDecimal(0);
+        setCobotAutoWt(cobotAutoWt);
+        return getCobotAutoWt();
+    }
+
+    @Transient
+    private boolean isM2CobotAdam() {
+        return twm2Flag == 1 && !cobots.isEmpty()
+                && cobots.stream().anyMatch(c -> c.getName().contains("ADAM"));
     }
 
     //Override hashcode and equals will force audit query eager loading the one to many field

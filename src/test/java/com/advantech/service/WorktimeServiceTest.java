@@ -343,15 +343,22 @@ public class WorktimeServiceTest {
 //    /**
 //     * Test of initUnfilledFormulaColumn method, of class WorktimeService.
 //     */
+
 //    @Test
-//    public void testInitUnfilledFormulaColumn() {
-//        System.out.println("initUnfilledFormulaColumn");
-//        Worktime w = null;
-//        WorktimeService instance = new WorktimeService();
-//        instance.initUnfilledFormulaColumn(w);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+//    @Transactional
+//    @Rollback(false)
+    public void testInitUnfilledFormulaColumn() throws Exception {
+        System.out.println("initUnfilledFormulaColumn");
+
+//        List<Worktime> l = instance.findAll();
+        List<Worktime> l = instance.findWithFlowRelationAndCobot(10606);
+        assertNotNull(l);
+        for (Worktime worktime : l) {
+            System.out.println("Upload model: " + worktime.getModelName());
+            instance.initUnfilledFormulaColumn(worktime);
+        }
+        instance.saveOrUpdate(l);
+    }
 //
 //    /**
 //     * Test of saveOrUpdate method, of class WorktimeService.

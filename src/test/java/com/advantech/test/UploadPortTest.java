@@ -137,11 +137,11 @@ public class UploadPortTest {
     }
 
 //    @Test//245
-    @Rollback(true)
+//    @Rollback(true)
     public void testStandardtimeUpload() throws Exception {
-        List<Worktime> l = worktimeService.findWithFlowRelationAndCobot(16642);
-        assertNotNull(l.get(0));
-        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(4,16,29);
+        List<Worktime> l = worktimeService.findWithFlowRelationAndCobot(11142);
+        assertNotNull(l);
+        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(32);
         standardtimePort.initSettings(settings);
 
         for (Worktime worktime : l) {

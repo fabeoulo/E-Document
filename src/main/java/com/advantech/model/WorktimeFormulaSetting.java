@@ -34,6 +34,7 @@ public class WorktimeFormulaSetting implements java.io.Serializable {
     private int packingKanbanTime = 1;
     private int cleanPanelAndAssembly = 1;
     private int machineWorktime = 1;
+    private int cobotManualWt = 1;
 
     public WorktimeFormulaSetting() {
     }
@@ -151,6 +152,15 @@ public class WorktimeFormulaSetting implements java.io.Serializable {
 
     public void setMachineWorktime(int machineWorktime) {
         this.machineWorktime = machineWorktime;
+    }
+
+    @Column(name = "cobot_manual_wt", nullable = false)
+    public int getCobotManualWt() {
+        return cobotManualWt;
+    }
+
+    public void setCobotManualWt(int cobotManualWt) {
+        this.cobotManualWt = cobotManualWt;
     }
 
 }

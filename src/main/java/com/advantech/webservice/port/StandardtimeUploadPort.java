@@ -72,9 +72,6 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
         List<StandardWorkTime> standardWorktimes = worktimeQueryPort.query(w.getModelName());
 
         settings.forEach((setting) -> {
-            if (setting.getLineId() == 1183 && !isModelContainCobot(w, "ADAM")) {
-                return;
-            }
             try {
                 StandardWorkTime worktimeOnMes = standardWorktimes.stream()
                         .filter(p -> (Objects.equals(p.getSTATIONID(), setting.getStationId()) || (p.getSTATIONID() == -1 && setting.getStationId() == null))
@@ -94,7 +91,7 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
 
     @Override
     public void delete(Worktime w) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
 
 //dont execute it.//!!! import!!! be careful.
 //        //dont execute it.//!!! import!!! be careful.
@@ -174,11 +171,8 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
                 && (w.getReasonCode() == null || "0".equals(w.getReasonCode()));
     }
 
-    private boolean isModelContainCobot(Worktime w, String s) {
-        return !w.getCobots().isEmpty() && w.getCobots().stream().anyMatch(c -> c.getName().contains(s));
-    }
-
     private void generateRootAndDelete(WorktimeAutouploadSetting setting, StandardWorkTime standardWorktime, Worktime w) throws Exception {
+        throw new UnsupportedOperationException("dont execute it."); 
 //        String columnUnit = setting.getColumnUnit();
 //
 //        StandardtimeRoot root = new StandardtimeRoot();

@@ -10,6 +10,7 @@ var formula_hint = {elmsuffix: "(F)"};
 
 var number_search_rule = {number: true, required: true};
 var date_search_rule = {date: true, required: true};
+
 var group = [
     {
         Type0 : ['tr_modelName','tr_type.id','tr_businessGroup.id','tr_userBySpeOwnerId.id','tr_userByEeOwnerId.id','tr_userByQcOwnerId.id',
@@ -21,7 +22,7 @@ var group = [
         Type1 : ['tr_preAssy.id','tr_flowByBabFlowId.id','tr_flowByTestFlowId.id','tr_flowByPackingFlowId.id','tr_cleanPanel','tr_totalModule','tr_assy','tr_t1','tr_t2','tr_t3','tr_t4','tr_packing',
             'tr_burnIn','tr_biTime','tr_biTemperature','tr_upBiRi','tr_downBiRi','tr_biCost','tr_vibration','tr_hiPotLeakage','tr_coldBoot','tr_warmBoot','tr_pending.id','tr_pendingTime','tr_biSampling',
             'tr_assyToT1','tr_t2ToPacking','tr_workCenter','tr_sapWt','tr_productionWt','tr_setupTime','tr_machineWorktime','tr_assyLeadTime','tr_assyKanbanTime','tr_packingLeadTime','tr_packingKanbanTime',
-            'tr_cleanPanelAndAssembly','tr_packingKanbanTime']
+            'tr_cleanPanelAndAssembly','tr_packingKanbanTime','tr_cobotManualWt']
     },   
     {
         Type2 : ['tr_labelYN','tr_labelOuterId.id','tr_labelOuterCustom','tr_labelCartonId.id','tr_labelCartonCustom','tr_labelBigCarton','tr_label2D','tr_labelCustomerSn','tr_labelSn','tr_labelPn','tr_labelNmodelA','tr_labelNmodelB',
