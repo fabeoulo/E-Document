@@ -9,6 +9,7 @@ import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.quartzJob.BackupDataToExcel;
 import com.advantech.quartzJob.StandardTimeUpload;
 import com.advantech.quartzJob.SyncEmployeeZoneUser;
+import com.advantech.quartzJob.SyncPreAssyModuleQty;
 import com.advantech.quartzJob.WorktimeEventLog1;
 import com.advantech.quartzJob.WorktimeFieldValueRetrieve;
 import org.junit.Test;
@@ -50,6 +51,15 @@ public class QuartzJobTest {
     @Qualifier("backupDataToExcel")
     private BackupDataToExcel job5;
 
+    @Autowired
+    @Qualifier("syncPreAssyModuleQty")
+    private SyncPreAssyModuleQty job7;
+    
+//    @Test
+    public void testSyncPreAssyModuleQty() throws Exception {
+        job7.execute();
+    }
+    
 //    @Test
     public void testBackupDataToExcel() throws Exception {
         job5.backupToDisk();

@@ -102,7 +102,8 @@
             com.advantech.security, 
             com.advantech.quartzJob,
             com.advantech.webservice,
-            com.advantech.helper
+            com.advantech.helper,
+            com.advantech.api
     " />
     
     <!-- 要使用 @Transactional 時需要 -->
@@ -192,6 +193,10 @@
     <!--regist web api config-->
     <bean id="employeeZoneUtils" class="com.advantech.helper.EmployeeZoneUtils">
         <property name="webapiUrl" value="http://172.22.250.120:7878/v1/"/>
+    </bean>
+    
+    <bean id="calculatorApiClient" class="com.advantech.api.CalculatorApiClient">
+        <property name="webapiUrl" value="http://172.20.128.223:8080//CalculatorWSApplication/"/>
     </bean>
 
     <import resource="classpath:spring-security.xml"/>

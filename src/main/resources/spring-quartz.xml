@@ -88,6 +88,20 @@
         <property name="cronExpression" value="0 0 12 ? * SAT *"/>
     </bean>
 
+    <!--job7 setting-->
+    <!--Sync PreAssyModuleQty from CalculatorWS-->
+    <bean id="targetClass7" class="com.advantech.quartzJob.SyncPreAssyModuleQty"/>
+    
+    <bean id="jobDetail7" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="targetClass7"/>
+        <property name="targetMethod" value="execute"/>
+    </bean>
+    
+    <bean id="cronTrigger7" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="jobDetail7"/>
+        <property name="cronExpression" value="0 0 21 ? * MON-SAT *"/>
+    </bean>
+    
     <!--schedule jobs-->
     <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
@@ -98,6 +112,7 @@
                 <ref bean="cronTrigger4"/>
                 <ref bean="cronTrigger5"/>
                 <ref bean="cronTrigger6"/>
+                <ref bean="cronTrigger7"/>
             </list>
         </property>
         <property name="schedulerName">
