@@ -20,13 +20,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SyncPreAssyModuleQty {
-    
+
     @Autowired
     private CalculatorApiClient calculatorApiClient;
 
     @Autowired
     private WorktimeService worktimeService;
-    
+
     public void execute() {
         Map<String, String>[] maps = calculatorApiClient.getPreAssyModule();
         Map<String, Integer> modelModules = Arrays.stream(maps)

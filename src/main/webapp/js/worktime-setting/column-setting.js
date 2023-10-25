@@ -66,6 +66,7 @@ var worktimeCol = [
     {name: "assyLeadTime"},
     {name: "assyKanbanTime"},
     {name: "packingLeadTime"},
+    {name: "packingPalletTime"},
     {name: "packingKanbanTime"},
     {name: "cleanPanelAndAssembly"},
     {name: "modifiedDate", editable: false},

@@ -210,6 +210,7 @@
                     {label: '前置時間', name: "assyLeadTime", jsonmap: "0.assyLeadTime", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: '看板工時', name: "assyKanbanTime", jsonmap: "0.assyKanbanTime", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: '附件盒工時', name: "packingLeadTime", jsonmap: "0.packingLeadTime", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options},
+                    {label: '棧板工時', name: "packingPalletTime", jsonmap: "0.packingPalletTime", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: '線外作業工時', name: "packingKanbanTime", jsonmap: "0.packingKanbanTime", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'CleanPanel+Assembly', name: "cleanPanelAndAssembly", jsonmap: "0.cleanPanelAndAssembly", width: 200, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'M2手動工時', name: "cobotManualWt", jsonmap: "0.cobotManualWt", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options},

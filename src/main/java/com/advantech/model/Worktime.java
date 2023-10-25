@@ -254,6 +254,9 @@ public class Worktime implements java.io.Serializable {
     private BigDecimal packingLeadTime = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
+    private BigDecimal packingPalletTime = BigDecimal.ZERO;
+    
+    @JsonView(View.Public.class)
     private BigDecimal productionWt = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
@@ -1123,6 +1126,16 @@ public class Worktime implements java.io.Serializable {
 
     public void setPackingLeadTime(BigDecimal packingLeadTime) {
         this.packingLeadTime = autoFixScale(packingLeadTime, 1);
+    }
+
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    @Column(name = "packing_pallet_time", precision = 10, scale = 1)
+    public BigDecimal getPackingPalletTime() {
+        return packingPalletTime;
+    }
+
+    public void setPackingPalletTime(BigDecimal packingPalletTime) {
+        this.packingPalletTime = packingPalletTime;
     }
 
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
