@@ -907,6 +907,11 @@
                 } else {
                     $(cssid).addClass(type + ' hiddenTab');
                 }
+
+                if (id === "tr_labelPacking5") {
+                    var hr = $("<hr/>").addClass(type + ' hiddenTab');
+                    $(cssid).after(hr);
+                }
             }
         }
         String.prototype.splice = function (start, newStr) {

@@ -88,6 +88,20 @@ public class HibernateTest {
         validator = factory.getValidator();
     }
 
+    @Transactional
+    @Rollback(true)
+    @Test
+    public void testAuditService() {
+        PageInfo info = new PageInfo();
+        DateTime d1 = new DateTime("2023-12-04").withTimeAtStartOfDay();
+        DateTime d2 = new DateTime("2023-12-04").withHourOfDay(23).withMinuteOfHour(59);
+
+        List l = new ArrayList();
+        l = auditService.findByDate(info, d1.toDate(), d2.toDate());
+        
+        HibernateObjectPrinter.print(l);
+    }
+
 //    @Transactional
 //    @Rollback(true)
 //    @Test
@@ -603,7 +617,7 @@ public class HibernateTest {
                 "FPM-3151SR-R3AE"
         );
         User bpeUser = session.get(User.class, 22);
-        for (Worktime w: l){
+        for (Worktime w : l) {
             w.setUserByEeOwnerId(bpeUser);
             session.save(w);
         }
