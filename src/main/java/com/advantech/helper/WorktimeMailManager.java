@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WorktimeMailManager {
 
-    private static final Logger log = LoggerFactory.getLogger(WorktimeController.class);
+    private static final Logger log = LoggerFactory.getLogger(WorktimeMailManager.class);
 
     @Autowired
     private UserNotificationService userNotificationService;
