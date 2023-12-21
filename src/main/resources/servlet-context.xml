@@ -196,7 +196,7 @@
     </bean>
     
     <bean id="calculatorApiClient" class="com.advantech.api.CalculatorApiClient">
-        <property name="webapiUrl" value="http://172.20.128.223:8080//CalculatorWSApplication/"/>
+        <property name="webapiUrl" value="http://172.20.128.223:8080/CalculatorWSApplication/"/>
     </bean>
 
     <import resource="classpath:spring-security.xml"/>

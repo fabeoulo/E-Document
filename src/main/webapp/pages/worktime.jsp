@@ -908,9 +908,9 @@
                     $(cssid).addClass(type + ' hiddenTab');
                 }
 
-                if (id === "tr_labelPacking5") {
+                if (id === "tr_labelVariable1") {
                     var hr = $("<hr/>").addClass(type + ' hiddenTab');
-                    $(cssid).after(hr);
+                    $(cssid).before(hr);
                 }
             }
         }

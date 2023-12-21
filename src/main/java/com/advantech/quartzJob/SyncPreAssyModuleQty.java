@@ -31,8 +31,10 @@ public class SyncPreAssyModuleQty {
         Map<String, String>[] maps = calculatorApiClient.getPreAssyModule();
         Map<String, Integer> modelModules = Arrays.stream(maps)
                 .filter(map -> map.get("preAssyModule").startsWith("(前置)"))
-                .collect(Collectors.groupingBy(map -> map.get("modelName"),
-                        Collectors.summingInt(map -> 1)));
+                .collect(Collectors.groupingBy(
+                        map -> map.get("modelName"),
+                        Collectors.summingInt(map -> 1)
+                ));
 
         List<Worktime> l = worktimeService.findAll();
         l = l.stream().filter(w -> {
