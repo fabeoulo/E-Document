@@ -157,18 +157,8 @@
 
         var before_add = function (postdata, formid) {
             var formulaFieldInfo = getFormulaCheckboxField();
-            clearCheckErrorIcon();
 
-            var checkResult = checkFlowIsValid(postdata, formid);
-
-            var modelRelativeCheckResult = checkModelIsValid(postdata);
-            checkResult = checkResult.concat(modelRelativeCheckResult);
-
-            var biSamplingCheckResult = checkIfBiSampling(postdata);
-            checkResult = checkResult.concat(biSamplingCheckResult);
-
-            var macFieldCheckResult = checkMacFieldIsValid(postdata);
-            checkResult = checkResult.concat(macFieldCheckResult);
+            var checkResult = add_edit_check_incommon(postdata, formid);
 
             if (checkResult.length != 0) {
                 errorTextFormatF(checkResult); //field // code
@@ -184,17 +174,8 @@
             var formulaFieldInfo = getFormulaCheckboxField();
             formulaFieldInfo["worktimeFormulaSettings[0].id"] = selected_row_formula_id;
             formulaFieldInfo["worktimeFormulaSettings[0].worktime.id"] = postdata.id;
-            clearCheckErrorIcon();
-            var checkResult = checkFlowIsValid(postdata, formid);
 
-            var modelRelativeCheckResult = checkModelIsValid(postdata);
-            checkResult = checkResult.concat(modelRelativeCheckResult);
-
-            var biSamplingCheckResult = checkIfBiSampling(postdata);
-            checkResult = checkResult.concat(biSamplingCheckResult);
-
-            var macFieldCheckResult = checkMacFieldIsValid(postdata);
-            checkResult = checkResult.concat(macFieldCheckResult);
+            var checkResult = add_edit_check_incommon(postdata, formid);
 
             if (checkResult.length != 0) {
                 errorTextFormatF(checkResult); //field // code
@@ -217,6 +198,23 @@
                 }
             }
         };
+
+        function add_edit_check_incommon(postdata, formid) {
+//            var checkResult = [];
+            clearCheckErrorIcon();
+            var checkResult = checkFlowIsValid(postdata, formid);
+
+            var modelRelativeCheckResult = checkModelIsValid(postdata);
+            checkResult = checkResult.concat(modelRelativeCheckResult);
+
+            var biSamplingCheckResult = checkIfBiSampling(postdata);
+            checkResult = checkResult.concat(biSamplingCheckResult);
+
+            var macFieldCheckResult = checkMacFieldIsValid(postdata);
+            checkResult = checkResult.concat(macFieldCheckResult);
+
+            return checkResult;
+        }
 
         var showServerModifyMessage = function (response, postdata) {
             if (response.status == 200 || response.status == 201) {
@@ -294,7 +292,7 @@
                 {label: 'Warm Boot', name: "warmBoot", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'ASS_T1', name: "assyToT1", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("assyToT1")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T2_PACKING', name: "t2ToPacking", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("t2ToPacking")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'Floor', name: "floor.id", edittype: "select", editoptions: {value: selectOptions["floor"]}, width: 100, formatter: selectOptions["floor_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["floor"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>適用封箱機設5F</b>"}},
+                {label: 'Floor', name: "floor.id", hidden: true, edittype: "select", editoptions: {value: selectOptions["floor"]}, width: 100, formatter: selectOptions["floor_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["floor"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>適用封箱機設5F</b>"}},
                 {label: 'Pending', name: "pending.id", edittype: "select", editoptions: {value: selectOptions["pending"], defaultValue: 'N', dataEvents: pending_select_event}, formatter: selectOptions["pending_func"], width: 100, searchrules: number_search_rule, stype: "select", searchoptions: {value: selectOptions["pending"], sopt: ['eq']}},
                 {label: 'Pending TIME', name: "pendingTime", width: 100, searchrules: {required: true}, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
                 {label: 'BI Sampling', name: "biSampling", edittype: "select", editoptions: {value: "N:N;Y:Y", dataEvents: biSample_change_event}, width: 100, searchrules: {required: true}, searchoptions: search_string_options, formoptions: {elmsuffix: "<b class='danger'>抽燒選Y</b>"}},
@@ -522,14 +520,14 @@
                         setTimeout(function () {
                             // do here all what you need (like alert('yey');)
                             $("#flowByBabFlowId\\.id, #businessGroup\\.id, #testProfile").trigger("change");
+                            addNarPage();
+                            addType();
                         }, 50);
                         greyout(form);
                     },
                     afterShowForm: function (form) {
                         modelNameFormat();
                         checkRevision(form);
-                        addNarPage();
-                        addType();
                     },
                     afterSubmit: showServerModifyMessage,
                     recreateForm: true,

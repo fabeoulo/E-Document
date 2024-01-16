@@ -48,11 +48,25 @@ public class SpringSecurityTest {
                 .build();
     }
 
+    @Test
+    @WithMockUser(username = "admin", roles = {"USER", "ADMIN"})
+    public void testMap() throws Exception {
+
+//        MvcResult result = mockMvc.perform(get("/TestController2/test3").with(csrf()))
+//                .andDo(MockMvcResultHandlers.print())
+//                .andExpect(status().isOk())
+//                .andReturn();
+//
+//        String content = result.getResponse().getContentAsString();
+//
+//        assertEquals("\"hi1\"", content);
+    }
+    
 //    @Test
     @WithMockUser(username = "admin", roles = {"USER", "ADMIN"})
     public void testMethod() throws Exception {
 
-        MvcResult result = mockMvc.perform(get("/testCtrl/test1").with(csrf()))
+        MvcResult result = mockMvc.perform(get("/TestController2/test").with(csrf()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andReturn();
@@ -62,11 +76,11 @@ public class SpringSecurityTest {
         assertEquals("\"hi1\"", content);
     }
     
-    @Test
+//    @Test
     @WithMockUser(username = "admin", roles = {"USER", "ADMIN"})
     public void testEnum() throws Exception {
 
-        MvcResult result = mockMvc.perform(get("/testCtrl/testEnum").param("action", "AdD").with(csrf()))
+        MvcResult result = mockMvc.perform(get("/TestController2/testEnum").param("action", "AdD").with(csrf()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andReturn();

@@ -18,10 +18,23 @@
         <script src="<c:url value="/webjars/jquery/1.12.4/jquery.min.js" />"></script>
         <script src="<c:url value="/webjars/bootstrap/3.3.7/js/bootstrap.min.js" />"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
-        <script src="https://jqueryfiledownload.apphb.com/Scripts/jquery.fileDownload.js"></script>
+        <!--        <script src="https://jqueryfiledownload.apphb.com/Scripts/jquery.fileDownload.js"></script>-->
 
         <script>
             $(function () {
+                var dataT;
+                $.ajax({
+                    url: '<c:url value="/TestController2/test3" />', //test2/3842 //test3
+                    async: false,
+                    dataType: 'json',
+                    success: function (d) {
+                        dataT = d;
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.responseText);
+                    }
+                });
+
                 var data;
                 $.ajax({
                     url: '<c:url value="/json/biCost.json" />',
@@ -35,8 +48,8 @@
                 var value = transformValue(30.34);
                 var i = getValueInJson(value);
                 console.log(i);
-                
-                function transformValue(value){
+
+                function transformValue(value) {
                     return value.toFixed(2) + ' Mins';
                 }
 

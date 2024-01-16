@@ -25,7 +25,6 @@
             rootUrl: "<c:url value="/" />",
             columnInfo: [
                 {name: "businessGroup", isNullable: false},
-                {name: "floor", isNullable: false},
                 {name: "user", nameprefix: "spe_", isNullable: false, dataToServer: "SPE"},
                 {name: "user", nameprefix: "ee_", isNullable: false, dataToServer: "EE"},
                 {name: "user", nameprefix: "qc_", isNullable: false, dataToServer: "QC"},
@@ -113,8 +112,7 @@
                     {label: 'Warm Boot', name: "warmBoot", jsonmap: "0.warmBoot", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'ASS_T1', name: "assyToT1", jsonmap: "0.assyToT1", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'T2_PACKING', name: "t2ToPacking", jsonmap: "0.t2ToPacking", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
-                    //{label: 'Floor', name: "floor_id", jsonmap: "0.floor.id", width: 100, searchrules: {required: true}, searchoptions: search_string_options, formatter: selectOptions["floor_func"]},
-                    {label: 'BurnIn', name: "burnIn", jsonmap: "0.burnIn", width: 100, searchrules: {required: true}, searchoptions: search_string_options},
+                     {label: 'BurnIn', name: "burnIn", jsonmap: "0.burnIn", width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                     {label: 'B/I Time', name: "biTime", jsonmap: "0.biTime", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: required_form_options},
                     {label: 'BI_Temperature', name: "biTemperature", jsonmap: "0.biTemperature", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: required_form_options},
                     {label: 'SPE Owner', name: "userBySpeOwnerId_id", jsonmap: "0.userBySpeOwnerId.id", formatter: selectOptions["spe_user_func"], width: 100, searchrules: {required: true}, searchoptions: search_string_options},

@@ -23,7 +23,6 @@ var worktimeCol = [
     {name: "warmBoot"},
     {name: "assyToT1"},
     {name: "t2ToPacking"},
-    {name: "floor.id"},
     {name: "pending.id"},
     {name: "pendingTime"},
     {name: "burnIn"},

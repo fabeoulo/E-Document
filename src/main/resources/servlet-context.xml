@@ -102,8 +102,7 @@
             com.advantech.security, 
             com.advantech.quartzJob,
             com.advantech.webservice,
-            com.advantech.helper,
-            com.advantech.api
+            com.advantech.helper
     " />
     
     <!-- 要使用 @Transactional 時需要 -->
@@ -195,7 +194,7 @@
         <property name="webapiUrl" value="http://172.22.250.120:7878/v1/"/>
     </bean>
     
-    <bean id="calculatorApiClient" class="com.advantech.api.CalculatorApiClient">
+    <bean id="calculatorApiClient" class="com.advantech.webapi.CalculatorApiClient">
         <property name="webapiUrl" value="http://172.20.128.223:8080/CalculatorWSApplication/"/>
     </bean>
 

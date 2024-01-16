@@ -130,11 +130,13 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
         List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.query(w);
         this.checkMatPermission(remotePropSettings);
 
-        //傳入空的陣列即可批次將底下的屬性值刪除
-        remotePropSettings = new ArrayList();
-        MaterialPropertyBatchUploadRoot root = toJaxbElement(remotePropSettings);
-        root.getMATVALUE().setITEMNO(w.getModelName());
-        super.upload(root, UploadType.UPDATE);
+        if (!remotePropSettings.isEmpty()) {
+            //傳入空的陣列即可批次將底下的屬性值刪除
+            remotePropSettings = new ArrayList();
+            MaterialPropertyBatchUploadRoot root = toJaxbElement(remotePropSettings);
+            root.getMATVALUE().setITEMNO(w.getModelName());
+            super.upload(root, UploadType.UPDATE);
+        }
     }
 
     //找出Remote & local difference, 差異如果屬性值在local setting則update, else keep and don't change its value
@@ -167,7 +169,7 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
             mainValue = (mainValue != null) ? mainValue : "";
             secondValue = (secondValue != null) ? secondValue : "";
 
-            if (!Objects.equals(mainValue, setting.getDefaultValue()) || (Objects.equals(mainValue, setting.getDefaultValue()) && setting.getUploadWhenDefault() == 1)) {
+            if (!Objects.equals(mainValue, setting.getDefaultValue()) || (setting.getUploadWhenDefault() == 1)) {
 
                 MaterialPropertyValue mp = remotePropSettings.stream()
                         .filter(r -> Objects.equals(w.getModelName(), r.getItemNo()) && Objects.equals(setting.getMatPropNo(), r.getMatPropertyNo()))

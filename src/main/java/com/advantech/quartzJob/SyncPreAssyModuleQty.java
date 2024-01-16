@@ -4,7 +4,7 @@
  */
 package com.advantech.quartzJob;
 
-import com.advantech.api.CalculatorApiClient;
+import com.advantech.webapi.CalculatorApiClient;
 import com.advantech.model.Worktime;
 import com.advantech.service.WorktimeService;
 import java.util.Arrays;

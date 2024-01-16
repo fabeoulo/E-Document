@@ -99,7 +99,7 @@
                 {label: 'password', name: "password", width: 60, editable: true, editrules: {required: true}, edittype: "password", search: false},
                 {label: 'username', name: "username", width: 60, editable: true, editrules: {required: true}, searchoptions: {sopt: ['eq']}},
                 {label: 'permission', name: "permission", width: 60, editable: false, hidden: true, search: false},
-                {label: 'floor', name: "floor.id", width: 60, editable: true, edittype: "select", editoptions: {value: selectOptions["user-floor"]}, formatter: selectOptions["user-floor_func"], search: false},
+                {label: 'floor', name: "floor.id", width: 60, editable: true, hidden: true, edittype: "select", editoptions: {value: selectOptions["user-floor"]}, formatter: selectOptions["user-floor_func"], search: false},
                 {label: 'unit', name: "unit.id", width: 60, editable: true, edittype: "select", editoptions: {value: selectOptions["unit"]}, formatter: selectOptions["unit_func"], search: false},
                 {label: 'email', name: "email", width: 60, editable: true, search: false},
                 {label: 'state', name: "state", width: 60, editable: true, edittype: "select", editoptions: {value: "Active:Active;Inactive:Inactive;Deleted:Deleted;Locked:Locked"}, search: false},

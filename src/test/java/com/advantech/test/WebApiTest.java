@@ -4,7 +4,7 @@
  */
 package com.advantech.test;
 
-import com.advantech.api.CalculatorApiClient;
+import com.advantech.webapi.CalculatorApiClient;
 import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.model.Worktime;
 import com.advantech.service.WorktimeService;

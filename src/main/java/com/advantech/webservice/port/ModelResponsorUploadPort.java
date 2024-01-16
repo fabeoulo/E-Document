@@ -27,6 +27,9 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
 
     @Autowired
     private MesUserInfoQueryPort mesUserInfoQueryPort;
+    
+    @Autowired
+    private ModelResponsorQueryPort modelResponsorQueryPort;
 
     @Override
     protected void initJaxbMarshaller() {
@@ -69,10 +72,13 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
     @Override
     public void delete(Worktime w) throws Exception {
         try {
-            PartMappingUserRoot root = new PartMappingUserRoot();
-            root.getUsers().setPARTNO(w.getModelName()); //機種
-            root.getUsers().setUSERIDs(""); //人員代碼
-            super.upload(root, UploadType.UPDATE);
+            List l = modelResponsorQueryPort.query(w);
+            if (!l.isEmpty()) {
+                PartMappingUserRoot root = new PartMappingUserRoot();
+                root.getUsers().setPARTNO(w.getModelName()); //機種
+                root.getUsers().setUSERIDs(""); //人員代碼
+                super.upload(root, UploadType.UPDATE);
+            }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw e;

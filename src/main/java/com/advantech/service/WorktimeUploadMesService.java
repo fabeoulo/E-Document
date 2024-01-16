@@ -45,7 +45,7 @@ public class WorktimeUploadMesService {
     @Value("${WORKTIME.UPLOAD.UPDATE: true}")
     private boolean isUpdated;
 
-    @Value("${WORKTIME.UPLOAD.DELETE: false}")
+    @Value("${WORKTIME.UPLOAD.DELETE: true}")
     private boolean isDeleted;
 
     @Value("${WORKTIME.UPLOAD.RESPONSOR: true}")
@@ -93,7 +93,7 @@ public class WorktimeUploadMesService {
                 try {
                     testIntegrityUploadPort.insert(w);
                 } catch (Exception e) {
-                    throw new Exception("料號屬性值新增至MES失敗<br />" + e.getMessage());
+                    throw new Exception("測試狀態新增至MES失敗<br />" + e.getMessage());
                 }
             }
         }
