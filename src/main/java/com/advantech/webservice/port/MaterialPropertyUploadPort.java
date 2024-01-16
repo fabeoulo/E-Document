@@ -104,11 +104,13 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
         List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.query(w);
         this.checkMatPermission(remotePropSettings);
 
-        //傳入空的陣列即可批次將底下的屬性值刪除
-        remotePropSettings = new ArrayList();
-        MaterialPropertyBatchUploadRoot root = toJaxbElement(remotePropSettings);
-        root.getMATVALUE().setITEMNO(w.getModelName());
-        super.upload(root, UploadType.UPDATE);
+        if (!remotePropSettings.isEmpty()) {
+            //傳入空的陣列即可批次將底下的屬性值刪除
+            remotePropSettings = new ArrayList();
+            MaterialPropertyBatchUploadRoot root = toJaxbElement(remotePropSettings);
+            root.getMATVALUE().setITEMNO(w.getModelName());
+            super.upload(root, UploadType.UPDATE);
+        }
     }
 
     /*

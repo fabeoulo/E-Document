@@ -299,33 +299,33 @@ public class WorktimeBatchModController {
         //設定關聯by name
         for (int i = 0; i < hgList.size(); i++) {
             Worktime w = hgList.get(i);
-            w.setType(typeOptions.get(sheet.getValue(i, "typeName").toString()));
-            w.setFloor(floorOptions.get(sheet.getValue(i, "floorName").toString()));
+            w.setType(typeOptions.get(getCell(sheet, i,  "typeName")));
+            w.setFloor(floorOptions.get("3F"));
 
-            String eeUserName = sheet.getValue(i, "bpeOwnerName").toString().toUpperCase().trim();
-            String speUserName = sheet.getValue(i, "speOwnerName").toString().toUpperCase().trim();
-            String qcUserName = sheet.getValue(i, "qcOwnerName").toString().toUpperCase().trim();
-            String mpmUserName = sheet.getValue(i, "mpmOwnerName").toString().toUpperCase().trim();
+            String eeUserName = getCellUpperCase(sheet, i,  "bpeOwnerName");
+            String speUserName = getCellUpperCase(sheet, i,  "speOwnerName");
+            String qcUserName = getCellUpperCase(sheet, i,  "qcOwnerName");
+            String mpmUserName = getCellUpperCase(sheet, i,  "mpmOwnerName");
 
             w.setUserByEeOwnerId(valid(eeUserName, userOptions.get(eeUserName)));
             w.setUserBySpeOwnerId(valid(speUserName, userOptions.get(speUserName)));
             w.setUserByQcOwnerId(valid(qcUserName, userOptions.get(qcUserName)));
             w.setUserByMpmOwnerId(valid(mpmUserName, userOptions.get(mpmUserName)));
 
-            String babFlowName = sheet.getValue(i, "babFlowName").toString().trim();
-            String pkgFlowName = sheet.getValue(i, "packingFlowName").toString().trim();
-            String testFlowName = sheet.getValue(i, "testFlowName").toString().trim();
+            String babFlowName = getCell(sheet, i,  "babFlowName");
+            String pkgFlowName = getCell(sheet, i,  "packingFlowName");
+            String testFlowName = getCell(sheet, i,  "testFlowName");
 
             w.setFlowByBabFlowId(valid(babFlowName, flowOptions.get(babFlowName)));
             w.setFlowByPackingFlowId(valid(pkgFlowName, flowOptions.get(pkgFlowName)));
             w.setFlowByTestFlowId(valid(testFlowName, flowOptions.get(testFlowName)));
 
-            w.setPending(pendingOptions.get(sheet.getValue(i, "pendingName").toString()));
+            w.setPending(pendingOptions.get(getCell(sheet, i,  "pendingName")));
 
-            String preAssyName = sheet.getValue(i, "preAssyName").toString();
+            String preAssyName = getCell(sheet, i,  "preAssyName");
             w.setPreAssy(valid(preAssyName, preAssyOptions.get(preAssyName)));
 
-            String businessGroupName = sheet.getValue(i, "businessGroupName").toString();
+            String businessGroupName = getCell(sheet, i,  "businessGroupName");
             w.setBusinessGroup(valid(businessGroupName, businessGroupOptions.get(businessGroupName)));
 
             String workCenterName = sheet.getValue(i, "workCenterName").toString();
@@ -354,6 +354,14 @@ public class WorktimeBatchModController {
             }
         }
         return m;
+    }
+
+    private String getCellUpperCase(XlsWorkSheet sheet, int row, String colName) throws Exception {
+        return getCell(sheet, row, colName).toUpperCase();
+    }
+
+    private String getCell(XlsWorkSheet sheet, int row, String colName) throws Exception {
+        return sheet.getValue(row, colName).toString().trim();
     }
 
     private <T extends Object> T valid(String objName, T obj) throws Exception {

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.advantech.helper;
+package com.advantech.listener;
 
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -11,6 +11,7 @@ import java.util.Enumeration;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import reactor.netty.http.HttpResources;
 
 /**
  * See
@@ -20,7 +21,7 @@ import javax.servlet.annotation.WebListener;
  * @author Justin.Yeh
  */
 @WebListener
-public class JtdsContextClosedHandler implements ServletContextListener {
+public class DriverContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -49,6 +50,9 @@ public class JtdsContextClosedHandler implements ServletContextListener {
                 event.getServletContext().log("Not deregistering JDBC driver " + driver + " as it does not belong to this webapp's ClassLoader");
             }
         }
+        
+        //fix memory leak from WebClient : thread named [reactor-http-nio-*] and [webflux-http-nio-*]
+        HttpResources.disposeLoopsAndConnectionsLater().block();
     }
 
 }

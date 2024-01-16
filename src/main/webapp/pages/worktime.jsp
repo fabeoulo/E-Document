@@ -137,12 +137,9 @@
 
         var before_add = function (postdata, formid) {
             var formulaFieldInfo = getFormulaCheckboxField();
-            clearCheckErrorIcon();
 
-            var checkResult = checkFlowIsValid(postdata, formid);
+            var checkResult = add_edit_check_incommon(postdata, formid);
 
-            var modelRelativeCheckResult = checkModelIsValid(postdata);
-            checkResult = checkResult.concat(modelRelativeCheckResult);
             if (checkResult.length != 0) {
                 errorTextFormatF(checkResult); //field // code
                 return [false, "There are some errors in the entered data. Hover over the error icons for details."];
@@ -157,11 +154,9 @@
             var formulaFieldInfo = getFormulaCheckboxField();
             formulaFieldInfo["worktimeFormulaSettings[0].id"] = selected_row_formula_id;
             formulaFieldInfo["worktimeFormulaSettings[0].worktime.id"] = postdata.id;
-            clearCheckErrorIcon();
-            var checkResult = checkFlowIsValid(postdata, formid);
-
-            var modelRelativeCheckResult = checkModelIsValid(postdata);
-            checkResult = checkResult.concat(modelRelativeCheckResult);
+            
+            var checkResult = add_edit_check_incommon(postdata, formid);
+            
             if (checkResult.length != 0) {
                 errorTextFormatF(checkResult); //field // code
                 return [false, "There are some errors in the entered data. Hover over the error icons for details."];
@@ -178,6 +173,16 @@
                 }
             }
         };
+
+        function add_edit_check_incommon(postdata, formid) {
+            clearCheckErrorIcon();
+            var checkResult = checkFlowIsValid(postdata, formid);
+
+            var modelRelativeCheckResult = checkModelIsValid(postdata);
+            checkResult = checkResult.concat(modelRelativeCheckResult);
+
+            return checkResult;
+        }
 
         var showServerModifyMessage = function (response, postdata) {
             if (response.status == 200 || response.status == 201) {
@@ -220,7 +225,7 @@
                 {label: '機器工時', name: "machineWorktime", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("machineWorktime")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},        
                 {label: 'ASS_T1', name: "assyToT1", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("assyToT1")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T2_PACKING', name: "t2ToPacking", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("t2ToPacking")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'Floor', name: "floor.id", edittype: "select", editoptions: {value: selectOptions["floor"]}, width: 100, formatter: selectOptions["floor_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["floor"], sopt: ['eq']}},
+                {label: 'Floor', name: "floor.id", hidden: true, edittype: "select", editoptions: {value: selectOptions["floor"]}, width: 100, formatter: selectOptions["floor_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["floor"], sopt: ['eq']}},
                 {label: 'Pending', name: "pending.id", edittype: "select", editoptions: {value: selectOptions["pending"], defaultValue: 'N', dataEvents: pending_select_event}, formatter: selectOptions["pending_func"], width: 100, searchrules: number_search_rule, stype: "select", searchoptions: {value: selectOptions["pending"], sopt: ['eq']}},
                 {label: 'Pending TIME', name: "pendingTime", width: 100, searchrules: {required: true}, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
                 {label: 'BurnIn', name: "burnIn", edittype: "select", editoptions: {value: "N:N;BI:BI", dataEvents: burnIn_select_event}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},

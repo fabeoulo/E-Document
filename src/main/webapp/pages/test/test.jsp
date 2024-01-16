@@ -90,8 +90,8 @@
                     costFormulaCalc();
                     costCalc();
                 });
-                
-                $("input[name=formatFloatType]").on("change", function(){
+
+                $("input[name=formatFloatType]").on("change", function () {
                     initMathType();
                     costFormulaCalc();
                     costCalc();

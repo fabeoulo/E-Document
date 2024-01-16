@@ -5,16 +5,21 @@
  */
 package com.advantech.controller;
 
+import com.advantech.helper.EmployeeZoneUtils;
 import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.Worktime;
 import com.advantech.service.WorktimeAuditService;
 import com.advantech.service.WorktimeService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.servlet.http.HttpServletResponse;
 import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,7 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @Secured({"ROLE_ADMIN", "ROLE_GUEST"})
-@RequestMapping(value = "/testCtrl")
+@RequestMapping(value = "/TestController2")
 public class TestController {
 
     @Autowired
@@ -45,6 +50,25 @@ public class TestController {
 
     @Value("#{contextParameters[pageTitle] ?: ''}")
     private String pageTitle;
+
+    @Autowired
+    private EmployeeZoneUtils ezUtils;
+
+    @ResponseBody
+    @RequestMapping(value = "/test3", method = {RequestMethod.GET, RequestMethod.POST})
+    @Secured("ROLE_ADMIN")
+    public JSONObject test3(HttpServletResponse response) throws Exception {
+
+        Map<String, String>[] res = ezUtils.findUser("A-10376");
+
+        JSONObject tag = new JSONObject();
+        Map<String, String> map = res[0];
+        for (String s : map.keySet()) {
+            tag.put(s, map.get(s).toString());
+        }
+
+        return tag;
+    }
 
     @ResponseBody
     @RequestMapping(value = "/test", method = {RequestMethod.GET, RequestMethod.POST})

@@ -135,8 +135,7 @@
                     <li class="dropdown">
                     <lable for="jobnumber">Jobnumber: </lable><font id="jobnumber"><c:out value="${user.jobnumber}" /></font> / 
                     <lable for="name">Name: </lable><font id="name"><c:out value="${user.username}" /></font> / 
-                    <lable for="unit">Unit: </lable><font id="unit"><c:out value="${user.unit.name}" /></font> / 
-                    <lable for="floor">Floor: </lable><font id="floor"><c:out value="${user.floor.name}" /></font> 
+                    <lable for="unit">Unit: </lable><font id="unit"><c:out value="${user.unit.name}" /></font>
                     </li>
 
                     <!-- /.dropdown -->
