@@ -58,6 +58,8 @@ public class StandardTimeUpload {
 
     private List<String> checkField;
 
+    private final int checkPeriod = 1; // check ? days ago
+
     @Value("#{contextParameters[pageTitle] ?: ''}")
     private String pageTitle;
 
@@ -76,7 +78,7 @@ public class StandardTimeUpload {
     private void initCheckFieldNames() {
         checkField = newArrayList(
                 "modelName",
-                "arFilmAttachment", "cleanPanel", "assy", "highBright", "bondedSealingFrame", "pi", "t1", "t2","t3",
+                "arFilmAttachment", "cleanPanel", "assy", "highBright", "bondedSealingFrame", "pi", "t1", "t2", "t3",
                 "packing", "seal", "opticalBonding", "upBiRi", "downBiRi"
         );
     }
@@ -91,16 +93,17 @@ public class StandardTimeUpload {
 
         DateTime today = new DateTime();
 
-        Date startDate = today.minusDays(10).toDate();
+        Date startDate = today.minusDays(checkPeriod).toDate();
         Date endDate = today.toDate();
 
         int failCount = 0;
 
         for (Worktime w : modifiedWorktimes) {
             try {
-                boolean isFieldChanged = worktimeAuditService.findByFieldChangedInDate(w.getId(), checkField, startDate, endDate).isEmpty();
+                boolean isFieldChanged = !worktimeAuditService.findByFieldChangedInDate(w.getId(), checkField, startDate, endDate).isEmpty();
                 if (isFieldChanged) {
                     port.update(w);
+                    log.info("Upload standardtime " + w.getModelName());
                 }
             } catch (Exception e) {
                 String errorMessage = w.getModelName() + " upload fail: " + e.getMessage();
@@ -123,7 +126,7 @@ public class StandardTimeUpload {
     }
 
     public void updatePageInfo() {
-        tempInfo.setSearchString(df.print(new DateTime().minusDays(1)));
+        tempInfo.setSearchString(df.print(new DateTime().minusDays(checkPeriod)));
     }
 
     public void notifyUser(List<String> l) {

@@ -50,9 +50,6 @@ public class DriverContextListener implements ServletContextListener {
                 event.getServletContext().log("Not deregistering JDBC driver " + driver + " as it does not belong to this webapp's ClassLoader");
             }
         }
-        
-        //fix memory leak from WebClient : thread named [reactor-http-nio-*] and [webflux-http-nio-*]
-        HttpResources.disposeLoopsAndConnectionsLater().block();
     }
 
 }

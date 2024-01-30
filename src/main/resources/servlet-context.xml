@@ -186,6 +186,7 @@
     
     <!--regist for WsClient.class use, -->
     <bean id="objectFactory" class="org.tempuri.ObjectFactory" />
+    <bean id="reactorResourceFactory" class="org.springframework.http.client.reactive.ReactorResourceFactory" />
     
     <!--regist web api config-->
     <bean id="employeeZoneUtils" class="com.advantech.helper.EmployeeZoneUtils">
