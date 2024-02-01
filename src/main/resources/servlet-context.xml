@@ -188,6 +188,8 @@
     
     <!--regist for WsClient.class use, -->
     <bean id="objectFactory" class="org.tempuri.ObjectFactory" />
+    <!--fix memory leak : thread named [reactor-http-nio-*] and [webflux-http-nio-*]-->
+    <bean id="reactorResourceFactory" class="org.springframework.http.client.reactive.ReactorResourceFactory" />
     
     <!--regist web api config-->
     <bean id="employeeZoneUtils" class="com.advantech.helper.EmployeeZoneUtils">
