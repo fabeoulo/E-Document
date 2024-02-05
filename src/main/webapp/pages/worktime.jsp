@@ -80,7 +80,7 @@
         var selected_row_revision;
         var table_current_revision;
 
-        var selected_row_formula_id;
+        var selected_row_formula_id, selected_row_level_id;
 
         //Set param into jqgrid-custom-select-option-reader.js and get option by param selectOptions
         //You can get the floor select options and it's formatter function
@@ -136,39 +136,44 @@
         };
 
         var before_add = function (postdata, formid) {
-            var formulaFieldInfo = getFormulaCheckboxField();
-
             var checkResult = add_edit_check_incommon(postdata, formid);
 
-            if (checkResult.length != 0) {
+            if (checkResult.length !== 0) {
                 errorTextFormatF(checkResult); //field // code
                 return [false, "There are some errors in the entered data. Hover over the error icons for details."];
             } else {
+                var formulaFieldInfo = getFormulaCheckboxField();
+                var levelFieldInfo = getLevelCheckboxField();
+
 //                return [false, "Saved."]; //--For debug validator
                 $.extend(postdata, formulaFieldInfo);
+                $.extend(postdata, levelFieldInfo);
                 return [true, "saved"];
             }
         };
 
         var before_edit = function (postdata, formid) {
-            var formulaFieldInfo = getFormulaCheckboxField();
-            formulaFieldInfo["worktimeFormulaSettings[0].id"] = selected_row_formula_id;
-            formulaFieldInfo["worktimeFormulaSettings[0].worktime.id"] = postdata.id;
-            
             var checkResult = add_edit_check_incommon(postdata, formid);
-            
-            if (checkResult.length != 0) {
+
+            if (checkResult.length !== 0) {
                 errorTextFormatF(checkResult); //field // code
                 return [false, "There are some errors in the entered data. Hover over the error icons for details."];
             } else {
-//                return [false, "Saved."]; //--For debug validator
                 //儲存前再check一次版本，給予覆蓋or取消的選擇
                 var revision_number = getRowRevision();
                 if (revision_number != selected_row_revision) {
                     return [false, "欄位版本已經被修改，請重新整理檢視新版本"];
                 } else {
-//                    return [false, "saved"];//For validator debug use
+                    var formulaFieldInfo = getFormulaCheckboxField();
+                    formulaFieldInfo["worktimeFormulaSettings[0].id"] = selected_row_formula_id;
+                    formulaFieldInfo["worktimeFormulaSettings[0].worktime.id"] = postdata.id;
+                    var levelFieldInfo = getLevelCheckboxField();
+                    levelFieldInfo["worktimeLevelSettings[0].id"] = selected_row_level_id;
+                    levelFieldInfo["worktimeLevelSettings[0].worktime.id"] = postdata.id;
+
+//                return [false, "Saved."]; //--For debug validator
                     $.extend(postdata, formulaFieldInfo);
+                    $.extend(postdata, levelFieldInfo);
                     return [true, "saved"];
                 }
             }
@@ -179,7 +184,8 @@
             var checkResult = checkFlowIsValid(postdata, formid);
 
             var modelRelativeCheckResult = checkModelIsValid(postdata);
-            checkResult = checkResult.concat(modelRelativeCheckResult);
+            var roomLevelCheckResult = checkLevelIsValid(postdata);
+            checkResult = checkResult.concat(modelRelativeCheckResult).concat(roomLevelCheckResult);
 
             return checkResult;
         }
@@ -206,23 +212,24 @@
                 {label: 'Work Center', name: "workCenter.id", edittype: "select", editoptions: {value: selectOptions["workCenter"]}, formatter: selectOptions["workCenter_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["workCenter"], sopt: ['eq']}},
                 {label: 'ProductionWT', name: "productionWt", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("productionWt")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Setup Time', name: "setupTime", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("setupTime")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'AR film attachment', name: "arFilmAttachment", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'SEAL', name: "seal", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'OB', name: "opticalBonding", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'AR film attachment', name: "arFilmAttachment", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("arFilmAttachment")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'SEAL', name: "seal", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("seal")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'OB', name: "opticalBonding", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("opticalBonding")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: '壓力鍋', name: "pressureCooker", width: 100, searchrules: {required: true}, searchoptions: search_string_options, edittype: "select", editoptions: {value: "Y:Y;N:N", defaultValue: 'N'}},
-                {label: 'CleanPanel', name: "cleanPanel", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: 'PI', name: "pi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: '高亮', name: "highBright", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: '組裝', name: "assy", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: '封/貼前框', name: "bondedSealingFrame", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: 'T1', name: "t1", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: 'T2', name: "t2", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: 'T3', name: "t3", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: 'Packing', name: "packing", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: 'Up_BI_RI', name: "upBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: 'Down_BI_RI', name: "downBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: 'BI Cost', name: "biCost", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: '機器工時', name: "machineWorktime", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("machineWorktime")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},        
+                {label: 'CleanPanel', name: "cleanPanel", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("cleanPanel")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'PI', name: "pi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("pi")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: '高亮', name: "highBright", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("highBright")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: '組裝', name: "assy", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("assy")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: '封/貼前框', name: "bondedSealingFrame", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("bondedSealingFrame")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'T1', name: "t1", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("t1")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'T2', name: "t2", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("t2")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'T3', name: "t3", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("t3")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'Packing', name: "packing", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("packing")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'Up_BI_RI', name: "upBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("upBiRi")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'Down_BI_RI', name: "downBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("downBiRi")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'BI Cost', name: "biCost", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("biCost")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'Clean room level', name: "cleanRoomLevel", edittype: "select", editoptions: {value: "0:N;10000:10000;1000:1000", defaultValue: 0, dataEvents: cleanRoom_select_event}, width: 100, searchrules: {required: true}, stype: "select", searchoptions: search_string_options, formoptions: {elmsuffix: "確認機種作業環境等級"}},
+                {label: '機器工時', name: "machineWorktime", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("machineWorktime")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'ASS_T1', name: "assyToT1", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("assyToT1")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T2_PACKING', name: "t2ToPacking", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("t2ToPacking")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Floor', name: "floor.id", hidden: true, edittype: "select", editoptions: {value: selectOptions["floor"]}, width: 100, formatter: selectOptions["floor_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["floor"], sopt: ['eq']}},
@@ -235,8 +242,8 @@
                 {label: 'BPE Owner', name: "userByEeOwnerId.id", edittype: "select", editoptions: {value: selectOptions["ee_user"]}, formatter: selectOptions["ee_user_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["ee_user"], sopt: ['eq']}},
                 {label: 'QC Owner', name: "userByQcOwnerId.id", edittype: "select", editoptions: {value: selectOptions["qc_user"]}, formatter: selectOptions["qc_user_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["qc_user"], sopt: ['eq']}},
                 {label: 'MPM Owner', name: "userByMpmOwnerId.id", edittype: "select", editoptions: {value: selectOptions["mpm_user"]}, formatter: selectOptions["mpm_user_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["mpm_user"], sopt: ['eq']}},
-                {label: '組包SOP', name: "assyPackingSop", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "textarea", editoptions: {maxlength: 500}},
-                {label: '測試SOP', name: "testSop", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "textarea", editoptions: {maxlength: 500}},
+//                {label: '組包SOP', name: "assyPackingSop", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "textarea", editoptions: {maxlength: 500}},
+//                {label: '測試SOP', name: "testSop", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "textarea", editoptions: {maxlength: 500}},
                 {label: 'KEYPART_A', name: "keypartA", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'KEYPART_B', name: "keypartB", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'PRE-ASSY', name: "preAssy.id", edittype: "select", editoptions: {value: selectOptions["preAssy"]}, formatter: selectOptions["preAssy_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["preAssy"], sopt: ['eq']}},
@@ -346,7 +353,9 @@
                             // do here all what you need (like alert('yey');)
                             $("#flowByBabFlowId\\.id").trigger("change");
                             $("#businessGroup\\.id").trigger("change");
+                            $("#cleanRoomLevel").trigger("change");
                             settingFormulaCheckbox();
+                            settingLevelCheckbox();
                         }, 50);
                         greyout(form);
                     },
@@ -379,6 +388,7 @@
                             // do here all what you need (like alert('yey');)
                             $("#flowByBabFlowId\\.id").trigger("change");
                             $("#businessGroup\\.id").trigger("change");
+                            $("#cleanRoomLevel").trigger("change");
                         }, 50);
                         greyout(form);
                     },
@@ -565,12 +575,53 @@
                     var setting = response;
                     for (var i = 0; i < formulaColumn.length; i++) {
                         var columnName = formulaColumn[i];
-                        $("#f_" + columnName).prop("checked", setting[columnName] == 1);
+                        $("#f_" + columnName).prop("checked", setting[columnName] === 1);
                     }
                     selected_row_formula_id = setting.id;
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     closeEditDialogWhenError("設定Formula時發生錯誤，請稍後再試");
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+        function addLevelCheckbox(fieldName) {
+            var str = "<input type='checkbox' id='l_" + fieldName +
+                    "' name='l_" + fieldName + "' class='ui-checkbox level-checkbox'/>" +
+                    "<label for='l_" + fieldName + "' class='level-checkbox-label'>套入1k級</label>";
+            return str;
+        }
+
+        function getLevelCheckboxField() {
+            var levelCheckboxField = {};
+            for (var i = 0; i < levelColumn.length; i++) {
+                var columnName = levelColumn[i];
+                var fieldName = "worktimeLevelSettings[0]." + columnName;
+                levelCheckboxField[fieldName] = $("#l_" + columnName).is(":checked") ? 1 : 0;
+            }
+            return levelCheckboxField;
+        }
+
+        function settingLevelCheckbox() {
+            var rowId = getSelectedRowId();
+            if (rowId == null || rowId == "") {
+                return false;
+            }
+            $.ajax({
+                type: "GET",
+                url: "<c:url value="/WorktimeLevelSetting/find/" />" + rowId,
+                dataType: "json",
+                success: function (response) { //if response !== null, go error: function
+                    var setting = response;
+                    for (var i = 0; i < levelColumn.length; i++) {
+                        var columnName = levelColumn[i];
+                        $("#l_" + columnName).prop("checked", setting[columnName] === 1);
+                    }
+                    selected_row_level_id = setting.id;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    closeEditDialogWhenError("設定Level時發生錯誤，請稍後再試");
                     console.log(xhr.responseText);
                 }
             });
@@ -620,7 +671,6 @@
             var firstCheckResult = babCheckMessage.concat(testCheckMessage).concat(pkgCheckMessage).concat(preAssyCheckMessage);
 
             var secondCheckResult = fieldCheck(postdata, preAssyName, babFlowName, testFlowName, pkgFlowName);
-
             var totalAlert = firstCheckResult.concat(secondCheckResult);
 
             return totalAlert;
@@ -653,7 +703,7 @@
         </h5>
         <c:if test="${isAdmin || isAuthor || isContributor}">
             <h5 style="color:red" class="form-control">
-                ※料號負責人、途程、SOP及料號屬性質在該欄位有更動時會上傳至MES，請務必確認資料是否正確
+                ※料號負責人、途程、料號屬性質在該欄位有更動時會上傳至MES，請務必確認資料是否正確
             </h5>
         </c:if>
     </div>

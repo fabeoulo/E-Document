@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Table(name = "Worktime_FormulaSetting"
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class WorktimeFormulaSetting implements java.io.Serializable {
+public class WorktimeFormulaSetting implements java.io.Serializable, WorktimeSettingBase {
 
     private int id;
     private Worktime worktime;
@@ -50,6 +50,7 @@ public class WorktimeFormulaSetting implements java.io.Serializable {
         this.id = id;
     }
 
+    @Override
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "worktime_id", nullable = true)
     public Worktime getWorktime() {

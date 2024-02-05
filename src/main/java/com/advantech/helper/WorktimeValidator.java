@@ -65,7 +65,7 @@ public class WorktimeValidator {
 
         //Column calculable
         if (setting.getProductionWt() == 1) {
-            currentW.setDefaultProductWt();
+            currentW.setDefaultProductWt();//none use. need to update.
 
             BigDecimal b1 = currentW.getProductionWt();
             BigDecimal b2 = existW.getProductionWt();

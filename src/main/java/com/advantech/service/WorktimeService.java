@@ -12,10 +12,14 @@ import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.Cobot;
 import com.advantech.model.Worktime;
 import com.advantech.model.WorktimeFormulaSetting;
+import com.advantech.model.WorktimeLevelSetting;
+import com.advantech.model.WorktimeSettingBase;
 import static com.google.common.base.Preconditions.*;
 import static com.google.common.collect.Lists.newArrayList;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,6 +45,11 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
 
     @Autowired
     private WorktimeFormulaSettingDAO worktimeFormulaSettingService;
+
+    @Autowired
+    private WorktimeLevelSettingDAO worktimeLevelSettingService;
+
+    private final double levelRatio = 0.1, levelWeight = 0;
 
     @Autowired
     private WorktimeUploadMesService uploadMesService;
@@ -130,10 +139,16 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         for (Worktime w : l) {
             initUnfilledFormulaColumn(w);
             WorktimeFormulaSetting setting = w.getWorktimeFormulaSettings().get(0);
+            WorktimeLevelSetting settingLevel = w.getWorktimeLevelSettings().get(0);
             w.setWorktimeFormulaSettings(null);
+            w.setWorktimeLevelSettings(null);
             dao.insert(w);
+
             setting.setWorktime(w);
             worktimeFormulaSettingService.insert(setting);
+            settingLevel.setWorktime(w);
+            worktimeLevelSettingService.insert(settingLevel);
+
             uploadMesService.insert(w);
             flushIfReachFetchSize(i++);
         }
@@ -149,7 +164,7 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         //Insert worktime then insert worktimeFormulaSetting & cobots setting
 
         Worktime baseW = this.findByModel(baseModelName);
-        checkArgument(baseW != null, "Can't find modelName: " + baseModelName);
+        checkArgument(baseW != null, "Can't find base modelName: " + baseModelName);
         List<Worktime> l = new ArrayList();
 
         for (String seriesModelName : seriesModelNames) {
@@ -157,6 +172,7 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
             cloneW.setId(0); //CloneW is a new row, reset id.
             cloneW.setModelName(seriesModelName);
             cloneW.setWorktimeFormulaSettings(null);
+            cloneW.setWorktimeLevelSettings(null); // Fix shared references to a collection.
             cloneW.setBwFields(null);
             cloneW.setCobots(null);
 
@@ -167,12 +183,20 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         this.insertWithMesUpload(l);
 
         //Insert worktimeFormulaSetting
-        WorktimeFormulaSetting baseWSetting = baseW.getWorktimeFormulaSettings().get(0);
-        checkState(baseWSetting != null, "Can't find formulaSetting on: " + baseModelName);
+        List<WorktimeFormulaSetting> formulaSettings = baseW.getWorktimeFormulaSettings();
+        List<WorktimeLevelSetting> levelSettings = baseW.getWorktimeLevelSettings();
+        checkState(!formulaSettings.isEmpty(), "Can't find formulaSetting on: " + baseModelName);
+        checkState(!levelSettings.isEmpty(), "Can't find levelSetting on: " + baseModelName);
+        WorktimeFormulaSetting baseWSetting = formulaSettings.get(0);
+        WorktimeLevelSetting baseWSettingLevel = levelSettings.get(0);
         for (Worktime w : l) {
             WorktimeFormulaSetting cloneSetting = (WorktimeFormulaSetting) BeanUtils.cloneBean(baseWSetting);
             cloneSetting.setWorktime(w);
             worktimeFormulaSettingService.insert(cloneSetting);
+
+            WorktimeLevelSetting cloneSettingLevel = (WorktimeLevelSetting) BeanUtils.cloneBean(baseWSettingLevel);
+            cloneSettingLevel.setWorktime(w);
+            worktimeLevelSettingService.insert(cloneSettingLevel);
         }
 
         //Insert cobots setting
@@ -198,6 +222,7 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
             initUnfilledFormulaColumn(w);
             dao.update(w);
             worktimeFormulaSettingService.update(w.getWorktimeFormulaSettings().get(0));
+            worktimeLevelSettingService.update(w.getWorktimeLevelSettings().get(0));
             uploadMesService.update(w);
             flushIfReachFetchSize(i++);
         }
@@ -214,6 +239,7 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         for (Worktime w : l) {
             initUnfilledFormulaColumn(w);
             worktimeFormulaSettingService.update(w.getWorktimeFormulaSettings().get(0));
+            worktimeLevelSettingService.update(w.getWorktimeLevelSettings().get(0));
             dao.merge(w);
             uploadMesService.update(w);
             flushIfReachFetchSize(i++);
@@ -228,13 +254,14 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
     public int insertByExcel(List<Worktime> l) throws Exception {
         l.forEach(w -> {
             w.setWorktimeFormulaSettings(newArrayList(new WorktimeFormulaSetting()));
+            w.setWorktimeLevelSettings(newArrayList(new WorktimeLevelSetting()));
         });
         this.insertWithMesUploadAndFormulaSetting(l);
         return 1;
     }
 
     public int mergeByExcel(List<Worktime> l) throws Exception {
-        retriveFormulaSetting(l);
+        retriveFormulaAndLevelSetting(l);
 
         uploadMesService.portParamInit();
         int i = 1;
@@ -250,17 +277,26 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
 
     }
 
-    private void retriveFormulaSetting(List<Worktime> l) {
+    private void retriveFormulaAndLevelSetting(List<Worktime> l) {
         //Retrive settings because excel doesn't have formula setting field.
-        List<WorktimeFormulaSetting> settings = worktimeFormulaSettingService.findWithWorktime();
-        Map<Integer, WorktimeFormulaSetting> settingMap = new HashMap();
-        settings.forEach((setting) -> {
-            settingMap.put(setting.getWorktime().getId(), setting);
-        });
+        List<WorktimeFormulaSetting> settings = worktimeFormulaSettingService.findAll();
+        Map<Integer, WorktimeFormulaSetting> settingMap = getSettingMap(settings);
+
+        List<WorktimeLevelSetting> levelSettings = worktimeLevelSettingService.findAll();
+        Map<Integer, WorktimeLevelSetting> levelSettingMap = getSettingMap(levelSettings);
 
         l.forEach((w) -> {
             w.setWorktimeFormulaSettings(newArrayList(settingMap.get(w.getId())));
+            w.setWorktimeLevelSettings(newArrayList(levelSettingMap.get(w.getId())));
         });
+    }
+
+    private <T extends WorktimeSettingBase> Map<Integer, T> getSettingMap(List<T> settings) {
+        Map settingMap = new HashMap();
+        settings.forEach((setting) -> {
+            settingMap.put(setting.getWorktime().getId(), setting);
+        });
+        return settingMap;
     }
 
     public void initUnfilledFormulaColumn(Worktime w) {
@@ -268,7 +304,8 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         WorktimeFormulaSetting setting = w.getWorktimeFormulaSettings().get(0);
 
         if (isColumnCalculated(setting.getProductionWt())) {
-            w.setDefaultProductWt();
+            BigDecimal levelTime = getCleanRoomLevelTime(w);
+            w.setLevelProductWt(levelTime);
         }
         if (isColumnCalculated(setting.getSetupTime())) {
             w.setDefaultSetupTime();
@@ -293,6 +330,37 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
 
     private boolean isColumnCalculated(int i) {
         return i == 1;
+    }
+
+    private BigDecimal getCleanRoomLevelTime(Worktime w) {
+        List<WorktimeLevelSetting> settings = w.getWorktimeLevelSettings();
+        checkState(!settings.isEmpty(), "No WorktimeLevelSetting : " + w.getModelName());
+        Map<String, Integer> settingMap = settings.get(0).retriveIntPropertiesMap();
+        return countStandardLevelTime(settingMap, w);
+    }
+
+    private BigDecimal countStandardLevelTime(Map<String, Integer> settingMap, Worktime w) {
+        BigDecimal levelTime = BigDecimal.ZERO;
+        for (Map.Entry<String, Integer> entry : settingMap.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+            if (isColumnCalculated(value) && !key.equalsIgnoreCase("id")) {
+                try {
+                    Field field = Worktime.class.getDeclaredField(key);
+                    field.setAccessible(true); // Allow access to private fields
+                    if (field.getType() == BigDecimal.class) {
+                        BigDecimal wt = (BigDecimal) field.get(w);
+                        levelTime = levelTime.add(
+                                wt.multiply(new BigDecimal(levelRatio))
+                                        .add(new BigDecimal(levelWeight))
+                        );
+                    }
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return levelTime;
     }
 
     public Worktime setCobotWorktime(Worktime w) {

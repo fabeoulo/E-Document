@@ -28,6 +28,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
@@ -135,6 +137,9 @@ public class Worktime implements java.io.Serializable {
 
     @JsonView(View.Public.class)
     private BigDecimal biCost = BigDecimal.ZERO;
+
+    @JsonView(View.Public.class)
+    private int cleanRoomLevel;
 
     @JsonView(View.Public.class)
     private BigDecimal assyToT1 = BigDecimal.ZERO;
@@ -258,6 +263,9 @@ public class Worktime implements java.io.Serializable {
 
     @JsonView(View.Internal.class)
     private List<WorktimeFormulaSetting> worktimeFormulaSettings = new AutoPopulatingList<WorktimeFormulaSetting>(WorktimeFormulaSetting.class);
+
+    @JsonView(View.Internal.class)
+    private List<WorktimeLevelSetting> worktimeLevelSettings = new AutoPopulatingList<WorktimeLevelSetting>(WorktimeLevelSetting.class);
 
     @JsonView(View.Public.class)
     private String hrcValues;
@@ -537,6 +545,18 @@ public class Worktime implements java.io.Serializable {
         this.biCost = autoFixScale(biCost, 2);
     }
 
+    @NotNull
+    @Min(value = 1000, message = "clean room level is wrong.")
+    @Max(value = 10000, message = "clean room level is wrong.")
+    @Column(name = "cleanroom_level", nullable = false)
+    public int getCleanRoomLevel() {
+        return cleanRoomLevel;
+    }
+
+    public void setCleanRoomLevel(int cleanRoomLevel) {
+        this.cleanRoomLevel = cleanRoomLevel;
+    }
+
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "assy_to_t1", precision = 10, scale = 1)
     public BigDecimal getAssyToT1() {
@@ -741,6 +761,8 @@ public class Worktime implements java.io.Serializable {
     }
 
     @NotNull
+    @Min(value = 0)
+    @Max(value = 1)
     @Column(name = "ce", nullable = false)
     public int getCe() {
         return this.ce;
@@ -751,6 +773,8 @@ public class Worktime implements java.io.Serializable {
     }
 
     @NotNull
+    @Min(value = 0)
+    @Max(value = 1)
     @Column(name = "ul", nullable = false)
     public int getUl() {
         return this.ul;
@@ -761,6 +785,8 @@ public class Worktime implements java.io.Serializable {
     }
 
     @NotNull
+    @Min(value = 0)
+    @Max(value = 1)
     @Column(name = "rohs", nullable = false)
     public int getRohs() {
         return this.rohs;
@@ -771,6 +797,8 @@ public class Worktime implements java.io.Serializable {
     }
 
     @NotNull
+    @Min(value = 0)
+    @Max(value = 1)
     @Column(name = "weee", nullable = false)
     public int getWeee() {
         return this.weee;
@@ -781,6 +809,8 @@ public class Worktime implements java.io.Serializable {
     }
 
     @NotNull
+    @Min(value = 0)
+    @Max(value = 1)
     @Column(name = "made_in_taiwan", nullable = false)
     public int getMadeInTaiwan() {
         return this.madeInTaiwan;
@@ -791,6 +821,8 @@ public class Worktime implements java.io.Serializable {
     }
 
     @NotNull
+    @Min(value = 0)
+    @Max(value = 1)
     @Column(name = "fcc", nullable = false)
     public int getFcc() {
         return this.fcc;
@@ -801,6 +833,8 @@ public class Worktime implements java.io.Serializable {
     }
 
     @NotNull
+    @Min(value = 0)
+    @Max(value = 1)
     @Column(name = "eac", nullable = false)
     public int getEac() {
         return this.eac;
@@ -811,6 +845,8 @@ public class Worktime implements java.io.Serializable {
     }
 
     @NotNull
+    @Min(value = 0)
+    @Max(value = 1)
     @Column(name = "kc", nullable = false)
     public int getKc() {
         return this.kc;
@@ -951,6 +987,16 @@ public class Worktime implements java.io.Serializable {
     }
 
     @NotAudited
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "worktime", orphanRemoval = true)
+    public List<WorktimeLevelSetting> getWorktimeLevelSettings() {
+        return worktimeLevelSettings;
+    }
+
+    public void setWorktimeLevelSettings(List<WorktimeLevelSetting> worktimeLevelSettings) {
+        this.worktimeLevelSettings = worktimeLevelSettings;
+    }
+
+    @NotAudited
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "worktime")
     public List<BwField> getBwFields() {
         return bwField;
@@ -1001,6 +1047,12 @@ public class Worktime implements java.io.Serializable {
                 .add(notEmpty(t1)).add(notEmpty(t2)).add(notEmpty(t3)).add(notEmpty(packing))
                 .add(notEmpty(upBiRi)).add(notEmpty(downBiRi)).add(notEmpty(biCost));
         this.setProductionWt(defaultValue);
+    }
+
+    public void setLevelProductWt(BigDecimal levelTime) {
+        setDefaultProductWt();
+        BigDecimal levelValue = notEmpty(productionWt).add(notEmpty(levelTime));
+        this.setProductionWt(levelValue);
     }
 
     public void setDefaultSetupTime() {

@@ -9,7 +9,11 @@ import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.Pending;
 import com.advantech.model.Worktime;
+import com.advantech.model.WorktimeLevelSetting;
+import com.advantech.model.WorktimeMaterialPropertyUploadSetting;
 import com.advantech.service.WorktimeAuditService;
+import com.advantech.service.WorktimeLevelSettingService;
+import com.advantech.service.WorktimeMaterialPropertyUploadSettingService;
 import com.advantech.service.WorktimeService;
 import com.advantech.service.WorktimeUploadMesService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,11 +22,8 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import static junit.framework.Assert.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -31,6 +32,7 @@ import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditEntity;
 import org.hibernate.envers.query.AuditQuery;
 import org.joda.time.DateTime;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,25 +52,56 @@ import org.springframework.test.context.web.WebAppConfiguration;
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class HibernateTest {
-    
+
     @Autowired
     private WorktimeService worktimeService;
-    
+
     @Autowired
     private SessionFactory sessionFactory;
-    
+
     @Autowired
     private WorktimeAuditService worktimeAuditService;
-    
-    private static Validator validator;
-    
+
     @Autowired
     private WorktimeUploadMesService worktimeUploadMesService;
-    
+
+    @Autowired
+    private WorktimeLevelSettingService worktimeLevelSettingService;
+
+    @Autowired
+    private WorktimeMaterialPropertyUploadSettingService propSettingService;
+
     @Before
     public void setUp() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
+    }
+
+//    @Test
+    @Transactional
+    @Rollback(false)
+    public void testWorktimeMaterialPropertyUploadSettingService() {
+        List<WorktimeMaterialPropertyUploadSetting> settings = propSettingService.findAll();
+    }
+
+//    @Test
+    @Transactional
+    @Rollback(false)
+    public void testWorktimeInitUnfilledFormulaColumn() {
+        Worktime w = worktimeService.findByModel("9666J43UA01-TEST");
+        HibernateObjectPrinter.print(w.getPending().getId());
+        worktimeService.initUnfilledFormulaColumn(w);
+    }
+
+//    @Test
+//    @Transactional
+//    @Rollback(false)
+    public void testLevelSettingService() {
+        List<Worktime> w = worktimeService.findAll();
+//        List<String> models = w.stream().map(wt -> wt.getModelName()).collect(Collectors.toList());
+        w.forEach(n -> {
+            WorktimeLevelSetting pojo = new WorktimeLevelSetting(n);
+            worktimeLevelSettingService.insert(pojo);
+        });
+        List<WorktimeLevelSetting> l = worktimeLevelSettingService.findByWorktime(2261);
     }
 
 //    @Transactional
@@ -76,7 +109,7 @@ public class HibernateTest {
 //    @Test
     public void testAudit() throws JsonProcessingException {
         DateTime d = new DateTime("2017-09-26").withHourOfDay(0);
-        
+
         Session session = sessionFactory.getCurrentSession();
         AuditReader reader = AuditReaderFactory.get(session);
         AuditQuery q = reader.createQuery()
@@ -88,7 +121,7 @@ public class HibernateTest {
                         AuditEntity.property("assyPackingSop").hasChanged(),
                         AuditEntity.property("testSop").hasChanged()
                 ));
-        
+
         List l = q.getResultList();
         assertEquals(26, l.size());
         HibernateObjectPrinter.print(l);
@@ -101,7 +134,7 @@ public class HibernateTest {
     public void test() throws Exception {
         this.testUpdate();
     }
-    
+
     public void testUpdate() throws Exception {
         Session session = sessionFactory.getCurrentSession();
         Worktime w = (Worktime) session.load(Worktime.class, 17915);
@@ -109,11 +142,11 @@ public class HibernateTest {
         worktimeService.update(w);
         throw new Exception("this is a testing exception");
     }
-    
+
     private String[] getAllFields() {
         Worktime w = new Worktime();
         Class objClass = w.getClass();
-        
+
         List<String> list = new ArrayList<>();
         // Get the public methods associated with this class.
         Method[] methods = objClass.getMethods();
@@ -125,7 +158,7 @@ public class HibernateTest {
         }
         return list.toArray(new String[0]);
     }
-    
+
     private String lowerCaseFirst(String st) {
         StringBuilder sb = new StringBuilder(st);
         sb.setCharAt(0, Character.toLowerCase(sb.charAt(0)));
@@ -136,17 +169,17 @@ public class HibernateTest {
     @Transactional
     @Rollback(false)
     public void testClone() throws Exception {
-        Worktime w = worktimeService.findByPrimaryKey(8614);
+        Worktime w = worktimeService.findByPrimaryKey(2261);
         assertNotNull(w);
-        
+
         String modelName = w.getModelName();
-        
+
         List<String> modelNames = new ArrayList();
-        
-        for (int i = 0; i <= 10; i++) {
+
+        for (int i = 0; i <= 2; i++) {
             modelNames.add(modelName + "-CLONE-" + i);
         }
-        
+
         worktimeService.insertSeriesWithMesUpload(modelName, modelNames);
     }
 
@@ -196,22 +229,22 @@ public class HibernateTest {
     public void testTrimModel() throws JsonProcessingException {
         List<Worktime> l = worktimeService.findAll(new PageInfo());
         assertEquals(10, l.size());
-        
+
         l.stream().map((w) -> {
             w.setModelName(w.getModelName() + " ");
             return w;
         }).forEachOrdered((w) -> {
             this.removeModelNameExtraSpaceCharacter(w);
         });
-        
+
         HibernateObjectPrinter.print(l);
     }
-    
+
     private void removeModelNameExtraSpaceCharacter(Worktime w) {
         String modelName = w.getModelName();
         w.setModelName(removeModelNameExtraSpaceCharacter(modelName));
     }
-    
+
     private String removeModelNameExtraSpaceCharacter(String modelName) {
         return modelName.replaceAll("^\\s+", "").replaceAll("\\s+$", "");
     }
@@ -225,23 +258,23 @@ public class HibernateTest {
                 .createQuery("from Worktime w order by id desc")
                 .setMaxResults(1)
                 .uniqueResult();
-        
+
         assertNotNull(w);
-        
+
         Object modelName = PropertyUtils.getProperty(w, "modelName");
         assertEquals("HPC7442MB1707-T", modelName);
-        
+
         Object t1 = PropertyUtils.getProperty(w, "t1");
         assertNotNull(t1);
         assertTrue(new BigDecimal(40).compareTo((BigDecimal) t1) == 0);
-        
+
         PropertyUtils.setProperty(w, "t1", new BigDecimal(50));
         t1 = PropertyUtils.getProperty(w, "t1");
         assertNotNull(t1);
         assertTrue(new BigDecimal(50).compareTo((BigDecimal) t1) == 0);
-        
+
     }
-    
+
 //    @Test
     @Transactional
     @Rollback(false)
@@ -253,14 +286,14 @@ public class HibernateTest {
             session.update(w);
         }
     }
-    
-    @Test
-    @Transactional
-    @Rollback(false)
+
+//    @Test
+//    @Transactional
+//    @Rollback(false)
     public void testWorktime() {
         List<Worktime> l = worktimeService.findAll();
         Worktime w = l.get(0);
         HibernateObjectPrinter.print(w.getPending().getName());
     }
-    
+
 }

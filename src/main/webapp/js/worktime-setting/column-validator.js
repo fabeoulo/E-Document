@@ -267,3 +267,34 @@ function registerEndsWithIfIe() {
         };
     }
 }
+
+function checkLevelIsValid(postdata) {
+    var validationErrors = [];
+    var roomLevel = postdata["cleanRoomLevel"];
+    switch (roomLevel) {
+        case "1000":
+            if (!$(".level-checkbox").is(":checked")) {
+                var err = {};
+                err.field = "cleanRoomLevel";
+                err.code = "至少勾選一個套入1k級";
+                validationErrors.push(err);
+            }
+            if ($("#f_productionWt").is(":not(:checked)")) {
+                var err = {};
+                err.field = "productionWt";
+                err.code = "1k級必須勾選套入公式";
+                validationErrors.push(err);
+            }
+            break;
+        case "10000":
+            $(".level-checkbox").prop("checked", false);
+            break;
+//        case "0":
+        default:
+            var err = {};
+            err.field = "cleanRoomLevel";
+            err.code = "確認機種作業環境等級";
+            validationErrors.push(err);
+    }
+    return validationErrors;
+}

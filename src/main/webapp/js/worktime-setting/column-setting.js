@@ -5,8 +5,8 @@ var worktimeCol = [
     {name: "modelName"},
     {name: "type.id"},
     {name: "productionWt"},
-    {name: "setupTime"},                                                                                                                                                                  
-    {name: "arFilmAttachment"},                                                                                                                                                                  
+    {name: "setupTime"},
+    {name: "arFilmAttachment"},
     {name: "seal"},
     {name: "opticalBonding"},
     {name: "pressureCooker"},
@@ -34,8 +34,8 @@ var worktimeCol = [
     {name: "userByEeOwnerId.id"},
     {name: "userByQcOwnerId.id"},
     {name: "userByMpmOwnerId.id"},
-    {name: "assyPackingSop"},
-    {name: "testSop"},
+//    {name: "assyPackingSop"},
+//    {name: "testSop"},
     {name: "keypartA"},
     {name: "keypartB"},
     {name: "preAssy.id"},
@@ -73,7 +73,8 @@ var worktimeCol = [
     {name: "bondedSealingFrame"},
     {name: "machineWorktime"},
     {name: "cobots"},
-    {name: "tpWorktime"}
+    {name: "tpWorktime"},
+    {name: "cleanRoomLevel"}
 ];
 
 
@@ -90,4 +91,23 @@ var formulaColumn = [
     "t2ToPacking",
     "assyLeadTime",
     "test"
+];
+
+//cleanRoomLevel column要有checkbox
+var levelColumn = [
+    "arFilmAttachment",
+    "seal",
+    "opticalBonding",
+    "cleanPanel",
+    "pi",
+    "highBright",
+    "assy",
+    "bondedSealingFrame",
+    "t1",
+    "t2",
+    "t3",
+    "packing",
+    "upBiRi",
+    "downBiRi",
+    "biCost"
 ];

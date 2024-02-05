@@ -16,6 +16,21 @@ var burnIn_select_event = [
     }
 ];
 
+var cleanRoom_select_event = [
+    {
+        type: 'change',
+        fn: function (e) {
+            var selVal = $(this).val();
+
+            if (selVal === "1000") {
+                $(".level-checkbox,.level-checkbox-label").show();
+            } else {
+                $(".level-checkbox,.level-checkbox-label").hide();
+            }
+        }
+    }
+];
+
 var pending_select_event = [
     {
         type: 'change',

@@ -5,6 +5,7 @@
  */
 package com.advantech.test;
 
+import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.model.BusinessGroup;
 import com.advantech.model.Flow;
 import com.advantech.model.PreAssy;
@@ -16,37 +17,41 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 /**
  *
  * @author Wei.Cheng
  */
-//@WebAppConfiguration
-//@ContextConfiguration(locations = {
-//    "classpath:servlet-context.xml",
+@WebAppConfiguration
+@ContextConfiguration(locations = {
+    "classpath:servlet-context.xml"
+//        ,
 //    "classpath:hibernate.cfg.xml"
-//})
-//@RunWith(SpringJUnit4ClassRunner.class)
+})
+@RunWith(SpringJUnit4ClassRunner.class)
 public class HibernateValidatorTest {
 
     @Autowired
     private WorktimeService worktimeService;
 
-    private static Validator validator;
+    @Autowired
+    private Validator validator;
+
     private Map errors;
 
     @Before
     public void initValidator() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
     }
 
 //    @Test
@@ -57,6 +62,14 @@ public class HibernateValidatorTest {
         Map m = this.validateObject(w);
 
         assertNotEquals(0, m.size());
+    }
+
+//    @Test
+    public void testCleanRoomLevel() {
+        Worktime w = new Worktime();
+        String[] testFields = {"cleanRoomLevel"};
+        errors = this.validateObject(w);
+        checkError(testFields);
     }
 
 //    @Test
@@ -143,7 +156,8 @@ public class HibernateValidatorTest {
 
     private void checkError(String[] checkFields) {
         for (String field : checkFields) {
-            assertNotNull(errors.get(field));
+            assertNotNull(field + " no error", errors.get(field));
+            HibernateObjectPrinter.print(errors.get(field));
         }
     }
 
@@ -162,9 +176,8 @@ public class HibernateValidatorTest {
         T4 | t4 | not_null_and_zero_message
         PKG | packing | not_null_and_zero_message
      */
-    
 //    @Test
-    public void testEsModel(){
+    public void testEsModel() {
         Worktime w = new Worktime();
         BusinessGroup bg = new BusinessGroup();
         bg.setName("ES");
