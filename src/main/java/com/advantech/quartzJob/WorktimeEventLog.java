@@ -12,8 +12,11 @@ import com.advantech.model.PreAssy;
 import com.advantech.model.User;
 import com.advantech.model.Worktime;
 import com.advantech.service.UserNotificationService;
+import com.google.common.collect.Lists;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.mail.MessagingException;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.Session;
@@ -60,16 +63,21 @@ public class WorktimeEventLog {
     @Value("#{contextParameters[pageTitle] ?: ''}")
     private String pageTitle;
 
+    private final String NULLSTRING = "null";
+
+    private Set<String> mailtoList;
+
     private AuditReader getReader() {
         Session session = sessionFactory.getCurrentSession();
         return AuditReaderFactory.get(session);
     }
 
     public void execute() {
-        String[] to = this.getMailByNotification("worktime_mfg_alarm");
-        if (to.length != 0) {
-            String text = generateMailBody();
+        mailtoList = getMailListByNotification("worktime_mfg_alarm");
+        String text = generateMailBody();
+        if (!mailtoList.isEmpty()) {
             if (!"".equals(text)) {
+                String[] to = mailtoList.toArray(new String[0]);
                 String[] cc = this.getMailByNotification("worktime_mfg_alarm_cc");
 
                 String subject = "【" + pageTitle + "系統訊息】大表Update log";
@@ -81,6 +89,10 @@ public class WorktimeEventLog {
                 }
             }
         }
+    }
+
+    private Set<String> getMailListByNotification(String notification) {
+        return new HashSet<>(Lists.newArrayList(this.getMailByNotification(notification)));
     }
 
     private String[] getMailByNotification(String notification) {
@@ -144,6 +156,8 @@ public class WorktimeEventLog {
 
             Worktime prevEntity = this.getPreviousVersion(entity, revisionEntity.getREV());
 
+            setOwnerEmails(entity, prevEntity);
+
             sb.append(String.format("ModelName: %s, AUD: %d, ChangeBy: %s, At: %s <br/>", entity.getModelName(),
                     revisionEntity.getREV(), revisionEntity.getUsername(),
                     dtfOut.print(new DateTime(revisionEntity.getREVTSTMP()))));
@@ -153,16 +167,16 @@ public class WorktimeEventLog {
                     Object o1 = PropertyUtils.getProperty(entity, field);
                     Object o2 = PropertyUtils.getProperty(prevEntity, field);
                     if (!Objects.equals(o1, o2)) {
-                        if (o1 instanceof Flow) {
+                        if (o1 instanceof Flow || o2 instanceof Flow) {
                             if (equalsWithId(o1, o2) == false) {
-                                sb.append(String.format("Different on %s %s -> %s <br/>", field, o2 == null ? "null" : ((Flow) o2).getName(), o1 == null ? "null" : ((Flow) o1).getName()));
+                                sb.append(String.format("Different on %s %s -> %s <br/>", field, getStringNotNull(o2, "name"), getStringNotNull(o1, "name")));
                             }
-                        } else if (o1 instanceof PreAssy) {
+                        } else if (o1 instanceof PreAssy || o2 instanceof PreAssy) {
                             if (equalsWithId(o1, o2) == false) {
-                                sb.append(String.format("Different on %s %s -> %s <br/>", field, o2 == null ? "null" : ((PreAssy) o2).getName(), o1 == null ? "null" : ((PreAssy) o1).getName()));
+                                sb.append(String.format("Different on %s %s -> %s <br/>", field, getStringNotNull(o2, "name"), getStringNotNull(o1, "name")));
                             }
                         } else {
-                            sb.append(String.format("Different on %s %s -> %s <br/>", field, o2 == null ? "null" : o2.toString(), o1 == null ? "null" : o1.toString()));
+                            sb.append(String.format("Different on %s %s -> %s <br/>", field, o2 == null ? NULLSTRING : o2.toString(), o1 == null ? NULLSTRING : o1.toString()));
                         }
                     }
                 } catch (Exception ex) {
@@ -176,7 +190,31 @@ public class WorktimeEventLog {
     }
 
     private boolean equalsWithId(Object o1, Object o2) throws Exception {
-        return Objects.equals(PropertyUtils.getProperty(o1, "id"), PropertyUtils.getProperty(o2, "id"));
+        Object id1 = o1 == null ? NULLSTRING : PropertyUtils.getProperty(o1, "id");
+        Object id2 = o2 == null ? NULLSTRING : PropertyUtils.getProperty(o2, "id");
+        return Objects.equals(id1, id2);
+    }
+
+    private String getStringNotNull(Object object, String fieldName) throws Exception {
+        return object == null ? NULLSTRING : PropertyUtils.getProperty(object, fieldName).toString();
+    }
+
+    private void setOwnerEmails(Worktime... entities) {
+
+        String[] ownerFields = {"userByQcOwnerId", "userBySpeOwnerId", "userByEeOwnerId"};
+        try {
+            Set<String> ownerEmail = new HashSet<>();
+            for (String ownerField : ownerFields) {
+                for (Worktime entity : entities) {
+                    Object owner = PropertyUtils.getProperty(entity, ownerField);
+                    ownerEmail.add(getStringNotNull(owner, "email"));
+                }
+            }
+            ownerEmail.remove(NULLSTRING);
+            mailtoList.addAll(ownerEmail);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
     }
 
     private Worktime getPreviousVersion(Worktime entity, int current_rev) {

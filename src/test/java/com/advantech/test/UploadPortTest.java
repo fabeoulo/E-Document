@@ -11,7 +11,6 @@ import com.advantech.model.Flow;
 import com.advantech.model.Worktime;
 import com.advantech.model.WorktimeAutouploadSetting;
 import com.advantech.model.WorktimeMaterialPropertyUploadSetting;
-import com.advantech.quartzJob.StandardTimeUpload;
 import com.advantech.service.FlowService;
 import com.advantech.service.PendingService;
 import com.advantech.service.PreAssyService;
@@ -197,7 +196,7 @@ public class UploadPortTest {
         });
     }
 
-//    @Test//245
+//    @Test//245 // sopPort won't use anymore.
 //    public void testSopUpload() throws Exception {
 ////        w = worktimeService.findByModel("2063002307");
 ////        w.setAssyPackingSop("M-07-TP2397");
@@ -215,16 +214,16 @@ public class UploadPortTest {
 //    }
     //暫時用
 //    @Test
-    public void testStandardtimeUpload2() throws Exception {
+    public void testStandardtimeUploadAll() throws Exception {
+        standardtimePort.initSettings();
+//        standardtimePort.update(w);
+        
         PageInfo info = new PageInfo();
         info.setSearchField("modifiedDate");
         info.setSearchOper("gt");
         info.setSearchString("2017-11-26");
         info.setRows(Integer.MAX_VALUE);
         List<Worktime> l = worktimeService.findAll(info);
-
-        standardtimePort.initSettings();
-//        standardtimePort.update(w);
 
         for (Worktime worktime : l) {
             System.out.println(worktime.getModelName());
@@ -272,15 +271,6 @@ public class UploadPortTest {
 //        }
 //        materialPropertyUploadPort.update(worktime);
 //        materialPropertyUploadPort.delete(worktime);
-    }
-
-    @Autowired
-    private StandardTimeUpload standardTimeUpload;
-
-//    @Test
-//    @Rollback(true)
-    public void testStandardTimeUploadJob() {
-        standardTimeUpload.uploadToMes();
     }
 
 //    @Test

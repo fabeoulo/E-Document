@@ -77,15 +77,16 @@ public class HibernateTest {
     @Autowired
     private WorktimeAuditService auditService;
 
-    private static Validator validator;
+    @Autowired
+    private Validator validator;
 
     @Autowired
     private WorktimeUploadMesService worktimeUploadMesService;
 
     @Before
     public void setUp() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
+//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+//        validator = factory.getValidator();
     }
 
 //    @Transactional
@@ -98,7 +99,7 @@ public class HibernateTest {
 
         List l = new ArrayList();
         l = auditService.findByDate(info, d1.toDate(), d2.toDate());
-        
+
         HibernateObjectPrinter.print(l);
     }
 
@@ -161,6 +162,27 @@ public class HibernateTest {
         StringBuilder sb = new StringBuilder(st);
         sb.setCharAt(0, Character.toLowerCase(sb.charAt(0)));
         return sb.toString();
+    }
+
+//    @Test
+    public void testField() throws Exception {
+        Worktime w = worktimeService.findWithFlowRelationAndCobot(8614).get(0);
+        assertNotNull(w);
+
+        Flow tf2 = w.getFlowByTestFlowId();
+        Flow tf = null;
+
+        if (tf instanceof Flow || tf2 instanceof Flow) {
+            String ss = String.format("Different on %s %s -> %s <br/>", "field", tf2 == null ? "null" : ((Flow) tf2).getName(), tf == null ? "null" : ((Flow) tf).getName());
+            HibernateObjectPrinter.print(
+                    ss
+            );
+        } else {
+            String ss = String.format("Different on %s %s -> %s <br/>", "field", tf2 == null ? "null" : tf2.toString(), tf == null ? "null" : tf.toString());
+            HibernateObjectPrinter.print(
+                    ss
+            );
+        }
     }
 
 //    @Test

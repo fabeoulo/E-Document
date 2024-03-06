@@ -52,7 +52,7 @@ public class UserDAO extends BasicDAOImpl<Integer, User> {
         Criteria criteria = createEntityCriteria();
         criteria.createAlias("unit", "u");
         criteria.add(Restrictions.eq("u.name", userTypeName));
-        criteria.add(Restrictions.eq("state", State.ACTIVE.getName()));
+        criteria.add(Restrictions.eq("state", State.ACTIVE.getState()));
         criteria.addOrder(Order.asc("username"));
         criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
         return criteria.list();
@@ -60,7 +60,7 @@ public class UserDAO extends BasicDAOImpl<Integer, User> {
 
     public List<User> findActive() {
         Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("state", State.ACTIVE.getName()));
+        criteria.add(Restrictions.eq("state", State.ACTIVE.getState()));
         return criteria.list();
     }
 

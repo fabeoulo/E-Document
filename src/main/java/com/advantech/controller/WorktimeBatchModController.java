@@ -107,12 +107,13 @@ public class WorktimeBatchModController {
     @Autowired
     private WorktimeValidator worktimeValidator;
 
-    private static Validator validator;
+    @Autowired
+    private Validator validator;
 
     @PostConstruct
     protected void initValidator() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
+//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+//        validator = factory.getValidator();
     }
 
     //Check model is exist.

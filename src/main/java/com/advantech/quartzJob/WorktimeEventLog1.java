@@ -60,6 +60,8 @@ public class WorktimeEventLog1 {
     @Value("#{contextParameters[pageTitle] ?: ''}")
     private String pageTitle;
 
+    private final String NULLSTRING = "null";
+
     private AuditReader getReader() {
         Session session = sessionFactory.getCurrentSession();
         return AuditReaderFactory.get(session);
@@ -152,16 +154,16 @@ public class WorktimeEventLog1 {
                     Object o1 = PropertyUtils.getProperty(entity, field);
                     Object o2 = PropertyUtils.getProperty(prevEntity, field);
                     if (!Objects.equals(o1, o2)) {
-                        if (o1 instanceof Flow) {
+                        if (o1 instanceof Flow || o2 instanceof Flow) {
                             if (equalsWithId(o1, o2) == false) {
-                                sb.append(String.format("Different on %s %s -> %s <br/>", field, o2 == null ? "null" : ((Flow) o2).getName(), o1 == null ? "null" : ((Flow) o1).getName()));
+                                sb.append(String.format("Different on %s %s -> %s <br/>", field, getStringNotNull(o2, "name"), getStringNotNull(o1, "name")));
                             }
-                        } else if (o1 instanceof PreAssy) {
+                        } else if (o1 instanceof PreAssy || o2 instanceof PreAssy) {
                             if (equalsWithId(o1, o2) == false) {
-                                sb.append(String.format("Different on %s %s -> %s <br/>", field, o2 == null ? "null" : ((PreAssy) o2).getName(), o1 == null ? "null" : ((PreAssy) o1).getName()));
+                                sb.append(String.format("Different on %s %s -> %s <br/>", field, getStringNotNull(o2, "name"), getStringNotNull(o1, "name")));
                             }
                         } else {
-                            sb.append(String.format("Different on %s %s -> %s <br/>", field, o2 == null ? "null" : o2.toString(), o1 == null ? "null" : o1.toString()));
+                            sb.append(String.format("Different on %s %s -> %s <br/>", field, o2 == null ? NULLSTRING : o2.toString(), o1 == null ? NULLSTRING : o1.toString()));
                         }
                     }
                 } catch (Exception ex) {
@@ -175,7 +177,13 @@ public class WorktimeEventLog1 {
     }
 
     private boolean equalsWithId(Object o1, Object o2) throws Exception {
-        return Objects.equals(PropertyUtils.getProperty(o1, "id"), PropertyUtils.getProperty(o2, "id"));
+        Object id1 = o1 == null ? NULLSTRING : PropertyUtils.getProperty(o1, "id");
+        Object id2 = o2 == null ? NULLSTRING : PropertyUtils.getProperty(o2, "id");
+        return Objects.equals(id1, id2);
+    }
+
+    private String getStringNotNull(Object object, String fieldName) throws Exception {
+        return object == null ? NULLSTRING : PropertyUtils.getProperty(object, fieldName).toString();
     }
 
     private Worktime getPreviousVersion(Worktime entity, int current_rev) {

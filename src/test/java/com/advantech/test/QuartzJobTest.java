@@ -10,6 +10,7 @@ import com.advantech.quartzJob.BackupDataToExcel;
 import com.advantech.quartzJob.StandardTimeUpload;
 import com.advantech.quartzJob.SyncEmployeeZoneUser;
 import com.advantech.quartzJob.SyncPreAssyModuleQty;
+import com.advantech.quartzJob.WorktimeEventLog;
 import com.advantech.quartzJob.WorktimeEventLog1;
 import com.advantech.quartzJob.WorktimeFieldValueRetrieve;
 import org.junit.Test;
@@ -35,6 +36,10 @@ public class QuartzJobTest {
     @Qualifier("worktimeEventLog1")
     private WorktimeEventLog1 job1;
 
+    @Autowired
+    @Qualifier("worktimeEventLog")
+    private WorktimeEventLog job8;
+    
     @Autowired
     @Qualifier("standardTimeUpload")
     private StandardTimeUpload job2;
@@ -66,8 +71,13 @@ public class QuartzJobTest {
     }
 
 //    @Test
-    public void testWorktimeEventLog() {
+    public void testWorktimeEventLog1() {
         job1.execute();
+    }
+    
+//    @Test
+    public void testWorktimeEventLog() {
+        job8.execute();
     }
 
 //    @Test

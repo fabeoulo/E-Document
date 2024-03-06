@@ -40,13 +40,15 @@ public class HibernateValidatorTest {
     @Autowired
     private WorktimeService worktimeService;
 
+    @Autowired
     private static Validator validator;
+    
     private Map errors;
 
     @Before
     public void initValidator() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
+//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+//        validator = factory.getValidator();
     }
 
 //    @Test
