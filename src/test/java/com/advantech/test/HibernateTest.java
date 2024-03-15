@@ -7,6 +7,7 @@ package com.advantech.test;
 
 import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.jqgrid.PageInfo;
+import com.advantech.model.Flow;
 import com.advantech.model.Pending;
 import com.advantech.model.Worktime;
 import com.advantech.model.WorktimeLevelSetting;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
+import javax.validation.Validator;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -60,7 +62,10 @@ public class HibernateTest {
     private SessionFactory sessionFactory;
 
     @Autowired
-    private WorktimeAuditService worktimeAuditService;
+    private WorktimeAuditService auditService;
+
+    @Autowired
+    private Validator validator;
 
     @Autowired
     private WorktimeUploadMesService worktimeUploadMesService;
@@ -73,6 +78,8 @@ public class HibernateTest {
 
     @Before
     public void setUp() {
+//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+//        validator = factory.getValidator();
     }
 
 //    @Test
@@ -101,7 +108,7 @@ public class HibernateTest {
             WorktimeLevelSetting pojo = new WorktimeLevelSetting(n);
             worktimeLevelSettingService.insert(pojo);
         });
-        List<WorktimeLevelSetting> l = worktimeLevelSettingService.findByWorktime(2261);
+        List<WorktimeLevelSetting> l = worktimeLevelSettingService.findByWorktime(2261);		
     }
 
 //    @Transactional
@@ -163,6 +170,27 @@ public class HibernateTest {
         StringBuilder sb = new StringBuilder(st);
         sb.setCharAt(0, Character.toLowerCase(sb.charAt(0)));
         return sb.toString();
+    }
+
+//    @Test
+    public void testField() throws Exception {
+        Worktime w = worktimeService.findWithFlowRelationAndCobot(8614).get(0);
+        assertNotNull(w);
+
+        Flow tf2 = w.getFlowByTestFlowId();
+        Flow tf = null;
+
+        if (tf instanceof Flow || tf2 instanceof Flow) {
+            String ss = String.format("Different on %s %s -> %s <br/>", "field", tf2 == null ? "null" : ((Flow) tf2).getName(), tf == null ? "null" : ((Flow) tf).getName());
+            HibernateObjectPrinter.print(
+                    ss
+            );
+        } else {
+            String ss = String.format("Different on %s %s -> %s <br/>", "field", tf2 == null ? "null" : tf2.toString(), tf == null ? "null" : tf.toString());
+            HibernateObjectPrinter.print(
+                    ss
+            );
+        }
     }
 
 //    @Test

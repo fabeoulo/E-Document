@@ -252,7 +252,7 @@
                 </td>
                 <td>÷</td>
                 <td>
-                    <input type="text" id="electricityFeeDegree" class="form-control" placeholder="電費/度" value="3.73" readonly="" />
+                    <input type="text" id="electricityFeeDegree" class="form-control" placeholder="電費/度" value="4.5" readonly="" />
                 </td>
                 <td>×</td>
                 <td>使用時數</td>

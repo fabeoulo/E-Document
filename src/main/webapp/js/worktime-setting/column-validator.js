@@ -25,7 +25,8 @@ var flow_check_logic = {
         {keyword: ["PRE_ASSY"], checkColumn: ["arFilmAttachment", "cleanPanel", "pi"], checkType: "OR", message: not_null_and_zero_message, prmValid: notZeroOrNull}
     ],
     BAB: [
-        {keyword: ["ASSY"], checkColumn: ["assy", "highBright", "bondedSealingFrame"], message: not_null_and_zero_message, prmValid: notZeroOrNull, checkType: "OR"},
+        {keyword: ["ASSY"], checkColumn: ["assy", "bondedSealingFrame"], message: not_null_and_zero_message, prmValid: notZeroOrNull, checkType: "OR"},
+        {keyword: ["HB"], checkColumn: ["highBright"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["SL"], checkColumn: ["seal"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["OB"], checkColumn: ["opticalBonding"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["T1"], checkColumn: ["t1"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
@@ -47,7 +48,7 @@ var field_check_flow_logic = [
     {checkColumn: {name: "arFilmAttachment", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: preAssy, keyword: ["PRE_ASSY"]}},
     {checkColumn: {name: "cleanPanel", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: preAssy, keyword: ["PRE_ASSY"]}},
     {checkColumn: {name: "pi", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: preAssy, keyword: ["PRE_ASSY"]}},
-    {checkColumn: {name: "highBright", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["ASSY"]}},
+    {checkColumn: {name: "highBright", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["HB"]}},
     {checkColumn: {name: "assy", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["ASSY"]}},
     {checkColumn: {name: "bondedSealingFrame", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["ASSY"]}},
     {checkColumn: {name: "seal", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["SL"]}},

@@ -7,6 +7,8 @@ package com.advantech.test;
 
 import com.advantech.quartzJob.BackupDataToExcel;
 import com.advantech.quartzJob.StandardTimeUpload;
+import com.advantech.quartzJob.WorktimeEventLog;
+import com.advantech.quartzJob.WorktimeEventLog1;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.quartz.JobExecutionException;
@@ -31,7 +33,13 @@ public class TestQuartzJobs {
 
     @Autowired
     private StandardTimeUpload standardTimeUpload;
+    
+    @Autowired
+    private WorktimeEventLog worktimeEventLog;
 
+    @Autowired
+    private WorktimeEventLog1 worktimeEventLog1;
+    
 //    @Test
     public void testTestLineTypeRecord() throws JobExecutionException, Exception {
         backupExcel.backupToDisk();
@@ -40,5 +48,15 @@ public class TestQuartzJobs {
 //    @Test
     public void testSTUpload() {
         standardTimeUpload.uploadToMes();
+    }
+
+//    @Test
+    public void testWorktimeEventLog() {
+        worktimeEventLog.execute();
+    }
+    
+//    @Test
+    public void testWorktimeEventLog1() {
+        worktimeEventLog1.execute();
     }
 }

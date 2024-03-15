@@ -6,6 +6,7 @@
 package com.advantech.test;
 
 import com.advantech.model.Worktime;
+import com.advantech.security.State;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -47,6 +48,12 @@ public class Test1Test {
         return modelName.replaceAll("^\\s+", "").replaceAll("\\s+$", "");
     }
 
+//    @Test
+    public void testState() {
+        String name = State.ACTIVE.getName();
+        String s = State.ACTIVE.toString();
+    }
+    
 //    @Test
     public void testDateTime() {
         DateTime d = new DateTime("2017/01/01 00:00:00.00 ");

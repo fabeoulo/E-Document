@@ -8,8 +8,10 @@ package com.advantech.service;
 import com.advantech.dao.*;
 import com.advantech.model.User;
 import com.advantech.model.UserNotification;
+import com.advantech.security.State;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +36,9 @@ public class UserNotificationService extends BasicServiceImpl<Integer, UserNotif
         UserNotification n = dao.findByName(name);
         List l = new ArrayList();
         if (n != null && n.enabled()) {
-            l.addAll(n.getUsers());
+            l = n.getUsers().stream()
+                    .filter(u -> u.getState().equals(State.ACTIVE.getState()))
+                    .collect(Collectors.toList());
         }
         return l;
     }

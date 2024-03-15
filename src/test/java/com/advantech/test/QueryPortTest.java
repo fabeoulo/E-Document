@@ -176,9 +176,9 @@ public class QueryPortTest {
 
 //    @Test//216
     public void testMaterialPropertyUserPermissionQueryPort() throws Exception {
-        List<MaterialPropertyUserPermission> l = materialPropertyUserPermissionQueryPort.query("000000145");
-        assertEquals(81, l.size());
+        List<MaterialPropertyUserPermission> l = materialPropertyUserPermissionQueryPort.query("SYSTEM");
         assertEquals("01", l.get(0).getMaterialPropertyNo());
+        assertEquals(85, l.size());
     }
 
 //    @Test//216

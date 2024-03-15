@@ -118,6 +118,7 @@
         config the converter from client request like ids:"1,2,3,4,5"
         retrieve them by ids with comverter
     -->
+    
     <!--
         https://stackoverflow.com/questions/13971279/register-a-custom-conversion-service-while-retaining-the-defaults
         Adding conversionService with 
@@ -125,13 +126,7 @@
         will replaces the setting in list
         try to replace with 
         org.springframework.format.support.FormattingConversionServiceFactoryBean
-    -->
-    
-    <!--    
-        LocalValidatorFactoryBean同時實現javax.validation.Validator以及
-        Spring的org.springframework.validation.Validator
-    -->
-    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+    -->    
 
     <bean id="conversionService"
           class="org.springframework.format.support.FormattingConversionServiceFactoryBean">

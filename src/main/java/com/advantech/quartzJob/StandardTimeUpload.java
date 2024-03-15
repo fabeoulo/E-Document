@@ -58,7 +58,7 @@ public class StandardTimeUpload {
 
     private List<String> checkField;
 
-    private final int checkPeriod = 1; // check ? days ago
+    private final int checkPeriod = 7; // check ? days ago
 
     @Value("#{contextParameters[pageTitle] ?: ''}")
     private String pageTitle;

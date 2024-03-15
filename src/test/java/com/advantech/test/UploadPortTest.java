@@ -12,6 +12,7 @@ import com.advantech.model.PreAssy;
 import com.advantech.model.Worktime;
 import com.advantech.model.WorktimeAutouploadSetting;
 import com.advantech.quartzJob.StandardTimeUpload;
+import com.advantech.model.WorktimeMaterialPropertyUploadSetting;
 import com.advantech.service.FlowService;
 import com.advantech.service.PendingService;
 import com.advantech.service.PreAssyService;
@@ -177,19 +178,18 @@ public class UploadPortTest {
 //        materialPropertyUploadPort.update(w);//216
     }
 
-//    @Test//216
     //暫時用
-    @Test
+//    @Test//216
     public void testStandardtimeUpload2() throws Exception {
+        standardtimePort.initSettings();
+//        standardtimePort.update(w);
+
         PageInfo info = new PageInfo();
         info.setSearchField("modifiedDate");
         info.setSearchOper("gt");
         info.setSearchString("2017-11-26");
         info.setRows(Integer.MAX_VALUE);
         List<Worktime> l = worktimeService.findAll(info);
-
-        standardtimePort.initSettings();
-//        standardtimePort.update(w);
 
         for (Worktime worktime : l) {
             System.out.println(worktime.getModelName());
@@ -257,7 +257,7 @@ public class UploadPortTest {
     @Autowired
     private WorktimeUploadMesService uploadMesService;
 
-    @Test
+//    @Test
     @Rollback(true)
     public void testMaterialPropertyUploadPortM6() throws Exception {
 
