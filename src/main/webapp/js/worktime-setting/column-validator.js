@@ -1,5 +1,6 @@
 //Custom param
 var not_null_and_zero_message = "需有值，不可為0";
+var alt_message = "擇一，不可皆有值";
 var when_not_empty_or_null = "不等於0時";
 var preAssy = "preAssy\\.id",
         babFlow = "flowByBabFlowId\\.id",
@@ -22,6 +23,10 @@ var disabledWhenBiSampleCheck = function (formObj) {
     return formObj["biSampling"] == "Y";
 };
 
+var disabledProfile = function (formObj) {
+    return formObj["testProfile"] === "EKI9516";
+};
+
 //Flow check logic setting
 var flow_check_logic = {
     "PRE-ASSY": [
@@ -31,9 +36,9 @@ var flow_check_logic = {
         {keyword: ["ASSY"], checkColumn: ["assy"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["T1"], checkColumn: ["t1"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["VB"], checkColumn: ["vibration"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
-//        {keyword: ["H1", " LK"], checkColumn: ["hiPotLeakage"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
+        {keyword: ["H1", "LK"], checkColumn: ["acwVoltage", "dcwVoltage"], checkType: "ALT", altMessage: alt_message, message: not_null_and_zero_message, prmValid: notZeroOrNull, disabled: disabledProfile},
 //        {keyword: ["H1"], checkColumn: ["gndValue"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
-        {keyword: ["H1", "LK"], checkColumn: ["hiPotLeakage", "acwVoltage", "testProfile"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
+        {keyword: ["H1", "LK"], checkColumn: ["hiPotLeakage", "testProfile"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["LK"], checkColumn: ["acwVoltage", "irVoltage", "testProfile", "lltValue"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["CB"], checkColumn: ["coldBoot"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
 
@@ -58,7 +63,8 @@ var field_check_flow_logic = [
     {checkColumn: {name: ["t1"], equals: false, value: 0}, description: when_not_empty_or_null, targetColumns: [{name: babFlow, keyword: ["T1"]}]},
     {checkColumn: {name: ["vibration"], equals: false, value: 0}, description: when_not_empty_or_null, targetColumns: [{name: babFlow, keyword: ["VB"]}]},
     {checkColumn: {name: ["hiPotLeakage"], equals: false, value: 0}, description: when_not_empty_or_null, targetColumns: [{name: babFlow, keyword: ["H1", "LK"]}]},
-    {checkColumn: {name: ["acwVoltage"], equals: false, value: 0}, description: when_not_empty_or_null, targetColumns: [{name: babFlow, keyword: ["H1"]}]},
+    {checkColumn: {name: ["acwVoltage"], equals: false, value: 0}, description: when_not_empty_or_null, targetColumns: [{name: babFlow, keyword: ["H1"]}], disabled: disabledProfile},
+    {checkColumn: {name: ["dcwVoltage"], equals: false, value: 0}, description: when_not_empty_or_null, targetColumns: [{name: babFlow, keyword: ["H1"]}], disabled: disabledProfile},
     //{checkColumn: {name: ["acwVoltage", "irVoltage", "testProfile", "lltValue"], equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["LK"]}},
     {checkColumn: {name: ["gndValue"], equals: false, value: 0}, description: when_not_empty_or_null, targetColumns: [{name: babFlow, keyword: ["H1"]}]},
     {checkColumn: {name: ["testProfile"], equals: true, value: "601"}, description: "為601時", targetColumns: [{name: babFlow, keyword: ["LK"]}]},

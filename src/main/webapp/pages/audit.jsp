@@ -196,6 +196,7 @@
                     //{label: 'Packing09標籤名稱', name: "labelPacking9", jsonmap: "0.labelPacking9", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},
                     //{label: 'Packing10標籤名稱', name: "labelPacking10", jsonmap: "0.labelPacking10", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},
                     {label: 'ACW Voltage', name: "acwVoltage", jsonmap: "0.acwVoltage", width: 120, searchrules: {required: true}, searchoptions: search_string_options},
+                    {label: 'DCW Voltage', name: "dcwVoltage", jsonmap: "0.dcwVoltage", width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                     {label: 'IR Voltage', name: "irVoltage", jsonmap: "0.irVoltage", width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                     {label: 'Test Profile', name: "testProfile", jsonmap: "0.testProfile", width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                     {label: 'LLT Value', name: "lltValue", jsonmap: "0.lltValue", width: 120, searchrules: {required: true}, searchoptions: search_string_options},

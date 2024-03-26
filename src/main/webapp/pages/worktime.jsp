@@ -105,7 +105,7 @@
         setSelectOptions({
             rootUrl: "<c:url value="/" />",
             columnInfo: [
-                {name: "businessGroup", isNullable: false},
+                {name: "businessGroup", isNullable: false, initFunc: businessGroupInit},
                 {name: "floor", isNullable: false},
                 {name: "user", nameprefix: "spe_", isNullable: false, dataToServer: "SPE"},
                 {name: "user", nameprefix: "ee_", isNullable: true, dataToServer: "EE"},
@@ -135,7 +135,7 @@
                     return (selectOptions["cobots_options"]).get(c);
                 }
             });
-            return strArr.join(',')
+            return strArr.join(',');
         };
 
         var modReasonCodes = selectOptions["modReasonCode_options"];
@@ -181,7 +181,7 @@
                 errorTextFormatF(checkResult); //field // code
                 return [false, "There are some errors in the entered data. Hover over the error icons for details."];
             } else {
-//                return [false, "Saved."]; //--For debug validator
+//                return [false, "debug: monk saved."]; //--For debug validator
                 //儲存前再check一次版本，給予覆蓋or取消的選擇
                 var revision_number = getRowRevision();
                 if (revision_number != selected_row_revision) {
@@ -268,9 +268,9 @@
             autoencode: true,
             colModel: [
                 {label: 'id', name: "id", width: 60, frozen: true, hidden: false, key: true, search: true, searchoptions: search_decimal_options, editable: true, editrules: {edithidden: true}, editoptions: {readonly: 'readonly', disabled: true, defaultValue: "0"}},
-                {label: 'Model', name: "modelName", frozen: true, editable: true, searchrules: {required: true}, searchoptions: search_string_options, editrules: {required: true}, editoptions: {dataInit: autoUpperCase}, formoptions: required_form_options},
+                {label: 'Model', name: "modelName", frozen: true, editable: true, searchrules: {required: true}, searchoptions: search_string_options, editrules: {required: true}, editoptions: {dataEvents: upperCase_event}, formoptions: required_form_options},
                 {label: 'TYPE', name: "type.id", edittype: "select", editoptions: {value: selectOptions["type"]}, formatter: selectOptions["type_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["type"], sopt: ['eq']}},
-                {label: 'BU', name: "businessGroup.id", edittype: "select", editoptions: {value: selectOptions["businessGroup"], dataEvents: businessGroup_select_event}, formatter: selectOptions["businessGroup_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["businessGroup"], sopt: ['eq']}},
+                {label: 'BU', name: "businessGroup.id", edittype: "select", editoptions: {value: selectOptions["businessGroup"], dataInit: selectOptions["businessGroup_init"], dataEvents: businessGroup_select_event, defaultValue: "EDIS"}, formatter: selectOptions["businessGroup_func"], width: 100, formoptions: {elmsuffix: "<b class='danger'>新機種請確認BU</b>"}, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["businessGroup"], sopt: ['eq'], dataInit: selectOptions["businessGroup_sinit"]}},
                 {label: 'PRE-ASSY', name: "preAssy.id", edittype: "select", editoptions: {value: selectOptions["preAssy"]}, formatter: selectOptions["preAssy_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["preAssy"], sopt: ['eq']}},
                 {label: 'BAB_FLOW', name: "flowByBabFlowId.id", edittype: "select", editoptions: {value: selectOptions["bab_flow"], dataEvents: babFlow_select_event, defaultValue: "111"}, formatter: selectOptions["bab_flow_func"], cellattr: hideEmptyBabFlow, width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["bab_flow"], sopt: ['eq']}},
                 {label: 'TEST_FLOW', name: "flowByTestFlowId.id", edittype: "select", editoptions: {value: selectOptions["test_flow"], dataEvents: testFlow_select_event}, formatter: selectOptions["test_flow_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["test_flow"], sopt: ['eq']}},
@@ -381,8 +381,9 @@
                 {label: '標籤變量名稱10', name: "labelVariable10", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱10(附加屬性質)', name: "labelVariable10Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'Test Profile', name: "testProfile", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;M5:M5;601:601;B-B:B-B;EKI9528:EKI9528;EKI9516:EKI9516", defaultValue: "0", dataEvents: testProfile_select_event}},
-                {label: 'ACW Voltage', name: "acwVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
-                {label: 'IR Voltage', name: "irVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
+                {label: 'ACW Voltage', name: "acwVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {number: true, required: true}},
+                {label: 'DCW Voltage', name: "dcwVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {number: true, required: true}},
+                {label: 'IR Voltage', name: "irVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {number: true, required: true}},
                 {label: 'GND Value', name: "gndValue", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
                 {label: 'LLT Value', name: "lltValue", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
                 {label: '禮盒總重量(含配件)', name: "weight", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
@@ -403,7 +404,7 @@
                 {label: '藍燈組裝(秒)', width: 80, name: "bwFields.0.assyAvg", index: "bwFields.assyAvg", sortable: true, searchrules: number_search_rule, searchoptions: search_decimal_options},
                 {label: '藍燈包裝(秒)', width: 80, name: "bwFields.0.packingAvg", index: "bwFields.packingAvg", sortable: true, searchrules: number_search_rule, searchoptions: search_decimal_options},
                 {label: 'M2機種', width: 80, name: "twm2Flag", search: true, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:N;1:Y"}},
-                {label: 'M2手動工時', name: "cobotManualWt", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("cobotManualWt")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'M2手動工時', name: "cobotManualWt", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("cobotManualWt")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: '自動化人機協作', name: "cobots", width: 100, editable: true, hidden: false, formatter: cobotsFormatter, editrules: {edithidden: true, required: false}, edittype: "select",
                     editoptions: {
                         multiple: true, value: selectOptions["cobots"],
@@ -465,7 +466,7 @@
                 {startColumnName: 'partNoAttributeMaintain', numberOfColumns: 38, titleText: '<em>料號屬性值維護</em>'},
                 {startColumnName: 'assyLeadTime', numberOfColumns: 2, titleText: '<em>組裝看板工時</em>'},
                 {startColumnName: 'packingLeadTime', numberOfColumns: 3, titleText: '<em>包裝看板工時</em>'},
-                {startColumnName: 'testProfile', numberOfColumns: 5, titleText: '<em>hi-pot Test</em>'},
+                {startColumnName: 'testProfile', numberOfColumns: 6, titleText: '<em>hi-pot Test</em>'},
                 {startColumnName: 'weight', numberOfColumns: 3, titleText: '<em>包裝重量</em>'},
                 {startColumnName: 'twm2Flag', numberOfColumns: 2, titleText: '<em>M2機種</em>'},
                 {startColumnName: 't1StatusQty', numberOfColumns: 4, titleText: '<em>T1/T2_測試訊息資料維護</em>'}
@@ -519,6 +520,7 @@
                     beforeShowForm: function (form) {
                         setTimeout(function () {
                             // do here all what you need (like alert('yey');)
+                            $("#businessGroup\\.id > option:disabled").hide();
                             $("#flowByBabFlowId\\.id, #businessGroup\\.id, #testProfile").trigger("change");
                             addNarPage();
                             addType();
@@ -699,7 +701,7 @@
                                     });
                                 }
                             }
-                        } else if (checkType == 'OR') { //Or logic check
+                        } else if (checkType === 'OR') { //Or logic check
                             var checkFlag = false;
                             var tempArr = [];
                             for (var k = 0; k < checkCol.length; k++) {
@@ -716,6 +718,34 @@
                             }
                             if (checkFlag == false) {
                                 validationErrors = validationErrors.concat(tempArr);
+                            }
+                        } else if (checkType === 'ALT') { //Alternate logic check
+                            var nonZeroCount = 0;
+                            var nonZeroArr = [];
+                            var checkFlag = false;
+                            var tempArr = [];
+                            for (var k = 0; k < checkCol.length; k++) {
+                                var colName = checkCol[k];
+                                if (!logic.prmValid(formObj[colName])) {
+                                    tempArr.push({
+                                        field: colName,
+                                        code: logic.message
+                                    });
+                                    checkFlag = checkFlag || false;
+                                } else {
+                                    checkFlag = checkFlag || true;
+                                    nonZeroCount++;
+                                    nonZeroArr.push({
+                                        field: colName,
+                                        code: checkCol + logic.altMessage
+                                    });
+                                }
+                            }
+
+                            if (checkFlag == false) {
+                                validationErrors = validationErrors.concat(tempArr);
+                            } else if (nonZeroCount > 1) {
+                                validationErrors = validationErrors.concat(nonZeroArr);
                             }
                         }
                     }

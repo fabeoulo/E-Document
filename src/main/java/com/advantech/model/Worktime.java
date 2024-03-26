@@ -227,6 +227,9 @@ public class Worktime implements java.io.Serializable {
     private String acwVoltage;
 
     @JsonView(View.Public.class)
+    private String dcwVoltage;
+
+    @JsonView(View.Public.class)
     private String irVoltage;
 
     @JsonView(View.Public.class)
@@ -255,7 +258,7 @@ public class Worktime implements java.io.Serializable {
 
     @JsonView(View.Public.class)
     private BigDecimal packingPalletTime = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal productionWt = BigDecimal.ZERO;
 
@@ -318,10 +321,10 @@ public class Worktime implements java.io.Serializable {
 
     @JsonView(View.Public.class)
     private BigDecimal cobotAutoWt = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal cobotManualWt = BigDecimal.ZERO;
-    
+
     //This value almost equals to productionWt in sap
     @JsonView(View.Public.class)
     private BigDecimal sapWt = BigDecimal.ZERO;
@@ -1058,6 +1061,15 @@ public class Worktime implements java.io.Serializable {
         this.acwVoltage = acwVoltage;
     }
 
+    @Column(name = "dcw_voltage", nullable = false, length = 30)
+    public String getDcwVoltage() {
+        return dcwVoltage;
+    }
+
+    public void setDcwVoltage(String dcwVoltage) {
+        this.dcwVoltage = dcwVoltage;
+    }
+
 //    @NotNull
     @Column(name = "ir_voltage", nullable = false, length = 30)
     public String getIrVoltage() {
@@ -1347,8 +1359,9 @@ public class Worktime implements java.io.Serializable {
         this.cobotAutoWt = cobotAutoWt;
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "cobotManualWt", precision = 10, scale = 1)
+    @Column(name = "cobotManualWt", precision = 10, scale = 1, nullable = false)
     public BigDecimal getCobotManualWt() {
         return cobotManualWt;
     }
@@ -1356,7 +1369,7 @@ public class Worktime implements java.io.Serializable {
     public void setCobotManualWt(BigDecimal cobotManualWt) {
         this.cobotManualWt = cobotManualWt;
     }
-    
+
     @Size(min = 0, max = 50)
     @Column(name = "mac_printed_location", length = 50)
     public String getMacPrintedLocation() {
@@ -1856,8 +1869,8 @@ public class Worktime implements java.io.Serializable {
         this.labelPacking10 = labelPacking10;
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "sapWt", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 3 /*scale*/)
+    @Column(name = "sapWt", precision = 10, scale = 3)
     public BigDecimal getSapWt() {
         return sapWt;
     }
@@ -2019,7 +2032,6 @@ public class Worktime implements java.io.Serializable {
 
 //---------------------------------------------------------------------
 //  For Cobots in Worktime_Autoupload_Setting formula
-
     // save data in memory
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     public BigDecimal initCobotAutoWt() {

@@ -53,6 +53,7 @@ var worktimeCol = [
     {name: "nsInOneCollectionBox"},
     {name: "partNoAttributeMaintain"},
     {name: "acwVoltage"},
+    {name: "dcwVoltage"},
     {name: "irVoltage"},
     {name: "testProfile"},
     {name: "lltValue"},

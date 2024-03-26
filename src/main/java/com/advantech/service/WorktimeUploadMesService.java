@@ -184,6 +184,7 @@ public class WorktimeUploadMesService {
                 || !isEquals(prev.getKc(), current.getKc())
                 || !isEquals(prev.getNsInOneCollectionBox(), current.getNsInOneCollectionBox())
                 || !isEquals(prev.getAcwVoltage(), current.getAcwVoltage())
+                || !isEquals(prev.getDcwVoltage(), current.getDcwVoltage())
                 || !isEquals(prev.getIrVoltage(), current.getIrVoltage())
                 || !isEquals(prev.getTestProfile(), current.getTestProfile())
                 || !isEquals(prev.getLltValue(), current.getLltValue())

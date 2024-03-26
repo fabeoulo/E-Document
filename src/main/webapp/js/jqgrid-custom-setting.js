@@ -34,7 +34,7 @@ var group = [
         Type3 : ['tr_macTotalQty','tr_macPrintedQty','tr_labelMac','tr_macPrintedLocation','tr_macPrintedFrom','tr_etlVariable1','tr_etlVariable2','tr_etlVariable3','tr_etlVariable1Aff','tr_etlVariable2Aff','tr_etlVariable3Aff']
     },
     {
-        Type4 : ['tr_testProfile','tr_acwVoltage','tr_irVoltage','tr_gndValue','tr_lltValue']
+        Type4 : ['tr_testProfile','tr_acwVoltage','tr_dcwVoltage','tr_irVoltage','tr_gndValue','tr_lltValue']
     },
     {
         Type5 : ['tr_t1StatusQty','tr_t1ItemsQty','tr_t2StatusQty','tr_t2ItemsQty']

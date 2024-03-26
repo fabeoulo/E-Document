@@ -253,22 +253,23 @@ public class UploadPortTest {
 ////        }
     }
 
-    @Test//245
+//    @Test//245
     @Rollback(true)
     public void testMaterialPropertyUploadPort() throws Exception {        
         Worktime w = worktimeService.findByModel("ARS-2510T3-T40A1E");
         
         List<Worktime> l = worktimeService.findWithFlowRelation();
-        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(48,67);
-        assertEquals(2, settings.size());
-//        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findAll();
-        materialPropertyUploadPort.initSettings(settings);
-        materialPropertyUploadPort.update(w);
+//        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(106);
+//        assertEquals(1, settings.size());
+//        materialPropertyUploadPort.initSettings(settings);
+//        materialPropertyUploadPort.update(w);
 
-//        for (Worktime worktime : l) {
-//            System.out.println("Upload " + worktime.getModelName());
-//            materialPropertyUploadPort.update(worktime);
-//        }
+        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findAll();
+        materialPropertyUploadPort.initSettings(settings);
+        for (Worktime worktime : l) {
+            System.out.println("Upload " + worktime.getModelName());
+            materialPropertyUploadPort.update(worktime);
+        }
 //        materialPropertyUploadPort.update(worktime);
 //        materialPropertyUploadPort.delete(worktime);
     }

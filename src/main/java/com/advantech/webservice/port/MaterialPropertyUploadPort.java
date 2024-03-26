@@ -95,7 +95,7 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
         temp_MaterialPropertys = materialPropertyQueryPort.query("");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
-            temp_MaterialPropertyUserPermissions = permissionQueryPort.query("A-7568");
+            temp_MaterialPropertyUserPermissions = permissionQueryPort.query("SYSTEM");
         } else {
             User user = (User) auth.getPrincipal();
             temp_MaterialPropertyUserPermissions = permissionQueryPort.query(user.getJobnumber());

@@ -19,6 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -31,6 +32,7 @@ public class BusinessGroup implements java.io.Serializable {
 
     private int id;
     private String name;
+    private int disable;
     private Set<Worktime> worktimes = new HashSet<>(0);
 
     @Id
@@ -51,6 +53,16 @@ public class BusinessGroup implements java.io.Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @NotNull
+    @Column(name = "disable", nullable = false)
+    public int getDisable() {
+        return disable;
+    }
+
+    public void setDisable(int disable) {
+        this.disable = disable;
     }
 
     @JsonIgnore

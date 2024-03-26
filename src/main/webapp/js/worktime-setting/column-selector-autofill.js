@@ -22,17 +22,18 @@ var testProfile_select_event = [
         fn: function (e) {
             var selectOption = $('option:selected', this).text();
             var defaultValue = {
-                "0": ["0", "0", "0", "0"],
-                "M5": ["1770", "25", "500", "3500,3500,3500,3500"],
-                "601": ["1776", "0", "500", "100,500,500,1000,500,100,500,500,1000,500"],
-                "B-B": ["2500", "0", "0", "0"],
-                "EKI9528": ["1500", "0", "0", "0"],
-                "EKI9516": ["0", "0", "100", "0"]
+                "0": ["0", "0", "0", "0", "0"],
+                "M5": ["1770", "0", "25", "500", "3500,3500,3500,3500"],
+                "601": ["1776", "0", "0", "500", "100,500,500,1000,500,100,500,500,1000,500"],
+                "B-B": ["0", "2500", "0", "0", "0"],
+                "EKI9528": ["0", "1500", "0", "0", "0"],
+                "EKI9516": ["0", "0", "0", "100", "0"]
             };
             $('input#acwVoltage').val(defaultValue[selectOption][0]);
-            $('input#gndValue').val(defaultValue[selectOption][1]);
-            $('input#irVoltage').val(defaultValue[selectOption][2]);
-            $('input#lltValue').val(defaultValue[selectOption][3]);
+            $('input#dcwVoltage').val(defaultValue[selectOption][1]);
+            $('input#gndValue').val(defaultValue[selectOption][2]);
+            $('input#irVoltage').val(defaultValue[selectOption][3]);
+            $('input#lltValue').val(defaultValue[selectOption][4]);
         }
     }
 ];

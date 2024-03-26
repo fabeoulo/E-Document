@@ -10,6 +10,11 @@ var modelNameFormat = function () {
     });
 };
 
-var autoUpperCase = function (el) {
-    $(el).css('text-transform', 'uppercase');
-};
+var upperCase_event = [
+    {
+        type: 'input',
+        fn: function (el) {
+            $(this).val($(this).val().toUpperCase());
+        }
+    }
+];
