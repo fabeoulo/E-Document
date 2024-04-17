@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @author Wei.Cheng
  */
-public enum CrudAction implements Encodeable{
+public enum CrudAction implements Encodeable {
     ADD("add"),
     EDIT("edit"),
     DEL("del");
@@ -24,13 +24,13 @@ public enum CrudAction implements Encodeable{
     private CrudAction(final String value) {
         this.value = value;
     }
-    
+
     static {
         for (CrudAction b : CrudAction.values()) {
             map.put(b.value, b);
         }
     }
-    
+
     public static CrudAction valueOf(int pageType) {
         return (CrudAction) map.get(pageType);
     }

@@ -1,6 +1,9 @@
 var rootUrl;
 var selectOptions = {};
 var selectableColumns;
+var rootPath;
+var selectBiRiColumns;
+var connPattern = "X";
 
 function setSelectOptions(info) {
     rootUrl = info.rootUrl;
@@ -14,7 +17,7 @@ function syncSelectOptionInfo() {
         var columnName = column.name;
 
         var col_optionDatas = getSelectOption(columnName, column.isNullable, column.dataToServer);
-        var col_options = getColOptionMap(col_optionDatas);
+        var col_options = getOptionNameMap(col_optionDatas);
 
         if (column.nameprefix != null) {
             columnName = column.nameprefix + columnName;
@@ -61,7 +64,7 @@ function getSelectOption(columnName, isNullable, data) {
     return result;
 }
 
-function getColOptionMap(map) {
+function getOptionNameMap(map) {
     var colOption = new Map();
     map.forEach(function (value, key, map) {
         colOption.set(key, value.name);
@@ -88,13 +91,12 @@ function getFunc(columnName) {
 }
 
 // for add/edit
-// invoke by every add/edit, doesn't change original $(elem>option)
+// invoke by every add/edit, i.e. original $(elem>option) doesn't have 'disabled'
 function getInitDisableFn(col_optionDatas, initFunc) {
     return function (elem) {
         col_optionDatas.forEach(function (value, key, map) {
             var disable = value.disable;
             $(elem).find('option[value="' + key + '"]').prop('disabled', disable === 1);
-
         });
 
         if (initFunc != null) {
@@ -113,4 +115,77 @@ function getSinitFn() {
 
 function businessGroupInit(elem) {
     $(elem).find('option:disabled').detach().appendTo(elem);
+}
+
+function setJsonOptions(info) {
+    rootPath = info.rootPath;
+    selectBiRiColumns = info.columnInfo;
+    syncJsonOptionInfo();
+}
+
+function getJson(path) {
+    var jdata;
+    $.ajax({
+        url: path,
+        type: 'GET',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            jdata = data;
+        },
+        error: function (xhr, status, error) {
+            console.error(error);
+        }
+    });
+    return jdata;
+}
+
+function syncJsonOptionInfo() {
+    for (var i = 0; i < selectBiRiColumns.length; i++) {
+        var column = selectBiRiColumns[i];
+        var columnName = column.name;
+        var tColumnName = column.targetColumn;
+
+        var jdata = getJson(rootPath + column.filename);
+        var bipowerObj = column.jsonHandleFn(jdata, column);
+        var col_options = bipowerObj[columnName + '_options'];
+
+        selectOptions[columnName + '_options'] = col_options;
+        selectOptions[columnName] = optionsStringify(col_options);
+        selectOptions[columnName + '_func'] = getFunc(columnName);
+        selectOptions[tColumnName + '_tableMap'] = bipowerObj[tColumnName + '_tableMap'];
+    }
+}
+
+function getBipowerObj(data, columnInfo) {
+    var result = {};
+    var optionMap = new Map();
+    var minsMap = new Map();
+
+    data.forEach(function (item) {
+        var powerString = item["Power (W)"];
+        optionMap.set(powerString, powerString);
+
+        var category = item["Category"] === "Run in" ? "RI" : "BI";
+        Object.keys(item).forEach(prop => {
+            var p = prop;
+            var v = item[prop];
+
+            if (p !== "Category" && p !== "Power (W)") {
+                var pNo = p.match(/\d+/);
+                var mins = v.match(/\d+(\.\d+)?/);
+
+                var key = pNo + connPattern + category + connPattern + powerString;
+                var value = mins[0];
+                minsMap.set(key, value);
+            }
+        });
+    });
+
+    var columnName = columnInfo.name;
+    var tColumnName = columnInfo.targetColumn;
+
+    result[columnName + '_options'] = optionMap;
+    result[tColumnName + '_tableMap'] = minsMap;
+    return result;
 }

@@ -124,6 +124,13 @@
             ]
         });
 
+        setJsonOptions({
+            rootPath: "../json/",
+            columnInfo: [
+                {name: "biPower", filename: "biCost.json", jsonHandleFn: getBipowerObj, targetColumn: "biCost"}
+            ]
+        });
+
         var cobotsFormatter = function (cellvalue, options, rowObject) {
             if (cellvalue.length == 0) {
                 return '';
@@ -200,9 +207,9 @@
         };
 
         function add_edit_check_incommon(postdata, formid) {
-//            var checkResult = [];
+            var checkResult = [];
             clearCheckErrorIcon();
-            var checkResult = checkFlowIsValid(postdata, formid);
+            checkResult = checkFlowIsValid(postdata, formid);
 
             var modelRelativeCheckResult = checkModelIsValid(postdata);
             checkResult = checkResult.concat(modelRelativeCheckResult);
@@ -285,7 +292,7 @@
                 {label: 'Packing', name: "packing", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Up_BI_RI', name: "upBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '2'}},
                 {label: 'Down_BI_RI', name: "downBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '2'}},
-                {label: 'BI Cost', name: "biCost", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'BI Cost', name: "biCost", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {disabled: true, defaultValue: '0'}},
                 {label: 'Vibration', name: "vibration", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Hi-Pot/Leakage', name: "hiPotLeakage", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Cold Boot', name: "coldBoot", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
@@ -297,6 +304,7 @@
                 {label: 'Pending TIME', name: "pendingTime", width: 100, searchrules: {required: true}, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
                 {label: 'BI Sampling', name: "biSampling", edittype: "select", editoptions: {value: "N:N;Y:Y", dataEvents: biSample_change_event}, width: 100, searchrules: {required: true}, searchoptions: search_string_options, formoptions: {elmsuffix: "<b class='danger'>抽燒選Y</b>"}},
                 {label: 'BurnIn', name: "burnIn", edittype: "select", editoptions: {value: "N:N;BI:BI;RI:RI", dataEvents: burnIn_select_event}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
+                {label: 'BI_Power (W)', name: "biPower", edittype: "select", editoptions: {value: selectOptions["biPower"]}, width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["biPower"], sopt: ['eq']}},
                 {label: 'B/I Time', name: "biTime", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
                 {label: 'BI_Temperature', name: "biTemperature", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
                 {label: 'Work Center', name: "workCenter", width: 100, searchrules: {required: true}, searchoptions: search_string_options, editrules: {required: false}},
@@ -500,6 +508,7 @@
                         modelNameFormat();
                         checkRevision(form);
                         setReasonCodeRelateFieldEvent(form);
+                        setBicostRelateFieldEvent(form);
                     },
                     afterSubmit: showServerModifyMessage,
                     recreateForm: true,
@@ -530,6 +539,7 @@
                     afterShowForm: function (form) {
                         modelNameFormat();
                         checkRevision(form);
+                        setBicostRelateFieldEvent(form);
                     },
                     afterSubmit: showServerModifyMessage,
                     recreateForm: true,
@@ -971,6 +981,24 @@
             relativeObj.on("keyup, change", function () {
                 $("#mod-reason").removeClass("ui-state-disabled hidden");
                 relativeObj.unbind("keyup, change");
+            });
+        }
+
+        function setBicostRelateFieldEvent(form) {
+            var relativeObj = form.find("#biTime, #biPower, #burnIn");
+            var biTimeObj = form.find("#biTime");
+            var burnInObj = form.find("#burnIn");
+            var biPowerObj = form.find("#biPower");
+            var biCostObj = form.find("#biCost");
+
+            relativeObj.on("keyup, change", function () {
+                var key = parseInt(biTimeObj.val(), 10) + connPattern + burnInObj.val() + connPattern + biPowerObj.val();
+                var newbiCost = selectOptions["biCost_tableMap"].get(key);
+                newbiCost = newbiCost != null ? newbiCost : 0;
+                var isChanged = biCostObj.val() != newbiCost;
+                if (isChanged) {
+                    biCostObj.val(newbiCost).change();
+                }
             });
         }
     });

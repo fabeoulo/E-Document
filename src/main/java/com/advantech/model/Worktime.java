@@ -173,6 +173,9 @@ public class Worktime implements java.io.Serializable {
     private BigDecimal biTemperature;
 
     @JsonView(View.Public.class)
+    private String biPower;
+    
+    @JsonView(View.Public.class)
     private String assyPackingSop;
 
     @JsonView(View.Public.class)
@@ -861,6 +864,17 @@ public class Worktime implements java.io.Serializable {
 
     public void setBiTemperature(BigDecimal biTemperature) {
         this.biTemperature = autoFixScale(biTemperature, 1);
+    }
+
+    @NotNull
+    @NotEmpty
+    @Column(name = "bi_power", nullable = false, length = 30)
+    public String getBiPower() {
+        return biPower;
+    }
+
+    public void setBiPower(String biPower) {
+        this.biPower = biPower;
     }
 
     @Size(min = 0, max = 500)
