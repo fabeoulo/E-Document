@@ -9,6 +9,7 @@ import com.advantech.dao.*;
 import com.advantech.helper.SpringExpressionUtils;
 import com.advantech.helper.WorktimeValidator;
 import com.advantech.jqgrid.PageInfo;
+import com.advantech.model.BusinessGroup;
 import com.advantech.model.Cobot;
 import com.advantech.model.Worktime;
 import com.advantech.model.WorktimeFormulaSetting;
@@ -47,6 +48,9 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
 
     @Autowired
     private WorktimeValidator validator;
+
+    @Autowired
+    private BusinessGroupService businessGroupService;
 
     @Autowired
     private SpringExpressionUtils expressionUtils;
@@ -155,20 +159,26 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
 
         Worktime baseW = this.findByModel(baseModelName);
         checkArgument(baseW != null, "Can't find modelName: " + baseModelName);
-        List<Worktime> l = new ArrayList();
+        BusinessGroup bg = this.getBaseBusinessGroup(baseW.getModelName());
 
+        List<Worktime> l = new ArrayList();
         for (String seriesModelName : seriesModelNames) {
             Worktime cloneW = (Worktime) BeanUtils.cloneBean(baseW);
             cloneW.setId(0); //CloneW is a new row, reset id.
             cloneW.setModelName(seriesModelName);
-            cloneW.setReasonCode(null); //Don't copy exist reason in base model
+            cloneW.setReasonCode(""); //Don't copy exist reason in base model
+            cloneW.setWorktimeModReason("");
 
             //Remove relation from FK models
             cloneW.setWorktimeFormulaSettings(null);
             cloneW.setBwFields(null);
             cloneW.setCobots(null);
+
+            //set NewModel Default
             cloneW.setPreAssyModuleQty(0);
             cloneW.setCobotManualWt(BigDecimal.ZERO);
+            cloneW.setBusinessGroup(bg);
+            cloneW.setWorkCenter(bg.getWorkCenter());
 
             l.add(cloneW);
         }
@@ -199,6 +209,16 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         });
 
         return 1;
+    }
+
+    private BusinessGroup getBaseBusinessGroup(String modelName) {
+        Map<String, BusinessGroup> mapBg = businessGroupService.getMapByNotDisable();
+        BusinessGroup bg = mapBg.getOrDefault("EDIS", new BusinessGroup());
+//        boolean isEs = modelName.endsWith("ES");
+//        if (isEs) {
+//            bg = mapBg.getOrDefault("ES", bg);
+//        }
+        return bg;
     }
 
     public int updateWithMesUpload(List<Worktime> l) throws Exception {
@@ -333,13 +353,13 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         return w;
     }
 
-    public Worktime setCobotManualWtFormula(Worktime w) {
+    private Worktime setCobotManualWtFormula(Worktime w) {
         //Find cobots setting if cobots is not provide when user use excel batch update model
         Set<Cobot> cobots = w.getCobots() == null ? this.findCobots(w.getId()) : w.getCobots();
         BigDecimal cobotManualWt = BigDecimal.ZERO;
         if (w.getTwm2Flag() == 1) {
             cobotManualWt = w.getProductionWt();
-            
+
             if (cobots != null && !cobots.isEmpty()
                     && cobots.stream().anyMatch(c -> c.getName().contains("ADAM"))) {
                 WorktimeFormulaSetting setting = w.getWorktimeFormulaSettings().get(0);

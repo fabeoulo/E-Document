@@ -8,6 +8,10 @@ package com.advantech.service;
 import com.advantech.dao.BasicDAOImpl;
 import com.advantech.dao.BusinessGroupDAO;
 import com.advantech.model.BusinessGroup;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,4 +32,9 @@ public class BusinessGroupService extends BasicServiceImpl<Integer, BusinessGrou
         return dao;
     }
 
+    public Map<String, BusinessGroup> getMapByNotDisable() {
+        return dao.findAll().stream().filter(bg -> bg.getDisable() != 1)
+                .collect(Collectors.toMap(BusinessGroup::getName, Function.identity()));
+
+    }
 }

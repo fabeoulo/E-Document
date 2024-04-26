@@ -174,7 +174,7 @@ public class Worktime implements java.io.Serializable {
 
     @JsonView(View.Public.class)
     private String biPower;
-    
+
     @JsonView(View.Public.class)
     private String assyPackingSop;
 
@@ -326,7 +326,7 @@ public class Worktime implements java.io.Serializable {
     private BigDecimal cobotAutoWt = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
-    private BigDecimal cobotManualWt = BigDecimal.ZERO;
+    private BigDecimal cobotManualWt;
 
     //This value almost equals to productionWt in sap
     @JsonView(View.Public.class)
@@ -502,6 +502,7 @@ public class Worktime implements java.io.Serializable {
         this.id = id;
     }
 
+    @NotAudited
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "floor_id", nullable = false)
@@ -619,7 +620,7 @@ public class Worktime implements java.io.Serializable {
         this.type = type;
     }
 
-//    @NotNull
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "businessGroup_id")
     public BusinessGroup getBusinessGroup() {
@@ -933,6 +934,7 @@ public class Worktime implements java.io.Serializable {
         this.macPrintedQty = macPrintedQty;
     }
 
+    @NotNull
     @Column(name = "part_link", length = 1)
     public Character getPartLink() {
         return this.partLink;
@@ -1042,7 +1044,6 @@ public class Worktime implements java.io.Serializable {
         this.partNoAttributeMaintain = partNoAttributeMaintain;
     }
 
-    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 4 /*scale*/)
     @Column(name = "[weight]", nullable = false, precision = 10, scale = 4)
     public BigDecimal getWeight() {
@@ -1054,7 +1055,6 @@ public class Worktime implements java.io.Serializable {
     }
 
     //附加屬性質給使用者維護(特例)
-    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 4 /*scale*/)
     @Column(name = "weight_aff", nullable = false, precision = 10, scale = 4)
     public BigDecimal getWeightAff() {
@@ -1065,7 +1065,7 @@ public class Worktime implements java.io.Serializable {
         this.weightAff = this.autoFixScale(weightAff, 4);
     }
 
-//    @NotNull
+    @NotNull
     @Column(name = "acw_voltage", nullable = false, length = 30)
     public String getAcwVoltage() {
         return acwVoltage;
@@ -1075,6 +1075,8 @@ public class Worktime implements java.io.Serializable {
         this.acwVoltage = acwVoltage;
     }
 
+    @NotNull
+    @NotEmpty
     @Column(name = "dcw_voltage", nullable = false, length = 30)
     public String getDcwVoltage() {
         return dcwVoltage;
@@ -1084,7 +1086,7 @@ public class Worktime implements java.io.Serializable {
         this.dcwVoltage = dcwVoltage;
     }
 
-//    @NotNull
+    @NotNull
     @Column(name = "ir_voltage", nullable = false, length = 30)
     public String getIrVoltage() {
         return irVoltage;
@@ -1094,7 +1096,7 @@ public class Worktime implements java.io.Serializable {
         this.irVoltage = irVoltage;
     }
 
-//    @NotNull
+    @NotNull
     @Column(name = "test_profile", nullable = false, length = 30)
     public String getTestProfile() {
         return testProfile;
@@ -1104,7 +1106,7 @@ public class Worktime implements java.io.Serializable {
         this.testProfile = testProfile;
     }
 
-//    @NotNull
+    @NotNull
     @Column(name = "llt_value", nullable = false, length = 100)
     public String getLltValue() {
         return lltValue;
@@ -1114,6 +1116,7 @@ public class Worktime implements java.io.Serializable {
         this.lltValue = lltValue;
     }
 
+    @NotNull
     @Column(name = "gnd_value", nullable = false, length = 30)
     public String getGndValue() {
         return gndValue;
@@ -1123,7 +1126,6 @@ public class Worktime implements java.io.Serializable {
         this.gndValue = gndValue;
     }
 
-    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 4 /*scale*/)
     @Column(name = "tolerance", nullable = false, precision = 10, scale = 4)
     public BigDecimal getTolerance() {
@@ -1464,6 +1466,7 @@ public class Worktime implements java.io.Serializable {
         this.etlVariable3Aff = etlVariable3Aff;
     }
 
+    @NotNull
     @Column(name = "label_yn", nullable = true)
     public Character getLabelYN() {
         return labelYN;

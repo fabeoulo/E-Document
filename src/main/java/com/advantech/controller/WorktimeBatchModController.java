@@ -130,7 +130,7 @@ public class WorktimeBatchModController {
         worktimeValidator.checkModelNameExists(hgList);
 
         //Validate the column, throw exception when false.
-        validateWorktime(hgList);
+        this.validateWorktime(hgList);
 
         if (worktimeService.insertByExcel(hgList) == 1) {
             worktimeMailManager.notifyUser(hgList, CrudAction.ADD);
@@ -153,7 +153,9 @@ public class WorktimeBatchModController {
         worktimeValidator.checkReasonCode(hgList);
         hgList.forEach((w) -> {
             if (w.getReasonCode() != null) {
-                w.setReasonCode(w.getReasonCode().trim());
+                String trimReasonCode = w.getReasonCode().trim();
+                String reasonCode = trimReasonCode.equals("") ? "0" : trimReasonCode;
+                w.setReasonCode(reasonCode);
             }
         });
 

@@ -40,7 +40,7 @@ public class WorktimeAuditDAO implements AuditAction<Worktime, Integer> {
 
     private final Pattern LTRIM = Pattern.compile("^\\s+");
     private final Pattern RTRIM = Pattern.compile("\\s+$");
-    
+
     Class<Worktime> clz = Worktime.class;
 
     @Autowired
@@ -64,9 +64,9 @@ public class WorktimeAuditDAO implements AuditAction<Worktime, Integer> {
         AuditQuery q = getReader().createQuery().forRevisionsOfEntity(clz, selectedEntitiesOnly, selectDeletedEntities);
         info.setMaxNumOfRows(((Long) q.addProjection(AuditEntity.id().count()).getSingleResult()).intValue());
 
-        q = getReader().createQuery().forRevisionsOfEntity(clz, selectedEntitiesOnly, selectDeletedEntities)
+        q = getReader().createQuery().forRevisionsOfEntityWithChanges(clz, selectDeletedEntities)
                 .setMaxResults(info.getRows())
-                .setFirstResult((info.getPage() - 1) * info.getRows());
+                .setFirstResult((info.getPage() - 1) * info.getRows()); 
 
         if (info.getSearchField() != null) {
             addSearchQuery(info, q);
@@ -92,7 +92,7 @@ public class WorktimeAuditDAO implements AuditAction<Worktime, Integer> {
 
     @Override
     public List findByPrimaryKey(Integer id) {
-        AuditQuery q = getReader().createQuery().forRevisionsOfEntity(clz, selectedEntitiesOnly, selectDeletedEntities);
+        AuditQuery q = getReader().createQuery().forRevisionsOfEntityWithChanges(clz, selectDeletedEntities);
         q.add(AuditEntity.id().eq(id));
         return q.getResultList();
     }
@@ -129,7 +129,7 @@ public class WorktimeAuditDAO implements AuditAction<Worktime, Integer> {
         info.setMaxNumOfRows(((Long) q.addProjection(AuditEntity.id().count()).getSingleResult()).intValue());
 
         //Paginate rows
-        q = getReader().createQuery().forRevisionsOfEntity(clz, selectedEntitiesOnly, selectDeletedEntities)
+        q = getReader().createQuery().forRevisionsOfEntityWithChanges(clz, selectDeletedEntities)
                 .setMaxResults(info.getRows())
                 .setFirstResult((info.getPage() - 1) * info.getRows())
                 .add(AuditEntity.revisionProperty("REVTSTMP").between(startDate.getTime(), endDate.getTime()));

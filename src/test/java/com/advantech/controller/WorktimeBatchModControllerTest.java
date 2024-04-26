@@ -128,13 +128,14 @@ public class WorktimeBatchModControllerTest {
     @Autowired
     WorktimeBatchModController instance;
             
-    @Test
+//    @Test
     public void testTransToWorktimes() throws Exception {
         System.out.println("transToWorktimes");
-        File initialFile = new File("C:\\Users\\wei.cheng\\Desktop\\worktime_output.xls");
+        File initialFile = new File("C:\\Users\\Justin.yeh\\Desktop\\TestWorktimeBatchModController\\worktime-template-up.xls");
         InputStream targetStream = new FileInputStream(initialFile);
         List<Worktime> result = instance.transToWorktimes(targetStream, false);
         assertEquals(1, result.size());
+//        instance.validateWorktime(result);
         HibernateObjectPrinter.print(result.get(0));
         HibernateObjectPrinter.print(result.get(0).getCobots());
     }

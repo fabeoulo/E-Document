@@ -33,6 +33,7 @@ public class BusinessGroup implements java.io.Serializable {
     private int id;
     private String name;
     private int disable;
+    private String workCenter;
     private Set<Worktime> worktimes = new HashSet<>(0);
 
     @Id
@@ -46,6 +47,7 @@ public class BusinessGroup implements java.io.Serializable {
         this.id = id;
     }
 
+    @NotNull
     @Column(name = "name", nullable = false, length = 50)
     public String getName() {
         return name;
@@ -63,6 +65,16 @@ public class BusinessGroup implements java.io.Serializable {
 
     public void setDisable(int disable) {
         this.disable = disable;
+    }
+
+    @NotNull
+    @Column(name = "workCenter", nullable = false, length = 50)
+    public String getWorkCenter() {
+        return workCenter;
+    }
+
+    public void setWorkCenter(String workCenter) {
+        this.workCenter = workCenter;
     }
 
     @JsonIgnore

@@ -6,6 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+    .highLight{
+        background-color: yellow;
+    }
+</style>
 <link href="<c:url value="/webjars/free-jqgrid/4.14.1/plugins/css/ui.multiselect.min.css" />" rel="stylesheet">
 <script src="<c:url value="/js/jqgrid-custom-select-option-reader.js" />"></script>
 <script src="<c:url value="/js/moment.js" />"></script>
@@ -17,10 +22,8 @@
         var today = moment().toDate();
         var yesterday = moment().add(-1, 'days').toDate();
         var lastsel;
-
         $("#sD").datepicker({dateFormat: 'yy-mm-dd', defaultDate: yesterday}).datepicker("setDate", yesterday);
         $("#eD").datepicker({dateFormat: 'yy-mm-dd', defaultDate: today}).datepicker("setDate", today);
-
         setSelectOptions({
             rootUrl: "<c:url value="/" />",
             columnInfo: [
@@ -40,14 +43,12 @@
                 {name: "outlabel", isNullable: false}
             ]
         });
-
         $("#send").click(function () {
             var id = $("#id").val();
             var modelName = $("#modelName").val();
             var version = $("#version").val();
             var startDate = $("#sD").val();
             var endDate = $("#eD").val();
-
             if (!isGridInitialized) {
                 getEditRecord(id, modelName, version, startDate, endDate); //init the table
                 isGridInitialized = true;
@@ -58,7 +59,6 @@
                 grid.trigger('reloadGrid');
             }
         });
-
         function timestampFormat(cellvalue, options, rowObject) {
             var t = moment(cellvalue);
             return t.format('YYYY-MM-DD H:mm:ss');
@@ -157,7 +157,7 @@
                     {label: '標籤信息是否啟用料號屬性定義', name: "labelYN", jsonmap: "0.labelYN", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},
                     {label: 'OuterLable標準套版選單', name: "labelOuterId", jsonmap: "0.labelOuterId.id", formatter: selectOptions["outlabel_func"], width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'OuterLable標籤名稱定義', name: "labelOuterCustom", jsonmap: "0.labelOuterCustom", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},
-                    {label: 'CartonLable標準套版選單', name: "labelCartonId ", jsonmap: "0.labelCartonId.id", formatter: selectOptions["cartonlabel_func"], width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
+                    {label: 'CartonLable標準套版選單', name: "labelCartonId", jsonmap: "0.labelCartonId.id", formatter: selectOptions["cartonlabel_func"], width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'CartonLable標籤名稱定義', name: "labelCartonCustom", jsonmap: "0.labelCartonCustom", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},
                     {label: 'BigCartonLable標籤名稱定義', name: "labelBigCarton", jsonmap: "0.labelBigCarton", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},
                     {label: '2D-標籤變量名稱', name: "label2D", jsonmap: "0.label2D", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},
@@ -202,6 +202,7 @@
                     {label: 'Test Profile', name: "testProfile", jsonmap: "0.testProfile", width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                     {label: 'LLT Value', name: "lltValue", jsonmap: "0.lltValue", width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                     {label: '禮盒總重量(含配件)', name: "weight", jsonmap: "0.weight", width: 120, searchrules: {required: true}, searchoptions: search_decimal_options},
+                    {label: '禮盒總重量(附加屬性質)', name: "weightAff", jsonmap: "0.weightAff", width: 120, searchrules: {required: true}, searchoptions: search_decimal_options},
                     {label: '整箱總重量誤差值', name: "tolerance", jsonmap: "0.tolerance", width: 120, searchrules: {required: true}, searchoptions: search_decimal_options},
                     {label: '前置模組數', name: "preAssyModuleQty", jsonmap: "0.preAssyModuleQty", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: '燒機台車容納數量', name: "burnInQuantity", jsonmap: "0.burnInQuantity", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
@@ -219,6 +220,14 @@
                     {label: '修改原因代號', name: "reasonCode", jsonmap: "0.reasonCode", formatter: selectOptions["modReasonCode_func"], width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                     {label: '修改原因描述', name: "worktimeModReason", jsonmap: "0.worktimeModReason", width: 100, search: false}
                 ],
+                cmTemplate: {
+                    cellattr: function (rowId, val, rawObject, cm, rdata) {
+                        var arrColName = cm.name.split('_');
+                        if (rawObject[3].includes(arrColName[0])) {
+                            return 'class="highLight"';
+                        }
+                    }
+                },
                 rowNum: 100,
                 rowList: [100, 200, 500, 1000],
                 pager: '#pager',
@@ -249,7 +258,6 @@
                         return;
                     }
                     var selected = $.inArray(rowId, s) >= 2;
-
                     if (rowId && rowId !== lastsel && selected) {
 
                         if (lastsel)
@@ -277,7 +285,6 @@
                             );
                 }
             });
-
             $("#cb_" + grid[0].id).hide();
             grid.jqGrid('setFrozenColumns');
         }

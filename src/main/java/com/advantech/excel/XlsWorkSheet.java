@@ -259,11 +259,12 @@ public class XlsWorkSheet {
                 if (methodName.startsWith("SET") && this._columnList.contains(methodName.substring(3))) {
                     //System.out.println(ms[i].getGenericParameterTypes()[0].toString());  
                     String val = this.getValue(row, methodName.substring(3)).toString();
-                    if (val == null || "".equals(val)) {
+                    if (val == null) {
                         continue;
                     }
                     String pType = m.getGenericParameterTypes()[0].toString();
-                    if (pType.contains("java.util.List") || pType.contains("java.util.Set")) {
+                    if (pType.contains("java.util.List") || pType.contains("java.util.Set")
+                            || ("".equals(val) && !pType.contains("java.lang.String"))) {
                         continue;
                     }
                     switch (pType) {
@@ -297,6 +298,7 @@ public class XlsWorkSheet {
                             DateTime d = new DateTime(val);
                             m.invoke(bean, d.toDate());
                             break;
+                        case "class java.lang.String":
                         default:
                             m.invoke(bean, val);
                             break;

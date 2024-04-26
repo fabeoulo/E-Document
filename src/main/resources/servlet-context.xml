@@ -129,6 +129,12 @@
         org.springframework.format.support.FormattingConversionServiceFactoryBean
     -->
 
+    <!--    
+        LocalValidatorFactoryBean同時實現javax.validation.Validator以及
+        Spring的org.springframework.validation.Validator
+    -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+    
     <bean id="conversionService"
           class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="converters">
