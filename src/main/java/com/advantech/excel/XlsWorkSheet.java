@@ -247,8 +247,8 @@ public class XlsWorkSheet {
         for (int row = 0, rowCount = this.getRowCount(); row < rowCount; row++) {
             HSSFCell checkedCell = _sheet.getRow(row).getCell(0);
             HSSFCell checkedCell2 = _sheet.getRow(row).getCell(1);
-            if (checkedCell == null || checkedCell.getCellTypeEnum() == CellType.BLANK
-                    || checkedCell2 == null || checkedCell2.getCellTypeEnum() == CellType.BLANK
+            if (checkedCell == null || checkedCell.getCellType() == CellType.BLANK
+                    || checkedCell2 == null || checkedCell2.getCellType() == CellType.BLANK
                     || ("".equals(formatter.formatCellValue(checkedCell)) && "".equals(formatter.formatCellValue(checkedCell2)))) {
                 continue;
             }
@@ -259,10 +259,14 @@ public class XlsWorkSheet {
                 if (methodName.startsWith("SET") && this._columnList.contains(methodName.substring(3))) {
                     //System.out.println(ms[i].getGenericParameterTypes()[0].toString());  
                     String val = this.getValue(row, methodName.substring(3)).toString();
-                    if (val == null || "".equals(val.trim())) {
+                    if (val == null) {
                         continue;
                     }
                     String pType = m.getGenericParameterTypes()[0].toString();
+                    if (pType.contains("java.util.List") || pType.contains("java.util.Set")
+                            || ("".equals(val) && !pType.contains("java.lang.String"))) {
+                        continue;
+                    }
                     switch (pType) {
                         case "class java.lang.Integer":
                         case "int":
@@ -294,6 +298,7 @@ public class XlsWorkSheet {
                             DateTime d = new DateTime(val);
                             m.invoke(bean, d.toDate());
                             break;
+                        case "class java.lang.String":
                         default:
                             m.invoke(bean, val);
                             break;

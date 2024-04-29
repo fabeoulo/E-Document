@@ -6,6 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+    .highLight{
+        background-color: yellow;
+    }
+</style>
 <link href="<c:url value="/webjars/free-jqgrid/4.14.1/plugins/css/ui.multiselect.min.css" />" rel="stylesheet">
 <script src="<c:url value="/js/jqgrid-custom-select-option-reader.js" />"></script>
 <script src="<c:url value="/js/moment.js" />"></script>
@@ -17,10 +22,8 @@
         var today = moment().toDate();
         var yesterday = moment().add(-1, 'days').toDate();
         var lastsel;
-
         $("#sD").datepicker({dateFormat: 'yy-mm-dd', defaultDate: yesterday}).datepicker("setDate", yesterday);
         $("#eD").datepicker({dateFormat: 'yy-mm-dd', defaultDate: today}).datepicker("setDate", today);
-
         setSelectOptions({
             rootUrl: "<c:url value="/" />",
             columnInfo: [
@@ -39,14 +42,12 @@
                 {name: "remark", isNullable: false}
             ]
         });
-
         $("#send").click(function () {
             var id = $("#id").val();
             var modelName = $("#modelName").val();
             var version = $("#version").val();
             var startDate = $("#sD").val();
             var endDate = $("#eD").val();
-
             if (!isGridInitialized) {
                 getEditRecord(id, modelName, version, startDate, endDate); //init the table
                 isGridInitialized = true;
@@ -57,7 +58,6 @@
                 grid.trigger('reloadGrid');
             }
         });
-
         function timestampFormat(cellvalue, options, rowObject) {
             var t = moment(cellvalue);
             return t.format('YYYY-MM-DD H:mm:ss');
@@ -147,6 +147,14 @@
                     {label: '測試工時', name: "test", jsonmap: "0.test", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options}
                     //{label: '自動化人機協作', width: 200, name: "hrcValues", jsonmap: "0.hrcValues", index: "hrcValues", align: 'center'}
                 ],
+                cmTemplate: {
+                    cellattr: function (rowId, val, rawObject, cm, rdata) {
+                        var arrColName = cm.name.split('_');
+                        if (rawObject[3].includes(arrColName[0])) {
+                            return 'class="highLight"';
+                        }
+                    }
+                },
                 rowNum: 100,
                 rowList: [100, 200, 500, 1000],
                 pager: '#pager',
@@ -177,7 +185,6 @@
                         return;
                     }
                     var selected = $.inArray(rowId, s) >= 2;
-
                     if (rowId && rowId !== lastsel && selected) {
 
                         if (lastsel)
@@ -205,7 +212,6 @@
                             );
                 }
             });
-
             $("#cb_" + grid[0].id).hide();
             grid.jqGrid('setFrozenColumns');
         }

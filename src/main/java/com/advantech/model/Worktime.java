@@ -577,7 +577,8 @@ public class Worktime implements java.io.Serializable {
         this.t2ToPacking = autoFixScale(t2ToPacking, 1);
     }
 
-//    @NotNull
+    @NotAudited
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "floor_id", nullable = false)
     public Floor getFloor() {
@@ -663,6 +664,7 @@ public class Worktime implements java.io.Serializable {
         this.userByMpmOwnerId = userByMpmOwnerId;
     }
 
+    @NotAudited
     @Size(min = 0, max = 500)
     @Column(name = "assy_packing_sop", length = 500)
     public String getAssyPackingSop() {
@@ -673,6 +675,7 @@ public class Worktime implements java.io.Serializable {
         this.assyPackingSop = assyPackingSop;
     }
 
+    @NotAudited
     @Size(min = 0, max = 500)
     @Column(name = "test_sop", length = 500)
     public String getTestSop() {
@@ -741,6 +744,7 @@ public class Worktime implements java.io.Serializable {
         this.flowByPackingFlowId = flowByPackingFlowId;
     }
 
+    @NotEmpty
     @Column(name = "part_link", length = 10)
     public String getPartLink() {
         return this.partLink;

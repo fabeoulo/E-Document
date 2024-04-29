@@ -19,6 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -49,6 +50,7 @@ public class BusinessGroup implements java.io.Serializable {
         this.id = id;
     }
 
+    @NotNull
     @Column(name = "name", nullable = false, length = 50)
     public String getName() {
         return name;

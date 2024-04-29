@@ -164,13 +164,15 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         //Insert worktime then insert worktimeFormulaSetting & cobots setting
 
         Worktime baseW = this.findByModel(baseModelName);
-        checkArgument(baseW != null, "Can't find base modelName: " + baseModelName);
-        List<Worktime> l = new ArrayList();
+        checkArgument(baseW != null, "Can't find modelName: " + baseModelName);
 
+        List<Worktime> l = new ArrayList();
         for (String seriesModelName : seriesModelNames) {
             Worktime cloneW = (Worktime) BeanUtils.cloneBean(baseW);
             cloneW.setId(0); //CloneW is a new row, reset id.
             cloneW.setModelName(seriesModelName);
+
+            //Remove relation from FK models
             cloneW.setWorktimeFormulaSettings(null);
             cloneW.setWorktimeLevelSettings(null); // Fix shared references to a collection.
             cloneW.setBwFields(null);

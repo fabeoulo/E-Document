@@ -4,7 +4,7 @@
 
     <groupId>com.advantech</groupId>
     <artifactId>E-Document-M6</artifactId>
-    <version>1.4.1-b08</version>
+    <version>1.4.1-b09</version>
     <packaging>war</packaging>
     
     <pluginRepositories>
