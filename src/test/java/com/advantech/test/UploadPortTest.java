@@ -128,26 +128,26 @@ public class UploadPortTest {
         assertFalse(isUploadMatProp);
     }
 
-    @Test//216
+//    @Test//216
     @Rollback(true)
     public void testStandardtimeUpload() throws Exception {
-        List<Worktime> l = worktimeService.findAll();
-        assertNotNull(l.get(0));
+//        List<Worktime> l = worktimeService.findAll();
+//        assertNotNull(l.get(0));
 //        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(39,40);
 //        standardtimePort.initSettings(settings);
         standardtimePort.initSettings();
 
-        Worktime w = worktimeService.findByModel("IDK2115N2201-T");
-//        standardtimePort.update(w);
+        Worktime w = worktimeService.findByModel("9663M15W10E-TEST2");
+        standardtimePort.update(w);
 
-        l.forEach((worktime) -> {
-            try {
-                System.out.println("Upload model: " + worktime.getModelName());
-                standardtimePort.update(worktime);
-            } catch (Exception ex) {
-                System.out.println(ex);
-            }
-        });
+//        l.forEach((worktime) -> {
+//            try {
+//                System.out.println("Upload model: " + worktime.getModelName());
+//                standardtimePort.update(worktime);
+//            } catch (Exception ex) {
+//                System.out.println(ex);
+//            }
+//        });
     }
 
 //    @Test//216

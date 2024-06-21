@@ -1,0 +1,16 @@
+[
+    {
+        "Category": "Optical Bonding",
+        "SL": "24",
+        "SL1": "24",
+        "OB": "72",
+        "OB1": "N/A"
+    },
+    {
+        "Category": "Dry Bonding",
+        "SL": "N/A",
+        "SL1": "N/A",
+        "OB": "8",
+        "OB1": "72"
+    }
+]

@@ -33,12 +33,17 @@ public class WorktimeLevelSetting implements java.io.Serializable, WorktimeSetti
     private Worktime worktime;
     private int arFilmAttachment = 0;
     private int seal = 0;
+    private int seal1 = 0;
     private int opticalBonding = 0;
+    private int opticalBonding1 = 0;
+    private int opticalBonding2 = 0;
+    private int pressureCookerCost = 0;
     private int cleanPanel = 0;
     private int pi = 0;
     private int highBright = 0;
     private int assy = 0;
     private int bondedSealingFrame = 0;
+    private int assy2 = 0;
     private int t1 = 0;
     private int t2 = 0;
     private int t3 = 0;
@@ -95,12 +100,47 @@ public class WorktimeLevelSetting implements java.io.Serializable, WorktimeSetti
     }
 
     @NotNull
+    public int getSeal1() {
+        return seal1;
+    }
+
+    public void setSeal1(int seal1) {
+        this.seal1 = seal1;
+    }
+
+    @NotNull
     public int getOpticalBonding() {
         return opticalBonding;
     }
 
     public void setOpticalBonding(int opticalBonding) {
         this.opticalBonding = opticalBonding;
+    }
+
+    @NotNull
+    public int getOpticalBonding1() {
+        return opticalBonding1;
+    }
+
+    public void setOpticalBonding1(int opticalBonding1) {
+        this.opticalBonding1 = opticalBonding1;
+    }
+
+    @NotNull
+    public int getOpticalBonding2() {
+        return opticalBonding2;
+    }
+
+    public void setOpticalBonding2(int opticalBonding2) {
+        this.opticalBonding2 = opticalBonding2;
+    }
+
+    public int getPressureCookerCost() {
+        return pressureCookerCost;
+    }
+
+    public void setPressureCookerCost(int pressureCookerCost) {
+        this.pressureCookerCost = pressureCookerCost;
     }
 
     @Column(name = "clean_panel", nullable = false)
@@ -146,6 +186,15 @@ public class WorktimeLevelSetting implements java.io.Serializable, WorktimeSetti
 
     public void setBondedSealingFrame(int bondedSealingFrame) {
         this.bondedSealingFrame = bondedSealingFrame;
+    }
+
+    @NotNull
+    public int getAssy2() {
+        return assy2;
+    }
+
+    public void setAssy2(int assy2) {
+        this.assy2 = assy2;
     }
 
     @NotNull

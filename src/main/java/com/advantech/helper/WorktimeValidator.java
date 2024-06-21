@@ -114,8 +114,10 @@ public class WorktimeValidator {
             Integer worktimeId = modelMap.get(w.getModelName());
             if (w.getId() == 0) {
                 existFlag = worktimeId != null;
+                modelMap.put(w.getModelName(), w.getId());
             } else {
                 existFlag = worktimeId != null && worktimeId != w.getId();
+                checkArgument(modelMap.values().contains(w.getId()), "This id &lt;" + w.getId() + "&gt; is removed.");
             }
             checkArgument(existFlag == false, "This modelName &lt;" + w.getModelName() + "&gt; is already exist.");
         });

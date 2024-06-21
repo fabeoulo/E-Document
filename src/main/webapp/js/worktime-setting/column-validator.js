@@ -1,5 +1,6 @@
 //Custom param
 var not_null_and_zero_message = "需有值，不可為0";
+var or_message = "，其一需有值，不可為0";
 var when_not_empty_or_null = "不等於0時";
 var preAssy = "preAssy\\.id",
         babFlow = "flowByBabFlowId\\.id",
@@ -22,13 +23,18 @@ var needRI = function (obj) {
 //Flow check logic setting
 var flow_check_logic = {
     "PRE-ASSY": [
-        {keyword: ["PRE_ASSY"], checkColumn: ["arFilmAttachment", "cleanPanel", "pi"], checkType: "OR", message: not_null_and_zero_message, prmValid: notZeroOrNull}
+        {keyword: ["PRE_ASSY"], checkColumn: ["pi"], message: not_null_and_zero_message, prmValid: notZeroOrNull}
     ],
     BAB: [
-        {keyword: ["ASSY"], checkColumn: ["assy", "bondedSealingFrame"], message: not_null_and_zero_message, prmValid: notZeroOrNull, checkType: "OR"},
+        {keyword: ["ASSY"], checkColumn: ["arFilmAttachment", "cleanPanel", "assy"], message: or_message, checkType: "OR", prmValid: notZeroOrNull},
+        {keyword: ["ASSY1"], checkColumn: ["bondedSealingFrame"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
+        {keyword: ["ASSY2"], checkColumn: ["assy2"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["HB"], checkColumn: ["highBright"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["SL"], checkColumn: ["seal"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
+        {keyword: ["SL1"], checkColumn: ["seal1"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["OB"], checkColumn: ["opticalBonding"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
+        {keyword: ["OB1"], checkColumn: ["opticalBonding1"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
+        {keyword: ["OB2"], checkColumn: ["opticalBonding2"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["T1"], checkColumn: ["t1"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["BI", "RI"], checkColumn: ["upBiRi", "downBiRi", "biCost"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["BI"], checkColumn: ["burnIn"], message: "內容須為BI", prmValid: needBI},
@@ -39,31 +45,36 @@ var flow_check_logic = {
         {keyword: ["T3"], checkColumn: ["t3"], message: not_null_and_zero_message, prmValid: notZeroOrNull}
     ],
     PKG: [
-        {keyword: ["PKG"], checkColumn: ["packing"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
+        {keyword: ["PKG", "PKG(WET)"], checkColumn: ["packing"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["PKG(WET)"], checkColumn: ["weight"], message: not_null_and_zero_message, prmValid: notZeroOrNull}
     ]
 };
 
 var field_check_flow_logic = [
-    {checkColumn: {name: "arFilmAttachment", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: preAssy, keyword: ["PRE_ASSY"]}},
-    {checkColumn: {name: "cleanPanel", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: preAssy, keyword: ["PRE_ASSY"]}},
     {checkColumn: {name: "pi", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: preAssy, keyword: ["PRE_ASSY"]}},
+    {checkColumn: {name: "arFilmAttachment", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["ASSY"]}},
+    {checkColumn: {name: "cleanPanel", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["ASSY"]}},
     {checkColumn: {name: "highBright", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["HB"]}},
     {checkColumn: {name: "assy", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["ASSY"]}},
-    {checkColumn: {name: "bondedSealingFrame", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["ASSY"]}},
+    {checkColumn: {name: "bondedSealingFrame", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["ASSY1"]}},
+    {checkColumn: {name: "assy2", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["ASSY2"]}},
     {checkColumn: {name: "seal", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["SL"]}},
+    {checkColumn: {name: "seal1", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["SL1"]}},
     {checkColumn: {name: "opticalBonding", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["OB"]}},
+    {checkColumn: {name: "opticalBonding1", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["OB1"]}},
+    {checkColumn: {name: "opticalBonding2", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["OB2"]}},
     {checkColumn: {name: "t1", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["T1"]}},
     {checkColumn: {name: "burnIn", equals: true, value: "BI"}, description: "內容為BI", targetColumn: {name: babFlow, keyword: ["BI"]}},
     {checkColumn: {name: "burnIn", equals: true, value: "RI"}, description: "內容為RI", targetColumn: {name: babFlow, keyword: ["RI"]}},
+    {checkColumn: {name: "biCost", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["BI"]}},
     {checkColumn: {name: "t2", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: testFlow, keyword: ["T2"]}},
     {checkColumn: {name: "t3", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: testFlow, keyword: ["T3"]}},
-    {checkColumn: {name: "packing", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: packingFlow, keyword: ["PKG"]}},
+    {checkColumn: {name: "packing", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: packingFlow, keyword: ["PKG", "PKG(WET)"]}},
     {checkColumn: {name: "weight", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: packingFlow, keyword: ["PKG(WET)"]}}
 ];
 
 //Flow check logic
-function fieldCheck(postdata, preAssyVal, babFlowVal, testFlowVal, packingFlowVal) {
+function fieldCheck(formid, postdata, preAssyVal, babFlowVal, testFlowVal, packingFlowVal) {
     var validationErrors = [];
     for (var i = 0; i < field_check_flow_logic.length; i++) {
         var logic = field_check_flow_logic[i];
@@ -103,7 +114,7 @@ function fieldCheck(postdata, preAssyVal, babFlowVal, testFlowVal, packingFlowVa
                     (fieldVal != null && (checkBool == true ? fieldVal == checkVal : fieldVal != checkVal)),
                     targetColName, targetColVal, targetKeyword);
             if (errorResult.field != null) {
-                appendFieldInfo(colName, description, errorResult);
+                appendFieldInfo(getColLabel(formid, colName), description, errorResult);
                 validationErrors.push(errorResult);
             }
         } else {
@@ -122,9 +133,12 @@ function checkFlow(bool, targetColName, targetColVal, keyword) {
     var err = {};
     if (bool) {
         if (targetColVal != null && targetColVal != "") {
+
+            var flowParts = flowSplit(targetColName, targetColVal);
+
             var keyCheckFlag = false;
             for (var i = 0; i < keyword.length; i++) {
-                if (targetColVal.indexOf(keyword[i]) > -1) {
+                if (flowParts.includes(keyword[i])) {
                     keyCheckFlag = true;
                     break;
                 }
@@ -141,8 +155,17 @@ function checkFlow(bool, targetColName, targetColVal, keyword) {
     return err;
 }
 
+function flowSplit(category, fullFlow) {
+    var flowParts;
+    if (category === "PRE-ASSY" || category === preAssy) {
+        flowParts = fullFlow.split(/[-]/);
+    } else {
+        flowParts = fullFlow.split(/[-_]/); // split by '-' or '_'    
+    }
+    return flowParts;
+}
 //Flow check field
-function flowCheck(logicArrName, flowName, formObj) {
+function flowCheck(logicArrName, flowName, formObj, formid) {
     var logicArr = flow_check_logic[logicArrName];
 
     if (logicArr == null) {
@@ -152,12 +175,15 @@ function flowCheck(logicArrName, flowName, formObj) {
     if (flowName == null) {
         flowName = '';
     }
+
+    var flowParts = flowSplit(logicArrName, flowName);
+
     var validationErrors = [];
     for (var i = 0; i < logicArr.length; i++) {
         var logic = logicArr[i];
         var keyword = logic.keyword;
         for (var j = 0; j < keyword.length; j++) {
-            if (flowName.indexOf(keyword[j]) > -1) {
+            if (flowParts.includes(keyword[j])) {
                 var checkCol = logic.checkColumn;
                 var checkType = logic.checkType;
                 if (checkType == null) { //And logic check
@@ -178,7 +204,7 @@ function flowCheck(logicArrName, flowName, formObj) {
                         if (!logic.prmValid(formObj[colName])) {
                             tempArr.push({
                                 field: colName,
-                                code: logic.message
+                                code: getColLabels(formid, checkCol) + logic.message
                             });
                             checkFlag = checkFlag || false;
                         } else {
@@ -195,64 +221,77 @@ function flowCheck(logicArrName, flowName, formObj) {
     return validationErrors;
 }
 
-//Model
+var getColLabels = function (formid, colNames) {
+    var labels = [];
+    for (var i = 0; i < colNames.length; i++) {
+        labels.push(getColLabel(formid, colNames[i]));
+    }
+    return labels;
+};
 
-//Check logic setting
-var modelName_check_logic = [
-    {keyword: "ES", checkColumn: ["businessGroup\\.id"], message: "Must contain \"ES\""}
+function getColLabel(formid, colName) {
+    return $(formid).find('#' + getSelectorFormat(colName)).parent().prev().html();
+}
+
+function getSelectorFormat(colName) {
+    return colName.replace(/\./g, "\\.");
+}
+
+
+
+
+var op_eq = function (oField, oVal) {
+    return oField == oVal;  // "0.0" == 0 is true
+};
+var op_neq = function (oField, oVal) {
+    return oField != oVal;
+};
+var op_endS = function (oField, oVal) {
+    return oField.endsWith(oVal);
+};
+
+var field_check_field_logic = [
+    {srcColumn: {name: "pressureCooker", operate: op_eq, value: "Y", description: "內容為Y"}, targetColumn: {name: "pressureCookerCost", operate: op_neq, value: 0, description: not_null_and_zero_message}},
+    {srcColumn: {name: "pressureCookerCost", operate: op_neq, value: 0, description: when_not_empty_or_null}, targetColumn: {name: "pressureCooker", operate: op_eq, value: "Y", description: "內容為Y"}},
+    {srcColumn: {name: "modelName", operate: op_endS, value: "-ES", description: " do contain \"-ES\""}, targetColumn: {name: "businessGroup.id", selOption: "businessGroup_options", operate: op_eq, value: "ES", description: "內容為ES"}},
+    {srcColumn: {name: "businessGroup.id", selOption: "businessGroup_options", operate: op_eq, value: "ES", description: "內容為ES"}, targetColumn: {name: "modelName", operate: op_endS, value: "-ES", description: " do contain \"-ES\""}}
 ];
 
-var field_check_modelName_logic = [
-    {checkColumn: {label: "BU", name: "businessGroup\\.id", value: "ES"}, description: "內容為ES", targetColumn: {name: "modelName", keyword: ["ES"]}}
-//    {checkColumn: {name: "workCenter", value: "ES"}, description: "內容為ES", targetColumn: {name: "modelName", keyword: ["ES"]}}
-];
-
-//Check logic
-function modelNameCheckFieldIsValid(data) {
+function fieldCheckField(postdata, formid) {
     var validationErrors = [];
-    var modelName = data["modelName"];
-    for (var i = 0; i < modelName_check_logic.length; i++) {
-        var logic = modelName_check_logic[i];
-        var keyword = logic.keyword;
-        if (modelName.endsWith(keyword) == false) {
-            continue;
-        }
-        var checkCols = logic.checkColumn;
-        for (var j = 0, k = checkCols.length; j < k; j++) {
-            var colName = checkCols[j];
-            var checkVal = data[colName];
-            if (checkVal.indexOf(keyword) == -1) {
-                var err = {};
-                err.field = colName;
-                err.code = logic.message;
-                validationErrors.push(err);
+    for (var i = 0; i < field_check_field_logic.length; i++) {
+        var logic = field_check_field_logic[i];
+
+        var srcInfo = logic.srcColumn;
+        var srcColName = srcInfo.name;
+        var srcFieldVal = !srcInfo.selOption ? postdata[srcColName] : getNameBySelectValue(srcInfo.selOption, postdata[srcColName]);
+        var srcVal = srcInfo.value;
+        var srcLabel = getColLabel(formid, srcColName);
+        var srcDesc = srcInfo.description;
+
+        var targetColInfo = logic.targetColumn;
+        var targetColName = targetColInfo.name;
+        var targetFieldVal = !targetColInfo.selOption ? postdata[targetColName] : getNameBySelectValue(targetColInfo.selOption, postdata[targetColName]);
+        var targetVal = targetColInfo.value;
+        var targetLabel = getColLabel(formid, targetColName);
+        var targetDesc = targetColInfo.description;
+
+        if (srcFieldVal && srcInfo.operate(srcFieldVal, srcVal)) {
+            var isTarValid = targetColInfo.operate(targetFieldVal, targetVal);
+            if (targetFieldVal && !isTarValid) {
+                var errorResult = {};
+                errorResult.field = getSelectorFormat(targetColName);
+                errorResult.code = srcLabel + srcDesc + ' , ' + targetLabel + targetDesc;
+                validationErrors.push(errorResult);
             }
         }
     }
     return validationErrors;
 }
 
-function checkModelNameIsValid(data) {
-    var validationErrors = [];
-    for (var i = 0; i < field_check_modelName_logic.length; i++) {
-        var logic = field_check_modelName_logic[i];
-        var checkColInfo = logic.checkColumn;
-        var isNeedToCheck = data[checkColInfo.name].indexOf(checkColInfo.value) != -1;
-        if (isNeedToCheck) {
-            var targetColInfo = logic.targetColumn;
-            var targetColName = targetColInfo.name;
-            var colVal = data[targetColName];
-            if (colVal.endsWith(("-" + targetColInfo.keyword)) == false) {
-                var err = {};
-                err.field = targetColName;
-                err.code = targetColName + " must contain " + targetColInfo.keyword;
-                appendFieldInfo(checkColInfo.label, logic.description, err);
-                validationErrors.push(err);
-            }
-        }
-    }
-    return validationErrors;
-}
+var getNameBySelectValue = function (selOptionName, selValue) {
+    return selectOptions[selOptionName].get(parseInt(selValue));
+};
 
 function registerEndsWithIfIe() {
     //https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith
@@ -290,7 +329,6 @@ function checkLevelIsValid(postdata) {
         case "10000":
             $(".level-checkbox").prop("checked", false);
             break;
-//        case "0":
         default:
             var err = {};
             err.field = "cleanRoomLevel";

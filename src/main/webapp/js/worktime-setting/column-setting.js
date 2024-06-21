@@ -1,5 +1,4 @@
 //Js檔用來給予下拉式表單使用(unit可編輯欄位需要區隔，記錄在db之中)
-//Js檔用來給予下拉式表單使用(unit可編輯欄位需要區隔，記錄在db之中)
 var worktimeCol = [
     {name: "id", editable: false},
     {name: "modelName"},
@@ -8,11 +7,17 @@ var worktimeCol = [
     {name: "setupTime"},
     {name: "arFilmAttachment"},
     {name: "seal"},
+    {name: "seal1"},
     {name: "opticalBonding"},
+    {name: "opticalBonding1"},
+    {name: "opticalBonding2"},
     {name: "pressureCooker"},
+    {name: "pressureCookerCost"},
     {name: "cleanPanel"},
     {name: "pi"},
     {name: "assy"},
+    {name: "bondedSealingFrame"},
+    {name: "assy2"},
     {name: "t1"},
     {name: "t2"},
     {name: "t3"},
@@ -70,10 +75,10 @@ var worktimeCol = [
     {name: "pendingTime"},
     {name: "hrcValues"},
     {name: "highBright"},
-    {name: "bondedSealingFrame"},
     {name: "machineWorktime"},
     {name: "cobots"},
     {name: "tpWorktime"},
+    {name: "splitFlag"},
     {name: "cleanRoomLevel"}
 ];
 
@@ -90,24 +95,30 @@ var formulaColumn = [
     "assyToT1",
     "t2ToPacking",
     "assyLeadTime",
-    "test"
+    "test",
+    "machineWorktime"
 ];
 
 //cleanRoomLevel column要有checkbox
 var levelColumn = [
     "arFilmAttachment",
     "seal",
+    "seal1",
     "opticalBonding",
+    "opticalBonding1",
+    "opticalBonding2",
     "cleanPanel",
     "pi",
     "highBright",
     "assy",
     "bondedSealingFrame",
+    "assy2",
     "t1",
     "t2",
     "t3",
     "packing",
     "upBiRi",
-    "downBiRi",
+    "downBiRi",    
+    "pressureCookerCost",
     "biCost"
 ];

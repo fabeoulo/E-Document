@@ -202,7 +202,7 @@
         function headerRow(rowId, cellValue, rawObject, cm, rdata) {
             return " class='ui-state-default headerRow'";
         }
-        
+
         function getLastCodeNum() {
             var result;
             $.ajax({
@@ -222,7 +222,7 @@
             });
             return result;
         }
-        
+
         function closeEditDialogWhenError(error_message) {
             alert(error_message);
             $("#TblGrid_list_2").find("#cData").trigger("click");
@@ -231,7 +231,7 @@
     });
 </script>
 
-<div id="flow-content">
+<div id="flow-content">  
     <h5>編輯完請按 Enter(送出) 或 Esc(取消) 編輯, 若徒程為空請填寫"(空白)"</h5>
     <div>
         <table id="list"></table> 

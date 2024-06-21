@@ -29,7 +29,6 @@ public class WorktimeAutouploadSetting implements java.io.Serializable {
     private String formula;
     private String columnUnit;
     private Integer stationId;
-    private BigDecimal ct;
     private int lineId;
     private String formulaCt;
 
@@ -78,15 +77,6 @@ public class WorktimeAutouploadSetting implements java.io.Serializable {
 
     public void setStationId(Integer stationId) {
         this.stationId = stationId;
-    }
-
-    @Column(name = "ct", precision = 10, scale = 1)
-    public BigDecimal getCt() {
-        return ct;
-    }
-
-    public void setCt(BigDecimal ct) {
-        this.ct = ct;
     }
 
     @Column(name = "line_id")

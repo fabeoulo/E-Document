@@ -183,10 +183,10 @@
             clearCheckErrorIcon();
             var checkResult = checkFlowIsValid(postdata, formid);
 
-            var modelRelativeCheckResult = checkModelIsValid(postdata);
+            var fieldCheckResult = fieldCheckField(postdata, formid);
             var roomLevelCheckResult = checkLevelIsValid(postdata);
-            checkResult = checkResult.concat(modelRelativeCheckResult).concat(roomLevelCheckResult);
 
+            checkResult = checkResult.concat(fieldCheckResult).concat(roomLevelCheckResult);
             return checkResult;
         }
 
@@ -205,29 +205,34 @@
 //            guiStyle: "bootstrap",
             autoencode: true,
             colModel: [
-                {label: 'id', name: "id", width: 60, frozen: true, hidden: false, key: true, search: true, searchoptions: search_decimal_options, editable: true, editrules: {edithidden: true}, editoptions: {readonly: 'readonly', disabled: true, defaultValue: "0"}},
-                {label: 'Model', name: "modelName", frozen: true, editable: true, searchrules: {required: true}, searchoptions: search_string_options, editrules: {required: true}, formoptions: required_form_options},
+                {label: 'id', name: "id", width: 60, frozen: true, hidden: false, key: true, search: true, searchrules: number_search_rule, searchoptions: search_decimal_options, editable: true, editrules: {edithidden: true}, editoptions: {readonly: 'readonly', disabled: true, defaultValue: "0"}},
+                {label: 'Model', name: "modelName", frozen: true, editable: true, searchrules: {required: true}, searchoptions: search_string_options, editrules: {required: true}, editoptions: {dataEvents: upperCase_event}, formoptions: required_form_options},
                 {label: 'TYPE', name: "type.id", edittype: "select", editoptions: {value: selectOptions["type"]}, formatter: selectOptions["type_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["type"], sopt: ['eq']}},
                 {label: 'BU', name: "businessGroup.id", edittype: "select", editoptions: {value: selectOptions["businessGroup"], dataEvents: businessGroup_select_event}, formatter: selectOptions["businessGroup_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["businessGroup"], sopt: ['eq']}},
                 {label: 'Work Center', name: "workCenter.id", edittype: "select", editoptions: {value: selectOptions["workCenter"]}, formatter: selectOptions["workCenter_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["workCenter"], sopt: ['eq']}},
                 {label: 'ProductionWT', name: "productionWt", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("productionWt")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Setup Time', name: "setupTime", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("setupTime")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'AR film attachment', name: "arFilmAttachment", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("arFilmAttachment")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'SEAL', name: "seal", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("seal")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'OB', name: "opticalBonding", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("opticalBonding")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'preAssy(PI)', name: "pi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("pi")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'SL', name: "seal", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("seal")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'SL1', name: "seal1", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("seal1")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'OB', name: "opticalBonding", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("opticalBonding")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'OB1', name: "opticalBonding1", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("opticalBonding1")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'OB2', name: "opticalBonding2", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("opticalBonding2")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: '壓力鍋', name: "pressureCooker", width: 100, searchrules: {required: true}, searchoptions: search_string_options, edittype: "select", editoptions: {value: "Y:Y;N:N", defaultValue: 'N'}},
+                {label: '壓力鍋 Cost', name: "pressureCookerCost", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("pressureCookerCost")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: '高亮HB', name: "highBright", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("highBright")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'AR film attachment', name: "arFilmAttachment", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("arFilmAttachment")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'CleanPanel', name: "cleanPanel", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("cleanPanel")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: 'PI', name: "pi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("pi")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: '高亮', name: "highBright", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("highBright")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: '組裝', name: "assy", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("assy")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: '封/貼前框', name: "bondedSealingFrame", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("bondedSealingFrame")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: '封/貼前框ASSY1', name: "bondedSealingFrame", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("bondedSealingFrame")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'ASSY2', name: "assy2", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("assy2")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T1', name: "t1", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("t1")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T2', name: "t2", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("t2")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T3', name: "t3", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("t3")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Packing', name: "packing", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("packing")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Up_BI_RI', name: "upBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("upBiRi")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Down_BI_RI', name: "downBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("downBiRi")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: 'BI Cost', name: "biCost", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("biCost")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'BI Cost', name: "biCost", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addLevelCheckbox("biCost")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Clean room level', name: "cleanRoomLevel", edittype: "select", editoptions: {value: "0:N;10000:10000;1000:1000", defaultValue: 0, dataEvents: cleanRoom_select_event}, width: 100, searchrules: {required: true}, stype: "select", searchoptions: search_string_options, formoptions: {elmsuffix: "確認機種作業環境等級"}},
                 {label: '機器工時', name: "machineWorktime", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("machineWorktime")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'ASS_T1', name: "assyToT1", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("assyToT1")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
@@ -283,7 +288,8 @@
                     },
                     search: false
                 },
-                {label: 'TP工時', name: "tpWorktime", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}}
+                {label: 'TP工時', name: "tpWorktime", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
+                {label: 'splitFlag', name: "splitFlag", width: 60, search: false, hidden: true, editrules: {number: true, required: true}, editoptions: {defaultValue: '1'}}
             ],
             rowNum: 20,
             rowList: [20, 100, 500],
@@ -327,8 +333,9 @@
         grid.jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
             groupHeaders: [
-                {startColumnName: 'highBright', numberOfColumns: 3, titleText: '<em>Assembly</em>'},
-                {startColumnName: 'seal', numberOfColumns: 2, titleText: '<em>Optical bonding work time</em>'},
+                {startColumnName: 'seal', numberOfColumns: 2, titleText: '<em>Seal</em>'},
+                {startColumnName: 'opticalBonding', numberOfColumns: 3, titleText: '<em>Optical bonding</em>'},
+                {startColumnName: 'arFilmAttachment', numberOfColumns: 3, titleText: '<em>Assembly</em>'},
                 {startColumnName: 'ce', numberOfColumns: 8, titleText: '<em>外箱Label產品資訊 (1：要印   0：不印)</em>'},
                 {startColumnName: 'nsInOneCollectionBox', numberOfColumns: 1, titleText: '<em>N合1集合箱</em>'},
                 {startColumnName: 'partNoAttributeMaintain', numberOfColumns: 1, titleText: '<em>料號屬性值維護</em>'},
@@ -663,27 +670,17 @@
                     babFlowName = babOptions.get(parseInt(postdata["flowByBabFlowId.id"])),
                     testFlowName = testOptions.get(parseInt(postdata["flowByTestFlowId.id"])),
                     pkgFlowName = pkgOptions.get(parseInt(postdata["flowByPackingFlowId.id"]));
-            var preAssyCheckMessage = flowCheck("PRE-ASSY", preAssyName, postdata);
-            var babCheckMessage = flowCheck("BAB", babFlowName, postdata);
-            var testCheckMessage = flowCheck("TEST", testFlowName, postdata);
-            var pkgCheckMessage = flowCheck("PKG", pkgFlowName, postdata);
+            var preAssyCheckMessage = flowCheck("PRE-ASSY", preAssyName, postdata, formid);
+            var babCheckMessage = flowCheck("BAB", babFlowName, postdata, formid);
+            var testCheckMessage = flowCheck("TEST", testFlowName, postdata, formid);
+            var pkgCheckMessage = flowCheck("PKG", pkgFlowName, postdata, formid);
 
             var firstCheckResult = babCheckMessage.concat(testCheckMessage).concat(pkgCheckMessage).concat(preAssyCheckMessage);
 
-            var secondCheckResult = fieldCheck(postdata, preAssyName, babFlowName, testFlowName, pkgFlowName);
+            var secondCheckResult = fieldCheck(formid, postdata, preAssyName, babFlowName, testFlowName, pkgFlowName);
             var totalAlert = firstCheckResult.concat(secondCheckResult);
 
             return totalAlert;
-        }
-
-        function checkModelIsValid(postdata) {
-            var data = {
-                modelName: postdata["modelName"],
-                "businessGroup\\.id": selectOptions["businessGroup_options"].get(parseInt(postdata["businessGroup.id"]))
-            };
-            var modelCheckResult = modelNameCheckFieldIsValid(data);
-            var otherFieldCheckResult = checkModelNameIsValid(data);
-            return modelCheckResult.concat(otherFieldCheckResult);
         }
 
         function getGridRevision() {

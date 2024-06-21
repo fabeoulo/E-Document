@@ -26,6 +26,8 @@ var greyout = function ($form) {
             .prev(".CaptionTD")
             .prop("disabled", true)
             .addClass("ui-state-disabled");
+
+    $form.find(".FormElement[readonly]").siblings("input[type='checkbox']").prop("disabled", true);
 };
 
 function getDate(el) {

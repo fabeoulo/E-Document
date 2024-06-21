@@ -111,6 +111,7 @@ public class WorktimeEventLog {
 
         String[] checkFields = {
             "setupTime", "arFilmAttachment", "seal", "opticalBonding", "cleanPanel", "pi", "assy", "t1", "t2", "t3", "packing",
+            "bondedSealingFrame", "assy2", "seal1", "opticalBonding1", "opticalBonding2", "highBright",
             "flowByTestFlowId", "flowByPackingFlowId", "flowByBabFlowId", "preAssy"
         };
 

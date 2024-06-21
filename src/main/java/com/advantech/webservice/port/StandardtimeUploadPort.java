@@ -23,7 +23,8 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * @author Wei.Cheng CRUD都用同個XML & 相同 UploadType "A"// not same UploadType 20230707
+ * @author Wei.Cheng CRUD都用同個XML
+ * 20230707
  */
 @Component
 public class StandardtimeUploadPort extends BasicUploadPort implements UploadPort {
@@ -120,7 +121,7 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
         BigDecimal totalCt = (BigDecimal) expressionUtils.getValueFromFormula(w, setting.getFormula());
         BigDecimal changeTimeCt = (BigDecimal) expressionUtils.getValueFromFormula(w, setting.getFormulaCt());
 
-        if (isCtChanged(totalCt,changeTimeCt, standardWorktime)) {
+        if (isCtChanged(totalCt, changeTimeCt, standardWorktime)) {
             StandardtimeRoot root = new StandardtimeRoot();
             StandardtimeRoot.STANDARDWORKTIME swt = root.getSTANDARDWORKTIME();
             swt.setSTANDARDID(standardWorktime == null ? 0 : standardWorktime.getSTANDARDID());
@@ -151,7 +152,6 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
 //                && !Objects.equals(stationPeople, standardWorktime.getOPCNT())
 //                && (w.getReasonCode() == null || "0".equals(w.getReasonCode()));
 //    }
-
     private void generateRootAndDelete(WorktimeAutouploadSetting setting, StandardWorkTime standardWorktime, Worktime w) throws Exception {
 //        String columnUnit = setting.getColumnUnit();
 //

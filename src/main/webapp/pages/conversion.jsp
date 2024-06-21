@@ -14,8 +14,8 @@
 <script src="<c:url value="/js/jqgrid-custom-setting.js" />"></script>
 <script>
     $(function () {
-        var grid = $("#list"), grid2 = $("#list2"), grid3 = $("#list3");
-        var tableName = "燒機成本工時對照表", tableName2 = "吹面板工時對照表", tableName3 = "貼合製程工時對照表";
+        var grid = $("#list"), grid2 = $("#list2"), grid3 = $("#list3"), grid4 = $("#list4");
+        var tableName = "燒機成本工時對照表", tableName2 = "吹面板工時對照表", tableName3 = "貼合製程工時對照表", tableName4 = "靜置時間對照表";
 
         grid.jqGrid({
             url: '<c:url value="/json/biCost.json" />',
@@ -197,7 +197,60 @@
             ]
         });
 
+       grid4.jqGrid({
+            url: '<c:url value="/json/pendingTime.json" />',
+            datatype: 'json',
+            mtype: 'GET',
+            autoencode: true,
+            colModel: [
+                {label: 'Category', name: "Category", cellattr: headerRow, frozen: true},
+                {label: 'SL', name: "SL"},
+                {label: 'SL1', name: "SL1"},
+                {label: 'OB', name: "OB"},
+                {label: 'OB1', name: "OB1"}
 
+            ],
+            rowNum: 20,
+            rowList: [20, 50, 100],
+            pager: '#pager',
+            viewrecords: true,
+            autowidth: true,
+            shrinkToFit: true,
+            hidegrid: true,
+            stringResult: true,
+            gridview: true,
+            loadonce: true,
+            jsonReader: {
+                root: "rows",
+                page: "page",
+                total: "total",
+                records: "records",
+                repeatitems: false
+            },
+            afterSubmit: function () {
+                $(this).jqGrid("setGridParam", {datatype: 'json'});
+                return [true];
+            },
+            navOptions: {reloadGridOptions: {fromServer: true}},
+            caption: tableName4,
+//            height: 450,
+//            sortname: '1 Hr', sortorder: 'asc',
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("Ajax Error occurred\n"
+                        + "\nstatus is: " + xhr.status
+                        + "\nthrownError is: " + thrownError
+                        + "\najaxOptions is: " + ajaxOptions
+                        );
+            }
+        });
+
+        grid4.jqGrid('setGroupHeaders', {
+            useColSpanStyle: true,
+            groupHeaders: [
+                {startColumnName: 'SL', numberOfColumns: 4, titleText: '<em>靜置時間(hrs)</em>'}
+            ]
+        });
+        
         function headerRow(rowId, cellValue, rawObject, cm, rdata) {
             return " class='ui-state-default headerRow'";
         }
@@ -216,5 +269,9 @@
     <hr />
     <div>
         <table id="list3"></table> 
+    </div>
+    <hr />
+    <div>
+        <table id="list4"></table> 
     </div>
 </div>

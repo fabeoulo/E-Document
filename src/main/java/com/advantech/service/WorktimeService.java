@@ -21,12 +21,14 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Clock;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,6 +61,9 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
 
     @Autowired
     private SpringExpressionUtils expressionUtils;
+
+    @Autowired
+    private WorktimeAuditService worktimeAuditService;
 
     @Override
     protected BasicDAOImpl getDao() {
@@ -178,6 +183,8 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
             cloneW.setBwFields(null);
             cloneW.setCobots(null);
 
+            cloneW.setSplitFlag(1);
+
             l.add(cloneW);
         }
 
@@ -240,6 +247,8 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         int i = 1;
         for (Worktime w : l) {
             initUnfilledFormulaColumn(w);
+            checkWorkTimeSplit(w);
+
             worktimeFormulaSettingService.update(w.getWorktimeFormulaSettings().get(0));
             worktimeLevelSettingService.update(w.getWorktimeLevelSettings().get(0));
             dao.merge(w);
@@ -270,6 +279,7 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         for (Worktime w : l) {
             //Don't need to update formula, but still need to re-calculate the formula field
             this.initUnfilledFormulaColumn(w);
+            checkWorkTimeSplit(w);
 
             dao.merge(w);
             uploadMesService.update(w);
@@ -301,6 +311,51 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         return settingMap;
     }
 
+    private boolean isWorktimeSplit(Worktime current) {
+        return sumWorkTime(
+                current.getAssy2(), current.getSeal1(),
+                current.getOpticalBonding1(), current.getOpticalBonding2(),
+                current.getPressureCookerCost()
+        ).compareTo(BigDecimal.ZERO) > 0;
+    }
+
+    private boolean isProductionWtChanged(Worktime prev, Worktime current) {
+        return isModelNameChanged(prev, current)
+                || !isEquals(prev.getProductionWt(), current.getProductionWt());
+    }
+
+    private boolean isSealChanged(Worktime prev, Worktime current) {
+        return isModelNameChanged(prev, current)
+                || !isEquals(sumWorkTime(prev.getSeal(), prev.getSeal1()),
+                        sumWorkTime(current.getSeal(), current.getSeal1()));
+    }
+
+    private boolean isBiCostChanged(Worktime prev, Worktime current) {
+        return isModelNameChanged(prev, current)
+                || !isEquals(sumWorkTime(prev.getPressureCookerCost(), prev.getBiCost()),
+                        sumWorkTime(current.getPressureCookerCost(), current.getBiCost()));
+    }
+
+    private boolean isAssyChanged(Worktime prev, Worktime current) {
+        return isModelNameChanged(prev, current)
+                || !isEquals(sumWorkTime(prev.getAssy(), prev.getBondedSealingFrame(), prev.getAssy2()),
+                        sumWorkTime(current.getAssy(), current.getBondedSealingFrame(), current.getAssy2()));
+    }
+
+    private boolean isModelNameChanged(Worktime prev, Worktime current) {
+        return !prev.getModelName().equals(current.getModelName());
+    }
+
+    private <T extends Comparable> boolean isEquals(T o1, T o2) {
+        return ObjectUtils.compare(o1, o2) == 0;
+    }
+
+    private BigDecimal sumWorkTime(BigDecimal... params) {
+        return Arrays.stream(params)
+                .map(param -> (param == null || param.compareTo(BigDecimal.ZERO) < 0) ? BigDecimal.ZERO : param)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
     public void initUnfilledFormulaColumn(Worktime w) {
         //Lazy loading
         WorktimeFormulaSetting setting = w.getWorktimeFormulaSettings().get(0);
@@ -327,6 +382,19 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         if (isColumnCalculated(setting.getMachineWorktime())) {
             //Set machine worktime
             w = setCobotWorktime(w);
+        }
+    }
+
+    private void checkWorkTimeSplit(Worktime w) {
+        if (w.getSplitFlag() == 0 && isWorktimeSplit(w)) {
+            Worktime rowLastStatus = worktimeAuditService.findLastStatusBeforeUpdate(w.getId());
+            String model = w.getModelName();
+//            checkState(!isSealChanged(rowLastStatus, w), model + " 初次拆分工時，Seal部分不一致");
+//            checkState(!isBiCostChanged(rowLastStatus, w), model + " 初次拆分工時，壓力鍋Cost不一致");
+//            checkState(!isAssyChanged(rowLastStatus, w), model + " 初次拆分工時，ASSY部分不一致");
+            checkState(!isProductionWtChanged(rowLastStatus, w), model + " 初次拆分工時，ProductionWt不一致");
+
+            w.setSplitFlag(1);
         }
     }
 
@@ -381,21 +449,20 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         return w;
     }
 
-    //For sysop batch insert data into database.
-    public int saveOrUpdate(List<Worktime> l) throws Exception {
-        for (int i = 0; i < l.size(); i++) {
-            Worktime w = l.get(i);
-            Worktime existW = this.findByModel(w.getModelName());
-            if (existW == null) {
-                this.insertWithFormulaSetting(w);
-            } else {
-                w.setId(existW.getId());
-                this.mergeWithMesUpload(w);
-            }
-        }
-        return 1;
-    }
-
+//    //For sysop batch insert data into database.
+//    public int saveOrUpdate(List<Worktime> l) throws Exception {
+//        for (int i = 0; i < l.size(); i++) {
+//            Worktime w = l.get(i);
+//            Worktime existW = this.findByModel(w.getModelName());
+//            if (existW == null) {
+//                this.insertWithFormulaSetting(w);
+//            } else {
+//                w.setId(existW.getId());
+//                this.mergeWithMesUpload(w);
+//            }
+//        }
+//        return 1;
+//    }
     public int deleteWithMesUpload(List<Worktime> l) throws Exception {
         uploadMesService.portParamInit();
         int i = 1;

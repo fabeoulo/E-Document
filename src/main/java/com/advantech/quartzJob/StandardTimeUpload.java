@@ -79,6 +79,7 @@ public class StandardTimeUpload {
         checkField = newArrayList(
                 "modelName",
                 "arFilmAttachment", "cleanPanel", "assy", "highBright", "bondedSealingFrame", "pi", "t1", "t2", "t3",
+                "assy2", "seal1", "opticalBonding1", "opticalBonding2",
                 "packing", "seal", "opticalBonding", "upBiRi", "downBiRi"
         );
     }

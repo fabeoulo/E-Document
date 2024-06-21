@@ -105,7 +105,7 @@ public class WorktimeBatchModController {
 
     @Autowired
     private WorktimeValidator worktimeValidator;
-    
+
     @Autowired
     private Validator validator;
 
@@ -118,6 +118,7 @@ public class WorktimeBatchModController {
 
         hgList.forEach((w) -> {
             w.setId(0);
+            w.setSplitFlag(1);
         });
 
         this.worktimeValidator.checkModelNameExists(hgList);
@@ -291,33 +292,33 @@ public class WorktimeBatchModController {
         //設定關聯by name
         for (int i = 0; i < hgList.size(); i++) {
             Worktime w = hgList.get(i);
-            w.setType(typeOptions.get(getCell(sheet, i,  "typeName")));
+            w.setType(typeOptions.get(getCell(sheet, i, "typeName")));
             w.setFloor(floorOptions.get("3F"));
 
-            String eeUserName = getCellUpperCase(sheet, i,  "bpeOwnerName");
-            String speUserName = getCellUpperCase(sheet, i,  "speOwnerName");
-            String qcUserName = getCellUpperCase(sheet, i,  "qcOwnerName");
-            String mpmUserName = getCellUpperCase(sheet, i,  "mpmOwnerName");
+            String eeUserName = getCellUpperCase(sheet, i, "bpeOwnerName");
+            String speUserName = getCellUpperCase(sheet, i, "speOwnerName");
+            String qcUserName = getCellUpperCase(sheet, i, "qcOwnerName");
+            String mpmUserName = getCellUpperCase(sheet, i, "mpmOwnerName");
 
             w.setUserByEeOwnerId(valid(eeUserName, userOptions.get(eeUserName)));
             w.setUserBySpeOwnerId(valid(speUserName, userOptions.get(speUserName)));
             w.setUserByQcOwnerId(valid(qcUserName, userOptions.get(qcUserName)));
             w.setUserByMpmOwnerId(valid(mpmUserName, userOptions.get(mpmUserName)));
 
-            String babFlowName = getCell(sheet, i,  "babFlowName");
-            String pkgFlowName = getCell(sheet, i,  "packingFlowName");
-            String testFlowName = getCell(sheet, i,  "testFlowName");
+            String babFlowName = getCell(sheet, i, "babFlowName");
+            String pkgFlowName = getCell(sheet, i, "packingFlowName");
+            String testFlowName = getCell(sheet, i, "testFlowName");
 
             w.setFlowByBabFlowId(valid(babFlowName, flowOptions.get(babFlowName)));
             w.setFlowByPackingFlowId(valid(pkgFlowName, flowOptions.get(pkgFlowName)));
             w.setFlowByTestFlowId(valid(testFlowName, flowOptions.get(testFlowName)));
 
-            w.setPending(pendingOptions.get(getCell(sheet, i,  "pendingName")));
+            w.setPending(pendingOptions.get(getCell(sheet, i, "pendingName")));
 
-            String preAssyName = getCell(sheet, i,  "preAssyName");
+            String preAssyName = getCell(sheet, i, "preAssyName");
             w.setPreAssy(valid(preAssyName, preAssyOptions.get(preAssyName)));
 
-            String businessGroupName = getCell(sheet, i,  "businessGroupName");
+            String businessGroupName = getCell(sheet, i, "businessGroupName");
             w.setBusinessGroup(valid(businessGroupName, businessGroupOptions.get(businessGroupName)));
 
             String workCenterName = sheet.getValue(i, "workCenterName").toString();
