@@ -138,12 +138,12 @@ var worktimeCol = [
     {name: "labelPacking7"},
     {name: "labelPacking8"},
     {name: "labelPacking9"},
-    {name: "labelPacking10"}     
+    {name: "labelPacking10"}
 ];
 
 //不受show / hide 影響
 var do_not_change_columns = [
-    "id", "rowId", "modifiedDate", "bwFields.0.assyAvg", "bwFields.0.packingAvg", "createDate"
+    "id", "rowId", "modifiedDate", "bwFields.0.assyAvg", "bwFields.0.packingAvg", "createDate", "floor.id"
 ];
 
 //指定的column要有checkbox

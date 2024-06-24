@@ -93,7 +93,7 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
     public void delete(Worktime w) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); 
 
-//dont execute it.//!!! import!!! be careful.
+//dont execute it.//!!! important!!! be careful.
 //        //dont execute it.//!!! import!!! be careful.
 //        Map<String, String> errorFields = new HashMap();
 //        List<StandardWorkTime> standardWorktimes = worktimeQueryPort.query(w.getModelName());

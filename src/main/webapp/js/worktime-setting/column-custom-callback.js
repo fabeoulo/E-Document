@@ -14,7 +14,7 @@ var upperCase_event = [
     {
         type: 'input',
         fn: function (el) {
-            $(this).val($(this).val().toUpperCase());
+            $(this).val(ltrimAndRtrim($(this).val()).toUpperCase());
         }
     }
 ];

@@ -13,7 +13,7 @@ var date_search_rule = {date: true, required: true};
 
 var group = [
     {
-        Type0: ['tr_modelName', 'tr_type.id', 'tr_businessGroup.id', 'tr_userBySpeOwnerId.id', 'tr_userByEeOwnerId.id', 'tr_userByQcOwnerId.id',
+        Type0: ['tr_modelName', 'tr_type.id', 'tr_businessGroup.id', 'tr_userBySpeOwnerId.id', 'tr_userByEeOwnerId.id', 'tr_userByQcOwnerId.id', 'tr_floor.id',
             'tr_userByMpmOwnerId.id', 'tr_keypartA', 'tr_keypartB', 'tr_partLink', 'tr_ce', 'tr_ul', 'tr_rohs', 'tr_weee', 'tr_madeInTaiwan',
             'tr_fcc', 'tr_eac', 'tr_kc', 'tr_nsInOneCollectionBox', 'tr_partNoAttributeMaintain', 'tr_weight', 'tr_weightAff', 'tr_tolerance', 'tr_preAssyModuleQty',
             'tr_burnInQuantity', 'tr_assyStation', 'tr_packingStation', 'tr_createDate', 'tr_modifiedDate', 'tr_twm2Flag', 'tr_cobots']
