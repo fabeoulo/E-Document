@@ -253,6 +253,9 @@ public class Worktime implements java.io.Serializable {
     private BigDecimal weight = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
+    private BigDecimal weightAff = BigDecimal.ZERO;
+
+    @JsonView(View.Public.class)
     private BigDecimal tolerance = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
@@ -293,7 +296,7 @@ public class Worktime implements java.io.Serializable {
 
     @JsonView(View.Public.class)
     private int splitFlag;
-	
+
     public Worktime() {
     }
 
@@ -965,6 +968,16 @@ public class Worktime implements java.io.Serializable {
 
     public void setWeight(BigDecimal weight) {
         this.weight = autoFixScale(weight, 4);
+    }
+
+    @Digits(integer = 10 /*precision*/, fraction = 4 /*scale*/)
+    @Column(name = "weight_aff", nullable = false, precision = 10, scale = 4)
+    public BigDecimal getWeightAff() {
+        return weightAff;
+    }
+
+    public void setWeightAff(BigDecimal weightAff) {
+        this.weightAff = autoFixScale(weightAff, 4);
     }
 
     @NotNull

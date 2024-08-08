@@ -47,7 +47,6 @@ public class WorktimeUploadMesService {
 
 //    @Value("${WORKTIME.UPLOAD.SOP: false}")
 //    private boolean isUploadSop;
-
     @Value("${WORKTIME.UPLOAD.RESPONSOR: true}")
     private boolean isUploadResponsor;
 
@@ -167,6 +166,7 @@ public class WorktimeUploadMesService {
                 || !isEquals(prev.getNsInOneCollectionBox(), current.getNsInOneCollectionBox())
                 || !isEquals(prev.getLabelInformation(), current.getLabelInformation())
                 || !isEquals(prev.getWeight(), current.getWeight())
+                || !isEquals(prev.getWeightAff(), current.getWeightAff())
                 || !isEquals(prev.getTolerance(), current.getTolerance())
                 || !isEquals(prev.getPartNoAttributeMaintain(), current.getPartNoAttributeMaintain())
                 || !isEquals(prev.getPartLink(), current.getPartLink());

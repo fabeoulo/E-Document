@@ -269,6 +269,7 @@
                 {label: 'SN是否等於SSN', name: "partNoAttributeMaintain", edittype: "select", editoptions: {value: "N:N;:empty", defaultValue: ''}, width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: '啟用料號屬性', name: "labelInformation", edittype: "select", editoptions: {value: "Y:Y;:empty", defaultValue: ''}, width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: '禮盒總重量(含配件)(kg)', name: "weight", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: '禮盒總重量(附加屬性質)', name: "weightAff", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0.05'}},
                 {label: '整箱總重量誤差值(kg)', name: "tolerance", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'A膠溶劑量', name: "materialVolumeA", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'B膠溶劑量', name: "materialVolumeB", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
@@ -342,7 +343,7 @@
                 {startColumnName: 'labelInformation', numberOfColumns: 1, titleText: '<em>標籤</em>'},
                 {startColumnName: 'materialVolumeA', numberOfColumns: 2, titleText: '<em>A/B material volume(c.c.)</em>'},
                 {startColumnName: 'assyLeadTime', numberOfColumns: 2, titleText: '<em>組裝效率</em>'},
-                {startColumnName: 'weight', numberOfColumns: 2, titleText: '<em>包裝重量</em>'}
+                {startColumnName: 'weight', numberOfColumns: 3, titleText: '<em>包裝重量</em>'}
             ]
         });
         grid.jqGrid('navGrid', '#pager',

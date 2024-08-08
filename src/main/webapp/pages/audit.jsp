@@ -145,6 +145,7 @@
                     {label: '料號屬性值維護', name: "partNoAttributeMaintain", jsonmap: "0.partNoAttributeMaintain", width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                     {label: '啟用料號屬性', name: "labelInformation", jsonmap: "0.labelInformation", width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                     {label: '禮盒總重量(含配件)', name: "weight", jsonmap: "0.weight", width: 120, searchrules: {required: true}, searchoptions: search_decimal_options},
+                    {label: '禮盒總重量(附加屬性質)', name: "weightAff", jsonmap: "0.weightAff", width: 120, searchrules: {required: true}, searchoptions: search_decimal_options},
                     {label: '整箱總重量誤差值', name: "tolerance", jsonmap: "0.tolerance", width: 120, searchrules: {required: true}, searchoptions: search_decimal_options},
                     {label: 'A膠溶劑量', name: "materialVolumeA", jsonmap: "0.materialVolumeA", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'B膠溶劑量', name: "materialVolumeB", jsonmap: "0.materialVolumeB", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},

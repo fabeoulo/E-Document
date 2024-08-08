@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 /**
  *
  * @author Wei.Cheng CRUD都用同個XML
- * 20230707
+ *
  */
 @Component
 public class StandardtimeUploadPort extends BasicUploadPort implements UploadPort {

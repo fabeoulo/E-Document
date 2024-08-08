@@ -61,6 +61,7 @@ var worktimeCol = [
     {name: "partNoAttributeMaintain"},
     {name: "labelInformation"},
     {name: "weight"},
+    {name: "weightAff"},
     {name: "tolerance"},
     {name: "materialVolumeA"},
     {name: "materialVolumeB"},
