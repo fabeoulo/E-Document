@@ -88,6 +88,45 @@
     <!-- 設定交易管理員transactionManager -->
     <bean name="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
+        <qualifier value="tx1" />
+    </bean>
+    
+    <bean id="dataSource2" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <property name="connectionTestQuery" value="SELECT 1" />
+        <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
+        <property name="jdbcUrl" value="jdbc:jtds:sqlserver://172.20.131.241/E_Document_M4f" />
+        <property name="username" value="waychien" />
+        <property name="password" value="m3server" />
+    </bean>
+    
+    <bean id="sessionFactory2" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" destroy-method="destroy"> 
+        <!--指定數據源，此處是C3P0連接池--> 
+        
+        <!--setting in spring xml--> 
+        <property name="dataSource" ref="dataSource2" /> 
+
+        <!--指定ORM物件關聯表映射檔的設定檔位置--> 
+        <property name="packagesToScan" value="com.advantech.model.db2" />
+        
+        <!--捨棄原hibernate.cfg.xml檔或
+        覆蓋原hibernate.cfg.xml檔的部份設定 -->
+        <property name="hibernateProperties"> 
+            <props> 
+                <!--不要用 <prop key="hibernate.current_session_context_class">thread</prop>--> 
+                <prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate5.SpringSessionContext</prop>                
+                <prop key="hibernate.query.factory_class">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</prop>
+                <prop key="hibernate.jdbc.batch_size">${HIBERNATE.JDBC.BATCHSIZE}</prop>
+                <prop key="hibernate.id.new_generator_mappings" >false</prop>
+                <!--<prop key="hibernate.show_sql">true</prop>-->
+                <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
+            </props> 
+        </property> 
+    </bean>
+    
+    <!-- 設定交易管理員transactionManager -->
+    <bean name="transactionManager2" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory2" />
+        <qualifier value="tx2" />
     </bean>
  
     <context:annotation-config/>
@@ -184,7 +223,7 @@
         </property>
     </bean>
 
-    <!--M3 webservice wsdl-->
+    <!--M9_3F webservice wsdl-->
     <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
         <constructor-arg ref="soapMessageFactory"/>
         <property name="marshaller" ref="marshaller" />
@@ -192,8 +231,25 @@
         <property name="defaultUri" value="http://172.20.131.245/FIMPWS_MS_EXT/SFIS_WS.asmx"/>
     </bean>
     
+    <!--M9_4F WebService port-->
+    <bean id="webServiceTemplate1" class="org.springframework.ws.client.core.WebServiceTemplate">
+        <constructor-arg ref="soapMessageFactory"/>
+        <property name="marshaller" ref="marshaller" />
+        <property name="unmarshaller" ref="marshaller" />
+        <property name="defaultUri" value="http://172.22.246.201/FIMPWS_MS_EXT/SFIS_WS.asmx"/>
+    </bean>
+    
+    <!--Inject webservice-->
+    <util:map id="resourceMap" key-type="com.advantech.webservice.Factory" 
+              value-type="org.springframework.ws.client.core.WebServiceTemplate">
+        <!-- Map between String key and List -->
+        <entry key="TWM3" value-ref="webServiceTemplate" />
+        <entry key="TWM9" value-ref="webServiceTemplate1" />
+    </util:map>
+    
     <!--regist for WsClient.class use, -->
     <bean id="objectFactory" class="org.tempuri.ObjectFactory" />
+    
     <!--fix memory leak : thread named [reactor-http-nio-*] and [webflux-http-nio-*]-->
     <bean id="reactorResourceFactory" class="org.springframework.http.client.reactive.ReactorResourceFactory" />
     

@@ -5,8 +5,8 @@
  */
 package com.advantech.webservice.port;
 
-import com.advantech.model.Worktime;
-import com.advantech.webservice.root.StandardWorkReasonQueryRoot;
+import com.advantech.model.db2.IWorktimeWebService;
+import com.advantech.webservice.Factory;
 import com.advantech.webservice.root.StandardWorktimeQueryRoot;
 import com.advantech.webservice.unmarshallclass.StandardWorkTime;
 import com.advantech.webservice.unmarshallclass.StandardWorkTimes;
@@ -35,12 +35,10 @@ public class StandardWorkTimeQueryPort extends BasicQueryPort {
         }
     }
 
-    //OK
     public List<StandardWorkTime> query(String modelName) throws Exception {
         return this.query(modelName, null);
     }
 
-    //OK
     public List<StandardWorkTime> query(String modelName, String unitNo) throws Exception {
         StandardWorktimeQueryRoot root = new StandardWorktimeQueryRoot();
         root.getSTANDARDWORKTIME().setITEMNO(modelName);
@@ -48,8 +46,21 @@ public class StandardWorkTimeQueryPort extends BasicQueryPort {
         return this.query(root);
     }
 
+    // OK
+    public List<StandardWorkTime> queryM(String modelName, Factory f) throws Exception {
+        return this.queryM(modelName, null, f);
+    }
+
+    // OK
+    public List<StandardWorkTime> queryM(String modelName, String unitNo, Factory f) throws Exception {
+        StandardWorktimeQueryRoot root = new StandardWorktimeQueryRoot();
+        root.getSTANDARDWORKTIME().setITEMNO(modelName);
+        root.getSTANDARDWORKTIME().setUNITNO(unitNo);
+        return this.queryM(root, f);
+    }
+
     @Override
-    public Map<String, String> transformData(Worktime w) throws Exception {
+    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
         throw new UnsupportedOperationException();
     }
 

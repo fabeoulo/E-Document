@@ -5,6 +5,7 @@
  */
 package com.advantech.webservice.port;
 
+import com.advantech.model.db2.IWorktimeWebService;
 import com.advantech.model.Worktime;
 import com.advantech.webservice.root.MaterialFlowQueryRoot;
 import com.advantech.webservice.root.Section;
@@ -41,8 +42,8 @@ public class MaterialFlowQueryPort extends BasicQueryPort {
         return (List<MaterialFlow>) super.query(w);
     }
 
-    @Override   //OK
-    public Map<String, String> transformData(Worktime w) throws Exception {
+    @Override // OK
+    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
         Map<String, String> xmlResults = new HashMap();
 
         for (Section section : Section.values()) {
@@ -52,5 +53,4 @@ public class MaterialFlowQueryPort extends BasicQueryPort {
 
         return xmlResults;
     }
-
 }

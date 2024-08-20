@@ -5,7 +5,8 @@
  */
 package com.advantech.webservice.port;
 
-import com.advantech.model.Worktime;
+import com.advantech.model.db2.IWorktimeWebService;
+import com.advantech.webservice.Factory;
 import com.advantech.webservice.root.FlowRuleQueryRoot;
 import com.advantech.webservice.unmarshallclass.FlowRule;
 import com.advantech.webservice.unmarshallclass.FlowRules;
@@ -34,14 +35,19 @@ public class FlowRuleQueryPort extends BasicQueryPort {
         }
     }
 
-    //OK
     public FlowRule query(String unitNo, String flowName) throws Exception {
         List<FlowRule> l = this.query(new FlowRuleQueryRoot(unitNo, flowName));
         return l.isEmpty() ? null : l.get(0);
     }
 
+    // OK
+    public FlowRule queryM(String unitNo, String flowName, Factory f) throws Exception {
+        List<FlowRule> l = this.queryM(new FlowRuleQueryRoot(unitNo, flowName), f);
+        return l.isEmpty() ? null : l.get(0);
+    }
+    
     @Override
-    public Map<String, String> transformData(Worktime w) throws Exception {
+    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
         throw new UnsupportedOperationException();
     }
 

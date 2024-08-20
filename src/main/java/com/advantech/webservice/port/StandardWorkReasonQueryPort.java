@@ -5,7 +5,8 @@
  */
 package com.advantech.webservice.port;
 
-import com.advantech.model.Worktime;
+import com.advantech.model.db2.IWorktimeWebService;
+import com.advantech.webservice.Factory;
 import com.advantech.webservice.root.StandardWorkReasonQueryRoot;
 import com.advantech.webservice.unmarshallclass.StandardWorkReason;
 import com.advantech.webservice.unmarshallclass.StandardWorkReasons;
@@ -34,13 +35,17 @@ public class StandardWorkReasonQueryPort extends BasicQueryPort {
         }
     }
 
-    //OK
     public List<StandardWorkReason> query() throws Exception {
         return this.query(new StandardWorkReasonQueryRoot());
     }
 
+    // OK
+    public List<StandardWorkReason> queryM(Factory f) throws Exception {
+        return this.queryM(new StandardWorkReasonQueryRoot(), f);
+    }
+
     @Override
-    public Map<String, String> transformData(Worktime w) throws Exception {
+    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
         throw new UnsupportedOperationException();
     }
 

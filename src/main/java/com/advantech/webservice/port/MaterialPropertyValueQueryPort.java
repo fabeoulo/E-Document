@@ -5,7 +5,9 @@
  */
 package com.advantech.webservice.port;
 
+import com.advantech.model.db2.IWorktimeWebService;
 import com.advantech.model.Worktime;
+import com.advantech.webservice.Factory;
 import com.advantech.webservice.root.MaterialPropertyValueQueryRoot;
 import com.advantech.webservice.unmarshallclass.MaterialPropertyValue;
 import com.advantech.webservice.unmarshallclass.MaterialPropertyValues;
@@ -36,7 +38,7 @@ public class MaterialPropertyValueQueryPort extends BasicQueryPort {
         }
     }
 
-    @Override   //done
+    @Override
     public List query(Worktime w) throws Exception {
         List<MaterialPropertyValue> l = super.query(w);
         //因接口採模糊查詢，相似機種會被撈出
@@ -46,8 +48,18 @@ public class MaterialPropertyValueQueryPort extends BasicQueryPort {
         return l;
     }
 
-    @Override
-    public Map<String, String> transformData(Worktime w) throws Exception {
+    @Override // OK
+    public List queryM(IWorktimeWebService w, Factory f) throws Exception {
+        List<MaterialPropertyValue> l = super.queryM(w, f);
+        //因接口採模糊查詢，相似機種會被撈出
+        l = l.stream()
+                .filter(r -> r.getItemNo().equals(w.getModelName()))
+                .collect(Collectors.toList());
+        return l;
+    }
+
+    @Override // OK
+    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
         Map<String, String> xmlResults = new HashMap();
         MaterialPropertyValueQueryRoot root = new MaterialPropertyValueQueryRoot();
         MaterialPropertyValueQueryRoot.MATPROPERTYVALUE prop = root.getMATPROPERTYVALUE();

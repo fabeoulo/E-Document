@@ -5,10 +5,10 @@
 package com.advantech.service;
 
 import com.advantech.jqgrid.PageInfo;
-import com.advantech.model.Worktime;
+import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.service.db2.WorktimeM4fService;
 import static com.google.common.collect.Lists.newArrayList;
 import java.util.List;
-import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,6 +21,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -31,12 +32,12 @@ import org.springframework.test.context.web.WebAppConfiguration;
     "classpath:servlet-context.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class WorktimeServiceTest {
+public class WorktimeM4fServiceTest {
 
     @Autowired
-    WorktimeService instance;
+    WorktimeM4fService instance;
 
-    public WorktimeServiceTest() {
+    public WorktimeM4fServiceTest() {
     }
 
     @BeforeClass
@@ -56,83 +57,79 @@ public class WorktimeServiceTest {
     }
 
     /**
-     * Test of findAll method, of class WorktimeService.
+     * Test of findAll method, of class WorktimeM4fService.
      */
-//    @Test
+//    @Test//OK
     public void testFindAll_0args() {
         System.out.println("findAll");
-        List<Worktime> result = instance.findAll();
+        List<WorktimeM4f> result = instance.findAll();
         assertTrue(!result.isEmpty());
     }
-//
-//    /**
-//     * Test of findAll method, of class WorktimeService.
-//     */
-//    @Test
+
+    /**
+     * Test of findAll method, of class WorktimeM4fService.
+     */
+//    @Test//OK
     public void testFindAll_PageInfo() {
         System.out.println("findAll");
         PageInfo info = new PageInfo();
-//        WorktimeService instance = new WorktimeService();
-        List<Worktime> expResult = null;
-        List<Worktime> result = instance.findAll(info);
+        List<WorktimeM4f> expResult = null;
+        List<WorktimeM4f> result = instance.findAll(info);
         assertNotEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
     }
-//
+
 //    /**
-//     * Test of findByPrimaryKey method, of class WorktimeService.
+//     * Test of findByPrimaryKey method, of class WorktimeM4fService.
 //     */
-//    @Test
+//    @Test//OK
     public void testFindByPrimaryKey() {
         System.out.println("findByPrimaryKey");
         Object obj_id = null;
-//        WorktimeService instance = new WorktimeService();
-        Worktime expResult = null;
-        Worktime result = instance.findByPrimaryKey(3828);
+        WorktimeM4f expResult = null;
+        WorktimeM4f result = instance.findByPrimaryKey(16894);
         assertNotEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
     }
 //
 //    /**
-//     * Test of findByPrimaryKeys method, of class WorktimeService.
+//     * Test of findByPrimaryKeys method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testFindByPrimaryKeys() {
 //        System.out.println("findByPrimaryKeys");
 //        Integer[] ids = null;
-//        WorktimeService instance = new WorktimeService();
-//        List<Worktime> expResult = null;
-//        List<Worktime> result = instance.findByPrimaryKeys(ids);
+//        List<WorktimeM4f> expResult = null;
+//        List<WorktimeM4f> result = instance.findByPrimaryKeys(ids);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
 //
 //    /**
-//     * Test of findByModel method, of class WorktimeService.
+//     * Test of findByModel method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testFindByModel() {
 //        System.out.println("findByModel");
 //        String modelName = "";
-//        WorktimeService instance = new WorktimeService();
-//        Worktime expResult = null;
-//        Worktime result = instance.findByModel(modelName);
+
+//        WorktimeM4f expResult = null;
+//        WorktimeM4f result = instance.findByModel(modelName);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
 //
 //    /**
-//     * Test of findCobots method, of class WorktimeService.
+//     * Test of findCobots method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testFindCobots() {
 //        System.out.println("findCobots");
 //        int obj_id = 0;
-//        WorktimeService instance = new WorktimeService();
 //        Set<Cobot> expResult = null;
 //        Set<Cobot> result = instance.findCobots(obj_id);
 //        assertEquals(expResult, result);
@@ -141,13 +138,12 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of findCobotsAsList method, of class WorktimeService.
+//     * Test of findCobotsAsList method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testFindCobotsAsList() {
 //        System.out.println("findCobotsAsList");
 //        int obj_id = 0;
-//        WorktimeService instance = new WorktimeService();
 //        List<Cobot> expResult = null;
 //        List<Cobot> result = instance.findCobotsAsList(obj_id);
 //        assertEquals(expResult, result);
@@ -156,28 +152,26 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of findWithFullRelation method, of class WorktimeService.
+//     * Test of findWithFullRelation method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testFindWithFullRelation() {
 //        System.out.println("findWithFullRelation");
 //        PageInfo info = null;
-//        WorktimeService instance = new WorktimeService();
-//        List<Worktime> expResult = null;
-//        List<Worktime> result = instance.findWithFullRelation(info);
+//        List<WorktimeM4f> expResult = null;
+//        List<WorktimeM4f> result = instance.findWithFullRelation(info);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
 //
 //    /**
-//     * Test of insert method, of class WorktimeService.
+//     * Test of insert method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testInsert_List() throws Exception {
 //        System.out.println("insert");
-//        List<Worktime> l = null;
-//        WorktimeService instance = new WorktimeService();
+//        List<WorktimeM4f> l = null;
 //        int expResult = 0;
 //        int result = instance.insert(l);
 //        assertEquals(expResult, result);
@@ -186,13 +180,12 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of insert method, of class WorktimeService.
+//     * Test of insert method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testInsert_Worktime() throws Exception {
 //        System.out.println("insert");
-//        Worktime worktime = null;
-//        WorktimeService instance = new WorktimeService();
+//        WorktimeM4f worktime = null;
 //        int expResult = 0;
 //        int result = instance.insert(worktime);
 //        assertEquals(expResult, result);
@@ -201,13 +194,12 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of insertWithFormulaSetting method, of class WorktimeService.
+//     * Test of insertWithFormulaSetting method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testInsertWithFormulaSetting_List() throws Exception {
 //        System.out.println("insertWithFormulaSetting");
-//        List<Worktime> l = null;
-//        WorktimeService instance = new WorktimeService();
+//        List<WorktimeM4f> l = null;
 //        int expResult = 0;
 //        int result = instance.insertWithFormulaSetting(l);
 //        assertEquals(expResult, result);
@@ -216,13 +208,12 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of insertWithFormulaSetting method, of class WorktimeService.
+//     * Test of insertWithFormulaSetting method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testInsertWithFormulaSetting_Worktime() throws Exception {
 //        System.out.println("insertWithFormulaSetting");
-//        Worktime worktime = null;
-//        WorktimeService instance = new WorktimeService();
+//        WorktimeM4f worktime = null;
 //        int expResult = 0;
 //        int result = instance.insertWithFormulaSetting(worktime);
 //        assertEquals(expResult, result);
@@ -230,9 +221,8 @@ public class WorktimeServiceTest {
 //        fail("The test case is a prototype.");
 //    }
 //
-
     /**
-     * Test of insertSeries method, of class WorktimeService.
+     * Test of insertSeries method, of class WorktimeM4fService.
      */
 //    @Test
     @Transactional
@@ -245,20 +235,20 @@ public class WorktimeServiceTest {
         int result = instance.insertSeriesWithMesUpload(baseModelName, seriesModelNames);
         assertEquals(expResult, result);
 
-        Worktime seriesModelPojo = instance.findByModel(seriesModelNames.get(0));
+        WorktimeM4f seriesModelPojo = instance.findByModel(seriesModelNames.get(0));
         assertNotNull(seriesModelPojo);
         assertEquals(3, seriesModelPojo.getCobots().size());
 
     }
 //
 //    /**
-//     * Test of update method, of class WorktimeService.
+//     * Test of update method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testUpdate_List() throws Exception {
 //        System.out.println("update");
-//        List<Worktime> l = null;
-//        WorktimeService instance = new WorktimeService();
+//        List<WorktimeM4f> l = null;
+
 //        int expResult = 0;
 //        int result = instance.update(l);
 //        assertEquals(expResult, result);
@@ -267,13 +257,12 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of update method, of class WorktimeService.
+//     * Test of update method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testUpdate_Worktime() throws Exception {
 //        System.out.println("update");
-//        Worktime worktime = null;
-//        WorktimeService instance = new WorktimeService();
+//        WorktimeM4f worktime = null;
 //        int expResult = 0;
 //        int result = instance.update(worktime);
 //        assertEquals(expResult, result);
@@ -282,13 +271,12 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of merge method, of class WorktimeService.
+//     * Test of merge method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testMerge_List() throws Exception {
 //        System.out.println("merge");
-//        List<Worktime> l = null;
-//        WorktimeService instance = new WorktimeService();
+//        List<WorktimeM4f> l = null;
 //        int expResult = 0;
 //        int result = instance.merge(l);
 //        assertEquals(expResult, result);
@@ -297,13 +285,12 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of merge method, of class WorktimeService.
+//     * Test of merge method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testMerge_Worktime() throws Exception {
 //        System.out.println("merge");
-//        Worktime worktime = null;
-//        WorktimeService instance = new WorktimeService();
+//        WorktimeM4f worktime = null;
 //        int expResult = 0;
 //        int result = instance.merge(worktime);
 //        assertEquals(expResult, result);
@@ -312,13 +299,12 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of insertByExcel method, of class WorktimeService.
+//     * Test of insertByExcel method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testInsertByExcel() throws Exception {
 //        System.out.println("insertByExcel");
-//        List<Worktime> l = null;
-//        WorktimeService instance = new WorktimeService();
+//        List<WorktimeM4f> l = null;
 //        int expResult = 0;
 //        int result = instance.insertByExcel(l);
 //        assertEquals(expResult, result);
@@ -327,13 +313,12 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of mergeByExcel method, of class WorktimeService.
+//     * Test of mergeByExcel method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testMergeByExcel() throws Exception {
 //        System.out.println("mergeByExcel");
-//        List<Worktime> l = null;
-//        WorktimeService instance = new WorktimeService();
+//        List<WorktimeM4f> l = null;
 //        int expResult = 0;
 //        int result = instance.mergeByExcel(l);
 //        assertEquals(expResult, result);
@@ -342,19 +327,18 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of initUnfilledFormulaColumn method, of class WorktimeService.
+//     * Test of initUnfilledFormulaColumn method, of class WorktimeM4fService.
 //     */
-
 //    @Test
 //    @Transactional
 //    @Rollback(false)
     public void testInitUnfilledFormulaColumn() throws Exception {
         System.out.println("initUnfilledFormulaColumn");
 
-//        List<Worktime> l = instance.findAll();
-        List<Worktime> l = instance.findWithFlowRelationAndCobot(10606);
+//        List<WorktimeM4f> l = instance.findAll();
+        List<WorktimeM4f> l = instance.findWithFlowRelationAndCobot(10606);
         assertNotNull(l);
-        for (Worktime worktime : l) {
+        for (WorktimeM4f worktime : l) {
             System.out.println("Upload model: " + worktime.getModelName());
             instance.initUnfilledFormulaColumn(worktime);
         }
@@ -362,13 +346,13 @@ public class WorktimeServiceTest {
     }
 //
 //    /**
-//     * Test of saveOrUpdate method, of class WorktimeService.
+//     * Test of saveOrUpdate method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testSaveOrUpdate() throws Exception {
 //        System.out.println("saveOrUpdate");
-//        List<Worktime> l = null;
-//        WorktimeService instance = new WorktimeService();
+//        List<WorktimeM4f> l = null;
+
 //        int expResult = 0;
 //        int result = instance.saveOrUpdate(l);
 //        assertEquals(expResult, result);
@@ -377,13 +361,12 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of delete method, of class WorktimeService.
+//     * Test of delete method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testDelete_List() throws Exception {
 //        System.out.println("delete");
-//        List<Worktime> l = null;
-//        WorktimeService instance = new WorktimeService();
+//        List<WorktimeM4f> l = null;
 //        int expResult = 0;
 //        int result = instance.delete(l);
 //        assertEquals(expResult, result);
@@ -392,13 +375,12 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of delete method, of class WorktimeService.
+//     * Test of delete method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testDelete_Worktime() throws Exception {
 //        System.out.println("delete");
-//        Worktime w = null;
-//        WorktimeService instance = new WorktimeService();
+//        WorktimeM4f w = null;
 //        int expResult = 0;
 //        int result = instance.delete(w);
 //        assertEquals(expResult, result);
@@ -407,13 +389,12 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of delete method, of class WorktimeService.
+//     * Test of delete method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testDelete_IntegerArr() throws Exception {
 //        System.out.println("delete");
 //        Integer[] ids = null;
-//        WorktimeService instance = new WorktimeService();
 //        int expResult = 0;
 //        int result = instance.delete(ids);
 //        assertEquals(expResult, result);
@@ -422,13 +403,12 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of delete method, of class WorktimeService.
+//     * Test of delete method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testDelete_int() throws Exception {
 //        System.out.println("delete");
 //        int id = 0;
-//        WorktimeService instance = new WorktimeService();
 //        int expResult = 0;
 //        int result = instance.delete(id);
 //        assertEquals(expResult, result);
@@ -437,21 +417,19 @@ public class WorktimeServiceTest {
 //    }
 //
 //    /**
-//     * Test of reUpdateAllFormulaColumn method, of class WorktimeService.
+//     * Test of reUpdateAllFormulaColumn method, of class WorktimeM4fService.
 //     */
 //    @Test
 //    public void testReUpdateAllFormulaColumn() throws Exception {
 //        System.out.println("reUpdateAllFormulaColumn");
-//        WorktimeService instance = new WorktimeService();
 //        instance.reUpdateAllFormulaColumn();
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-
     @Test
     public void testBatchUpdate() throws Exception {
         System.out.println("testBatchUpdate");
-        List<Worktime> l = instance.findByPrimaryKeys(3815, 3816);
+        List<WorktimeM4f> l = instance.findByPrimaryKeys(3815, 3816);
         assertEquals(2, l.size());
         l.forEach(w -> w.setReasonCode("A3"));
         instance.merge(l);

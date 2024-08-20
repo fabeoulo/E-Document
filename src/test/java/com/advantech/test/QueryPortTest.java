@@ -7,9 +7,12 @@ package com.advantech.test;
 
 import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.model.Worktime;
+import com.advantech.model.db2.WorktimeM4f;
 import com.advantech.model.WorktimeMaterialPropertyUploadSetting;
+import com.advantech.service.db2.WorktimeM4fService;
 import com.advantech.service.WorktimeMaterialPropertyUploadSettingService;
 import com.advantech.service.WorktimeService;
+import com.advantech.webservice.Factory;
 import com.advantech.webservice.port.StandardWorkReasonQueryPort;
 import com.advantech.webservice.port.FlowRuleQueryPort;
 import com.advantech.webservice.port.MaterialFlowQueryPort;
@@ -40,7 +43,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import static org.junit.Assert.*;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.hibernate.Session;
@@ -64,7 +66,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 //    "classpath:hibernate.cfg.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
-@Transactional
 public class QueryPortTest {
 
     @Autowired
@@ -100,6 +101,11 @@ public class QueryPortTest {
     private Worktime w;
 
     @Autowired
+    private WorktimeM4fService worktimeM4fService;
+
+    private WorktimeM4f wM;
+
+    @Autowired
     private StandardWorkTimeQueryPort worktimeQueryPort;
 
     @Autowired
@@ -110,111 +116,174 @@ public class QueryPortTest {
 
     @Before
     public void init() {
-        w = worktimeService.findByPrimaryKey(5352);
+        w = worktimeService.findByPrimaryKey(16894);
+        wM = worktimeM4fService.findByModel("AIM-68H-202000");
     }
 
-//    @Test//245
+//    @Test // OK
     public void testSopQueryPort() throws Exception {
-        Worktime worktime = worktimeService.findByModel("UTC-532CH-P00E");
-        sopQueryPort.setTypes("測試");
-        List<SopInfo> l = sopQueryPort.query(worktime);
+        //M9-201
+        sopQueryPort.setTypes("T1");
+        List<SopInfo> l = sopQueryPort.queryM(wM, Factory.TWM9);
         l.removeIf(s -> "".equals(s.getSopName()) || s.getSopName().contains(","));
-//        assertEquals(4, l.size());
-//        l = l.stream().sorted(Comparator.comparing(SopInfo::getSopName)).distinct().collect(toList());
-//        l.forEach(s -> {
-//            System.out.println(s.getSopName());
-//        });
 
+//        //M3f-245
+//        sopQueryPort.setTypes("T1");
+//        List<SopInfo> l0 = sopQueryPort.query(w);
+//        List<SopInfo> l = sopQueryPort.queryM(w, Factory.TWM3);
+//        l.removeIf(s -> "".equals(s.getSopName()) || s.getSopName().contains(","));
+////        assertEquals(1, l.size());
+////        l = l.stream().sorted(Comparator.comparing(SopInfo::getSopName)).distinct().collect(toList());
+////        l.forEach(s -> {
+////            System.out.println(s.getSopName());
+////        });
         System.out.println(l.stream().sorted(Comparator.comparing(SopInfo::getSopName)).distinct().map(n -> n.getSopName()).collect(Collectors.joining(",")));
     }
 
-//    @Test//245
+//    @Test // OK
     public void testModelResponsorQueryPort() throws Exception {
-        List l = mrQueryPort.query(w);
-        assertEquals(3, l.size());
+        //M9-201
+        List l9 = mrQueryPort.queryM(wM, Factory.TWM9);
+        assertEquals(5, l9.size());
+
+        HibernateObjectPrinter.print(l9);
+
+        //M3f-245
+        List l0 = mrQueryPort.query(w);
+        List l = mrQueryPort.queryM(w, Factory.TWM3);
+        assertEquals(4, l.size());
 
         HibernateObjectPrinter.print(l);
     }
 
-//    @Test//245
+//    @Test // OK
     public void testMesUserInfoQueryPort() throws Exception {
-        List l = mesUserQueryPort.query(w);
-        assertEquals(3, l.size());
+        //M9-201
+        List l = mesUserQueryPort.queryM(wM, Factory.TWM9);
+
+        //M3f-245
+//        List l0 = mesUserQueryPort.query(w);
+//        List l = mesUserQueryPort.queryM(w, Factory.TWM3);
+        assertEquals(4, l.size());
         HibernateObjectPrinter.print(l);
 
 //        Map m = mesUserQueryPort.transformData(w);
 //        HibernateObjectPrinter.print(m);
     }
 
-//    @Test//245
+//    @Test // OK
     public void testFlowRuleQueryPort() throws Exception {
-        FlowRule rule = flowRuleQueryPort.query("T", "TEST_T2");
+//        //M3f-245
+        FlowRule rule0 = flowRuleQueryPort.query("B", "BAB_ASSY-BI");
+        FlowRule rule = flowRuleQueryPort.queryM("B", "BAB_ASSY-BI", Factory.TWM3);
         assertNotNull(rule);
         HibernateObjectPrinter.print(rule);
+
+//        //M9-201
+//        FlowRule rule = flowRuleQueryPort.queryM("B", "BAB_ASSY-T0-T1-BI", Factory.TWM9);
+//        assertNotNull(rule);
+//        HibernateObjectPrinter.print(rule);
     }
 
-//    @Test//245
+//    @Test // OK
     public void testMateriaFlowQueryPort() throws Exception {
-        Map m = materialFlowQueryPort.transformData(w);
-        assertEquals(4, m.size());
-        HibernateObjectPrinter.print(m);
+        //M9-201
+        List<MaterialFlow> l9 = materialFlowQueryPort.queryM(wM, Factory.TWM9);
+        assertEquals(4, l9.size());
+        HibernateObjectPrinter.print(l9);
 
-        List<MaterialFlow> l = materialFlowQueryPort.query(w);
+//        //M3f-245
+//        Map m = materialFlowQueryPort.transformData(w);
+//        assertEquals(4, m.size());
+//        HibernateObjectPrinter.print(m);
+//
+        List<MaterialFlow> l = materialFlowQueryPort.queryM(w, Factory.TWM3);
+        List<MaterialFlow> l0 = materialFlowQueryPort.query(w);
         assertEquals(4, l.size());
         HibernateObjectPrinter.print(l);
-
-        assertEquals(34200, l.get(0).getId());
-        assertEquals(14360, l.get(0).getItemId());
-        assertEquals(719, l.get(0).getFlowRuleId());
+//
+//        assertEquals(34200, l.get(0).getId());
+//        assertEquals(14360, l.get(0).getItemId());
+//        assertEquals(719, l.get(0).getFlowRuleId());
     }
 
-//    @Test//245
+//    @Test // OK
     public void testMaterialPropertyUserPermissionQueryPort() throws Exception {
-        List<MaterialPropertyUserPermission> l = materialPropertyUserPermissionQueryPort.query("A-7060");
-        assertEquals(121, l.size());
+        //M9-201
+        List<MaterialPropertyUserPermission> l = materialPropertyUserPermissionQueryPort.queryM("SYSTEM", Factory.TWM9);
         assertEquals("01", l.get(0).getMaterialPropertyNo());
+        assertEquals(165, l.size());
+
+//        //M3f-245
+//        List<MaterialPropertyUserPermission> l = materialPropertyUserPermissionQueryPort.query("SYSTEM");
+//        List<MaterialPropertyUserPermission> l0 = materialPropertyUserPermissionQueryPort.queryM("SYSTEM",Factory.TWM3);
+//        assertEquals("01", l.get(0).getMaterialPropertyNo());
+//        assertEquals(154, l.size());
     }
 
-//    @Test//245
+//    @Test // OK
     public void testMaterialPropertyQueryPort() throws Exception {
-        List<MaterialProperty> l = materialPropertyQueryPort.query("FC");
+        //M9-201
+        List<MaterialProperty> l = materialPropertyQueryPort.queryM("FC", Factory.TWM9);
         assertEquals(1, l.size());
         assertEquals("FC", l.get(0).getMatPropertyNo());
         System.out.println(l.get(0).getAffPropertyType());
+
+//        //M3f-245
+//        List<MaterialProperty> l0 = materialPropertyQueryPort.query("FC");
+//        List<MaterialProperty> l = materialPropertyQueryPort.queryM("FC",Factory.TWM3);
+//        assertEquals(1, l.size());
+//        assertEquals("FC", l.get(0).getMatPropertyNo());
+//        System.out.println(l.get(0).getAffPropertyType());
     }
 
     @Autowired
     private WorktimeMaterialPropertyUploadSettingService propSettingService;
 
-    @Test
+    @Test // OK
     public void testListAllSame() throws Exception {
         List<WorktimeMaterialPropertyUploadSetting> settings = propSettingService.findAll();
         Set<String> localMatPropNo = settings.stream()
                 .map(WorktimeMaterialPropertyUploadSetting::getMatPropNo)
                 .collect(Collectors.toSet());
 
-        Worktime w1 = worktimeService.findByModel("UTC-532CH-P00E");
-        List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.query(w);
-        //Find setting not in local
-        List<MaterialPropertyValue> propNotSettingInLocal = remotePropSettings.stream()
-                .filter(r -> Objects.equals(w.getModelName(), r.getItemNo()) && !localMatPropNo.contains(r.getMatPropertyNo()))
+////        Worktime w1 = worktimeService.findByModel("UTC-532CH-P00E");
+//        List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.queryM(w,Factory.TWM3);
+//        //Find setting not in local
+//        List<MaterialPropertyValue> propNotSettingInLocal = remotePropSettings.stream()
+//                .filter(r -> Objects.equals(w.getModelName(), r.getItemNo()) && !localMatPropNo.contains(r.getMatPropertyNo()))
+//                .collect(Collectors.toList());
+//        boolean check = remotePropSettings.containsAll(propNotSettingInLocal);
+//        HibernateObjectPrinter.print(check);
+        //Find M9 setting not in local
+        List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.queryM(wM, Factory.TWM9);
+        List<MaterialPropertyValue> propSettingInLocal = remotePropSettings.stream()
+                .filter(r -> Objects.equals(wM.getModelName(), r.getItemNo()) && !localMatPropNo.contains(r.getMatPropertyNo()))
                 .collect(Collectors.toList());
-        boolean check = remotePropSettings.containsAll(propNotSettingInLocal);
-        HibernateObjectPrinter.print(check);
+        HibernateObjectPrinter.print(propSettingInLocal);
+
     }
 
-//    @Test//245
+//    @Test // OK
     public void testMaterialPropertyValueQueryPort() throws Exception {
+        //M9-201
+        List<MaterialPropertyValue> l9 = materialPropertyValueQueryPort.queryM(wM, Factory.TWM9);
+        assertEquals(15, l9.size());
+        MaterialPropertyValue value9 = l9.stream()
+                .filter(v -> "BP".equals(v.getMatPropertyNo())).findFirst().orElse(null);
+        assertNotNull(value9);
+        assertEquals("", value9.getAffPropertyValue());
+        assertEquals("2", value9.getValue());
 
-        Worktime w1 = worktimeService.findByModel("UTC-532CH-P00E");
-        assertNotNull(w1);
-        List<MaterialPropertyValue> l = materialPropertyValueQueryPort.query(w1);
-        assertEquals(19, l.size());
+        //M3f-245
+//        List<MaterialPropertyValue> l0 = materialPropertyValueQueryPort.query(w);
+        List<MaterialPropertyValue> l = materialPropertyValueQueryPort.queryM(w, Factory.TWM3);
+        assertEquals(29, l.size());
         MaterialPropertyValue value = l.stream()
                 .filter(v -> "BD".equals(v.getMatPropertyNo())).findFirst().orElse(null);
         assertNotNull(value);
-        assertEquals(null, value.getAffPropertyValue());
-        assertEquals("0", value.getValue());
+        assertEquals("", value.getAffPropertyValue());
+        assertEquals("40", value.getValue());
     }
 
 //    @Test
@@ -287,13 +356,18 @@ public class QueryPortTest {
         }
     }
 
-//    @Test//245
+//    @Test // OK
     public void testErrorGroupQueryPort() throws Exception {
-        List<StandardWorkReason> l = errorGroupQueryPort.query();
-
+        //M9-201
+        List<StandardWorkReason> l = errorGroupQueryPort.queryM(Factory.TWM9);
         assertTrue(l != null);
-        assertEquals(9, l.size());
+        assertEquals(11, l.size());
 
+//        //M3f-245
+//        List<StandardWorkReason> l0 = errorGroupQueryPort.query();
+//        List<StandardWorkReason> l = errorGroupQueryPort.queryM(Factory.TWM3);
+//        assertTrue(l != null);
+//        assertEquals(9, l.size());
         StandardWorkReason eg = l.get(0);
 
         assertEquals("A0", eg.getId());
@@ -302,22 +376,37 @@ public class QueryPortTest {
         HibernateObjectPrinter.print(l);
     }
 
-//    @Test//245
+//    @Test // OK
     public void testStandardWorkTimeQueryPort() throws Exception {
-        List<StandardWorkTime> l = this.worktimeQueryPort.query(w.getModelName(), Section.BAB.getCode());
-//        l = l.stream().filter(s -> s.getITEMNO().equals("IMC-450-SL")).collect(toList());
+        //M9-201
+        List<StandardWorkTime> l = this.worktimeQueryPort.queryM(wM.getModelName(), Section.BAB.getCode(), Factory.TWM9);
+        HibernateObjectPrinter.print(l);
+        l = this.worktimeQueryPort.queryM(wM.getModelName(), Factory.TWM9);
+        HibernateObjectPrinter.print(l);
 
-        HibernateObjectPrinter.print(l);
-        l = this.worktimeQueryPort.query(w.getModelName());
-        HibernateObjectPrinter.print(l);
+//        //M3f-245
+//        List<StandardWorkTime> l0 = this.worktimeQueryPort.query(w.getModelName(), Section.BAB.getCode());
+//        List<StandardWorkTime> l = this.worktimeQueryPort.queryM(w.getModelName(), Section.BAB.getCode(),Factory.TWM3);
+////        l = l.stream().filter(s -> s.getITEMNO().equals("IMC-450-SL")).collect(toList());
+//
+//        HibernateObjectPrinter.print(l);
+//        l = this.worktimeQueryPort.query(w.getModelName());
+//        HibernateObjectPrinter.print(l);
     }
 
-//    @Test//245
-    @Rollback(true)
+    @Test // OK
     public void testMtdTestIntegrityQueryPort() throws Exception {
-        Session session = sessionFactory.getCurrentSession();
-        Worktime worktime = session.get(Worktime.class, 4653);
-        List<MtdTestIntegrity> l = this.mtdTestIntegrityQueryPort.query(worktime);
+        //M9-201
+        List<MtdTestIntegrity> l9 = this.mtdTestIntegrityQueryPort.queryM(wM, Factory.TWM9);
+
+        assertEquals(3, l9.size());
+        assertEquals("T2", l9.get(1).getStationName());
+        assertEquals("PT1", l9.get(0).getStationName());
+
+        //M3f-245
+        w = worktimeService.findByPrimaryKey(4653);
+        List<MtdTestIntegrity> l0 = this.mtdTestIntegrityQueryPort.query(w);
+        List<MtdTestIntegrity> l = this.mtdTestIntegrityQueryPort.queryM(w, Factory.TWM3);
 
         assertEquals(2, l.size());
         assertEquals("T2", l.get(1).getStationName());

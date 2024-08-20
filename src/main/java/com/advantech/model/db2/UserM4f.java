@@ -1,7 +1,6 @@
-package com.advantech.model;
+package com.advantech.model.db2;
 // Generated 2017/4/7 下午 02:26:06 by Hibernate Tools 4.3.1
 
-import com.advantech.model.db2.IUserM9;
 import com.advantech.security.State;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,12 +33,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "[User]",
         uniqueConstraints = @UniqueConstraint(columnNames = "jobnumber")
 )
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = User.class)
-public class User implements UserDetails, Comparable<User>, IUserM9 {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = UserM4f.class)
+public class UserM4f implements UserDetails, Comparable<UserM4f>, IUserM9 {
 
     private int id;
-    private Floor floor;
-    private Unit unit;
+    private FloorM4f floor;
+    private UnitM4f unit;
     private String jobnumber;
     private String password;
     private String username;
@@ -48,22 +47,22 @@ public class User implements UserDetails, Comparable<User>, IUserM9 {
     private String state = State.ACTIVE.getState();
 
     @JsonIgnore
-    private Set<UserProfile> userProfiles = new HashSet<UserProfile>(0);
+    private Set<UserProfileM4f> userProfiles = new HashSet<UserProfileM4f>(0);
 
     @JsonIgnore
-    private Set<Worktime> worktimesForEeOwnerId = new HashSet<Worktime>(0);
+    private Set<WorktimeM4f> worktimesForEeOwnerId = new HashSet<WorktimeM4f>(0);
 
     @JsonIgnore
-    private Set<Worktime> worktimesForQcOwnerId = new HashSet<Worktime>(0);
+    private Set<WorktimeM4f> worktimesForQcOwnerId = new HashSet<WorktimeM4f>(0);
 
     @JsonIgnore
-    private Set<Worktime> worktimesForSpeOwnerId = new HashSet<Worktime>(0);
+    private Set<WorktimeM4f> worktimesForSpeOwnerId = new HashSet<WorktimeM4f>(0);
 
     @JsonIgnore
-    private Set<Worktime> worktimesForMpmOwnerId = new HashSet<Worktime>(0);
+    private Set<WorktimeM4f> worktimesForMpmOwnerId = new HashSet<WorktimeM4f>(0);
 
     @JsonIgnore
-    private Set<UserNotification> userNotifications = new HashSet<UserNotification>(0);
+    private Set<UserNotificationM4f> userNotifications = new HashSet<UserNotificationM4f>(0);
 
     private boolean enabled;
     private boolean accountNonExpired;
@@ -71,14 +70,14 @@ public class User implements UserDetails, Comparable<User>, IUserM9 {
     private boolean accountNonLocked;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public User() {
+    public UserM4f() {
     }
 
-    public User(int id) {
+    public UserM4f(int id) {
         this.id = id;
     }
 
-    public User(int id, Floor floor, Unit unit, String email, String jobnumber, String password, Integer permission, String username, String state, Set<UserProfile> userProfiles, Set<Worktime> worktimesForSpeOwnerId, Set<Worktime> worktimesForQcOwnerId, Set<Worktime> worktimesForEeOwnerId, Set<UserNotification> userNotifications) {
+    public UserM4f(int id, FloorM4f floor, UnitM4f unit, String email, String jobnumber, String password, Integer permission, String username, String state, Set<UserProfileM4f> userProfiles, Set<WorktimeM4f> worktimesForSpeOwnerId, Set<WorktimeM4f> worktimesForQcOwnerId, Set<WorktimeM4f> worktimesForEeOwnerId, Set<UserNotificationM4f> userNotifications) {
         this.id = id;
         this.floor = floor;
         this.unit = unit;
@@ -109,21 +108,21 @@ public class User implements UserDetails, Comparable<User>, IUserM9 {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "floor_id")
-    public Floor getFloor() {
+    public FloorM4f getFloor() {
         return this.floor;
     }
 
-    public void setFloor(Floor floor) {
+    public void setFloor(FloorM4f floor) {
         this.floor = floor;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_id")
-    public Unit getUnit() {
+    public UnitM4f getUnit() {
         return this.unit;
     }
 
-    public void setUnit(Unit unit) {
+    public void setUnit(UnitM4f unit) {
         this.unit = unit;
     }
 
@@ -184,38 +183,38 @@ public class User implements UserDetails, Comparable<User>, IUserM9 {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userByEeOwnerId")
-    public Set<Worktime> getWorktimesForEeOwnerId() {
+    public Set<WorktimeM4f> getWorktimesForEeOwnerId() {
         return this.worktimesForEeOwnerId;
     }
 
-    public void setWorktimesForEeOwnerId(Set<Worktime> worktimesForEeOwnerId) {
+    public void setWorktimesForEeOwnerId(Set<WorktimeM4f> worktimesForEeOwnerId) {
         this.worktimesForEeOwnerId = worktimesForEeOwnerId;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userByQcOwnerId")
-    public Set<Worktime> getWorktimesForQcOwnerId() {
+    public Set<WorktimeM4f> getWorktimesForQcOwnerId() {
         return this.worktimesForQcOwnerId;
     }
 
-    public void setWorktimesForQcOwnerId(Set<Worktime> worktimesForQcOwnerId) {
+    public void setWorktimesForQcOwnerId(Set<WorktimeM4f> worktimesForQcOwnerId) {
         this.worktimesForQcOwnerId = worktimesForQcOwnerId;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userBySpeOwnerId")
-    public Set<Worktime> getWorktimesForSpeOwnerId() {
+    public Set<WorktimeM4f> getWorktimesForSpeOwnerId() {
         return this.worktimesForSpeOwnerId;
     }
 
-    public void setWorktimesForSpeOwnerId(Set<Worktime> worktimesForSpeOwnerId) {
+    public void setWorktimesForSpeOwnerId(Set<WorktimeM4f> worktimesForSpeOwnerId) {
         this.worktimesForSpeOwnerId = worktimesForSpeOwnerId;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userByMpmOwnerId")
-    public Set<Worktime> getWorktimesForMpmOwnerId() {
+    public Set<WorktimeM4f> getWorktimesForMpmOwnerId() {
         return worktimesForMpmOwnerId;
     }
 
-    public void setWorktimesForMpmOwnerId(Set<Worktime> worktimesForMpmOwnerId) {
+    public void setWorktimesForMpmOwnerId(Set<WorktimeM4f> worktimesForMpmOwnerId) {
         this.worktimesForMpmOwnerId = worktimesForMpmOwnerId;
     }
 
@@ -223,11 +222,11 @@ public class User implements UserDetails, Comparable<User>, IUserM9 {
     @JoinTable(name = "User_Profile_REF", joinColumns = {
         @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "user_profile_id", nullable = false, insertable = false, updatable = false)})
-    public Set<UserProfile> getUserProfiles() {
+    public Set<UserProfileM4f> getUserProfiles() {
         return this.userProfiles;
     }
 
-    public void setUserProfiles(Set<UserProfile> userProfiles) {
+    public void setUserProfiles(Set<UserProfileM4f> userProfiles) {
         this.userProfiles = userProfiles;
     }
 
@@ -235,11 +234,11 @@ public class User implements UserDetails, Comparable<User>, IUserM9 {
     @JoinTable(name = "User_Notification_REF", joinColumns = {
         @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "user_notification_id", nullable = false, insertable = false, updatable = false)})
-    public Set<UserNotification> getUserNotifications() {
+    public Set<UserNotificationM4f> getUserNotifications() {
         return this.userNotifications;
     }
 
-    public void setUserNotifications(Set<UserNotification> userNotifications) {
+    public void setUserNotifications(Set<UserNotificationM4f> userNotifications) {
         this.userNotifications = userNotifications;
     }
 
@@ -259,10 +258,10 @@ public class User implements UserDetails, Comparable<User>, IUserM9 {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof User)) {
+        if (!(obj instanceof UserM4f)) {
             return false;
         }
-        User other = (User) obj;
+        UserM4f other = (UserM4f) obj;
         if (id != other.id) {
             return false;
         }
@@ -315,7 +314,7 @@ public class User implements UserDetails, Comparable<User>, IUserM9 {
     }
 
     @Override
-    public int compareTo(User o) {
+    public int compareTo(UserM4f o) {
         return ObjectUtils.compare(this.id, o.getId());
     }
 }

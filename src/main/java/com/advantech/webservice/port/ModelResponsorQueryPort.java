@@ -6,6 +6,7 @@
 package com.advantech.webservice.port;
 
 import com.advantech.model.Worktime;
+import com.advantech.model.db2.IWorktimeWebService;
 import com.advantech.webservice.unmarshallclass.ModelResponsor;
 import com.advantech.webservice.root.ModelResponsorQueryRoot;
 import com.advantech.webservice.unmarshallclass.ModelResponsors;
@@ -40,8 +41,8 @@ public class ModelResponsorQueryPort extends BasicQueryPort {
         return (List<ModelResponsor>) super.query(w); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override   //OK
-    public Map<String, String> transformData(Worktime w) throws Exception {
+    @Override // OK
+    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
         Map<String, String> xmlResults = new HashMap();
 
         ModelResponsorQueryRoot root = new ModelResponsorQueryRoot();

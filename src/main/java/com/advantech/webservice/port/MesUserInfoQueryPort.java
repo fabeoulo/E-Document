@@ -5,8 +5,9 @@
  */
 package com.advantech.webservice.port;
 
-import com.advantech.model.User;
 import com.advantech.model.Worktime;
+import com.advantech.model.db2.IUserM9;
+import com.advantech.model.db2.IWorktimeWebService;
 import com.advantech.service.UserService;
 import com.advantech.webservice.root.MesUserInfoQueryRoot;
 import com.advantech.webservice.unmarshallclass.MesUserInfo;
@@ -41,13 +42,13 @@ public class MesUserInfoQueryPort extends BasicQueryPort {
         }
     }
 
-    @Override   //OK
+    @Override
     public List query(Worktime w) throws Exception {
         return (List<MesUserInfo>) super.query(w);
     }
 
-    @Override
-    public Map<String, String> transformData(Worktime w) throws Exception {
+    @Override // OK
+    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
         Map<String, String> xmlResults = new HashMap();
         Map<String, String> m = this.getJobnumber(w);
         for (Map.Entry<String, String> entry : m.entrySet()) {
@@ -61,12 +62,12 @@ public class MesUserInfoQueryPort extends BasicQueryPort {
         return xmlResults;
     }
 
-    public Map<String, String> getJobnumber(Worktime w) {
+    public Map<String, String> getJobnumber(IWorktimeWebService w) {
         Map<String, String> m = new HashMap();
-        User speOwner = w.getUserBySpeOwnerId();
-        User eeOwner = w.getUserByEeOwnerId();
-        User qcOwner = w.getUserByQcOwnerId();
-        User mpmOwner = w.getUserByMpmOwnerId();
+        IUserM9 speOwner = w.getUserBySpeOwnerId();
+        IUserM9 eeOwner = w.getUserByEeOwnerId();
+        IUserM9 qcOwner = w.getUserByQcOwnerId();
+        IUserM9 mpmOwner = w.getUserByMpmOwnerId();
 
         if (eeOwner != null) {
             m.put("eeOwner", userService.findByPrimaryKey(eeOwner.getId()).getJobnumber());

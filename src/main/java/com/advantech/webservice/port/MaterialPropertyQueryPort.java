@@ -5,7 +5,8 @@
  */
 package com.advantech.webservice.port;
 
-import com.advantech.model.Worktime;
+import com.advantech.model.db2.IWorktimeWebService;
+import com.advantech.webservice.Factory;
 import com.advantech.webservice.root.MaterialPropertyQueryRoot;
 import com.advantech.webservice.unmarshallclass.MaterialProperty;
 import com.advantech.webservice.unmarshallclass.MaterialPropertys;
@@ -33,14 +34,18 @@ public class MaterialPropertyQueryPort extends BasicQueryPort {
             logger.error(e.toString());
         }
     }
-    
-    //OK
-    public List<MaterialProperty> query(String matPropNo) throws Exception{
+
+    public List<MaterialProperty> query(String matPropNo) throws Exception {
         return this.query(new MaterialPropertyQueryRoot(matPropNo));
     }
 
+    // OK
+    public List<MaterialProperty> queryM(String matPropNo, Factory f) throws Exception {
+        return this.queryM(new MaterialPropertyQueryRoot(matPropNo), f);
+    }
+
     @Override
-    public Map<String, String> transformData(Worktime w) throws Exception {
+    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
         throw new UnsupportedOperationException();
     }
 }

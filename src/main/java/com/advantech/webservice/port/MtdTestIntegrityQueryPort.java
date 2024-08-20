@@ -5,7 +5,7 @@
  */
 package com.advantech.webservice.port;
 
-import com.advantech.model.Worktime;
+import com.advantech.model.db2.IWorktimeWebService;
 import com.advantech.webservice.root.MtdTestIntegrityQueryRoot;
 import com.advantech.webservice.unmarshallclass.MtdTestIntegritys;
 import java.util.HashMap;
@@ -33,8 +33,8 @@ public class MtdTestIntegrityQueryPort extends BasicQueryPort {
         }
     }
 
-    @Override   //OK
-    public Map<String, String> transformData(Worktime w) throws Exception {
+    @Override // OK
+    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
         Map<String, String> xmlResults = new HashMap();
 
         MtdTestIntegrityQueryRoot root = new MtdTestIntegrityQueryRoot(w.getModelName(), null);

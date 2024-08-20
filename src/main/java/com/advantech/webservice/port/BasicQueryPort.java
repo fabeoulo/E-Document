@@ -5,11 +5,15 @@
  */
 package com.advantech.webservice.port;
 
+import com.advantech.model.db2.IWorktimeWebService;
 import com.advantech.model.Worktime;
+import com.advantech.webservice.Factory;
+import com.advantech.webservice.MultiWsClient;
 import com.advantech.webservice.WsClient;
 import com.advantech.webservice.unmarshallclass.QueryResult;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -34,6 +38,9 @@ public abstract class BasicQueryPort {
 
     @Autowired
     private WsClient client;
+
+    @Autowired
+    private MultiWsClient multiWsClient;
 
     @PostConstruct
     protected abstract void initJaxb();
@@ -68,13 +75,35 @@ public abstract class BasicQueryPort {
         return totalQueryResult;
     }
 
+    public List queryM(Object jaxbElement, Factory f) throws Exception {
+        String xmlString = this.generateXmlString(jaxbElement);
+        RvResponse response = multiWsClient.simpleRvSendAndReceive(xmlString, f);
+        Object o = unmarshalResult(response);
+        QueryResult queryResult = (QueryResult) o;
+        return queryResult.getQryData();
+    }
+
+    public List queryM(IWorktimeWebService w, Factory f) throws Exception {
+        List totalQueryResult = new ArrayList();
+        Map<String, String> xmlResults = transformData(w);
+        for (Map.Entry<String, String> entry : xmlResults.entrySet()) {
+            String field = entry.getKey();
+            String xmlString = entry.getValue();
+            RvResponse response = multiWsClient.simpleRvSendAndReceive(xmlString, f);
+            Object o = unmarshalResult(response);
+            QueryResult queryResult = (QueryResult) o;
+            totalQueryResult.addAll(queryResult.getQryData());
+        }
+        return totalQueryResult;
+    }
+    
     /**
      *
      * @param w
      * @return Field name as key and xml generate result as value.
      * @throws java.lang.Exception
      */
-    public abstract Map<String, String> transformData(Worktime w) throws Exception;
+    public abstract Map<String, String> transformData(IWorktimeWebService w) throws Exception;
 
     protected String generateXmlString(Object jaxbElement) throws JAXBException {
         StringWriter sw = new StringWriter();

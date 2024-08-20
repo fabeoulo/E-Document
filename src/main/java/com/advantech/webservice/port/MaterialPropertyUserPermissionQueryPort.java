@@ -5,7 +5,8 @@
  */
 package com.advantech.webservice.port;
 
-import com.advantech.model.Worktime;
+import com.advantech.model.db2.IWorktimeWebService;
+import com.advantech.webservice.Factory;
 import com.advantech.webservice.root.MaterialPropertyUserPermissionQueryRoot;
 import com.advantech.webservice.unmarshallclass.MaterialPropertyUserPermissions;
 import java.util.List;
@@ -33,7 +34,6 @@ public class MaterialPropertyUserPermissionQueryPort extends BasicQueryPort {
         }
     }
 
-    //OK
     public List query(String jobnumber) throws Exception {
         MaterialPropertyUserPermissionQueryRoot root = new MaterialPropertyUserPermissionQueryRoot();
         MaterialPropertyUserPermissionQueryRoot.MATPROPERTYUSER prop = root.getMATPROPERTYUSER();
@@ -41,8 +41,16 @@ public class MaterialPropertyUserPermissionQueryPort extends BasicQueryPort {
         return this.query(root);
     }
 
+    // OK
+    public List queryM(String jobnumber, Factory f) throws Exception {
+        MaterialPropertyUserPermissionQueryRoot root = new MaterialPropertyUserPermissionQueryRoot();
+        MaterialPropertyUserPermissionQueryRoot.MATPROPERTYUSER prop = root.getMATPROPERTYUSER();
+        prop.setUSERNO(jobnumber);
+        return this.queryM(root,f);
+    }
+    
     @Override
-    public Map<String, String> transformData(Worktime w) throws Exception {
+    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
         throw new UnsupportedOperationException();
     }
 

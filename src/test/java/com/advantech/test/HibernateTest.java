@@ -13,6 +13,7 @@ import com.advantech.model.Worktime;
 import com.advantech.model.WorktimeAutouploadSetting;
 import com.advantech.model.WorktimeFormulaSetting;
 import com.advantech.model.WorktimeMaterialPropertyUploadSetting;
+import com.advantech.model.db2.WorktimeM4f;
 import com.advantech.service.WorktimeAuditService;
 import com.advantech.service.WorktimeAutouploadSettingService;
 import com.advantech.service.WorktimeService;
@@ -40,6 +41,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import static org.junit.Assert.*;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -52,6 +54,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -73,6 +76,10 @@ public class HibernateTest {
 
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    @Qualifier("sessionFactory2")
+    private SessionFactory sessionFactory2;
 
     @Autowired
     private WorktimeAuditService auditService;
@@ -132,6 +139,17 @@ public class HibernateTest {
 //    @Rollback(true)
     public void test() throws Exception {
         this.testUpdate();
+    }
+
+//    @Test
+//    @Transactional
+//    @Rollback(true)
+    public void testUpdateM9() throws Exception {
+        Session session = sessionFactory2.getCurrentSession();
+        Criteria criteria = session.createCriteria(WorktimeM4f.class);
+        criteria.add(Restrictions.in("modelName", "AIM-68H-202000"));
+        List<WorktimeM4f> l = criteria.list();
+        HibernateObjectPrinter.print(l);
     }
 
     public void testUpdate() throws Exception {

@@ -183,7 +183,7 @@
                                     <!-- /.nav-second-level -->
                                 </li>
                                 <li>
-                                    <a href="#"><i class="fa fa-table fa-fw"></i> Tables<span class="fa arrow"></span></a>
+                                    <a href="#"><i class="fa fa-table fa-fw"></i> Tables_3F<span class="fa arrow"></span></a>
                                     <ul class="nav nav-second-level">
                                         <li>
                                             <a class="redirect-link" id="preload_page" href="worktime.jsp">工時大表</a>
@@ -205,6 +205,56 @@
                                             </li>
                                             <li>
                                                 <a class="redirect-link" id="" href="mod/user.jsp">User</a>
+                                            </li>
+                                            <li>
+                                                <a class="redirect-link" href="mod/pending.jsp">Pending</a>
+                                            </li>
+                                            <li>
+                                                <a class="redirect-link" href="mod/preAssy.jsp">PreAssy</a>
+                                            </li>
+                                            <li>
+                                                <a class="redirect-link" href="mod/type.jsp">Type</a>
+                                            </li>
+                                            <li>
+                                                <a class="redirect-link" href="mod/cobot.jsp">Cobot</a>
+                                            </li>
+                                             <li>
+                                                <a class="redirect-link" href="mod/outlabel.jsp">OutLabel</a>
+                                            </li>
+                                             <li>
+                                                <a class="redirect-link" href="mod/cartonlabel.jsp">CartonLabel</a>
+                                            </li>
+                                            <li>
+                                                <a class="redirect-link" href="mod/batchUpdate.jsp">大表批次更新</a>
+                                            </li>
+                                        </sec:authorize>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-table fa-fw"></i> Tables_4F<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a class="redirect-link" id="preload_page_4f" href="worktimeM4f.jsp">工時大表</a>
+                                        </li>
+                                        <sec:authorize access="hasAnyRole('ADMIN')">
+                                            <li>
+                                                <a class="redirect-link" href="author/worktime_insert_series.jsp">系列機種批次新增</a>
+                                            </li>
+                                        </sec:authorize>
+                                        <sec:authorize access="hasAnyRole('ADMIN')">
+                                        <li>
+                                            <a class="redirect-link" href="conversion.jsp">工時對照表</a>
+                                        </li>
+                                        <li>
+                                            <a class="redirect-link" href="flowPermutations.jsp">重工途程排列組合表</a>
+                                        </li>
+                                        </sec:authorize>
+                                        <sec:authorize access="hasAnyRole('ADMIN')">
+                                            <li>
+                                                <a class="redirect-link" href="mod/flow.jsp">Flow</a>
+                                            </li>
+                                            <li>
+                                                <a class="redirect-link" href="mod/user.jsp">User</a>
                                             </li>
                                             <li>
                                                 <a class="redirect-link" href="mod/pending.jsp">Pending</a>

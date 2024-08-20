@@ -1,3 +1,9 @@
+<%-- 
+    Document   : worktimeM4f
+    Created on : 2024年8月20日, 上午9:59:54
+    Author     : Justin.Yeh
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -5,9 +11,9 @@
 <sec:authentication var="user" property="principal" />
 <sec:authorize access="hasRole('ADMIN')"  var="isAdmin" />
 <sec:authorize access="hasRole('USER')"  var="isUser" />
-<sec:authorize access="hasRole('OPER')"  var="isOper" />
+<%--<sec:authorize access="hasRole('OPER')"  var="isOper" />
 <sec:authorize access="hasRole('AUTHOR')"  var="isAuthor" />
-<sec:authorize access="hasRole('CONTRIBUTOR')"  var="isContributor" />
+<sec:authorize access="hasRole('CONTRIBUTOR')"  var="isContributor" />--%>
 <sec:authorize access="hasRole('GUEST')"  var="isGuest" />
 <style>
     .permission-hint{
@@ -67,6 +73,7 @@
 <script src="<c:url value="/js/selectBar.js" />"></script>
 
 <script>
+    var isOper = false, isAuthor = false, isContributor = false;
     $(function () {
         //保持Edit完畢的scroll position
         var scrollPosition = 0;
@@ -268,7 +275,7 @@
 
         //Jqgrid initialize.
         grid.jqGrid({
-            url: '<c:url value="/Worktime/read" />',
+            url: '<c:url value="/WorktimeM4f/read" />',
             datatype: 'json',
             mtype: 'GET',
 //            guiStyle: "bootstrap",
@@ -299,7 +306,7 @@
                 {label: 'Warm Boot', name: "warmBoot", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'ASS_T1', name: "assyToT1", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("assyToT1")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T2_PACKING', name: "t2ToPacking", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("t2ToPacking")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'Floor', name: "floor.id", hidden: true, editable: true, edittype: "select", editoptions: {value: selectOptions["floor"]}, width: 100, formatter: selectOptions["floor_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["floor"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>適用封箱機設5F</b>"}},
+                {label: 'Floor', name: "floor.id", hidden: true, edittype: "select", editoptions: {value: selectOptions["floor"]}, width: 100, formatter: selectOptions["floor_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["floor"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>適用封箱機設5F</b>"}},
                 {label: 'Pending', name: "pending.id", edittype: "select", editoptions: {value: selectOptions["pending"], defaultValue: 'N', dataEvents: pending_select_event}, formatter: selectOptions["pending_func"], width: 100, searchrules: number_search_rule, stype: "select", searchoptions: {value: selectOptions["pending"], sopt: ['eq']}},
                 {label: 'Pending TIME', name: "pendingTime", width: 100, searchrules: {required: true}, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
                 {label: 'BI Sampling', name: "biSampling", edittype: "select", editoptions: {value: "N:N;Y:Y", dataEvents: biSample_change_event}, width: 100, searchrules: {required: true}, searchoptions: search_string_options, formoptions: {elmsuffix: "<b class='danger'>抽燒選Y</b>"}},
@@ -388,10 +395,10 @@
                 {label: '標籤變量名稱9(附加屬性質)', name: "labelVariable9Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱10', name: "labelVariable10", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱10(附加屬性質)', name: "labelVariable10Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: 'Test Profile', name: "testProfile", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;M5:M5;601:601;B-B:B-B;EKI9528:EKI9528;EKI9516:EKI9516;EKI9520:EKI9520", defaultValue: "0", dataEvents: testProfile_select_event}},
-                {label: 'ACW Voltage', name: "acwVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
-                {label: 'DCW Voltage', name: "dcwVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
-                {label: 'IR Voltage', name: "irVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
+                {label: 'Test Profile', name: "testProfile", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;M5:M5;601:601;B-B:B-B;EKI9528:EKI9528;EKI9516:EKI9516", defaultValue: "0", dataEvents: testProfile_select_event}},
+                {label: 'ACW Voltage', name: "acwVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {number: true, required: true}},
+                {label: 'DCW Voltage', name: "dcwVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {number: true, required: true}},
+                {label: 'IR Voltage', name: "irVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {number: true, required: true}},
                 {label: 'GND Value', name: "gndValue", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
                 {label: 'LLT Value', name: "lltValue", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
                 {label: '禮盒總重量(含配件)', name: "weight", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
@@ -445,7 +452,7 @@
                 repeatitems: false
             },
             navOptions: {reloadGridOptions: {fromServer: true}},
-            caption: "工時大表3F",
+            caption: "工時大表4F",
             height: 460,
             sortname: 'id', sortorder: 'desc',
             onSelectRow: function (rowid) {
@@ -483,7 +490,7 @@
         grid.jqGrid('navGrid', '#pager',
                 {edit: isUpdatable || isFullTableControllable, add: isFullTableControllable, del: isFullTableControllable, search: true},
                 {
-                    url: '<c:url value="/Worktime/update" />',
+                    url: '<c:url value="/WorktimeM4f/update" />',
                     dataheight: 660,
                     width: 650,
                     closeAfterEdit: closed_after_edit,
@@ -519,7 +526,7 @@
                     bottominfo: bottominfo
                 },
                 {
-                    url: '<c:url value="/Worktime/create" />',
+                    url: '<c:url value="/WorktimeM4f/create" />',
                     dataheight: 660,
                     width: 650,
                     closeAfterAdd: closed_after_add,
@@ -548,7 +555,7 @@
                     bottominfo: bottominfo
                 },
                 {
-                    url: '<c:url value="/Worktime/delete" />',
+                    url: '<c:url value="/WorktimeM4f/delete" />',
                     zIndex: 9999,
                     reloadAfterSubmit: true,
                     afterSubmit: showServerModifyMessage
@@ -1022,3 +1029,4 @@
     <table id="list"></table>
     <div id="pager"></div>
 </div>
+
