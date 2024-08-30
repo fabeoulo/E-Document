@@ -5,6 +5,7 @@ import com.advantech.security.State;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,7 +35,7 @@ import org.springframework.security.core.userdetails.UserDetails;
         uniqueConstraints = @UniqueConstraint(columnNames = "jobnumber")
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = UserM4f.class)
-public class UserM4f implements UserDetails, Comparable<UserM4f>, IUserM9 {
+public class UserM4f implements Serializable, Comparable<UserM4f>, IUserM9 {
 
     private int id;
     private FloorM4f floor;
@@ -64,11 +65,11 @@ public class UserM4f implements UserDetails, Comparable<UserM4f>, IUserM9 {
     @JsonIgnore
     private Set<UserNotificationM4f> userNotifications = new HashSet<UserNotificationM4f>(0);
 
-    private boolean enabled;
-    private boolean accountNonExpired;
-    private boolean credentialsNonExpired;
-    private boolean accountNonLocked;
-    private Collection<? extends GrantedAuthority> authorities;
+//    private boolean enabled;
+//    private boolean accountNonExpired;
+//    private boolean credentialsNonExpired;
+//    private boolean accountNonLocked;
+//    private Collection<? extends GrantedAuthority> authorities;
 
     public UserM4f() {
     }
@@ -136,7 +137,6 @@ public class UserM4f implements UserDetails, Comparable<UserM4f>, IUserM9 {
     }
 
     @Column(name = "[password]", length = 50)
-    @Override
     public String getPassword() {
         return this.password;
     }
@@ -146,7 +146,6 @@ public class UserM4f implements UserDetails, Comparable<UserM4f>, IUserM9 {
     }
 
     @Column(name = "[name]", length = 50)
-    @Override
     public String getUsername() {
         return this.username;
     }
@@ -275,43 +274,43 @@ public class UserM4f implements UserDetails, Comparable<UserM4f>, IUserM9 {
                 + ", email=" + email + ", state=" + state + ", userProfiles=" + userProfiles + "]";
     }
 
-    public void addSecurityInfo(boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        this.enabled = enabled;
-        this.accountNonExpired = accountNonExpired;
-        this.credentialsNonExpired = credentialsNonExpired;
-        this.accountNonLocked = accountNonLocked;
-        this.authorities = authorities;
-    }
-
-    @Transient
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.authorities;
-    }
-
-    @Transient
-    @Override
-    public boolean isAccountNonExpired() {
-        return this.accountNonExpired;
-    }
-
-    @Transient
-    @Override
-    public boolean isAccountNonLocked() {
-        return this.accountNonLocked;
-    }
-
-    @Transient
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return this.credentialsNonExpired;
-    }
-
-    @Transient
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
-    }
+//    public void addSecurityInfo(boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+//        this.enabled = enabled;
+//        this.accountNonExpired = accountNonExpired;
+//        this.credentialsNonExpired = credentialsNonExpired;
+//        this.accountNonLocked = accountNonLocked;
+//        this.authorities = authorities;
+//    }
+//
+//    @Transient
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return this.authorities;
+//    }
+//
+//    @Transient
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return this.accountNonExpired;
+//    }
+//
+//    @Transient
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return this.accountNonLocked;
+//    }
+//
+//    @Transient
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return this.credentialsNonExpired;
+//    }
+//
+//    @Transient
+//    @Override
+//    public boolean isEnabled() {
+//        return this.enabled;
+//    }
 
     @Override
     public int compareTo(UserM4f o) {

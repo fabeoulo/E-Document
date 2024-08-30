@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author Wei.Cheng
+ * @author Justin.Yeh
  */
 @Repository
 public class BusinessGroupM4fDAO extends BasicDAOImpl<Integer, BusinessGroupM4f> {

@@ -397,8 +397,8 @@ public class HibernateTest {
     }
 
 //    @Test
-    @Transactional
-    @Rollback(false)
+//    @Transactional
+//    @Rollback(false)
     public void testWorktime2() throws Exception {
         Session session = sessionFactory.getCurrentSession();
         List<String> models = newArrayList(

@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
  */
-package com.advantech.service;
+package com.advantech.service.db2;
 
 import com.advantech.jqgrid.PageInfo;
+import com.advantech.model.db2.IWorktimeForWebService;
 import com.advantech.model.db2.WorktimeM4f;
-import com.advantech.service.db2.WorktimeM4fService;
 import static com.google.common.collect.Lists.newArrayList;
 import java.util.List;
 import org.junit.After;
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author Wei.Cheng
+ * @author Justin.Yeh
  */
 @WebAppConfiguration
 @ContextConfiguration(locations = {
@@ -297,7 +297,20 @@ public class WorktimeM4fServiceTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-//
+    
+//    @Test
+//    @Transactional
+//    @Rollback(false)
+    public void testInsertByExcelModel() throws Exception {
+        System.out.println("testInsertByExcelModel");
+
+        WorktimeM4f wm4 = new WorktimeM4f();
+        wm4.setModelName("MIC-75G20-10B1");
+        List<WorktimeM4f> l = newArrayList(wm4);
+        assertNotNull(l);
+        instance.saveOrUpdate(l);
+    }
+    
 //    /**
 //     * Test of insertByExcel method, of class WorktimeM4fService.
 //     */

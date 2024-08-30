@@ -125,7 +125,7 @@
         });
 
         setJsonOptions({
-            rootPath: "../json/",
+            rootPath: "<c:url value="/json/" />",
             columnInfo: [
                 {name: "biPower", filename: "biCost.json", jsonHandleFn: getBipowerObj, targetColumn: "biCost"}
             ]
@@ -505,7 +505,6 @@
                         greyout(form);
                     },
                     afterShowForm: function (form) {
-                        modelNameFormat();
                         checkRevision(form);
                         setReasonCodeRelateFieldEvent(form);
                         setBicostRelateFieldEvent(form);
@@ -537,7 +536,6 @@
                         greyout(form);
                     },
                     afterShowForm: function (form) {
-                        modelNameFormat();
                         checkRevision(form);
                         setBicostRelateFieldEvent(form);
                     },

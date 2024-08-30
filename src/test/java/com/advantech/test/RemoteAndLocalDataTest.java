@@ -337,7 +337,7 @@ public class RemoteAndLocalDataTest {
     //*************************************
     private final String regex = "[(\\r\\n|\\n),\" ]+";
 
-    @Test
+//    @Test
     public void testSop() throws Exception {
         List<Map> errors = new ArrayList();
         ExcelGenerator generator = new ExcelGenerator();

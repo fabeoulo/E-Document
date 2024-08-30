@@ -5,7 +5,6 @@
  */
 package com.advantech.webservice.port;
 
-import com.advantech.model.db2.IWorktimeWebService;
 import com.advantech.webservice.Factory;
 import com.advantech.webservice.root.StandardWorkReasonQueryRoot;
 import com.advantech.webservice.unmarshallclass.StandardWorkReason;
@@ -16,6 +15,7 @@ import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import com.advantech.model.db2.IWorktimeForWebService;
 
 /**
  *
@@ -45,7 +45,7 @@ public class StandardWorkReasonQueryPort extends BasicQueryPort {
     }
 
     @Override
-    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
+    public Map<String, String> transformData(IWorktimeForWebService w) throws Exception {
         throw new UnsupportedOperationException();
     }
 

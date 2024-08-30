@@ -36,6 +36,13 @@ public class BusinessGroupM4f implements java.io.Serializable {
     private String workCenter;
     private Set<WorktimeM4f> worktimes = new HashSet<>(0);
 
+    public BusinessGroupM4f() {
+    }
+
+    public BusinessGroupM4f(int id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)

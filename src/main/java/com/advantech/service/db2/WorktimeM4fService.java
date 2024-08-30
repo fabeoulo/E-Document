@@ -10,11 +10,15 @@ import com.advantech.helper.WorktimeM4fValidator;
 import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.db2.BusinessGroupM4f;
 import com.advantech.model.db2.CobotM4f;
+import com.advantech.model.db2.IWorktimeForWebService;
 import com.advantech.model.db2.WorktimeFormulaSettingM4f;
 import com.advantech.model.db2.WorktimeM4f;
 import com.advantech.service.WorktimeUploadMesService;
+import com.google.common.base.Preconditions;
 import static com.google.common.base.Preconditions.*;
 import static com.google.common.collect.Lists.newArrayList;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -23,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.validation.constraints.NotNull;
 import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +48,8 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
     @Autowired
     private WorktimeFormulaSettingM4fDAO worktimeFormulaSettingDao;
 
-    @Autowired
-    private WorktimeUploadMesService uploadMesService;
-
+//    @Autowired
+//    private WorktimeUploadMesService uploadMesService;
     @Autowired
     private WorktimeM4fValidator validator;
 
@@ -141,8 +145,8 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
             WorktimeFormulaSettingM4f setting = w.getWorktimeFormulaSettings().get(0);
             w.setWorktimeFormulaSettings(null);
             dao.insert(w);
-//            setting.setWorktime(w);
-//            worktimeFormulaSettingDao.insert(setting);
+            setting.setWorktime(w);
+            worktimeFormulaSettingDao.insert(setting);
 //            uploadMesService.insert(w);
             flushIfReachFetchSize(i++);
         }
@@ -243,7 +247,7 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
         int i = 1;
         for (WorktimeM4f w : l) {
             initUnfilledFormulaColumn(w);
-//            worktimeFormulaSettingDao.update(w.getWorktimeFormulaSettings().get(0));
+            worktimeFormulaSettingDao.update(w.getWorktimeFormulaSettings().get(0));
             dao.merge(w);
 //            uploadMesService.update(w);
             flushIfReachFetchSize(i++);
@@ -254,6 +258,105 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
     public int mergeWithMesUpload(WorktimeM4f worktime) throws Exception {
         return this.mergeWithMesUpload(newArrayList(worktime));
     }
+
+//    public int saveOrUpdateByExcelModels(List<IWorktimeForWebService> l) throws Exception {
+//        List<WorktimeM4f> wtInDb = this.findAll();
+//        wtInDb.stream().map(w->w.getModelName()).
+//        for (int i = 0; i < l.size(); i++) {
+//            WorktimeM4f w = (WorktimeM4f) l.get(i);
+//            WorktimeM4f existW = this.findByModel(w.getModelName());
+//            if (existW == null) {
+//                w.setWorktimeFormulaSettings(newArrayList(new WorktimeFormulaSettingM4f()));
+//                this.insertWithFormulaSetting(w);
+//            } else {
+//                w.setId(existW.getId());
+//                this.mergeWithMesUpload(w);
+//            }
+//        }
+//        return 1;
+//    }
+//    
+    public int insertAndFormulaSetting(List<WorktimeM4f> l) throws Exception {
+        int i = 0;
+        for (WorktimeM4f w : l) {
+            initUnfilledFormulaColumn(w);
+            WorktimeFormulaSettingM4f setting = w.getWorktimeFormulaSettings().get(0);
+            w.setWorktimeFormulaSettings(null);
+            dao.insert(w);
+            setting.setWorktime(w);
+            worktimeFormulaSettingDao.insert(setting);
+            flushIfReachFetchSize(i++);
+        }
+        return 1;
+    }
+
+    public int insertByMesModels(List<WorktimeM4f> l) throws Exception {
+        l.forEach(w -> {
+            w.setWorktimeFormulaSettings(newArrayList(new WorktimeFormulaSettingM4f(0, 0)));
+        });
+        this.insertAndFormulaSetting(l);
+        return 1;
+    }
+
+    public void setNotNullFieldDefault(WorktimeM4f wt) throws Exception {
+        Class clz = wt.getClass();
+        Method[] methods = clz.getDeclaredMethods(); // includes super class method, i.e. getter may return diff type.
+
+        for (Method method : methods) {
+            if (isGetter(method)) {
+                if (method.isAnnotationPresent(NotNull.class)) {
+
+                    String fieldName = getFieldNameFromGetter(method);
+
+                    Field field = clz.getDeclaredField(fieldName);
+                    Preconditions.checkNotNull(field, "Cannot find field: " + fieldName);
+                    field.setAccessible(true);
+                    if (field.get(wt) == null) {
+                        Object valueToSet = wt.getDefaultByType(method.getReturnType(), fieldName);
+                        Preconditions.checkNotNull(valueToSet, "Fail to set null value for field: " + fieldName);
+                        field.set(wt, valueToSet);
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean isGetter(Method method) {
+        if (method.getName().startsWith("get") && method.getParameterCount() == 0 && !method.getReturnType().equals(void.class)) {
+            return true;
+        } else if (method.getName().startsWith("is") && method.getParameterCount() == 0 && method.getReturnType().equals(boolean.class)) {
+            return true;
+        }
+        return false;
+    }
+
+    private String getFieldNameFromGetter(Method method) {
+        String methodName = method.getName();
+        if (methodName.startsWith("get")) {
+            return Character.toLowerCase(methodName.charAt(3)) + methodName.substring(4);
+        }
+        if (methodName.startsWith("is")) {
+            return Character.toLowerCase(methodName.charAt(2)) + methodName.substring(3);
+        }
+        return null;
+    }
+//    
+//    public int mergeByExcelModels(List<WorktimeM4f> l) throws Exception {
+//        retriveFormulaSetting(l);
+//
+////        //uploadMesService.portParamInit();
+//        int i = 1;
+//        for (WorktimeM4f w : l) {
+//            //Don't need to update formula, but still need to re-calculate the formula field
+//            this.initUnfilledFormulaColumn(w);
+//
+//            dao.merge(w);
+////            uploadMesService.update(w);
+//            flushIfReachFetchSize(i++);
+//        }
+//        return 1;
+//
+//    }
 
     public int insertByExcel(List<WorktimeM4f> l) throws Exception {
         l.forEach(w -> {

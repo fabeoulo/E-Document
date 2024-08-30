@@ -167,12 +167,6 @@
         try to replace with 
         org.springframework.format.support.FormattingConversionServiceFactoryBean
     -->
-
-    <!--    
-        LocalValidatorFactoryBean同時實現javax.validation.Validator以及
-        Spring的org.springframework.validation.Validator
-    -->
-    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
     
     <bean id="conversionService"
           class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
@@ -181,6 +175,7 @@
                 <bean class="com.advantech.converter.UserNotificationConverter"/>
                 <bean class="com.advantech.converter.UserProfileConverter"/>
                 <bean class="com.advantech.converter.CobotConverter"/>
+                <bean class="com.advantech.converter.CobotM4fConverter"/>
             </list>
         </property>
     </bean>
@@ -193,7 +188,13 @@
                 </property>
             </bean>
         </mvc:message-converters>
-    </mvc:annotation-driven>
+    </mvc:annotation-driven>    
+
+    <!--    
+        LocalValidatorFactoryBean同時實現javax.validation.Validator以及
+        Spring的org.springframework.validation.Validator
+    -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
     
     <mvc:resources mapping="/webjars/**" location="/webjars/"/>
     <!--Email setting-->

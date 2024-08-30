@@ -48,10 +48,10 @@ public class UserDAO extends BasicDAOImpl<Integer, User> {
         return i;
     }
 
-    public List<User> findByUnitName(String userTypeName) {
+    public List<User> findByUnitName(String... userTypeName) {
         Criteria criteria = createEntityCriteria();
         criteria.createAlias("unit", "u");
-        criteria.add(Restrictions.eq("u.name", userTypeName));
+        criteria.add(Restrictions.in("u.name", userTypeName));
         criteria.add(Restrictions.eq("state", State.ACTIVE.getState()));
         criteria.addOrder(Order.asc("username"));
         criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);

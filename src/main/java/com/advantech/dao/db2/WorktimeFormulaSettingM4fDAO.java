@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author Wei.Cheng
+ * @author Justin.Yeh
  */
 @Repository
 public class WorktimeFormulaSettingM4fDAO extends BasicDAOImpl<Integer, WorktimeFormulaSettingM4f> {

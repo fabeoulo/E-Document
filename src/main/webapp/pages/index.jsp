@@ -183,7 +183,7 @@
                                     <!-- /.nav-second-level -->
                                 </li>
                                 <li>
-                                    <a href="#"><i class="fa fa-table fa-fw"></i> Tables_3F<span class="fa arrow"></span></a>
+                                    <a href="#"><i class="fa fa-table fa-fw"></i> 3F_Tables<span class="fa arrow"></span></a>
                                     <ul class="nav nav-second-level">
                                         <li>
                                             <a class="redirect-link" id="preload_page" href="worktime.jsp">工時大表</a>
@@ -218,10 +218,10 @@
                                             <li>
                                                 <a class="redirect-link" href="mod/cobot.jsp">Cobot</a>
                                             </li>
-                                             <li>
+                                            <li>
                                                 <a class="redirect-link" href="mod/outlabel.jsp">OutLabel</a>
                                             </li>
-                                             <li>
+                                            <li>
                                                 <a class="redirect-link" href="mod/cartonlabel.jsp">CartonLabel</a>
                                             </li>
                                             <li>
@@ -231,57 +231,7 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="fa fa-table fa-fw"></i> Tables_4F<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-second-level">
-                                        <li>
-                                            <a class="redirect-link" id="preload_page_4f" href="worktimeM4f.jsp">工時大表</a>
-                                        </li>
-                                        <sec:authorize access="hasAnyRole('ADMIN')">
-                                            <li>
-                                                <a class="redirect-link" href="author/worktime_insert_series.jsp">系列機種批次新增</a>
-                                            </li>
-                                        </sec:authorize>
-                                        <sec:authorize access="hasAnyRole('ADMIN')">
-                                        <li>
-                                            <a class="redirect-link" href="conversion.jsp">工時對照表</a>
-                                        </li>
-                                        <li>
-                                            <a class="redirect-link" href="flowPermutations.jsp">重工途程排列組合表</a>
-                                        </li>
-                                        </sec:authorize>
-                                        <sec:authorize access="hasAnyRole('ADMIN')">
-                                            <li>
-                                                <a class="redirect-link" href="mod/flow.jsp">Flow</a>
-                                            </li>
-                                            <li>
-                                                <a class="redirect-link" href="mod/user.jsp">User</a>
-                                            </li>
-                                            <li>
-                                                <a class="redirect-link" href="mod/pending.jsp">Pending</a>
-                                            </li>
-                                            <li>
-                                                <a class="redirect-link" href="mod/preAssy.jsp">PreAssy</a>
-                                            </li>
-                                            <li>
-                                                <a class="redirect-link" href="mod/type.jsp">Type</a>
-                                            </li>
-                                            <li>
-                                                <a class="redirect-link" href="mod/cobot.jsp">Cobot</a>
-                                            </li>
-                                             <li>
-                                                <a class="redirect-link" href="mod/outlabel.jsp">OutLabel</a>
-                                            </li>
-                                             <li>
-                                                <a class="redirect-link" href="mod/cartonlabel.jsp">CartonLabel</a>
-                                            </li>
-                                            <li>
-                                                <a class="redirect-link" href="mod/batchUpdate.jsp">大表批次更新</a>
-                                            </li>
-                                        </sec:authorize>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
+                                    <a href="#"><i class="fa fa-wrench fa-fw"></i> 3F_UI Elements<span class="fa arrow"></span></a>
                                     <ul class="nav nav-second-level"> 
                                         <li>
                                             <a class="redirect-link" href="audit.jsp">資料版本查詢</a>
@@ -294,6 +244,9 @@
                                                 <a class="redirect-link" href="admin/worktime_permission.jsp">欄位權限設定</a>
                                             </li>
                                             <li>
+                                                <a class="redirect-link" href="admin/worktime_permission_m4f.jsp">欄位權限設定4f</a>
+                                            </li>
+                                            <li>
                                                 <a class="redirect-link" href="admin/wowface.jsp">Not exist page</a>
                                             </li>
                                             <li>
@@ -303,6 +256,87 @@
                                     </ul>
                                     <!-- /.nav-second-level -->
                                 </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-table fa-fw"></i> 4F_Tables<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a class="redirect-link" id="preload_page_4f" href="worktimeM4f.jsp">工時大表</a>
+                                        </li>
+                                        <sec:authorize access="hasAnyRole('ADMIN', 'OPER_M4F', 'AUTHOR')">
+                                            <sec:authorize access="hasAnyRole('ADMIN')">
+                                                <li>
+                                                    <a class="redirect-link" href="author/worktime_insert_series.jsp">系列機種批次新增</a>
+                                                </li>
+                                            </sec:authorize>
+                                        </sec:authorize>
+                                        <sec:authorize access="hasAnyRole('ADMIN', 'OPER_M4F')">
+                                            <li>
+                                                <a class="redirect-link" href="mod_m4f/flow.jsp">Flow</a>
+                                            </li>
+                                            <li>
+                                                <a class="redirect-link" href="mod_m4f/preAssy.jsp">PreAssy</a>
+                                            </li>
+                                            <sec:authorize access="hasAnyRole('ADMIN')">
+                                                <li>
+                                                    <a class="redirect-link" href="conversion.jsp">工時對照表</a>
+                                                </li>
+                                                <li>
+                                                    <a class="redirect-link" href="flowPermutations.jsp">重工途程排列組合表</a>
+                                                </li>
+                                                <li>
+                                                    <a class="redirect-link" href="mod_m4f/user.jsp">User</a>
+                                                </li>
+                                                <li>
+                                                    <a class="redirect-link" href="mod_m4f/pending.jsp">Pending</a>
+                                                </li>
+                                                <li>
+                                                    <a class="redirect-link" href="mod_m4f/type.jsp">Type</a>
+                                                </li>
+                                                <li>
+                                                    <a class="redirect-link" href="mod_m4f/cobot.jsp">Cobot</a>
+                                                </li>
+                                                <li>
+                                                    <a class="redirect-link" href="mod_m4f/outlabel.jsp">OutLabel</a>
+                                                </li>
+                                                <li>
+                                                    <a class="redirect-link" href="mod_m4f/cartonlabel.jsp">CartonLabel</a>
+                                                </li>
+                                                <li>
+                                                    <a class="redirect-link" href="mod_m4f/batchUpdate.jsp">大表批次更新</a>
+                                                </li>
+                                            </sec:authorize>
+                                        </sec:authorize>
+                                    </ul>
+                                </li>
+
+                                <sec:authorize access="hasRole('ADMIN')">
+                                    <li>
+                                        <a href="#"><i class="fa fa-wrench fa-fw"></i> 4F_UI Elements<span class="fa arrow"></span></a>
+                                        <ul class="nav nav-second-level"> 
+                                            <li>
+                                                <a class="redirect-link" href="audit_m4f.jsp">資料版本查詢</a>
+                                            </li>
+                                            <sec:authorize access="hasRole('ADMIN')">
+                                                <li>
+                                                    <a class="redirect-link" href="admin/fileupload.jsp">Excel文件上傳</a>
+                                                </li>
+                                                <li>
+                                                    <a class="redirect-link" href="admin/worktime_permission.jsp">欄位權限設定</a>
+                                                </li>
+                                                <li>
+                                                    <a class="redirect-link" href="admin/worktime_permission_m4f.jsp">欄位權限設定4f</a>
+                                                </li>
+                                                <li>
+                                                    <a class="redirect-link" href="admin/wowface.jsp">Not exist page</a>
+                                                </li>
+                                                <li>
+                                                    <a href="test/test.jsp" onclick="">測試區</a>
+                                                </li>
+                                            </sec:authorize>
+                                        </ul>
+                                        <!-- /.nav-second-level -->
+                                    </li>
+                                </sec:authorize>
                             </ul>
                         </div>
                         <!-- /.sidebar-collapse -->

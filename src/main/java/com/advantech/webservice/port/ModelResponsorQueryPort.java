@@ -6,7 +6,6 @@
 package com.advantech.webservice.port;
 
 import com.advantech.model.Worktime;
-import com.advantech.model.db2.IWorktimeWebService;
 import com.advantech.webservice.unmarshallclass.ModelResponsor;
 import com.advantech.webservice.root.ModelResponsorQueryRoot;
 import com.advantech.webservice.unmarshallclass.ModelResponsors;
@@ -17,6 +16,7 @@ import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import com.advantech.model.db2.IWorktimeForWebService;
 
 /**
  *
@@ -42,7 +42,7 @@ public class ModelResponsorQueryPort extends BasicQueryPort {
     }
 
     @Override // OK
-    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
+    public Map<String, String> transformData(IWorktimeForWebService w) throws Exception {
         Map<String, String> xmlResults = new HashMap();
 
         ModelResponsorQueryRoot root = new ModelResponsorQueryRoot();

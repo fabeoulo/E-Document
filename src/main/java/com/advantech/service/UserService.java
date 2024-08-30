@@ -71,7 +71,7 @@ public class UserService extends BasicServiceImpl<Integer, User> {
         return l;
     }
 
-    public List<User> findByUnitName(String unitName) {
+    public List<User> findByUnitName(String... unitName) {
         return dao.findByUnitName(unitName);
     }
 

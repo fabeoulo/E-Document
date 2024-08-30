@@ -15,6 +15,7 @@ import com.advantech.service.UserService;
 import com.advantech.service.WorktimeService;
 import com.advantech.webservice.port.ModelResponsorUploadPort;
 import com.advantech.webservice.port.SopUploadPort;
+import static com.google.common.collect.Lists.newArrayList;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileInputStream;
@@ -104,6 +105,36 @@ public class ExcelTest {
         }
     }
 
+//    @Test
+    public static List<String> getExcelModels() {
+        List<String> modelNames = newArrayList();
+
+        String syncFilePath = "C:\\Users\\Justin.yeh\\Downloads\\modelNames.xls";
+        try ( InputStream is = new FileInputStream(new File(syncFilePath))) {
+
+            Workbook workbook = WorkbookFactory.create(is);
+
+            for (int sheetPage = 0; sheetPage <= 0; sheetPage++) {
+                Sheet sheet = workbook.getSheetAt(sheetPage);
+                for (int i = 1, maxNumberfRows = sheet.getPhysicalNumberOfRows(); i < maxNumberfRows; i++) {
+                    Row row = sheet.getRow(i); // 取得第 i Row
+                    if (row != null) {
+                        //Because cell_A will auto convert to number if modelName only contains numbers.
+                        //Search will cause exception when not add convert lines
+                        Cell model_cell = CellUtil.getCell(row, CellReference.convertColStringToIndex("A"));
+                        model_cell.setCellType(CellType.STRING);
+
+                        String modelName = ((String) getCellValue(row, "A")).trim();
+                        modelNames.add(modelName);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            HibernateObjectPrinter.print(e.getMessage());
+        }
+        return modelNames;
+    }
+
     @Autowired
     private WorktimeDAO dao;
 
@@ -142,7 +173,7 @@ public class ExcelTest {
                         }
 
                         //Insert cobots setting
-                        Set<Cobot> cobots = w.getCobots();                        
+                        Set<Cobot> cobots = w.getCobots();
                         cobots.add(cobot);
                         w.setCobots(cobots);
                         dao.merge(w);
@@ -209,7 +240,7 @@ public class ExcelTest {
         }
     }
 
-    private Object getCellValue(Row row, String letter) {
+    private static Object getCellValue(Row row, String letter) {
         Cell cell = CellUtil.getCell(row, CellReference.convertColStringToIndex(letter));
         CellType cellType = cell.getCellType();
         if (null == cellType) {

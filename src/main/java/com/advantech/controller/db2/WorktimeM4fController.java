@@ -43,8 +43,8 @@ public class WorktimeM4fController extends CrudController<WorktimeM4f> {
     @Autowired
     private WorktimeM4fService worktimeService;
 
-    @Autowired
-    private WorktimeMailManager worktimeMailManager;
+//    @Autowired
+//    private WorktimeMailManager worktimeMailManager;
 
     @Autowired
     private WorktimeM4fValidator validator;
@@ -72,13 +72,13 @@ public class WorktimeM4fController extends CrudController<WorktimeM4f> {
 
         resetNullableColumn(worktime);
 
-//        modifyMessage = worktimeService.insertWithFormulaSetting(worktime) == 1 ? this.SUCCESS_MESSAGE : FAIL_MESSAGE;
+        modifyMessage = worktimeService.insertWithFormulaSetting(worktime) == 1 ? this.SUCCESS_MESSAGE : FAIL_MESSAGE;
 //        if (SUCCESS_MESSAGE.equals(modifyMessage)) {
 ////            worktimeMailManager.notifyUser(newArrayList(worktime), ADD);
 //        }
 //
-//        return serverResponse(modifyMessage);
-        return serverResponse(this.SUCCESS_MESSAGE);
+        return serverResponse(modifyMessage);
+//        return serverResponse(this.SUCCESS_MESSAGE);
     }
 
     @RequestMapping(value = "createSeries", method = {RequestMethod.POST})
@@ -90,12 +90,12 @@ public class WorktimeM4fController extends CrudController<WorktimeM4f> {
         checkArgument(baseModelName != null && !"".equals(baseModelName), "BaseModelName illegal");
         checkArgument(seriesModelNames != null && seriesModelNames.length != 0, "SeriesModelNames illegal");
 
-//        String modifyMessage;
-//
-//        List<String> l = Arrays.stream(seriesModelNames).map(s -> {
-//            return removeModelNameExtraSpaceCharacter(s);
-//        }).collect(Collectors.toList());
-//
+        String modifyMessage;
+
+        List<String> l = Arrays.stream(seriesModelNames).map(s -> {
+            return removeModelNameExtraSpaceCharacter(s);
+        }).collect(Collectors.toList());
+
 //        modifyMessage = worktimeService.insertSeriesWithMesUpload(baseModelName, l) == 1 ? this.SUCCESS_MESSAGE : FAIL_MESSAGE;
 //        if (SUCCESS_MESSAGE.equals(modifyMessage)) {
 //            worktimeMailManager.notifyUser2(l, ADD);
@@ -122,30 +122,26 @@ public class WorktimeM4fController extends CrudController<WorktimeM4f> {
 
         //Check reasonCode user input is valid
         validator.checkReasonCode(worktime);
-//
-//        resetEmptyCustomLabel(worktime);
-//        
-//        resetNullableColumn(worktime);
-//        
-//
-//        modifyMessage = worktimeService.mergeWithMesUpload(worktime) == 1 ? this.SUCCESS_MESSAGE : FAIL_MESSAGE;
-//
-//        return serverResponse(modifyMessage);
 
-        return serverResponse(this.SUCCESS_MESSAGE);
+        resetEmptyCustomLabel(worktime);
+        
+        resetNullableColumn(worktime);
+        
+
+        modifyMessage = worktimeService.mergeWithMesUpload(worktime) == 1 ? this.SUCCESS_MESSAGE : FAIL_MESSAGE;
+
+        return serverResponse(modifyMessage);
     }
 
     @RequestMapping(value = DELETE_URL, method = {RequestMethod.POST})
     @Override
     protected ResponseEntity delete(int id) throws Exception {
-//        Worktime w = worktimeService.findByPrimaryKey(id);
-//        String modifyMessage = worktimeService.deleteWithMesUpload(id) == 1 ? this.SUCCESS_MESSAGE : this.FAIL_MESSAGE;
+//        WorktimeM4f w = worktimeService.findByPrimaryKey(id);
+        String modifyMessage = worktimeService.deleteWithMesUpload(id) == 1 ? this.SUCCESS_MESSAGE : this.FAIL_MESSAGE;
 //        if (SUCCESS_MESSAGE.equals(modifyMessage)) {
 //            worktimeMailManager.notifyUser(newArrayList(w), DELETE);
 //        }
-//        return serverResponse(modifyMessage);
-
-        return serverResponse(this.SUCCESS_MESSAGE);
+        return serverResponse(modifyMessage);
     }
 
     //編輯Cobots用

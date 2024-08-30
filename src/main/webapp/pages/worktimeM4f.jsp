@@ -14,6 +14,9 @@
 <%--<sec:authorize access="hasRole('OPER')"  var="isOper" />
 <sec:authorize access="hasRole('AUTHOR')"  var="isAuthor" />
 <sec:authorize access="hasRole('CONTRIBUTOR')"  var="isContributor" />--%>
+<sec:authorize access="hasRole('OPER_M4F')"  var="isOperM4f" />
+<sec:authorize access="hasRole('AUTHOR_M4F')"  var="isAuthorM4f" />
+<sec:authorize access="hasRole('CONTRIBUTOR_M4F')"  var="isContributorM4f" />
 <sec:authorize access="hasRole('GUEST')"  var="isGuest" />
 <style>
     .permission-hint{
@@ -56,7 +59,7 @@
                               supported by Chrome and Opera */
     }
 </style>
-<link href="<c:url value="/css/attribute-style.css" />" rel="stylesheet">
+<link href="<c:url value="/css/m4f/attribute-style.css" />" rel="stylesheet">
 <link href="<c:url value="/css/Input-Style.css" />" rel="stylesheet">
 
 <script src="<c:url value="/js/urlParamGetter.js" />"></script>
@@ -64,9 +67,9 @@
 <script src="<c:url value="/js/jqgrid-custom-setting.js" />"></script>
 <script src="<c:url value="/webjars/free-jqgrid/4.14.1/plugins/jquery.jqgrid.showhidecolumnmenu.js" />"></script>
 <script src="<c:url value="/js/jquery.blockUI.js" />"></script>
-<script src="<c:url value="/js/worktime-setting/column-selector-autofill.js" />"></script>
-<script src="<c:url value="/js/worktime-setting/column-setting.js" />"></script>
-<script src="<c:url value="/js/worktime-setting/column-validator.js" />"></script>
+<script src="<c:url value="/js/worktime-setting-4f/column-selector-autofill-4f.js" />"></script>
+<script src="<c:url value="/js/worktime-setting-4f/column-setting-4f.js" />"></script>
+<script src="<c:url value="/js/worktime-setting-4f/column-validator-4f.js" />"></script>
 <script src="<c:url value="/webjars/github-com-johnculviner-jquery-fileDownload/1.4.6/src/Scripts/jquery.fileDownload.js" />"></script>
 <script src="<c:url value="/js/worktime-setting/column-custom-callback.js" />"></script>
 <script src="<c:url value="/js/jquery.multi-select.js" />"></script>
@@ -81,14 +84,14 @@
         var grid = $("#list");
         //依照單位分辨可編輯欄位和不可編輯欄位
         var unitName = '${user.unit.name}';
-        var modifyColumns = ${isAdmin || isAuthor || isContributor || isOper} ? getColumn() : [];
+        var modifyColumns = ${isAdmin || isAuthor || isContributor || isOper || isOperM4f} ? getColumn() : [];
         var columnEditableInsetting = modifyColumns.length > 0;
 
         //User who can only update the worktime
-        var isUpdatable = ${isAdmin || isAuthor || isContributor || isOper} && columnEditableInsetting;
+        var isUpdatable = ${isAdmin || isAuthor || isContributor || isOper|| isOperM4f} && columnEditableInsetting;
 
         //User who can fully CRUD the worktime.
-        var isFullTableControllable = ${isAdmin || isOper || isAuthor} && columnEditableInsetting;
+        var isFullTableControllable = ${isAdmin || isOper || isAuthor|| isOperM4f} && columnEditableInsetting;
 
         var editableColumns, readonlyColumns;
 
@@ -109,7 +112,7 @@
         //You can get the floor select options and it's formatter function
         //ex: floor selector -> floor and floor_func
 
-        setSelectOptions({
+        setSelectOptionsM4f({
             rootUrl: "<c:url value="/" />",
             columnInfo: [
                 {name: "businessGroup", isNullable: false, initFunc: businessGroupInit},
@@ -132,7 +135,7 @@
         });
 
         setJsonOptions({
-            rootPath: "../json/",
+            rootPath: "<c:url value="/json/" />",
             columnInfo: [
                 {name: "biPower", filename: "biCost.json", jsonHandleFn: getBipowerObj, targetColumn: "biCost"}
             ]
@@ -224,7 +227,7 @@
             var biSamplingCheckResult = checkIfBiSampling(postdata);
             checkResult = checkResult.concat(biSamplingCheckResult);
 
-            var macFieldCheckResult = checkMacFieldIsValid(postdata);
+            var macFieldCheckResult = checkMacFieldIsValidM4f(postdata);
             checkResult = checkResult.concat(macFieldCheckResult);
 
             return checkResult;
@@ -241,7 +244,7 @@
             {
                 type: 'change',
                 fn: function (e) {
-                    checkBurnIn = $(this).val() == "N";
+                    checkBurnInM4f = $(this).val() == "N";
                 }
             }
         ];
@@ -284,10 +287,10 @@
                 {label: 'id', name: "id", width: 60, frozen: true, hidden: false, key: true, search: true, searchrules: number_search_rule, searchoptions: search_decimal_options, editable: true, editrules: {edithidden: true}, editoptions: {readonly: 'readonly', disabled: true, defaultValue: "0"}},
                 {label: 'Model', name: "modelName", frozen: true, editable: true, searchrules: {required: true}, searchoptions: search_string_options, editrules: {required: true}, editoptions: {dataEvents: upperCase_event}, formoptions: required_form_options},
                 {label: 'TYPE', name: "type.id", edittype: "select", editoptions: {value: selectOptions["type"]}, formatter: selectOptions["type_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["type"], sopt: ['eq']}},
-                {label: 'BU', name: "businessGroup.id", edittype: "select", editoptions: {value: selectOptions["businessGroup"], dataInit: selectOptions["businessGroup_init"], dataEvents: businessGroup_select_event, defaultValue: "EDIS"}, formatter: selectOptions["businessGroup_func"], width: 100, formoptions: {elmsuffix: "<b class='danger'>新機種請確認BU</b>"}, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["businessGroup"], sopt: ['eq'], dataInit: selectOptions["businessGroup_sinit"]}},
+                {label: 'BU', name: "businessGroup.id", edittype: "select", editoptions: {value: selectOptions["businessGroup"], dataInit: selectOptions["businessGroup_init"], dataEvents: businessGroup_select_event_m4f, defaultValue: "EDIS"}, formatter: selectOptions["businessGroup_func"], width: 100, formoptions: {elmsuffix: "<b class='danger'>新機種請確認BU</b>"}, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["businessGroup"], sopt: ['eq'], dataInit: selectOptions["businessGroup_sinit"]}},
                 {label: 'PRE-ASSY', name: "preAssy.id", edittype: "select", editoptions: {value: selectOptions["preAssy"]}, formatter: selectOptions["preAssy_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["preAssy"], sopt: ['eq']}},
-                {label: 'BAB_FLOW', name: "flowByBabFlowId.id", edittype: "select", editoptions: {value: selectOptions["bab_flow"], dataEvents: babFlow_select_event, defaultValue: "111"}, formatter: selectOptions["bab_flow_func"], cellattr: hideEmptyBabFlow, width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["bab_flow"], sopt: ['eq']}},
-                {label: 'TEST_FLOW', name: "flowByTestFlowId.id", edittype: "select", editoptions: {value: selectOptions["test_flow"], dataEvents: testFlow_select_event}, formatter: selectOptions["test_flow_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["test_flow"], sopt: ['eq']}},
+                {label: 'BAB_FLOW', name: "flowByBabFlowId.id", edittype: "select", editoptions: {value: selectOptions["bab_flow"], dataEvents: babFlow_select_event_m4f, defaultValue: "111"}, formatter: selectOptions["bab_flow_func"], cellattr: hideEmptyBabFlow, width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["bab_flow"], sopt: ['eq']}},
+                {label: 'TEST_FLOW', name: "flowByTestFlowId.id", edittype: "select", editoptions: {value: selectOptions["test_flow"], dataEvents: testFlow_select_event_m4f}, formatter: selectOptions["test_flow_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["test_flow"], sopt: ['eq']}},
                 {label: 'PACKING_FLOW', name: "flowByPackingFlowId.id", edittype: "select", editoptions: {value: selectOptions["pkg_flow"]}, formatter: selectOptions["pkg_flow_func"], width: 140, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["pkg_flow"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>確認秤重途程</b>"}},
                 {label: 'CleanPanel', name: "cleanPanel", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Total Module', name: "totalModule", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
@@ -306,11 +309,11 @@
                 {label: 'Warm Boot', name: "warmBoot", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'ASS_T1', name: "assyToT1", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("assyToT1")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T2_PACKING', name: "t2ToPacking", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("t2ToPacking")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
-                {label: 'Floor', name: "floor.id", hidden: true, edittype: "select", editoptions: {value: selectOptions["floor"]}, width: 100, formatter: selectOptions["floor_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["floor"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>適用封箱機設5F</b>"}},
-                {label: 'Pending', name: "pending.id", edittype: "select", editoptions: {value: selectOptions["pending"], defaultValue: 'N', dataEvents: pending_select_event}, formatter: selectOptions["pending_func"], width: 100, searchrules: number_search_rule, stype: "select", searchoptions: {value: selectOptions["pending"], sopt: ['eq']}},
+                {label: 'Floor', name: "floor.id", hidden: true, editable: true, edittype: "select", editoptions: {value: selectOptions["floor"]}, width: 100, formatter: selectOptions["floor_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["floor"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>適用封箱機設5F</b>"}},
+                {label: 'Pending', name: "pending.id", edittype: "select", editoptions: {value: selectOptions["pending"], defaultValue: 'N', dataEvents: pending_select_event_m4f}, formatter: selectOptions["pending_func"], width: 100, searchrules: number_search_rule, stype: "select", searchoptions: {value: selectOptions["pending"], sopt: ['eq']}},
                 {label: 'Pending TIME', name: "pendingTime", width: 100, searchrules: {required: true}, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
                 {label: 'BI Sampling', name: "biSampling", edittype: "select", editoptions: {value: "N:N;Y:Y", dataEvents: biSample_change_event}, width: 100, searchrules: {required: true}, searchoptions: search_string_options, formoptions: {elmsuffix: "<b class='danger'>抽燒選Y</b>"}},
-                {label: 'BurnIn', name: "burnIn", edittype: "select", editoptions: {value: "N:N;BI:BI;RI:RI", dataEvents: burnIn_select_event}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
+                {label: 'BurnIn', name: "burnIn", edittype: "select", editoptions: {value: "N:N;BI:BI;RI:RI", dataEvents: burnIn_select_event_m4f}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: 'BI_Power (W)', name: "biPower", edittype: "select", editoptions: {value: selectOptions["biPower"]}, width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["biPower"], sopt: ['eq']}},
                 {label: 'B/I Time', name: "biTime", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
                 {label: 'BI_Temperature', name: "biTemperature", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
@@ -351,7 +354,7 @@
                 {label: 'FCC', name: "fcc", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
                 {label: 'EAC', name: "eac", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
                 {label: 'KC', name: "kc", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
-                {label: 'N合1集合箱', name: "nsInOneCollectionBox", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0', dataEvents: nsInOneCollectionBox_change_event}},
+                {label: 'N合1集合箱', name: "nsInOneCollectionBox", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0', dataEvents: nsInOneCollectionBox_change_event_m4f}},
                 {label: 'SN是否等於SSN', name: "partNoAttributeMaintain", edittype: "select", editoptions: {value: "N:N; :empty", defaultValue: ' '}, width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: '標籤信息是否啟用料號屬性定義', name: "labelYN", edittype: "select", editoptions: {value: "Y:Y;N:N", defaultValue: 'Y'}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: 'OuterLable標準套版選單', name: "labelOuterId.id", width: 100, edittype: "select", editoptions: {value: selectOptions["outlabel"], dataEvents: labelOuter_change_event}, formatter: selectOptions["outlabel_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["outlabel"], sopt: ['eq']}},
@@ -395,12 +398,12 @@
                 {label: '標籤變量名稱9(附加屬性質)', name: "labelVariable9Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱10', name: "labelVariable10", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱10(附加屬性質)', name: "labelVariable10Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: 'Test Profile', name: "testProfile", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;M5:M5;601:601;B-B:B-B;EKI9528:EKI9528;EKI9516:EKI9516", defaultValue: "0", dataEvents: testProfile_select_event}},
-                {label: 'ACW Voltage', name: "acwVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {number: true, required: true}},
-                {label: 'DCW Voltage', name: "dcwVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {number: true, required: true}},
-                {label: 'IR Voltage', name: "irVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {number: true, required: true}},
-                {label: 'GND Value', name: "gndValue", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
-                {label: 'LLT Value', name: "lltValue", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
+                {label: 'Test Profile', name: "testProfile", width: 100, hidden: true, editable: true, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;M5:M5;601:601;B-B:B-B;EKI9528:EKI9528;EKI9516:EKI9516;EKI9520:EKI9520", defaultValue: "0", dataEvents: testProfile_select_event_m4f}},
+                {label: 'ACW Voltage', name: "acwVoltage", width: 100, hidden: true, editable: true, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: false}},
+                {label: 'DCW Voltage', name: "dcwVoltage", width: 100, hidden: true, editable: true, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: false}},
+                {label: 'IR Voltage', name: "irVoltage", width: 100, hidden: true, editable: true, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: false}},
+                {label: 'GND Value', name: "gndValue", width: 100, hidden: true, editable: true, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: false}},
+                {label: 'LLT Value', name: "lltValue", width: 100, hidden: true, editable: true, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: false}},
                 {label: '禮盒總重量(含配件)', name: "weight", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: '禮盒總重量(附加屬性質)', name: "weightAff", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0.05'}},
                 {label: '整箱總重量誤差值', name: "tolerance", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0.05'}},
@@ -463,7 +466,7 @@
                 if (isUpdatable || isFullTableControllable) {
                     getGridRevision();
                 }
-                registerEndsWithIfIe();
+                registerEndsWithIfIeM4f();
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert("Ajax Error occurred\n"
@@ -512,7 +515,6 @@
                         greyout(form);
                     },
                     afterShowForm: function (form) {
-                        modelNameFormat();
                         checkRevision(form);
                         setReasonCodeRelateFieldEvent(form);
                         setBicostRelateFieldEvent(form);
@@ -544,7 +546,6 @@
                         greyout(form);
                     },
                     afterShowForm: function (form) {
-                        modelNameFormat();
                         checkRevision(form);
                         setBicostRelateFieldEvent(form);
                     },
@@ -586,7 +587,7 @@
             });
         }
 
-        if (${!isGuest}) {
+        if (false && ${!isGuest}) {
             grid.navButtonAdd('#pager', {
                 caption: "Export to Excel",
                 buttonicon: "ui-icon-disk",
@@ -647,7 +648,7 @@
             var result;
             $.ajax({
                 type: "GET",
-                url: "<c:url value="/WorktimeColumnGroup/byUnit" />",
+                url: "<c:url value="/WorktimeColumnGroupM4f/byUnit" />",
                 dataType: "json",
                 async: false,
                 success: function (response) {
@@ -675,7 +676,7 @@
 
             //Remove not change column
             columnNames = $.grep(columnNames, function (value) {
-                return $.inArray(value, do_not_change_columns) == -1;
+                return $.inArray(value, do_not_change_columns_m4f) == -1;
             });
 
             //Separate readyonly column and editable column
@@ -780,8 +781,8 @@
 
         function getFormulaCheckboxField() {
             var formulaCheckboxField = {};
-            for (var i = 0; i < formulaColumn.length; i++) {
-                var columnName = formulaColumn[i];
+            for (var i = 0; i < formulaColumnM4f.length; i++) {
+                var columnName = formulaColumnM4f[i];
                 var fieldName = "worktimeFormulaSettings[0]." + columnName;
                 formulaCheckboxField[fieldName] = $("#f_" + columnName).is(":checked") ? 1 : 0;
             }
@@ -799,12 +800,12 @@
             }
             $.ajax({
                 type: "GET",
-                url: "<c:url value="/WorktimeFormulaSetting/find/" />" + rowId,
+                url: "<c:url value="/WorktimeFormulaSettingM4f/find/" />" + rowId,
                 dataType: "json",
                 success: function (response) {
                     var setting = response;
-                    for (var i = 0; i < formulaColumn.length; i++) {
-                        var columnName = formulaColumn[i];
+                    for (var i = 0; i < formulaColumnM4f.length; i++) {
+                        var columnName = formulaColumnM4f[i];
                         $("#f_" + columnName).prop("checked", setting[columnName] == 1);
                     }
                     selected_row_formula_id = setting.id;
@@ -821,7 +822,7 @@
             var rowId = getSelectedRowId();
             $.ajax({
                 type: "GET",
-                url: "<c:url value="/Audit/findLastRevision" />",
+                url: "<c:url value="/AuditM4f/findLastRevision" />",
                 data: {
                     id: rowId
                 },
@@ -858,10 +859,10 @@
                     babFlowName = babOptions.get(parseInt(postdata["flowByBabFlowId.id"])),
                     testFlowName = testOptions.get(parseInt(postdata["flowByTestFlowId.id"])),
                     pkgFlowName = pkgOptions.get(parseInt(postdata["flowByPackingFlowId.id"]));
-            var preAssyCheckLogic = flow_check_logic["PRE-ASSY"],
-                    babCheckLogic = flow_check_logic.BAB,
-                    testCheckLogic = flow_check_logic.TEST,
-                    pkgCheckLogic = flow_check_logic.PKG;
+            var preAssyCheckLogic = flow_check_logic_m4f["PRE-ASSY"],
+                    babCheckLogic = flow_check_logic_m4f.BAB,
+                    testCheckLogic = flow_check_logic_m4f.TEST,
+                    pkgCheckLogic = flow_check_logic_m4f.PKG;
             var preAssyCheckMessage = flowCheck(preAssyCheckLogic, preAssyName, postdata);
             var babCheckMessage = flowCheck(babCheckLogic, babFlowName, postdata);
             var testCheckMessage = flowCheck(testCheckLogic, testFlowName, postdata);
@@ -869,7 +870,7 @@
 
             var firstCheckResult = babCheckMessage.concat(testCheckMessage).concat(pkgCheckMessage).concat(preAssyCheckMessage);
 
-            var secondCheckResult = fieldCheck(postdata, preAssyName, babFlowName, testFlowName, pkgFlowName);
+            var secondCheckResult = fieldCheckM4f(postdata, preAssyName, babFlowName, testFlowName, pkgFlowName);
 
             var totalAlert = firstCheckResult.concat(secondCheckResult);
 
@@ -881,15 +882,15 @@
                 modelName: postdata["modelName"],
                 "businessGroup\\.id": selectOptions["businessGroup_options"].get(parseInt(postdata["businessGroup.id"]))
             };
-            var modelCheckResult = modelNameCheckFieldIsValid(data);
-            var otherFieldCheckResult = checkModelNameIsValid(data);
+            var modelCheckResult = modelNameCheckFieldIsValidM4f(data);
+            var otherFieldCheckResult = checkModelNameIsValidM4f(data);
             return modelCheckResult.concat(otherFieldCheckResult);
         }
 
         function checkIfBiSampling(data) {
             var babOptions = selectOptions["bab_flow_options"];
             var babFlowName = babOptions.get(parseInt(data["flowByBabFlowId.id"]));
-            var biSamplingCheckResult = checkWhenBiSampling(data, babFlowName);
+            var biSamplingCheckResult = checkWhenBiSamplingM4f(data, babFlowName);
             return biSamplingCheckResult;
         }
 
@@ -913,11 +914,12 @@
                     "<div class='progress_inner__step tab-option'  id='tab1'><label for='step-2'>工時管理</label></div>" +
                     "<div class='progress_inner__step tab-option'  id='tab2'><label for='step-3'>客製化標籤</label></div>" +
                     "<div class='progress_inner__step tab-option'  id='tab3'><label for='step-4'>MAC設定</label></div>" +
-                    "<div class='progress_inner__step tab-option'  id='tab4'><label for='step-5'>HI-POT設定</label></div>" +
-                    "<div class='progress_inner__step tab-option'  id='tab5'><label for='step-6'>測試設定</label></div>" +
+                    "<div class='progress_inner__step tab-option'  id='tab4'><label for='step-5'>測試設定</label></div>" + //HI-POT設定
+//                    "<div class='progress_inner__step tab-option'  id='tab5'><label for='step-6'>測試設定</label></div>" +
                     "<input checked='checked' id='step-1' name='step' type='radio'><input id='step-2' name='step' type='radio'>" +
                     "<input id='step-3' name='step' type='radio'><input id='step-4' name='step' type='radio'>" +
-                    "<input id='step-5' name='step' type='radio'><input id='step-6' name='step' type='radio'>" +
+                    "<input id='step-5' name='step' type='radio'>" +
+//                    "<input id='step-6' name='step' type='radio'>" +
                     "<div class='progress_inner__bar'></div><div class='progress_inner__bar--set'></div></div></div>")
                     .prependTo("#FrmGrid_list");
             var listTab = ["#tab0", "#tab1", "#tab2", "#tab3", "#tab4", "#tab5"];
@@ -940,7 +942,7 @@
             {
                 var r = model[i];
                 var id = "tr_" + r?.name;
-                var type = getClassification_Type(id);
+                var type = getClassification_Type_M4f(id);
                 if (id.includes('.')) {
                     var index = id.indexOf('.');
                     var id = id.splice(index, '\\');
@@ -1015,7 +1017,7 @@
         <h5 class="form-control">Your permission is:
             <b class="permission-hint">
                 R
-                <c:if test="${isAdmin || isOper || isAuthor || isContributor}">
+                <c:if test="${isAdmin || isOperM4f || isAuthorM4f || isContributorM4f}">
                     W
                 </c:if>
             </b>

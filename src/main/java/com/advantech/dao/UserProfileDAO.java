@@ -19,7 +19,7 @@ public class UserProfileDAO extends BasicDAOImpl<Integer, UserProfile> {
 
     public UserProfile findByType(String typeName) {
         Criteria c = createEntityCriteria();
-        c.add(Restrictions.eq("type", typeName));
+        c.add(Restrictions.eq("name", typeName));
         return (UserProfile) c.uniqueResult();
     }
 

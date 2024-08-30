@@ -39,6 +39,11 @@ public class WorktimeFormulaSettingM4f implements java.io.Serializable {
     public WorktimeFormulaSettingM4f() {
     }
 
+    public WorktimeFormulaSettingM4f(int assyStation, int packingStation) {
+        this.assyStation = assyStation;
+        this.packingStation = packingStation;
+    }
+
     public WorktimeFormulaSettingM4f(WorktimeM4f worktime) {
         this.worktime = worktime;
     }

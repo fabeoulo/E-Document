@@ -5,7 +5,6 @@
  */
 package com.advantech.webservice.port;
 
-import com.advantech.model.db2.IWorktimeWebService;
 import com.advantech.model.Worktime;
 import com.advantech.webservice.Factory;
 import com.advantech.webservice.root.MaterialPropertyValueQueryRoot;
@@ -19,6 +18,7 @@ import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import com.advantech.model.db2.IWorktimeForWebService;
 
 /**
  *
@@ -49,7 +49,7 @@ public class MaterialPropertyValueQueryPort extends BasicQueryPort {
     }
 
     @Override // OK
-    public List queryM(IWorktimeWebService w, Factory f) throws Exception {
+    public List queryM(IWorktimeForWebService w, Factory f) throws Exception {
         List<MaterialPropertyValue> l = super.queryM(w, f);
         //因接口採模糊查詢，相似機種會被撈出
         l = l.stream()
@@ -59,7 +59,7 @@ public class MaterialPropertyValueQueryPort extends BasicQueryPort {
     }
 
     @Override // OK
-    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
+    public Map<String, String> transformData(IWorktimeForWebService w) throws Exception {
         Map<String, String> xmlResults = new HashMap();
         MaterialPropertyValueQueryRoot root = new MaterialPropertyValueQueryRoot();
         MaterialPropertyValueQueryRoot.MATPROPERTYVALUE prop = root.getMATPROPERTYVALUE();

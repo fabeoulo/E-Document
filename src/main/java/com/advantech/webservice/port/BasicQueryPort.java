@@ -5,7 +5,6 @@
  */
 package com.advantech.webservice.port;
 
-import com.advantech.model.db2.IWorktimeWebService;
 import com.advantech.model.Worktime;
 import com.advantech.webservice.Factory;
 import com.advantech.webservice.MultiWsClient;
@@ -25,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.tempuri.RvResponse;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import com.advantech.model.db2.IWorktimeForWebService;
 
 /**
  *
@@ -83,7 +83,7 @@ public abstract class BasicQueryPort {
         return queryResult.getQryData();
     }
 
-    public List queryM(IWorktimeWebService w, Factory f) throws Exception {
+    public List queryM(IWorktimeForWebService w, Factory f) throws Exception {
         List totalQueryResult = new ArrayList();
         Map<String, String> xmlResults = transformData(w);
         for (Map.Entry<String, String> entry : xmlResults.entrySet()) {
@@ -103,7 +103,7 @@ public abstract class BasicQueryPort {
      * @return Field name as key and xml generate result as value.
      * @throws java.lang.Exception
      */
-    public abstract Map<String, String> transformData(IWorktimeWebService w) throws Exception;
+    public abstract Map<String, String> transformData(IWorktimeForWebService w) throws Exception;
 
     protected String generateXmlString(Object jaxbElement) throws JAXBException {
         StringWriter sw = new StringWriter();

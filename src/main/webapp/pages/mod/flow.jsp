@@ -31,7 +31,7 @@
             colModel: [
                 {label: 'id', name: "id", width: 60, key: true, editable: true, search: false, editoptions: {readonly: 'readonly', disabled: true, defaultValue: "0"}},
                 {label: 'name', name: "name", width: 60, editable: true, editrules: {required: true}, formoptions: {elmsuffix: "(*必填)"}},
-                {label: 'flow_group', name: "flowGroup.id", editable: true, formatter: selectOptions["flowGroup_func"], edittype: 'select', editoptions: {value: selectOptions["flowGroup"]}}
+                {label: 'flow_group', name: "flowGroup.id", editable: true, formatter: selectOptions["flowGroup_func"], edittype: 'select', editoptions: {value: selectOptions["flowGroup"]}, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["flowGroup"], sopt: ['eq'], dataInit: selectOptions["flowGroup_sinit"]}}
             ],
             rowNum: 20,
             rowList: [20, 50, 100, 1000],

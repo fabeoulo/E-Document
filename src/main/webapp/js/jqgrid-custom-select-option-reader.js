@@ -6,7 +6,13 @@ var selectBiRiColumns;
 var connPattern = "X";
 
 function setSelectOptions(info) {
-    rootUrl = info.rootUrl;
+    rootUrl = info.rootUrl + 'SelectOption/';
+    selectableColumns = info.columnInfo;
+    syncSelectOptionInfo();
+}
+
+function setSelectOptionsM4f(info) {
+    rootUrl = info.rootUrl + 'SelectOptionM4f/';
     selectableColumns = info.columnInfo;
     syncSelectOptionInfo();
 }
@@ -33,7 +39,7 @@ function syncSelectOptionInfo() {
 
 function getSelectOption(columnName, isNullable, data) {
     var result = new Map();
-    var url = rootUrl + 'SelectOption/' + (data == null ? columnName : columnName + '/' + data);
+    var url = rootUrl + (data == null ? columnName : columnName + '/' + data);
     $.ajax({
         type: 'GET',
         url: url,

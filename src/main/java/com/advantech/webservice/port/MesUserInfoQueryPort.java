@@ -7,7 +7,6 @@ package com.advantech.webservice.port;
 
 import com.advantech.model.Worktime;
 import com.advantech.model.db2.IUserM9;
-import com.advantech.model.db2.IWorktimeWebService;
 import com.advantech.service.UserService;
 import com.advantech.webservice.root.MesUserInfoQueryRoot;
 import com.advantech.webservice.unmarshallclass.MesUserInfo;
@@ -20,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.advantech.model.db2.IWorktimeForWebService;
 
 /**
  *
@@ -48,7 +48,7 @@ public class MesUserInfoQueryPort extends BasicQueryPort {
     }
 
     @Override // OK
-    public Map<String, String> transformData(IWorktimeWebService w) throws Exception {
+    public Map<String, String> transformData(IWorktimeForWebService w) throws Exception {
         Map<String, String> xmlResults = new HashMap();
         Map<String, String> m = this.getJobnumber(w);
         for (Map.Entry<String, String> entry : m.entrySet()) {
@@ -62,7 +62,7 @@ public class MesUserInfoQueryPort extends BasicQueryPort {
         return xmlResults;
     }
 
-    public Map<String, String> getJobnumber(IWorktimeWebService w) {
+    public Map<String, String> getJobnumber(IWorktimeForWebService w) {
         Map<String, String> m = new HashMap();
         IUserM9 speOwner = w.getUserBySpeOwnerId();
         IUserM9 eeOwner = w.getUserByEeOwnerId();

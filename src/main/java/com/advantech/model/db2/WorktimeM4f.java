@@ -59,7 +59,7 @@ import org.springframework.util.AutoPopulatingList;
 @DynamicUpdate(true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = WorktimeM4f.class)
 @Audited(targetAuditMode = NOT_AUDITED, withModifiedFlag = true)
-public class WorktimeM4f implements java.io.Serializable, IWorktimeWebService {
+public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService {
 
     @JsonView(View.Public.class)
     private int id;
@@ -164,16 +164,16 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeWebService {
     private BigDecimal pendingTime;
 
     @JsonView(View.Public.class)
-    private String biSampling;
+    private String biSampling = "N";
 
     @JsonView(View.Public.class)
-    private String burnIn;
+    private String burnIn = "N";
 
     @JsonView(View.Public.class)
-    private BigDecimal biTime;
+    private BigDecimal biTime = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
-    private BigDecimal biTemperature;
+    private BigDecimal biTemperature = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
     private String biPower;
@@ -230,22 +230,22 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeWebService {
     private char partNoAttributeMaintain;
 
     @JsonView(View.Public.class)
-    private String acwVoltage;
+    private String acwVoltage = "0";
 
     @JsonView(View.Public.class)
-    private String dcwVoltage;
+    private String dcwVoltage = "0";
 
     @JsonView(View.Public.class)
-    private String irVoltage;
+    private String irVoltage = "0";
 
     @JsonView(View.Public.class)
-    private String testProfile;
+    private String testProfile = "0";
 
     @JsonView(View.Public.class)
-    private String lltValue;
+    private String lltValue = "0";
 
     @JsonView(View.Public.class)
-    private String gndValue;
+    private String gndValue = "0";
 
     @JsonView(View.Public.class)
     private BigDecimal weight = BigDecimal.ZERO;
@@ -876,7 +876,6 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeWebService {
     }
 
     @NotNull
-    @NotEmpty
     @Column(name = "bi_power", nullable = false, length = 30)
     public String getBiPower() {
         return biPower;
@@ -924,6 +923,7 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeWebService {
         this.keypartB = keypartB;
     }
 
+    @NotNull
     @Column(name = "mac_totalQty")
     public Integer getMacTotalQty() {
         return macTotalQty;
@@ -933,6 +933,7 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeWebService {
         this.macTotalQty = macTotalQty;
     }
 
+    @NotNull
     @Column(name = "mac_printedQty")
     public Integer getMacPrintedQty() {
         return macPrintedQty;
@@ -1084,7 +1085,6 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeWebService {
     }
 
     @NotNull
-    @NotEmpty
     @Column(name = "dcw_voltage", nullable = false, length = 30)
     public String getDcwVoltage() {
         return dcwVoltage;
@@ -2070,6 +2070,48 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeWebService {
         return twm2Flag == 1 && !cobots.isEmpty()
                 && cobots.stream().anyMatch(c -> c.getName().contains("ADAM"));
     }
+
+//---------------------------------------------------------------------
+//  For WorktimeDownloadMes
+    public Object getDefaultByType(Class<?> type, String fieldName) {
+        if (type.equals(UserM4f.class) || type.equals(IUserM9.class)) {
+            switch (fieldName) {
+                case "userBySpeOwnerId":
+                    return new UserM4f(78);
+                case "userByQcOwnerId":
+                    return new UserM4f(2);
+                default:
+                    return new UserM4f(40);
+            }
+        } else if (type.equals(FloorM4f.class)) {
+            return new FloorM4f(6, "4F");
+        } else if (type.equals(PendingM4f.class)) {
+            return new PendingM4f(3);
+        } else if (type.equals(TypeM4f.class)) {
+            return new TypeM4f(6, "MP");
+        } else if (type.equals(BusinessGroupM4f.class)) {
+            return new BusinessGroupM4f(5);
+        } else if (type.equals(BigDecimal.class)) {
+            return BigDecimal.ZERO;
+        } else if (type.equals(String.class)) {
+            if (fieldName.equals("biPower")) {
+                return "<300W";
+            } else {
+                return "";
+            }
+        } else if (type.equals(Character.class)) {
+            if (fieldName.equals("partLink") || fieldName.equals("labelYN")) {
+                return 'Y';
+            } else {
+                return ' ';
+            }
+        } else if (type.equals(Integer.class)) {
+            return 0;
+        } else {
+            return null;
+        }
+    }
+//---------------------------------------------------------------------
 
     //Override hashcode and equals will force audit query eager loading the one to many field
     //Still looking for reason.
