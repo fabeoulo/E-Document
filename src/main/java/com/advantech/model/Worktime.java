@@ -1158,7 +1158,10 @@ public class Worktime implements java.io.Serializable {
         BigDecimal defaultValue = BigDecimal.ZERO
                 .add(notEmpty(pi)
                         .compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO : new BigDecimal(20))
-                .add(notEmpty(assy).add(notEmpty(bondedSealingFrame)).add(notEmpty(assy2)).add(notEmpty(highBright)).add(notEmpty(arFilmAttachment)).add(notEmpty(cleanPanel))
+                .add(notEmpty(assy).add(notEmpty(bondedSealingFrame)).add(notEmpty(assy2))
+                        .add(notEmpty(highBright)).add(notEmpty(seal)).add(notEmpty(seal1))
+                        .add(notEmpty(opticalBonding)).add(notEmpty(opticalBonding1)).add(notEmpty(opticalBonding2))
+                        .add(notEmpty(arFilmAttachment)).add(notEmpty(cleanPanel))
                         .compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO : new BigDecimal(10))
                 .add(notEmpty(t1).add(notEmpty(t2)).add(notEmpty(t3))
                         .compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO : new BigDecimal(5))

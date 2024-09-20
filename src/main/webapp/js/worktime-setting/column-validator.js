@@ -276,9 +276,9 @@ function fieldCheckField(postdata, formid) {
         var targetLabel = getColLabel(formid, targetColName);
         var targetDesc = targetColInfo.description;
 
-        if (srcFieldVal && srcInfo.operate(srcFieldVal, srcVal)) {
+        if (srcInfo.operate(srcFieldVal, srcVal)) {
             var isTarValid = targetColInfo.operate(targetFieldVal, targetVal);
-            if (targetFieldVal && !isTarValid) {
+            if (!isTarValid) {
                 var errorResult = {};
                 errorResult.field = getSelectorFormat(targetColName);
                 errorResult.code = srcLabel + srcDesc + ' , ' + targetLabel + targetDesc;

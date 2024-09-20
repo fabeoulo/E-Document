@@ -88,7 +88,7 @@ public class WorktimeAutouploadSetting implements java.io.Serializable {
         this.lineId = lineId;
     }
 
-    @Column(name = "formula_ct", length = 500)
+    @Column(name = "formula_ct", columnDefinition = "VARCHAR(MAX)")
     public String getFormulaCt() {
         return formulaCt;
     }
