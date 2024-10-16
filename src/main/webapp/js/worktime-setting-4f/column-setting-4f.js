@@ -16,6 +16,8 @@ var worktimeColM4f = [
     {name: "packing"},
     {name: "upBiRi"},
     {name: "downBiRi"},
+    {name: "upRi"}, 
+    {name: "downRi"},
     {name: "biCost"},
     {name: "vibration"},
     {name: "hiPotLeakage"},
@@ -23,13 +25,16 @@ var worktimeColM4f = [
     {name: "warmBoot"},
     {name: "assyToT1"},
     {name: "t2ToPacking"},
+    {name: "floor.id", editable: false},
     {name: "pending.id"},
     {name: "pendingTime"},
+    {name: "pendingStation"},
     {name: "burnIn"},
     {name: "biSampling"},
     {name: "biTime"},
     {name: "biTemperature"},
     {name: "biPower"},
+    {name: "riTime"},
     {name: "userBySpeOwnerId.id"},
     {name: "userByEeOwnerId.id"},
     {name: "userByQcOwnerId.id"},
@@ -97,6 +102,10 @@ var worktimeColM4f = [
     {name: "etlVariable1Aff"},
     {name: "etlVariable2Aff"},
     {name: "etlVariable3Aff"},
+    {name: "macPackingQty"},
+    {name: "macPackingCount"},
+    {name: "visionInspect"},
+    {name: "visionInspectQty"},
     {name: "labelYN"},
     {name: "labelOuterId.id"},
     {name: "labelCartonId.id"},
@@ -138,12 +147,14 @@ var worktimeColM4f = [
     {name: "labelPacking7"},
     {name: "labelPacking8"},
     {name: "labelPacking9"},
-    {name: "labelPacking10"}     
+    {name: "labelPacking10"}
 ];
 
-//不受show / hide 影響
+//不受show / hide 影響，維持 editable:value
 var do_not_change_columns_m4f = [
-    "id", "rowId", "modifiedDate", "bwFields.0.assyAvg", "bwFields.0.packingAvg", "createDate", "floor.id"
+    "id", "rowId", "modifiedDate", "bwFields.0.assyAvg", "bwFields.0.packingAvg", "createDate", "floor.id",
+    "acwVoltage", "dcwVoltage", "irVoltage", "testProfile", "lltValue", "gndValue",
+    "preAssyModuleQty", "twm2Flag", "cobotManualWt", "cobots"
 ];
 
 //指定的column要有checkbox
@@ -165,13 +176,13 @@ var formulaColumnM4f = [
 var group = [
     {
         Type0: ['tr_modelName', 'tr_type.id', 'tr_businessGroup.id', 'tr_userBySpeOwnerId.id', 'tr_userByEeOwnerId.id', 'tr_userByQcOwnerId.id', 'tr_floor.id',
-            'tr_userByMpmOwnerId.id', 'tr_keypartA', 'tr_keypartB', 'tr_partLink', 'tr_ce', 'tr_ul', 'tr_rohs', 'tr_weee', 'tr_madeInTaiwan',
+            'tr_userByMpmOwnerId.id', 'tr_keypartA', 'tr_keypartB', 'tr_visionInspect', 'tr_visionInspectQty', 'tr_partLink', 'tr_ce', 'tr_ul', 'tr_rohs', 'tr_weee', 'tr_madeInTaiwan',
             'tr_fcc', 'tr_eac', 'tr_kc', 'tr_nsInOneCollectionBox', 'tr_partNoAttributeMaintain', 'tr_weight', 'tr_weightAff', 'tr_tolerance', 'tr_preAssyModuleQty',
             'tr_burnInQuantity', 'tr_assyStation', 'tr_packingStation', 'tr_createDate', 'tr_modifiedDate', 'tr_twm2Flag', 'tr_cobots']
     },
     {
         Type1: ['tr_preAssy.id', 'tr_flowByBabFlowId.id', 'tr_flowByTestFlowId.id', 'tr_flowByPackingFlowId.id', 'tr_cleanPanel', 'tr_totalModule', 'tr_assy', 'tr_t1', 'tr_t2', 'tr_t3', 'tr_t4', 'tr_packing',
-            'tr_burnIn', 'tr_biTime', 'tr_biTemperature', 'tr_biPower', 'tr_upBiRi', 'tr_downBiRi', 'tr_biCost', 'tr_vibration', 'tr_hiPotLeakage', 'tr_coldBoot', 'tr_warmBoot', 'tr_pending.id', 'tr_pendingTime', 'tr_biSampling',
+            'tr_burnIn', 'tr_biTime', 'tr_biTemperature', 'tr_biPower', 'tr_riTime', 'tr_upBiRi', 'tr_downBiRi', 'tr_upRi', 'tr_downRi', 'tr_biCost', 'tr_vibration', 'tr_hiPotLeakage', 'tr_coldBoot', 'tr_warmBoot', 'tr_pending.id', 'tr_pendingTime', 'tr_pendingStation', 'tr_biSampling',
             'tr_assyToT1', 'tr_t2ToPacking', 'tr_workCenter', 'tr_sapWt', 'tr_productionWt', 'tr_setupTime', 'tr_machineWorktime', 'tr_assyLeadTime', 'tr_assyKanbanTime', 'tr_packingLeadTime', 'tr_packingKanbanTime',
             'tr_cleanPanelAndAssembly', 'tr_cobotManualWt', 'tr_packingPalletTime']
     },
@@ -182,7 +193,7 @@ var group = [
             'tr_labelPacking1', 'tr_labelPacking2', 'tr_labelPacking3', 'tr_labelPacking4', 'tr_labelPacking5', 'tr_labelPacking6', 'tr_labelPacking7', 'tr_labelPacking8', 'tr_labelPacking9', 'tr_labelPacking10']
     },
     {
-        Type3: ['tr_macTotalQty', 'tr_macPrintedQty', 'tr_labelMac', 'tr_macPrintedLocation', 'tr_macPrintedFrom', 'tr_etlVariable1', 'tr_etlVariable2', 'tr_etlVariable3', 'tr_etlVariable1Aff', 'tr_etlVariable2Aff', 'tr_etlVariable3Aff']
+        Type3: ['tr_macTotalQty', 'tr_macPrintedQty', 'tr_labelMac', 'tr_macPrintedLocation', 'tr_macPrintedFrom', 'tr_etlVariable1', 'tr_etlVariable2', 'tr_etlVariable3', 'tr_etlVariable1Aff', 'tr_etlVariable2Aff', 'tr_etlVariable3Aff', 'tr_macPackingQty', 'tr_macPackingCount']
     },
     {
         Type4: ['tr_t1StatusQty', 'tr_t1ItemsQty', 'tr_t2StatusQty', 'tr_t2ItemsQty']

@@ -300,8 +300,10 @@
                 {label: 'T3', name: "t3", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T4', name: "t4", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Packing', name: "packing", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: 'Up_BI_RI', name: "upBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '2'}},
-                {label: 'Down_BI_RI', name: "downBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '2'}},
+                {label: 'Up_BI', name: "upBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '2'}},
+                {label: 'Down_BI', name: "downBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '2'}},
+                {label: 'Up_RI', name: "upRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'Down_RI', name: "downRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'BI Cost', name: "biCost", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {disabled: true, defaultValue: '0'}},
                 {label: 'Vibration', name: "vibration", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Hi-Pot/Leakage', name: "hiPotLeakage", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
@@ -312,11 +314,13 @@
                 {label: 'Floor', name: "floor.id", hidden: true, editable: true, edittype: "select", editoptions: {value: selectOptions["floor"]}, width: 100, formatter: selectOptions["floor_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["floor"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>適用封箱機設5F</b>"}},
                 {label: 'Pending', name: "pending.id", edittype: "select", editoptions: {value: selectOptions["pending"], defaultValue: 'N', dataEvents: pending_select_event_m4f}, formatter: selectOptions["pending_func"], width: 100, searchrules: number_search_rule, stype: "select", searchoptions: {value: selectOptions["pending"], sopt: ['eq']}},
                 {label: 'Pending TIME', name: "pendingTime", width: 100, searchrules: {required: true}, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
+                {label: 'Pending Station', name: "pendingStation", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, editoptions: {maxlength: 150}, formoptions: {elmsuffix: "<b>(Station Name/hr)</b>"}},
                 {label: 'BI Sampling', name: "biSampling", edittype: "select", editoptions: {value: "N:N;Y:Y", dataEvents: biSample_change_event}, width: 100, searchrules: {required: true}, searchoptions: search_string_options, formoptions: {elmsuffix: "<b class='danger'>抽燒選Y</b>"}},
                 {label: 'BurnIn', name: "burnIn", edittype: "select", editoptions: {value: "N:N;BI:BI;RI:RI", dataEvents: burnIn_select_event_m4f}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: 'BI_Power (W)', name: "biPower", edittype: "select", editoptions: {value: selectOptions["biPower"]}, width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["biPower"], sopt: ['eq']}},
                 {label: 'B/I Time', name: "biTime", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
                 {label: 'BI_Temperature', name: "biTemperature", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
+                {label: 'R/I Time', name: "riTime", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {required: true, number: true}, editoptions: {defaultValue: '0'}, formoptions: required_form_options},
                 {label: 'Work Center', name: "workCenter", width: 100, searchrules: {required: true}, searchoptions: search_string_options, editrules: {required: false}},
                 {label: 'SapWT', name: "sapWt", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0'}},
                 {label: 'ProductionWT', name: "productionWt", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("productionWt")}, editrules: {number: true}, editoptions: {defaultValue: '0'}},
@@ -345,6 +349,10 @@
                 {label: 'ETL取值標籤變量2(附加屬性質)', name: "etlVariable2Aff", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'ETL取值標籤變量3', name: "etlVariable3", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'ETL取值標籤變量3(附加屬性質)', name: "etlVariable3Aff", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '包裝MAC總數', name: "macPackingQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: '包裝MAC單張筆數', name: "macPackingCount", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: '視覺檢測', name: "visionInspect", edittype: "select", editoptions: {value: "N:N;Y:Y", defaultValue: 'N'}, width: 80, searchrules: {required: true}, searchoptions: search_string_options},
+                {label: '視覺檢測數量', name: "visionInspectQty", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'PART-LINK', name: "partLink", edittype: "select", editoptions: {value: "Y:Y;N:N", defaultValue: 'Y'}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: 'CE', name: "ce", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
                 {label: 'UL', name: "ul", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
@@ -407,7 +415,7 @@
                 {label: '禮盒總重量(含配件)', name: "weight", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: '禮盒總重量(附加屬性質)', name: "weightAff", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0.05'}},
                 {label: '整箱總重量誤差值', name: "tolerance", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0.05'}},
-                {label: '前置模組數', name: "preAssyModuleQty", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: '前置模組數', name: "preAssyModuleQty", width: 80, hidden: true, editable: true, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: '燒機台車容納數量', name: "burnInQuantity", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: '組裝排站人數', name: "assyStation", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("assyStation")}, editrules: {integer: true}, editoptions: {defaultValue: '0'}},
                 {label: '包裝排站人數', name: "packingStation", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("packingStation")}, editrules: {integer: true}, editoptions: {defaultValue: '0'}},
@@ -419,11 +427,12 @@
                 {label: 'CleanPanel+Assembly', name: "cleanPanelAndAssembly", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, formoptions: {elmsuffix: addFormulaCheckbox("cleanPanelAndAssembly")}, editoptions: {defaultValue: '0'}},
                 {label: 'Create_Date', width: 200, name: "createDate", formatter: 'date', formatoptions: {srcformat: 'Y-m-d H:i:s A', newformat: 'Y-m-d H:i:s A'}, stype: 'text', searchrules: date_search_rule, searchoptions: search_date_options, align: 'center'},
                 {label: 'Modified_Date', width: 200, name: "modifiedDate", formatter: 'date', formatoptions: {srcformat: 'Y-m-d H:i:s A', newformat: 'Y-m-d H:i:s A'}, stype: 'text', searchrules: date_search_rule, searchoptions: search_date_options, align: 'center'},
-                {label: '藍燈組裝(秒)', width: 80, name: "bwFields.0.assyAvg", index: "bwFields.assyAvg", sortable: true, searchrules: number_search_rule, searchoptions: search_decimal_options},
-                {label: '藍燈包裝(秒)', width: 80, name: "bwFields.0.packingAvg", index: "bwFields.packingAvg", sortable: true, searchrules: number_search_rule, searchoptions: search_decimal_options},
-                {label: 'M2機種', width: 80, name: "twm2Flag", search: true, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:N;1:Y"}},
-                {label: 'M2手動工時', name: "cobotManualWt", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("cobotManualWt")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: '自動化人機協作', name: "cobots", width: 100, editable: true, hidden: false, formatter: cobotsFormatter, editrules: {edithidden: true, required: false}, edittype: "select",
+                {label: '藍燈組裝(秒)', width: 80, name: "bwFields.0.assyAvg", index: "bwFields.assyAvg", editable: true, hidden: true, sortable: true, searchrules: number_search_rule, searchoptions: search_decimal_options},
+                {label: '藍燈包裝(秒)', width: 80, name: "bwFields.0.packingAvg", index: "bwFields.packingAvg", editable: true, hidden: true, sortable: true, searchrules: number_search_rule, searchoptions: search_decimal_options},
+                {label: 'M2機種', width: 80, name: "twm2Flag", editable: true, hidden: true, search: true, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:N;1:Y"}},
+                {label: 'M2手動工時', name: "cobotManualWt", width: 80, editable: true, hidden: true, searchrules: number_search_rule, searchoptions: search_decimal_options, formoptions: {elmsuffix: addFormulaCheckbox("cobotManualWt")}, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: '自動化人機協作', name: "cobots", width: 100, editable: true, hidden: true, formatter: cobotsFormatter, edittype: "select",
+//                    editrules: {edithidden: true, required: false},
                     editoptions: {
                         multiple: true, value: selectOptions["cobots"],
                         dataInit: function (elem) {
@@ -479,7 +488,7 @@
         grid.jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
             groupHeaders: [
-                {startColumnName: 'macTotalQty', numberOfColumns: 11, titleText: '<em>MAC</em>'},
+                {startColumnName: 'macTotalQty', numberOfColumns: 13, titleText: '<em>MAC</em>'},
                 {startColumnName: 'ce', numberOfColumns: 8, titleText: '<em>外箱Label產品資訊 (1：要印   0：不印)</em>'},
                 {startColumnName: 'partNoAttributeMaintain', numberOfColumns: 43, titleText: '<em>料號屬性值維護</em>'},
                 {startColumnName: 'assyLeadTime', numberOfColumns: 2, titleText: '<em>組裝看板工時</em>'},
@@ -587,14 +596,14 @@
             });
         }
 
-        if (false && ${!isGuest}) {
+        if (${!isGuest}) {
             grid.navButtonAdd('#pager', {
                 caption: "Export to Excel",
                 buttonicon: "ui-icon-disk",
                 id: "excelDownload1",
                 onClickButton: function () {
                     var button = $("#excelDownload1");
-                    excelDownload(button, "<c:url value="/WorktimeDownload/excel2" />");
+                    excelDownload(button, "<c:url value="/WorktimeDownloadM4f/excel2" />");
                     return false;
                 },
                 position: "last"
@@ -606,7 +615,7 @@
                 id: "excelDownload3",
                 onClickButton: function () {
                     var button = $("#excelDownload3");
-                    excelDownload(button, "<c:url value="/WorktimeDownload/excel3" />");
+                    excelDownload(button, "<c:url value="/WorktimeDownloadM4f/excel3" />");
                     return false;
                 },
                 position: "last"
@@ -985,7 +994,7 @@
         function setReasonCodeRelateFieldEvent(form) {
             var relativeObj = form.find("#productionWt, #setupTime, #cleanPanel, \n\
                 #totalModule, #assy, #t1, #t2, #t3, #t4, #packing, \n\
-                #upBiRi, #downBiRi, #biCost, #vibration, #hiPotLeakage, \n\
+                #upBiRi, #downBiRi, #upRi, #downRi, #biCost, #vibration, #hiPotLeakage, \n\
                 #coldBoot, #warmBoot");
             relativeObj.on("keyup, change", function () {
                 $("#mod-reason").removeClass("ui-state-disabled hidden");

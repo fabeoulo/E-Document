@@ -146,6 +146,12 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
     private BigDecimal downBiRi = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
+    private BigDecimal upRi = BigDecimal.ZERO;
+
+    @JsonView(View.Public.class)
+    private BigDecimal downRi = BigDecimal.ZERO;
+
+    @JsonView(View.Public.class)
     private BigDecimal biCost = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
@@ -164,10 +170,16 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
     private BigDecimal pendingTime;
 
     @JsonView(View.Public.class)
+    private String pendingStation;
+
+    @JsonView(View.Public.class)
     private String biSampling = "N";
 
     @JsonView(View.Public.class)
     private String burnIn = "N";
+
+    @JsonView(View.Public.class)
+    private BigDecimal riTime = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
     private BigDecimal biTime = BigDecimal.ZERO;
@@ -195,6 +207,18 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
 
     @JsonView(View.Public.class)
     private Integer macPrintedQty = 0;
+
+    @JsonView(View.Public.class)
+    private Integer macPackingQty = 0;
+
+    @JsonView(View.Public.class)
+    private Integer macPackingCount = 0;
+
+    @JsonView(View.Public.class)
+    private String visionInspect = "N";
+
+    @JsonView(View.Public.class)
+    private Integer visionInspectQty = 0;
 
     @JsonView(View.Public.class)
     private Character partLink;
@@ -770,6 +794,26 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
         this.downBiRi = autoFixScale(downBiRi, 1);
     }
 
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    @Column(name = "up_ri", precision = 10, scale = 1)
+    public BigDecimal getUpRi() {
+        return upRi;
+    }
+
+    public void setUpRi(BigDecimal upRi) {
+        this.upRi = autoFixScale(upRi, 1);
+    }
+
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    @Column(name = "down_ri", precision = 10, scale = 1)
+    public BigDecimal getDownRi() {
+        return downRi;
+    }
+
+    public void setDownRi(BigDecimal downRi) {
+        this.downRi = autoFixScale(downRi, 1);
+    }
+
     @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
     @Column(name = "bi_cost", precision = 10, scale = 2)
     public BigDecimal getBiCost() {
@@ -832,6 +876,17 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
     }
 
     @NotNull
+    @Size(min = 0, max = 150)
+    @Column(name = "pending_station", length = 150)
+    public String getPendingStation() {
+        return pendingStation;
+    }
+
+    public void setPendingStation(String pendingStation) {
+        this.pendingStation = pendingStation;
+    }
+
+    @NotNull
     @NotEmpty
     @Column(name = "burn_in", nullable = false, length = 10)
     public String getBurnIn() {
@@ -840,6 +895,17 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
 
     public void setBurnIn(String burnIn) {
         this.burnIn = burnIn;
+    }
+
+    @NotNull(message = "Ri Time 不可為空")
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    @Column(name = "ri_time", nullable = false, precision = 10, scale = 1)
+    public BigDecimal getRiTime() {
+        return riTime;
+    }
+
+    public void setRiTime(BigDecimal riTime) {
+        this.riTime = riTime;
     }
 
     @NotNull
@@ -941,6 +1007,47 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
 
     public void setMacPrintedQty(Integer macPrintedQty) {
         this.macPrintedQty = macPrintedQty;
+    }
+
+    @NotNull
+    @Column(name = "mac_packingQty")
+    public Integer getMacPackingQty() {
+        return macPackingQty;
+    }
+
+    public void setMacPackingQty(Integer macPackingQty) {
+        this.macPackingQty = macPackingQty;
+    }
+
+    @NotNull
+    @Column(name = "mac_packingCount")
+    public Integer getMacPackingCount() {
+        return macPackingCount;
+    }
+
+    public void setMacPackingCount(Integer macPackingCount) {
+        this.macPackingCount = macPackingCount;
+    }
+
+    @NotNull
+    @NotEmpty
+    @Column(name = "vision_inspect", nullable = false, length = 10)
+    public String getVisionInspect() {
+        return visionInspect;
+    }
+
+    public void setVisionInspect(String visionInspect) {
+        this.visionInspect = visionInspect;
+    }
+
+    @NotNull
+    @Column(name = "vision_inspect_qty", nullable = false)
+    public Integer getVisionInspectQty() {
+        return visionInspectQty;
+    }
+
+    public void setVisionInspectQty(Integer visionInspectQty) {
+        this.visionInspectQty = visionInspectQty;
     }
 
     @NotNull
@@ -1971,8 +2078,9 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
     public void setDefaultProductWt() {
         BigDecimal defaultValue = notEmpty(totalModule).add(notEmpty(cleanPanel))
                 .add(notEmpty(assy)).add(notEmpty(t1)).add(notEmpty(t2))
-                .add(notEmpty(t3)).add(notEmpty(t4)).add(notEmpty(packing)).add(notEmpty(upBiRi))
-                .add(notEmpty(downBiRi)).add(notEmpty(biCost)).add(notEmpty(vibration)).add(notEmpty(hiPotLeakage))
+                .add(notEmpty(t3)).add(notEmpty(t4)).add(notEmpty(packing))
+                .add(notEmpty(upBiRi)).add(notEmpty(downBiRi)).add(notEmpty(upRi)).add(notEmpty(downRi))
+                .add(notEmpty(biCost)).add(notEmpty(vibration)).add(notEmpty(hiPotLeakage))
                 .add(notEmpty(coldBoot)).add(notEmpty(warmBoot));
 
         this.setProductionWt(defaultValue);
@@ -1992,14 +2100,15 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
 
     public void setDefaultAssyToT1() {
         BigDecimal defaultValue = notEmpty(cleanPanel).add(notEmpty(assy).add(notEmpty(totalModule))).add(notEmpty(t1))
-                .add(notEmpty(upBiRi)).add(notEmpty(vibration))
+                .add(notEmpty(upBiRi)).add(notEmpty(upRi)).add(notEmpty(vibration))
                 .add(notEmpty(hiPotLeakage)).add(notEmpty(coldBoot)).add(notEmpty(warmBoot));
         this.setAssyToT1(defaultValue);
     }
 
     public void setDefaultT2ToPacking() {
         BigDecimal defaultValue = notEmpty(t2)
-                .add(notEmpty(t3)).add(notEmpty(t4)).add(notEmpty(packing).add(notEmpty(packingLeadTime))).add(notEmpty(downBiRi));
+                .add(notEmpty(t3)).add(notEmpty(t4)).add(notEmpty(packing).add(notEmpty(packingLeadTime)))
+                .add(notEmpty(downBiRi)).add(notEmpty(downRi));
         this.setT2ToPacking(defaultValue);
     }
 
@@ -2094,10 +2203,11 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
         } else if (type.equals(BigDecimal.class)) {
             return BigDecimal.ZERO;
         } else if (type.equals(String.class)) {
-            if (fieldName.equals("biPower")) {
-                return "<300W";
-            } else {
-                return "";
+            switch (fieldName) {
+                case "biPower":
+                    return "<300W";
+                default:
+                    return "";
             }
         } else if (type.equals(Character.class)) {
             if (fieldName.equals("partLink") || fieldName.equals("labelYN")) {
