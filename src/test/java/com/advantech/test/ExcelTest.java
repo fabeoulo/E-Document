@@ -116,6 +116,7 @@ public class ExcelTest {
 
             for (int sheetPage = 0; sheetPage <= 0; sheetPage++) {
                 Sheet sheet = workbook.getSheetAt(sheetPage);
+                // i = 1，從 row2 開始
                 for (int i = 1, maxNumberfRows = sheet.getPhysicalNumberOfRows(); i < maxNumberfRows; i++) {
                     Row row = sheet.getRow(i); // 取得第 i Row
                     if (row != null) {

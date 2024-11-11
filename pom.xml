@@ -4,7 +4,7 @@
 
     <groupId>com.advantech</groupId>
     <artifactId>E-Document</artifactId>
-    <version>1.8.3-b08</version>
+    <version>1.8.3-b09</version>
     <packaging>war</packaging>
 
     <pluginRepositories>

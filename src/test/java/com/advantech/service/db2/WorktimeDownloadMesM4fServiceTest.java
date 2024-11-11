@@ -17,7 +17,12 @@ import static com.google.common.collect.Lists.newArrayList;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 import org.junit.Test;
@@ -43,7 +48,7 @@ public class WorktimeDownloadMesM4fServiceTest {
     @Autowired
     private WorktimeM4fService instance;
 
-    private final List<WorktimeM4f> l = newArrayList();
+    private List<WorktimeM4f> l = newArrayList();
 
     @Autowired
     private FlowM4fDownload flowM4fDownload;
@@ -75,34 +80,115 @@ public class WorktimeDownloadMesM4fServiceTest {
         });
     }
 
-    @Test
-    @Transactional
-    @Rollback(false)
-    public void testWorktimeDownloadMesM4fService() {
-        System.out.println("testWorktimeDownloadMesM4fService");
-
-        getExcelModels();
-
-        worktimeDownloadMesM4fService.portParamInit();
-        worktimeDownloadMesM4fService.insertByModels(l);
-//        HibernateObjectPrinter.print(l);
-    }
-
-    private void getExcelModels() {
+    public static List<WorktimeM4f> getExcelModels() {
         List<String> modelNames = ExcelTest.getExcelModels();
-        l.clear();
 
+        List<WorktimeM4f> l = newArrayList();
         modelNames.forEach(m -> {
             WorktimeM4f wm4 = new WorktimeM4f();
             wm4.setModelName(m);
             l.add(wm4);
         });
+
+        return l;
+    }
+
+//    @Test
+//    @Transactional
+//    @Rollback(false)
+    public void testWorktimeDownloadMesM4fService() throws Exception {
+        System.out.println("testWorktimeDownloadMesM4fService");
+
+//        l = getExcelModels();
+//        worktimeDownloadMesM4fService.portParamInit();
+//        worktimeDownloadMesM4fService.insertMesDL(l);
+//        HibernateObjectPrinter.print(l);
+//
+//        List<String> modelNames = ExcelTest.getExcelModels();
+        List<String> modelNames = Arrays.asList("USM-D64-E80");
+        worktimeDownloadMesM4fService.saveOrUpdateByModels(modelNames);
+
+    }
+
+//    @Test
+    public void testSaveOrUpdate() {
+        List<String> modelNames = Arrays.asList("DLV72122010-T", "DMS-AF55SFM-S5A1", "EBC-AF52T8F-U0A1");
+        try {
+            this.saveOrUpdateByModels(modelNames);
+        } catch (Exception e) {
+        }
+    }
+
+    @Autowired
+    private M9ieWorktimeViewService m9ieWorktimeViewService;
+
+    @Autowired
+    private WorktimeM4fService worktimeM4fService;
+
+    @Autowired
+    private BusinessGroupM4fService businessGroupM4fService;
+
+    private void saveOrUpdateByModels(List<String> modelNames) throws Exception {
+        // SQL limit to 2000 params(modelNames).
+        List<M9ieWorktimeView> views;
+        if (!modelNames.isEmpty()) {
+            String[] arr = modelNames.stream().limit(2000).toArray(String[]::new);
+            views = m9ieWorktimeViewService.findByModelNames(arr);
+        } else {
+            views = m9ieWorktimeViewService.findAll();
+        }
+        Map<String, List> listMap = filterByViewAndSetBg(views);
+
+        List<WorktimeM4f> wtIn = listMap.get("wtIn");
+//        List<WorktimeM4f> wtIn = worktimeM4fService.findByModelNames("DLV72122010-T", "DMS-AF55SFM-S5A1", "EBC-AF52T8F-U0A1");
+//
+        worktimeM4fService.mergeWithoutUpload(wtIn);
+        return;
+    }
+
+    private Map<String, List> filterByViewAndSetBg(List<M9ieWorktimeView> views) {
+
+        Map<String, M9ieWorktimeView> m9Map = views.stream().collect(Collectors.toMap(v -> v.getModelName(), v -> v, (a, b) -> b));
+        Map<String, WorktimeM4f> wtMap = worktimeM4fService.findAll().stream().collect(Collectors.toMap(wt -> wt.getModelName(), wt -> wt));
+        Map<String, BusinessGroupM4f> buMap = businessGroupM4fService.findAll().stream().collect(Collectors.toMap(bu -> bu.getWorkCenter(), bu -> bu));
+
+//        log.info("M9ieWorktimeView size : " + m9Map.size() + " WorktimeM4f size : " + wtMap.size());
+        HibernateObjectPrinter.print("M9ieWorktimeView size : " + m9Map.size() + " WorktimeM4f size : " + wtMap.size());
+
+        List<WorktimeM4f> wtIn = new ArrayList<>();
+        List<WorktimeM4f> wtNew = new ArrayList<>();
+        m9Map.entrySet().stream().forEach(m9En -> {
+
+            String modelName = m9En.getKey();
+            M9ieWorktimeView m9wt = m9En.getValue();
+
+            WorktimeM4f w;
+            if (wtMap.containsKey(modelName)) {
+                w = wtMap.get(modelName);
+                wtIn.add(w);
+            } else {
+                w = new WorktimeM4f();
+                w.setModelName(modelName);
+                wtNew.add(w);
+            }
+
+            String wc = m9wt.getWorkCenter();
+            w.setWorkCenter(wc);
+            w.setBusinessGroup(buMap.getOrDefault(wc, null));
+        });
+
+        Map<String, List> resultMap = new HashMap<>();
+        resultMap.put("wtIn", wtIn);
+        resultMap.put("wtNew", wtNew);
+        return resultMap;
     }
 
 //    @Test // OK
     public void testStandardWorkTimeM4fDownload() {
         System.out.println("testStandardWorkTimeM4fDownload");
+
 //        getExcelModels();
+        l = instance.findByModelNames("DLV72122010-T", "DMS-AF55SFM-S5A1", "EBC-AF52T8F-U0A1");
 
         standardWorkTimeM4fDownload.initOptions();
         try {

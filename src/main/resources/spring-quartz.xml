@@ -90,16 +90,30 @@
 
     <!--job7 setting-->
     <!--Sync PreAssyModuleQty from CalculatorWS-->
-    <bean id="targetClass7" class="com.advantech.quartzJob.SyncPreAssyModuleQty"/>
+    <bean id="syncPreAssyModuleQty" class="com.advantech.quartzJob.SyncPreAssyModuleQty"/>
     
     <bean id="jobDetail7" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="targetClass7"/>
+        <property name="targetObject" ref="syncPreAssyModuleQty"/>
         <property name="targetMethod" value="execute"/>
     </bean>
     
     <bean id="cronTrigger7" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="jobDetail7"/>
         <property name="cronExpression" value="0 0 21 ? * MON-SAT *"/>
+    </bean>
+    
+    <!--job8 setting-->
+    <!--Sync M9 standardTime-->
+    <bean id="syncWorktimeM4f" class="com.advantech.quartzJob.SyncWorktimeM4f"/>
+    
+    <bean id="jobDetail8" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="syncWorktimeM4f"/>
+        <property name="targetMethod" value="syncModelFromM9ie"/>
+    </bean>
+    
+    <bean id="cronTrigger8" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="jobDetail8"/>
+        <property name="cronExpression" value="0 50 21 ? * MON-SAT *"/>
     </bean>
     
     <!--schedule jobs-->
@@ -113,17 +127,18 @@
                 <ref bean="cronTrigger5"/>
                 <ref bean="cronTrigger6"/>
                 <ref bean="cronTrigger7"/>
+                <ref bean="cronTrigger8"/>
             </list>
         </property>
         <property name="schedulerName">
             <value>jobScheduler</value>
         </property>
-        
+                        
         <property name="configLocation">
             <value>classpath:quartz.properties</value>
         </property>
-        
+                        
         <property name="waitForJobsToCompleteOnShutdown" value="true" />
     </bean>
-    
+                    
 </beans>

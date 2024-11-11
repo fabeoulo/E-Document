@@ -28,20 +28,15 @@ public class WorktimeFormulaSettingM4f implements java.io.Serializable {
     private int setupTime = 1;
     private int assyToT1 = 1;
     private int t2ToPacking = 1;
-    private int assyStation = 1;
-    private int packingStation = 1;
+    private int assyStation = 0;
+    private int packingStation = 0;
     private int assyKanbanTime = 1;
     private int packingKanbanTime = 1;
     private int cleanPanelAndAssembly = 1;
-    private int machineWorktime = 1;
-    private int cobotManualWt = 1;
+    private int machineWorktime = 0;
+    private int cobotManualWt = 0;
 
     public WorktimeFormulaSettingM4f() {
-    }
-
-    public WorktimeFormulaSettingM4f(int assyStation, int packingStation) {
-        this.assyStation = assyStation;
-        this.packingStation = packingStation;
     }
 
     public WorktimeFormulaSettingM4f(WorktimeM4f worktime) {

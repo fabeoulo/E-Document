@@ -4,13 +4,18 @@
  */
 package com.advantech.service.db2;
 
+import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.Unit;
 import com.advantech.model.UserProfile;
 import com.advantech.model.db2.*;
 import com.advantech.service.UnitService;
 import com.advantech.service.UserService;
+import com.advantech.test.ExcelTest;
+import static com.google.common.collect.Lists.newArrayList;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +63,7 @@ public class M4fServiceTest {
 
     @Autowired
     private WorktimeMaterialPropertyDownloadSettingM4fService propSettingDlService;
-    
+
     @Autowired
     private PendingM4fService pendingM4fService;
 
@@ -82,19 +87,32 @@ public class M4fServiceTest {
 
     @Autowired
     private UnitM4fService unitM4fService;
-    
+
     @Autowired
     private FloorM4fService floorM4fService;
-    
+
     @Autowired
     private WorktimeColumnGroupM4fService worktimeColumnGroupM4fService;
-    
+
     @Autowired
     private TypeM4fService typeM4fService;
-    
+
     @Autowired
     private CobotM4fService cobotM4fService;
-    
+
+    @Autowired
+    private M9ieWorktimeViewService m9ieWorktimeViewService;
+
+//    @Test
+    public void testM9ieWorktimeViewService() {
+        System.out.println("testM9ieWorktimeViewService");
+//        PageInfo info = new PageInfo();
+//        List<M9ieWorktimeView> result0 = m9ieWorktimeViewService.findAll(info);
+//        List<M9ieWorktimeView> result = m9ieWorktimeViewService.findAll();
+        List<M9ieWorktimeView> result = m9ieWorktimeViewService.findByModelNames("DLV7310-2VQ120WC0", "DMS-SE24-00A1E");
+        assertTrue(!result.isEmpty());
+    }
+
 //    @Test
     public void testCobotM4fService() {
         System.out.println("testCobotM4fService");
@@ -104,7 +122,7 @@ public class M4fServiceTest {
         assertTrue(!result.isEmpty());
         CobotM4f pojo = cobotM4fService.findByPrimaryKey(1);
     }
-    
+
 //    @Test
     public void testTypeM4fService() {
         System.out.println("testTypeM4fService");
@@ -114,7 +132,7 @@ public class M4fServiceTest {
         assertTrue(!result.isEmpty());
         TypeM4f pojo = typeM4fService.findByPrimaryKey(1);
     }
-    
+
 //    @Test
     public void testWorktimeColumnGroupM4fService() {
         System.out.println("testWorktimeColumnGroupM4fService");
@@ -125,7 +143,7 @@ public class M4fServiceTest {
         WorktimeColumnGroupM4f pojo = worktimeColumnGroupM4fService.findByPrimaryKey(1);
         WorktimeColumnGroupM4f pojo2 = worktimeColumnGroupM4fService.findByUnit(1);
     }
-    
+
 //    @Test
     public void testUserProfileM4fService() {
         System.out.println("testUserProfileM4fService");
@@ -166,7 +184,7 @@ public class M4fServiceTest {
         assertTrue(!result.isEmpty());
         CartonLabelM4f pojo = cartonLabelM4fService.findByPrimaryKey(1);
     }
-    
+
 //    @Test
     public void testFloorM4fService() {
         System.out.println("testFloorM4fService");
@@ -175,7 +193,7 @@ public class M4fServiceTest {
         assertTrue(!result.isEmpty());
         FloorM4f pojo = floorM4fService.findByPrimaryKey(1);
     }
-    
+
 //    @Test
     public void testUnitM4fService() {
         System.out.println("testUnitM4fService");
@@ -212,7 +230,7 @@ public class M4fServiceTest {
         assertTrue(!result.isEmpty());
         WorktimeMaterialPropertyDownloadSettingM4f pojo = propSettingDlService.findByPrimaryKey(1);
     }
-    
+
 //    @Test
     public void testWorktimeMaterialPropertyUploadSettingM4fService() {
         System.out.println("testWorktimeMaterialPropertyUploadSettingM4fService");
