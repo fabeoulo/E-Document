@@ -50,6 +50,7 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
 
 //    @Autowired
 //    private WorktimeUploadMesService uploadMesService;
+//    
     @Autowired
     private WorktimeM4fValidator validator;
 
@@ -132,10 +133,9 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
         return 1;
     }
 
-    public int insertWithMesUpload(WorktimeM4f worktime) throws Exception {
-        return this.insertWithMesUpload(newArrayList(worktime));
-    }
-
+//    public int insertWithMesUpload(WorktimeM4f worktime) throws Exception {
+//        return this.insertWithMesUpload(newArrayList(worktime));
+//    }
     //For batch modify.
     public int insertWithMesUploadAndFormulaSetting(List<WorktimeM4f> l) throws Exception {
         //uploadMesService.portParamInit();
@@ -195,8 +195,8 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
         checkState(baseWSetting != null, "Can't find formulaSetting on: " + baseModelName);
         for (WorktimeM4f w : l) {
             WorktimeFormulaSettingM4f cloneSetting = (WorktimeFormulaSettingM4f) BeanUtils.cloneBean(baseWSetting);
-//            cloneSetting.setWorktime(w);
-//            worktimeFormulaSettingDao.insert(cloneSetting);
+            cloneSetting.setWorktime(w);
+            worktimeFormulaSettingDao.insert(cloneSetting);
         }
 
         //Insert cobots setting
@@ -224,23 +224,24 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
 //        }
         return bg;
     }
-
-    public int updateWithMesUpload(List<WorktimeM4f> l) throws Exception {
-        //uploadMesService.portParamInit();
-        int i = 1;
-        for (WorktimeM4f w : l) {
-            initUnfilledFormulaColumn(w);
-            dao.update(w);
+//
+//    public int updateWithMesUpload(List<WorktimeM4f> l) throws Exception {
+//        //uploadMesService.portParamInit();
+//        int i = 1;
+//        for (WorktimeM4f w : l) {
+//            initUnfilledFormulaColumn(w);
+//            dao.update(w);
 //            worktimeFormulaSettingDao.update(w.getWorktimeFormulaSettings().get(0));
-//            uploadMesService.update(w);
-            flushIfReachFetchSize(i++);
-        }
-        return 1;
-    }
-
-    public int updateWithMesUpload(WorktimeM4f worktime) throws Exception {
-        return this.updateWithMesUpload(newArrayList(worktime));
-    }
+////            uploadMesService.update(w);
+//            flushIfReachFetchSize(i++);
+//        }
+//        return 1;
+//    }
+//
+//    public int updateWithMesUpload(WorktimeM4f worktime) throws Exception {
+//        return this.updateWithMesUpload(newArrayList(worktime));
+//    }
+//    
 
     public int mergeWithMesUpload(List<WorktimeM4f> l) throws Exception {
 //        //uploadMesService.portParamInit();
@@ -259,24 +260,7 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
         return this.mergeWithMesUpload(newArrayList(worktime));
     }
 
-//    public int saveOrUpdateByExcelModels(List<IWorktimeForWebService> l) throws Exception {
-//        List<WorktimeM4f> wtInDb = this.findAll();
-//        wtInDb.stream().map(w->w.getModelName()).
-//        for (int i = 0; i < l.size(); i++) {
-//            WorktimeM4f w = (WorktimeM4f) l.get(i);
-//            WorktimeM4f existW = this.findByModel(w.getModelName());
-//            if (existW == null) {
-//                w.setWorktimeFormulaSettings(newArrayList(new WorktimeFormulaSettingM4f()));
-//                this.insertWithFormulaSetting(w);
-//            } else {
-//                w.setId(existW.getId());
-//                this.mergeWithMesUpload(w);
-//            }
-//        }
-//        return 1;
-//    }
-//    
-    public int insertAndFormulaSetting(List<WorktimeM4f> l) throws Exception {
+    public int insertWithoutUpload(List<WorktimeM4f> l) {
         int i = 0;
         for (WorktimeM4f w : l) {
             initUnfilledFormulaColumn(w);
@@ -290,11 +274,31 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
         return 1;
     }
 
-    public int insertByMesModels(List<WorktimeM4f> l) throws Exception {
+    public int insertByMesDL(List<WorktimeM4f> l) {
+        List<WorktimeFormulaSettingM4f> formulas = newArrayList(new WorktimeFormulaSettingM4f());
         l.forEach(w -> {
-            w.setWorktimeFormulaSettings(newArrayList(new WorktimeFormulaSettingM4f(0, 0)));
+            w.setWorktimeFormulaSettings((formulas));
         });
-        this.insertAndFormulaSetting(l);
+        this.insertWithoutUpload(l);
+        return 1;
+    }
+
+    public int insertByMesDL(WorktimeM4f worktime) {
+        return this.insertByMesDL(newArrayList(worktime));
+    }
+
+    public int mergeByMesDL(List<WorktimeM4f> l) {
+        retriveFormulaSetting(l);
+        return this.mergeWithoutUpload(l);
+    }
+
+    public int mergeWithoutUpload(List<WorktimeM4f> l) {
+        int i = 1;
+        for (WorktimeM4f w : l) {
+            initUnfilledFormulaColumn(w);
+            dao.merge(w);
+            flushIfReachFetchSize(i++);
+        }
         return 1;
     }
 
@@ -340,23 +344,6 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
         }
         return null;
     }
-//    
-//    public int mergeByExcelModels(List<WorktimeM4f> l) throws Exception {
-//        retriveFormulaSetting(l);
-//
-////        //uploadMesService.portParamInit();
-//        int i = 1;
-//        for (WorktimeM4f w : l) {
-//            //Don't need to update formula, but still need to re-calculate the formula field
-//            this.initUnfilledFormulaColumn(w);
-//
-//            dao.merge(w);
-////            uploadMesService.update(w);
-//            flushIfReachFetchSize(i++);
-//        }
-//        return 1;
-//
-//    }
 
     public int insertByExcel(List<WorktimeM4f> l) throws Exception {
         l.forEach(w -> {
@@ -366,7 +353,7 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
         return 1;
     }
 
-    public int mergeByExcel(List<WorktimeM4f> l) throws Exception {
+    public int mergeByExcel(List<WorktimeM4f> l) {
         retriveFormulaSetting(l);
 
 //        //uploadMesService.portParamInit();

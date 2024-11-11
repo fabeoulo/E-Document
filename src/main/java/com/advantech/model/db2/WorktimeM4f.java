@@ -515,6 +515,18 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
     @JsonView(View.Public.class)
     private String labelPacking10;
 
+    @JsonView(View.Public.class)
+    private BigDecimal wifi = BigDecimal.ZERO;
+
+    @JsonView(View.Public.class)
+    private BigDecimal wwan = BigDecimal.ZERO;
+    
+    @JsonView(View.Public.class)
+    private BigDecimal t0 = BigDecimal.ZERO;
+
+    @JsonView(View.Public.class)
+    private BigDecimal loadDefault = BigDecimal.ZERO;
+    
     public WorktimeM4f() {
     }
 
@@ -2009,6 +2021,50 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
 
     public void setSapWt(BigDecimal sapWt) {
         this.sapWt = sapWt;
+    }
+
+    @NotAudited
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    @Column(name = "wifi", precision = 10, scale = 1)
+    public BigDecimal getWifi() {
+        return wifi;
+    }
+
+    public void setWifi(BigDecimal wifi) {
+        this.wifi = autoFixScale(wifi, 1);
+    }
+
+    @NotAudited
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    @Column(name = "wwan", precision = 10, scale = 1)
+    public BigDecimal getWwan() {
+        return wwan;
+    }
+
+    public void setWwan(BigDecimal wwan) {
+        this.wwan = autoFixScale(wwan, 1);
+    }
+
+    @NotAudited
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    @Column(name = "t0", precision = 10, scale = 1)
+    public BigDecimal getT0() {
+        return t0;
+    }
+
+    public void setT0(BigDecimal t0) {
+        this.t0 = autoFixScale(t0, 1);
+    }
+
+    @NotAudited
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    @Column(name = "load_Default", precision = 10, scale = 1)
+    public BigDecimal getLoadDefault() {
+        return loadDefault;
+    }
+
+    public void setLoadDefault(BigDecimal loadDefault) {
+        this.loadDefault = autoFixScale(loadDefault, 1);
     }
 
     @Column(name = "t1_statusQty")
