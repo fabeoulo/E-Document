@@ -93,7 +93,8 @@ var businessGroup_select_event_m4f = [
         fn: function (e) {
             var selectOption = $('option:selected', this).text();
             var defaultValue = {
-                M4F: "ASSY-A"
+                M4F: "ASSY-A",
+                M4FES: "ES-M9"
             };
             $('input#workCenter').val(defaultValue[selectOption]);
         }

@@ -141,17 +141,6 @@ public class HibernateTest {
         this.testUpdate();
     }
 
-//    @Test
-//    @Transactional
-//    @Rollback(true)
-    public void testUpdateM9() throws Exception {
-        Session session = sessionFactory2.getCurrentSession();
-        Criteria criteria = session.createCriteria(WorktimeM4f.class);
-        criteria.add(Restrictions.in("modelName", "AIM-68H-202000"));
-        List<WorktimeM4f> l = criteria.list();
-        HibernateObjectPrinter.print(l);
-    }
-
     public void testUpdate() throws Exception {
         Session session = sessionFactory.getCurrentSession();
         Worktime w = (Worktime) session.load(Worktime.class, 17915);
