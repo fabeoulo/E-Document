@@ -520,13 +520,13 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
 
     @JsonView(View.Public.class)
     private BigDecimal wwan = BigDecimal.ZERO;
-    
+
     @JsonView(View.Public.class)
     private BigDecimal t0 = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
     private BigDecimal loadDefault = BigDecimal.ZERO;
-    
+
     public WorktimeM4f() {
     }
 
@@ -553,6 +553,7 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
         this.floor = floor;
     }
 
+//    @NotNull(message = "TEST_FLOW不可為空")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "test_flow_id")
     public FlowM4f getFlowByTestFlowId() {
@@ -573,6 +574,7 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
         this.flowByPackingFlowId = flowByPackingFlowId;
     }
 
+//    @NotNull(message = "BAB_FLOW不可為空")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bab_flow_id")
     public FlowM4f getFlowByBabFlowId() {
@@ -642,6 +644,7 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
         this.pending = pending;
     }
 
+//    @NotNull(message = "PRE-ASSY不可為空")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pre_assy_id")
     public PreAssyM4f getPreAssy() {

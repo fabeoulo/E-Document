@@ -122,8 +122,8 @@
                 {name: "user", nameprefix: "qc_", isNullable: false, dataToServer: "QC"},
                 {name: "user", nameprefix: "mpm_", isNullable: true, dataToServer: "MPM"},
                 {name: "type", isNullable: false},
-                {name: "flow", nameprefix: "bab_", isNullable: false, dataToServer: "1"},
-                {name: "flow", nameprefix: "test_", isNullable: true, dataToServer: "3"},
+                {name: "flow", nameprefix: "bab_", isNullable: true, dataToServer: "1"},
+                {name: "flow", nameprefix: "test_", isNullable: false, dataToServer: "3"},
                 {name: "flow", nameprefix: "pkg_", isNullable: true, dataToServer: "2"},
                 {name: "preAssy", isNullable: true},
                 {name: "pending", isNullable: false},
@@ -288,10 +288,10 @@
                 {label: 'Model', name: "modelName", frozen: true, editable: true, searchrules: {required: true}, searchoptions: search_string_options, editrules: {required: true}, editoptions: {dataEvents: upperCase_event}, formoptions: required_form_options},
                 {label: 'TYPE', name: "type.id", edittype: "select", editoptions: {value: selectOptions["type"]}, formatter: selectOptions["type_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["type"], sopt: ['eq']}},
                 {label: 'BU', name: "businessGroup.id", edittype: "select", editoptions: {value: selectOptions["businessGroup"], dataInit: selectOptions["businessGroup_init"], dataEvents: businessGroup_select_event_m4f, defaultValue: "EDIS"}, formatter: selectOptions["businessGroup_func"], width: 100, formoptions: {elmsuffix: "<b class='danger'>新機種請確認BU</b>"}, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["businessGroup"], sopt: ['eq'], dataInit: selectOptions["businessGroup_sinit"]}},
-                {label: 'PRE-ASSY', name: "preAssy.id", edittype: "select", editoptions: {value: selectOptions["preAssy"]}, formatter: selectOptions["preAssy_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["preAssy"], sopt: ['eq']}},
-                {label: 'BAB_FLOW', name: "flowByBabFlowId.id", edittype: "select", editoptions: {value: selectOptions["bab_flow"], dataEvents: babFlow_select_event_m4f, defaultValue: "111"}, formatter: selectOptions["bab_flow_func"], cellattr: hideEmptyBabFlow, width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["bab_flow"], sopt: ['eq']}},
-                {label: 'TEST_FLOW', name: "flowByTestFlowId.id", edittype: "select", editoptions: {value: selectOptions["test_flow"], dataEvents: testFlow_select_event_m4f}, formatter: selectOptions["test_flow_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["test_flow"], sopt: ['eq']}},
-                {label: 'PACKING_FLOW', name: "flowByPackingFlowId.id", edittype: "select", editoptions: {value: selectOptions["pkg_flow"]}, formatter: selectOptions["pkg_flow_func"], width: 140, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["pkg_flow"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>確認秤重途程</b>"}},
+                {label: 'PRE-ASSY', name: "preAssy.id", edittype: "select", editoptions: {value: selectOptions["preAssy"], dataEvents: preAssy_select_event_m4f, defaultValue: preAssy_default_value_m4f}, formatter: selectOptions["preAssy_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["preAssy"], sopt: ['eq']}},
+                {label: 'BAB_FLOW', name: "flowByBabFlowId.id", edittype: "select", editoptions: {value: selectOptions["bab_flow"], dataEvents: babFlow_select_event_m4f, defaultValue: babFlow_default_value_m4f}, formatter: selectOptions["bab_flow_func"], cellattr: hideEmptyBabFlow, width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["bab_flow"], sopt: ['eq']}},
+                {label: 'TEST_FLOW', name: "flowByTestFlowId.id", edittype: "select", editoptions: {value: selectOptions["test_flow"], dataEvents: testFlow_select_event_m4f, defaultValue: testFlow_default_value_m4f}, formatter: selectOptions["test_flow_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["test_flow"], sopt: ['eq']}},
+                {label: 'PACKING_FLOW', name: "flowByPackingFlowId.id", edittype: "select", editoptions: {value: selectOptions["pkg_flow"], dataEvents: pkgFlow_select_event_m4f, defaultValue: pkgFlow_default_value_m4f}, formatter: selectOptions["pkg_flow_func"], width: 140, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["pkg_flow"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>確認秤重途程</b>"}},
                 {label: 'CleanPanel', name: "cleanPanel", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Total Module', name: "totalModule", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'Assembly', name: "assy", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
@@ -512,7 +512,7 @@
                     beforeShowForm: function (form) {
                         setTimeout(function () {
                             // do here all what you need (like alert('yey');)
-                            $("#flowByBabFlowId\\.id, #businessGroup\\.id").trigger("change");
+                            $("#preAssy\\.id, #flowByBabFlowId\\.id, #flowByPackingFlowId\\.id, #businessGroup\\.id").trigger("change");
                             checkLabelisEmpty();
                             settingFormulaCheckbox();
                             addModReasonCode();
@@ -548,7 +548,7 @@
                         setTimeout(function () {
                             // do here all what you need (like alert('yey');)
                             $("#businessGroup\\.id > option:disabled").hide();
-                            $("#flowByBabFlowId\\.id, #businessGroup\\.id, #testProfile").trigger("change");
+                            $("#preAssy\\.id, #flowByBabFlowId\\.id, #flowByPackingFlowId\\.id, #businessGroup\\.id, #testProfile").trigger("change");
                             addNarPage();
                             addType();
                         }, 50);

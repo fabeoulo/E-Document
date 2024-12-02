@@ -8,6 +8,7 @@ package com.advantech.test;
 import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.Flow;
+import com.advantech.model.PreAssy;
 import com.advantech.model.Worktime;
 import com.advantech.model.WorktimeAutouploadSetting;
 import com.advantech.model.WorktimeMaterialPropertyUploadSetting;
@@ -36,6 +37,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -154,17 +156,17 @@ public class UploadPortTest {
 //    @Test//245
     @Rollback(true)
     public void testFlowUpload() throws Exception {
-        w = worktimeService.findByModel("2063002307");
-        Flow f = flowService.findByPrimaryKey(57);
+        w = worktimeService.findByModel("EKI-9516-P0IDH10E-TEST");
+        Flow f = flowService.findByPrimaryKey(356);
         w.setFlowByTestFlowId(f);
-        flowUploadPort.update(w);
+//        flowUploadPort.update(w);
 
-        f = flowService.findByPrimaryKey(52);
-        w.setFlowByTestFlowId(f);
-        flowUploadPort.update(w);
+        f = flowService.findByPrimaryKey(355);
+        w.setFlowByBabFlowId(f);
+//        flowUploadPort.update(w);
 
-        f = flowService.findByPrimaryKey(0);
-        w.setFlowByTestFlowId(f);
+        PreAssy pf = preAssyService.findByPrimaryKey(10);
+        w.setPreAssy(pf);
         flowUploadPort.update(w);
 
 //        List<Worktime> l = worktimes;
@@ -173,9 +175,6 @@ public class UploadPortTest {
 //            flowUploadPort.update(worktime);
 //        }
     }
-
-    @Autowired
-    private SessionFactory factory;
 
 //    @Test//245
     public void testPartMappingUserUpload() throws Exception {
@@ -273,6 +272,10 @@ public class UploadPortTest {
 //        materialPropertyUploadPort.update(worktime);
 //        materialPropertyUploadPort.delete(worktime);
     }
+
+    @Autowired
+    @Qualifier("sessionFactory")
+    private SessionFactory factory;
 
 //    @Test
     @Rollback(true)

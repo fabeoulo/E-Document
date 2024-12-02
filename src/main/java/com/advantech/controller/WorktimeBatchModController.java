@@ -342,9 +342,9 @@ public class WorktimeBatchModController {
             w.setUserByQcOwnerId(valid(qcUserName, userOptions.get(qcUserName)));
             w.setUserByMpmOwnerId(valid(mpmUserName, userOptions.get(mpmUserName)));
 
-            String babFlowName = getCell(sheet, i, "babFlowName");
-            String pkgFlowName = getCell(sheet, i, "packingFlowName");
-            String testFlowName = getCell(sheet, i, "testFlowName");
+            String babFlowName = getCellUpperCase(sheet, i, "babFlowName");
+            String pkgFlowName = getCellUpperCase(sheet, i, "packingFlowName");
+            String testFlowName = getCellUpperCase(sheet, i, "testFlowName");
 
             w.setFlowByBabFlowId(valid(babFlowName, flowOptions.get(babFlowName)));
             w.setFlowByPackingFlowId(valid(pkgFlowName, flowOptions.get(pkgFlowName)));
@@ -352,7 +352,7 @@ public class WorktimeBatchModController {
 
             w.setPending(pendingOptions.get(getCell(sheet, i, "pendingName")));
 
-            String preAssyName = getCell(sheet, i, "preAssyName");
+            String preAssyName = getCellUpperCase(sheet, i, "preAssyName");
             w.setPreAssy(valid(preAssyName, preAssyOptions.get(preAssyName)));
 
             String businessGroupName = getCell(sheet, i, "businessGroupName");
@@ -384,9 +384,10 @@ public class WorktimeBatchModController {
         if (!l.isEmpty()) {
             Object firstObj = l.get(0);
             boolean isUserObject = firstObj instanceof User;
+            boolean isUpperCase = firstObj instanceof Flow || firstObj instanceof PreAssy;
             for (Object obj : l) {
                 String name = (String) PropertyUtils.getProperty(obj, isUserObject ? "username" : "name");
-                m.put(isUserObject ? name.toUpperCase() : name, obj);
+                m.put(isUserObject || isUpperCase ? name.toUpperCase() : name, obj);
             }
         }
         return m;

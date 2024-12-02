@@ -1,5 +1,10 @@
 //給予大表下拉式選單auto event
 
+var babFlow_default_value_m4f = 313;
+var testFlow_default_value_m4f = 314;
+var preAssy_default_value_m4f = 16;
+var pkgFlow_default_value_m4f = 391;
+
 var burnIn_select_event_m4f = [
     {
         type: 'change',
@@ -53,16 +58,21 @@ var babFlow_select_event_m4f = [
     {
         type: 'change',
         fn: function (e) {
+            reset_value_zero($(this), babFlow_default_value_m4f);
+
             flow_LK_hint();
             var sel2 = $("#flowByTestFlowId\\.id");
             var sel2Val = sel2.val();
+            var selectedValue = testFlow_default_value_m4f;
+
             $.get('../SelectOptionM4f/flow-byParent/' + $(this).val(), function (data) {
                 sel2.html("");
-                sel2.append("<option role='option' value=0>empty</option>");
+                sel2.append("<option role='option' value=" + testFlow_default_value_m4f + ">No TEST Process</option>");
                 for (var i = 0; i < data.length; i++) {
                     sel2.append("<option role='option' value=" + data[i].id + ">" + data[i].name + "</option>");
+                    selectedValue = data[i].id == sel2Val ? sel2Val : selectedValue;
                 }
-                sel2.val(sel2Val);
+                sel2.val(selectedValue);
             });
         }
     }
@@ -76,6 +86,32 @@ var testFlow_select_event_m4f = [
         }
     }
 ];
+
+var preAssy_select_event_m4f = [
+    {
+        type: 'change',
+        fn: function (e) {
+            reset_value_zero($(this), preAssy_default_value_m4f);
+        }
+    }
+];
+
+var pkgFlow_select_event_m4f = [
+    {
+        type: 'change',
+        fn: function (e) {
+            reset_value_zero($(this), pkgFlow_default_value_m4f);
+        }
+    }
+];
+
+function reset_value_zero($sel, selectedValue) {
+    var val = $sel.val();
+    if (val == 0) {
+        $sel.val(selectedValue);
+    }
+    $sel.find('option[value="0"]').remove();
+}
 
 var flow_LK_hint = function (sel) {
     var selVal = $("#flowByBabFlowId\\.id :selected").text();
