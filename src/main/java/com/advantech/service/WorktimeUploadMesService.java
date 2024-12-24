@@ -246,7 +246,9 @@ public class WorktimeUploadMesService {
                 || !isEquals(prev.getLabelPacking7(), current.getLabelPacking7())
                 || !isEquals(prev.getLabelPacking8(), current.getLabelPacking8())
                 || !isEquals(prev.getLabelPacking9(), current.getLabelPacking9())
-                || !isEquals(prev.getLabelPacking10(), current.getLabelPacking10());
+                || !isEquals(prev.getLabelPacking10(), current.getLabelPacking10())
+                || !isEquals(prev.getLabelAssyInput(), current.getLabelAssyInput())
+                || !isEquals(prev.getSsnOnTag(), current.getSsnOnTag());
         return b;
     }
 

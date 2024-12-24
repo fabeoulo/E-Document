@@ -329,7 +329,6 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     @JsonView(View.Public.class)
     private BigDecimal cobotManualWt;
 
-    //This value almost equals to productionWt in sap
     @JsonView(View.Public.class)
     private BigDecimal sapWt = BigDecimal.ZERO;
 
@@ -367,6 +366,9 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     private Character labelYN;
 
     @JsonView(View.Public.class)
+    private String ssnOnTag;
+    
+    @JsonView(View.Public.class)
     private OutLabel labelOuterId;
 
     @JsonView(View.Public.class)
@@ -399,6 +401,9 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     @JsonView(View.Public.class)
     private String labelNmodelB;
 
+    @JsonView(View.Public.class)
+    private String labelAssyInput;
+    
     @JsonView(View.Public.class)
     private String labelVariable1;
 
@@ -1485,6 +1490,17 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.labelYN = labelYN;
     }
 
+    @NotNull
+    @Size(min = 1, max = 1)
+    @Column(name = "ssnOnTag", length = 1)
+    public String getSsnOnTag() {
+        return ssnOnTag;
+    }
+
+    public void setSsnOnTag(String ssnOnTag) {
+        this.ssnOnTag = ssnOnTag;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "label_outer_id")
     public OutLabel getLabelOuterId() {
@@ -1593,6 +1609,16 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 
     public void setLabelNmodelB(String labelNmodelB) {
         this.labelNmodelB = labelNmodelB;
+    }
+
+    @Size(min = 0, max = 150)
+    @Column(name = "label_AssyInput", length = 150)
+    public String getLabelAssyInput() {
+        return labelAssyInput;
+    }
+
+    public void setLabelAssyInput(String labelAssyInput) {
+        this.labelAssyInput = labelAssyInput;
     }
 
     @Size(min = 0, max = 150)

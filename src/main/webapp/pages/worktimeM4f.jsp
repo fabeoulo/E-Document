@@ -221,8 +221,8 @@
             clearCheckErrorIcon();
             checkResult = checkFlowIsValid(postdata, formid);
 
-            var modelRelativeCheckResult = checkModelIsValid(postdata);
-            checkResult = checkResult.concat(modelRelativeCheckResult);
+            var fieldCheckResult = fieldCheckField(postdata, formid);
+            checkResult = checkResult.concat(fieldCheckResult);
 
             var biSamplingCheckResult = checkIfBiSampling(postdata);
             checkResult = checkResult.concat(biSamplingCheckResult);
@@ -703,7 +703,7 @@
             }
         }
 
-        function flowCheck(logicArr, flowName, formObj) {
+        function flowCheck(logicArr, flowName, formObj, formid) {
             if (flowName == null) {
                 flowName = '';
             }
@@ -736,7 +736,7 @@
                                 if (!logic.prmValid(formObj[colName])) {
                                     tempArr.push({
                                         field: colName,
-                                        code: logic.message
+                                        code: getColLabels(formid, checkCol) + logic.message
                                     });
                                     checkFlag = checkFlag || false;
                                 } else {
@@ -748,31 +748,21 @@
                             }
                         } else if (checkType === 'ALT') { //Alternate logic check
                             var nonZeroCount = 0;
-                            var nonZeroArr = [];
-                            var checkFlag = false;
                             var tempArr = [];
                             for (var k = 0; k < checkCol.length; k++) {
                                 var colName = checkCol[k];
-                                if (!logic.prmValid(formObj[colName])) {
-                                    tempArr.push({
-                                        field: colName,
-                                        code: logic.message
-                                    });
-                                    checkFlag = checkFlag || false;
-                                } else {
-                                    checkFlag = checkFlag || true;
+                                tempArr.push({
+                                    field: colName,
+                                    code: getColLabels(formid, checkCol) + logic.message
+                                });
+
+                                if (logic.prmValid(formObj[colName])) {
                                     nonZeroCount++;
-                                    nonZeroArr.push({
-                                        field: colName,
-                                        code: checkCol + logic.altMessage
-                                    });
                                 }
                             }
 
-                            if (checkFlag == false) {
+                            if (nonZeroCount !== 1) {
                                 validationErrors = validationErrors.concat(tempArr);
-                            } else if (nonZeroCount > 1) {
-                                validationErrors = validationErrors.concat(nonZeroArr);
                             }
                         }
                     }
@@ -872,10 +862,10 @@
                     babCheckLogic = flow_check_logic_m4f.BAB,
                     testCheckLogic = flow_check_logic_m4f.TEST,
                     pkgCheckLogic = flow_check_logic_m4f.PKG;
-            var preAssyCheckMessage = flowCheck(preAssyCheckLogic, preAssyName, postdata);
-            var babCheckMessage = flowCheck(babCheckLogic, babFlowName, postdata);
-            var testCheckMessage = flowCheck(testCheckLogic, testFlowName, postdata);
-            var pkgCheckMessage = flowCheck(pkgCheckLogic, pkgFlowName, postdata);
+            var preAssyCheckMessage = flowCheck(preAssyCheckLogic, preAssyName, postdata, formid);
+            var babCheckMessage = flowCheck(babCheckLogic, babFlowName, postdata, formid);
+            var testCheckMessage = flowCheck(testCheckLogic, testFlowName, postdata, formid);
+            var pkgCheckMessage = flowCheck(pkgCheckLogic, pkgFlowName, postdata, formid);
 
             var firstCheckResult = babCheckMessage.concat(testCheckMessage).concat(pkgCheckMessage).concat(preAssyCheckMessage);
 
@@ -884,16 +874,6 @@
             var totalAlert = firstCheckResult.concat(secondCheckResult);
 
             return totalAlert;
-        }
-
-        function checkModelIsValid(postdata) {
-            var data = {
-                modelName: postdata["modelName"],
-                "businessGroup\\.id": selectOptions["businessGroup_options"].get(parseInt(postdata["businessGroup.id"]))
-            };
-            var modelCheckResult = modelNameCheckFieldIsValidM4f(data);
-            var otherFieldCheckResult = checkModelNameIsValidM4f(data);
-            return modelCheckResult.concat(otherFieldCheckResult);
         }
 
         function checkIfBiSampling(data) {

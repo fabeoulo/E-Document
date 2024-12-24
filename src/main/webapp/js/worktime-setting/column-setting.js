@@ -99,6 +99,7 @@ var worktimeCol = [
     {name: "etlVariable2Aff"},
     {name: "etlVariable3Aff"},
     {name: "labelYN"},
+    {name: "ssnOnTag"},
     {name: "labelOuterId.id"},
     {name: "labelCartonId.id"},
     {name: "labelOuterCustom"},
@@ -110,6 +111,7 @@ var worktimeCol = [
     {name: "labelPn"},
     {name: "labelNmodelA"},
     {name: "labelNmodelB"},
+    {name: "labelAssyInput"},
     {name: "labelVariable1"},
     {name: "labelVariable2"},
     {name: "labelVariable3"},
@@ -177,7 +179,7 @@ var group = [
             'tr_cleanPanelAndAssembly', 'tr_cobotManualWt', 'tr_packingPalletTime']
     },
     {
-        Type2: ['tr_labelYN', 'tr_labelOuterId.id', 'tr_labelOuterCustom', 'tr_labelCartonId.id', 'tr_labelCartonCustom', 'tr_labelBigCarton', 'tr_label2D', 'tr_labelCustomerSn', 'tr_labelSn', 'tr_labelPn', 'tr_labelNmodelA', 'tr_labelNmodelB',
+        Type2: ['tr_labelYN', 'tr_ssnOnTag', 'tr_labelOuterId.id', 'tr_labelOuterCustom', 'tr_labelCartonId.id', 'tr_labelCartonCustom', 'tr_labelBigCarton', 'tr_label2D', 'tr_labelCustomerSn', 'tr_labelSn', 'tr_labelPn', 'tr_labelNmodelA', 'tr_labelNmodelB', , 'tr_labelAssyInput',
             'tr_labelVariable1', 'tr_labelVariable2', 'tr_labelVariable3', 'tr_labelVariable4', 'tr_labelVariable5', 'tr_labelVariable6', 'tr_labelVariable7', 'tr_labelVariable8', 'tr_labelVariable9', 'tr_labelVariable10',
             'tr_labelVariable1Aff', 'tr_labelVariable2Aff', 'tr_labelVariable3Aff', 'tr_labelVariable4Aff', 'tr_labelVariable5Aff', 'tr_labelVariable6Aff', 'tr_labelVariable7Aff', 'tr_labelVariable8Aff', 'tr_labelVariable9Aff', 'tr_labelVariable10Aff',
             'tr_labelPacking1', 'tr_labelPacking2', 'tr_labelPacking3', 'tr_labelPacking4', 'tr_labelPacking5', 'tr_labelPacking6', 'tr_labelPacking7', 'tr_labelPacking8', 'tr_labelPacking9', 'tr_labelPacking10']

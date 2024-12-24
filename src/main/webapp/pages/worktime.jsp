@@ -211,8 +211,8 @@
             clearCheckErrorIcon();
             checkResult = checkFlowIsValid(postdata, formid);
 
-            var modelRelativeCheckResult = checkModelIsValid(postdata);
-            checkResult = checkResult.concat(modelRelativeCheckResult);
+            var fieldCheckResult = fieldCheckField(postdata, formid);
+            checkResult = checkResult.concat(fieldCheckResult);
 
             var biSamplingCheckResult = checkIfBiSampling(postdata);
             checkResult = checkResult.concat(biSamplingCheckResult);
@@ -347,6 +347,7 @@
                 {label: 'N合1集合箱', name: "nsInOneCollectionBox", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0', dataEvents: nsInOneCollectionBox_change_event}},
                 {label: 'SN是否等於SSN', name: "partNoAttributeMaintain", edittype: "select", editoptions: {value: "N:N; :empty", defaultValue: ' '}, width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: '標籤信息是否啟用料號屬性定義', name: "labelYN", edittype: "select", editoptions: {value: "Y:Y;N:N", defaultValue: 'Y'}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
+                {label: '掛卡產生客戶序號', name: "ssnOnTag", edittype: "select", editoptions: {value: "Y:Y;N:N", defaultValue: 'N'}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: 'OuterLable標準套版選單', name: "labelOuterId.id", width: 100, edittype: "select", editoptions: {value: selectOptions["outlabel"], dataEvents: labelOuter_change_event}, formatter: selectOptions["outlabel_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["outlabel"], sopt: ['eq']}},
                 {label: 'OuterLable標籤名稱定義', name: "labelOuterCustom", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'CartonLable標準套版選單', name: "labelCartonId.id", width: 100, edittype: "select", editoptions: {value: selectOptions["cartonlabel"], dataEvents: labelCarton_change_event}, formatter: selectOptions["cartonlabel_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["cartonlabel"], sopt: ['eq']}},
@@ -358,6 +359,7 @@
                 {label: '料號綁定標簽', name: "labelPn", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'N機種A label名稱', name: "labelNmodelA", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'N機種B label名稱', name: "labelNmodelB", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'AssyInput標籤名稱', name: "labelAssyInput", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'Packing01標籤名稱', name: "labelPacking1", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'Packing02標籤名稱', name: "labelPacking2", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'Packing03標籤名稱', name: "labelPacking3", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
@@ -471,7 +473,7 @@
             groupHeaders: [
                 {startColumnName: 'macTotalQty', numberOfColumns: 11, titleText: '<em>MAC</em>'},
                 {startColumnName: 'ce', numberOfColumns: 8, titleText: '<em>外箱Label產品資訊 (1：要印   0：不印)</em>'},
-                {startColumnName: 'partNoAttributeMaintain', numberOfColumns: 43, titleText: '<em>料號屬性值維護</em>'},
+                {startColumnName: 'partNoAttributeMaintain', numberOfColumns: 45, titleText: '<em>料號屬性值維護</em>'},
                 {startColumnName: 'assyLeadTime', numberOfColumns: 2, titleText: '<em>組裝看板工時</em>'},
                 {startColumnName: 'packingLeadTime', numberOfColumns: 3, titleText: '<em>包裝看板工時</em>'},
                 {startColumnName: 'testProfile', numberOfColumns: 6, titleText: '<em>hi-pot Test</em>'},
@@ -684,7 +686,7 @@
             }
         }
 
-        function flowCheck(logicArr, flowName, formObj) {
+        function flowCheck(logicArr, flowName, formObj, formid) {
             if (flowName == null) {
                 flowName = '';
             }
@@ -717,7 +719,7 @@
                                 if (!logic.prmValid(formObj[colName])) {
                                     tempArr.push({
                                         field: colName,
-                                        code: logic.message
+                                        code: getColLabels(formid, checkCol) + logic.message
                                     });
                                     checkFlag = checkFlag || false;
                                 } else {
@@ -729,31 +731,21 @@
                             }
                         } else if (checkType === 'ALT') { //Alternate logic check
                             var nonZeroCount = 0;
-                            var nonZeroArr = [];
-                            var checkFlag = false;
                             var tempArr = [];
                             for (var k = 0; k < checkCol.length; k++) {
                                 var colName = checkCol[k];
-                                if (!logic.prmValid(formObj[colName])) {
-                                    tempArr.push({
-                                        field: colName,
-                                        code: logic.message
-                                    });
-                                    checkFlag = checkFlag || false;
-                                } else {
-                                    checkFlag = checkFlag || true;
+                                tempArr.push({
+                                    field: colName,
+                                    code: getColLabels(formid, checkCol) + logic.message
+                                });
+
+                                if (logic.prmValid(formObj[colName])) {
                                     nonZeroCount++;
-                                    nonZeroArr.push({
-                                        field: colName,
-                                        code: checkCol + logic.altMessage
-                                    });
                                 }
                             }
 
-                            if (checkFlag == false) {
+                            if (nonZeroCount !== 1) {
                                 validationErrors = validationErrors.concat(tempArr);
-                            } else if (nonZeroCount > 1) {
-                                validationErrors = validationErrors.concat(nonZeroArr);
                             }
                         }
                     }
@@ -853,10 +845,10 @@
                     babCheckLogic = flow_check_logic.BAB,
                     testCheckLogic = flow_check_logic.TEST,
                     pkgCheckLogic = flow_check_logic.PKG;
-            var preAssyCheckMessage = flowCheck(preAssyCheckLogic, preAssyName, postdata);
-            var babCheckMessage = flowCheck(babCheckLogic, babFlowName, postdata);
-            var testCheckMessage = flowCheck(testCheckLogic, testFlowName, postdata);
-            var pkgCheckMessage = flowCheck(pkgCheckLogic, pkgFlowName, postdata);
+            var preAssyCheckMessage = flowCheck(preAssyCheckLogic, preAssyName, postdata, formid);
+            var babCheckMessage = flowCheck(babCheckLogic, babFlowName, postdata, formid);
+            var testCheckMessage = flowCheck(testCheckLogic, testFlowName, postdata, formid);
+            var pkgCheckMessage = flowCheck(pkgCheckLogic, pkgFlowName, postdata, formid);
 
             var firstCheckResult = babCheckMessage.concat(testCheckMessage).concat(pkgCheckMessage).concat(preAssyCheckMessage);
 
@@ -865,16 +857,6 @@
             var totalAlert = firstCheckResult.concat(secondCheckResult);
 
             return totalAlert;
-        }
-
-        function checkModelIsValid(postdata) {
-            var data = {
-                modelName: postdata["modelName"],
-                "businessGroup\\.id": selectOptions["businessGroup_options"].get(parseInt(postdata["businessGroup.id"]))
-            };
-            var modelCheckResult = modelNameCheckFieldIsValid(data);
-            var otherFieldCheckResult = checkModelNameIsValid(data);
-            return modelCheckResult.concat(otherFieldCheckResult);
         }
 
         function checkIfBiSampling(data) {

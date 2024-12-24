@@ -1,6 +1,7 @@
 //Custom param
 var not_null_and_zero_message = "需有值，不可為0";
-var alt_message = "擇一，不可皆有值";
+var or_message = "，其一需有值，不可為0";
+var alt_message = "擇一，不可多值";
 var when_not_empty_or_null = "不等於0時";
 var preAssy = "preAssy\\.id",
         babFlow = "flowByBabFlowId\\.id",
@@ -30,13 +31,13 @@ var disabledProfile = function (formObj) {
 //Flow check logic setting
 var flow_check_logic = {
     "PRE-ASSY": [
-        {keyword: ["PRE_ASSY"], checkColumn: ["cleanPanel", "totalModule"], checkType: "OR", message: not_null_and_zero_message, prmValid: notZeroOrNull}
+        {keyword: ["PRE_ASSY"], checkColumn: ["cleanPanel", "totalModule"], checkType: "OR", message: or_message, prmValid: notZeroOrNull}
     ],
     BAB: [
         {keyword: ["ASSY"], checkColumn: ["assy"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["T1"], checkColumn: ["t1"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["VB"], checkColumn: ["vibration"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
-        {keyword: ["H1", "LK"], checkColumn: ["acwVoltage", "dcwVoltage"], checkType: "ALT", altMessage: alt_message, message: not_null_and_zero_message, prmValid: notZeroOrNull, disabled: disabledProfile},
+        {keyword: ["H1", "LK"], checkColumn: ["acwVoltage", "dcwVoltage"], checkType: "ALT", message: alt_message, prmValid: notZeroOrNull, disabled: disabledProfile},
 //        {keyword: ["H1"], checkColumn: ["gndValue"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["H1", "LK"], checkColumn: ["hiPotLeakage", "testProfile"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
         {keyword: ["LK"], checkColumn: ["acwVoltage", "irVoltage", "testProfile", "lltValue"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
@@ -180,60 +181,74 @@ function checkFlow(bool, targetColName, targetColVal, keyword, equals) {
     }
     return err;
 }
-//Model
-//Check logic setting
-var modelName_check_logic = [
-    {keyword: "ES", checkColumn: ["businessGroup\\.id"], message: "Must contain \"ES\""}
+
+var getColLabels = function (formid, colNames) {
+    var labels = [];
+    for (var i = 0; i < colNames.length; i++) {
+        labels.push(getColLabel(formid, colNames[i]));
+    }
+    return labels;
+};
+
+function getColLabel(formid, colName) {
+    return $(formid).find('#' + getSelectorFormat(colName)).parent().prev().html();
+}
+
+function getSelectorFormat(colName) {
+    return colName.replace(/\./g, "\\.");
+}
+
+var op_eq = function (oField, oVal) {
+    return oField == oVal;  // "0.0" == 0 is true
+};
+var op_neq = function (oField, oVal) {
+    return oField != oVal;
+};
+var op_endS = function (oField, oVal) {
+    return oField.endsWith(oVal);
+};
+
+var field_check_field_logic = [
+    {srcColumn: {name: "modelName", operate: op_endS, value: "-ES", description: " 內容為 \"-ES\""}, targetColumn: {name: "businessGroup.id", selOption: "businessGroup_options", operate: op_eq, value: "ES", description: "內容為ES"}},
+    {srcColumn: {name: "businessGroup.id", selOption: "businessGroup_options", operate: op_eq, value: "ES", description: "內容為ES"}, targetColumn: {name: "modelName", operate: op_endS, value: "-ES", description: " 內容為 \"-ES\""}},
+    {srcColumn: {name: "ssnOnTag", operate: op_eq, value: "Y", description: "內容為Y"}, targetColumn: {name: "labelAssyInput", operate: op_neq, value: "", description: "不為空"}}
 ];
-var field_check_modelName_logic = [
-    {checkColumn: {label: "BU", name: "businessGroup\\.id", value: "ES"}, description: "內容為ES", targetColumn: {name: "modelName", keyword: ["ES"]}}
-//    {checkColumn: {name: "workCenter", value: "ES"}, description: "內容為ES", targetColumn: {name: "modelName", keyword: ["ES"]}}
-];
-//Check logic
-function modelNameCheckFieldIsValid(data) {
+
+function fieldCheckField(postdata, formid) {
     var validationErrors = [];
-    var modelName = data["modelName"];
-    for (var i = 0; i < modelName_check_logic.length; i++) {
-        var logic = modelName_check_logic[i];
-        var keyword = logic.keyword;
-        if (modelName.endsWith(keyword) == false) {
-            continue;
-        }
-        var checkCols = logic.checkColumn;
-        for (var j = 0, k = checkCols.length; j < k; j++) {
-            var colName = checkCols[j];
-            var checkVal = data[colName];
-            if (checkVal.indexOf(keyword) == -1) {
-                var err = {};
-                err.field = colName;
-                err.code = logic.message;
-                validationErrors.push(err);
+    for (var i = 0; i < field_check_field_logic.length; i++) {
+        var logic = field_check_field_logic[i];
+
+        var srcInfo = logic.srcColumn;
+        var srcColName = srcInfo.name;
+        var srcFieldVal = !srcInfo.selOption ? postdata[srcColName] : getNameBySelectValue(srcInfo.selOption, postdata[srcColName]);
+        var srcVal = srcInfo.value;
+        var srcLabel = getColLabel(formid, srcColName);
+        var srcDesc = srcInfo.description;
+
+        var targetColInfo = logic.targetColumn;
+        var targetColName = targetColInfo.name;
+        var targetFieldVal = !targetColInfo.selOption ? postdata[targetColName] : getNameBySelectValue(targetColInfo.selOption, postdata[targetColName]);
+        var targetVal = targetColInfo.value;
+        var targetLabel = getColLabel(formid, targetColName);
+        var targetDesc = targetColInfo.description;
+
+        if (srcInfo.operate(srcFieldVal, srcVal)) {
+            var isTarValid = targetColInfo.operate(targetFieldVal, targetVal);
+            if (!isTarValid) {
+                var errorResult = {};
+                errorResult.field = getSelectorFormat(targetColName);
+                errorResult.code = srcLabel + srcDesc + ' , ' + targetLabel + targetDesc;
+                validationErrors.push(errorResult);
             }
         }
     }
     return validationErrors;
 }
-function checkModelNameIsValid(data) {
-    var validationErrors = [];
-    for (var i = 0; i < field_check_modelName_logic.length; i++) {
-        var logic = field_check_modelName_logic[i];
-        var checkColInfo = logic.checkColumn;
-        var isNeedToCheck = data[checkColInfo.name].indexOf(checkColInfo.value) != -1;
-        if (isNeedToCheck) {
-            var targetColInfo = logic.targetColumn;
-            var targetColName = targetColInfo.name;
-            var colVal = data[targetColName];
-            if (colVal.endsWith(("-" + targetColInfo.keyword)) == false) {
-                var err = {};
-                err.field = targetColName;
-                err.code = targetColName + " must contain " + targetColInfo.keyword;
-                appendFieldInfo(checkColInfo.label, logic.description, err);
-                validationErrors.push(err);
-            }
-        }
-    }
-    return validationErrors;
-}
+
+var getNameBySelectValue = function (selOptionName, selValue) {
+    return selectOptions[selOptionName].get(parseInt(selValue));
+};
 
 var biSamplingCheckFields = [
     {
