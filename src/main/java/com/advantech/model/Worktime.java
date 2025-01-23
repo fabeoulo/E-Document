@@ -1339,7 +1339,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.bwField = bwFields;
     }
 
-    @Audited(withModifiedFlag = false)
+    //@Audited(withModifiedFlag = false)
     @Column(name = "reasonCode", length = 10)
     public String getReasonCode() {
         return reasonCode;
@@ -1349,7 +1349,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.reasonCode = reasonCode;
     }
 
-    @Audited(withModifiedFlag = false)
+    //@Audited(withModifiedFlag = false)
     @Column(name = "worktime_mod_reason", length = 150)
     public String getWorktimeModReason() {
         return worktimeModReason;
