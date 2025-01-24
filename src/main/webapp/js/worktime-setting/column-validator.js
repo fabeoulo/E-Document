@@ -159,6 +159,9 @@ function flowSplit(category, fullFlow) {
     var flowParts;
     if (category === "PRE-ASSY" || category === preAssy) {
         flowParts = fullFlow.split(/[-]/);
+    } else if (category === "TEST" || category === testFlow) {
+        fullFlow = fullFlow.replace(/\([^)]*\)/g, ""); // replace (xxx) by ""
+        flowParts = fullFlow.split(/[-_]/);
     } else {
         flowParts = fullFlow.split(/[-_]/); // split by '-' or '_'    
     }

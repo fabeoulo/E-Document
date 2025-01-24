@@ -176,10 +176,7 @@
     });
 </script>
 
-<div id="flow-content">  
-    <h5 style="color:red" class="form-control">
-        ※各站點請以"-"區隔※
-    </h5>
+<div id="flow-content"> 
     <table id="list"></table> 
     <div id="pager"></div>
 </div>
