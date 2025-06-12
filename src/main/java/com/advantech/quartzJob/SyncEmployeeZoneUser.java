@@ -21,8 +21,9 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
  */
 @Component
 public class SyncEmployeeZoneUser {
-    
-    private List<String> specialAccount = newArrayList("guest", "sysop", "A-4757_1");
+
+    // keep jobnumber "000002593_1" map to MES for ModelResponsorUploadPort
+    private List<String> specialAccount = newArrayList("guest", "sysop", "000002593_1");
 
     @Autowired
     private EmployeeZoneUtils ezUtils;
@@ -54,9 +55,9 @@ public class SyncEmployeeZoneUser {
                 updatedUsers.add(user);
             }
         }
-        //-1 for sysop account
+        
         //If get api data keep getting error, ignore update schedule
-        if (users.size() - 1 == updatedUsers.size()) {
+        if (users.size() - specialAccount.size() == updatedUsers.size()) {
             return;
         }
         userService.update(updatedUsers);
