@@ -22,7 +22,8 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 @Component
 public class SyncEmployeeZoneUser {
     
-    private List<String> specialAccount = newArrayList("guest", "sysop", "A-4757_1");
+    // keep jobnumber "000002593_1" map to MES for ModelResponsorUploadPort
+    private List<String> specialAccount = newArrayList("guest", "sysop", "000002593_1", "A-4757_1");
 
     @Autowired
     private EmployeeZoneUtils ezUtils;
