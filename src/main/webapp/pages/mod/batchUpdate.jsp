@@ -144,10 +144,6 @@
     <ol>
         <li>僅接受副檔名為xls格式</li>
         <li>若為本系統下載檔，Update時請保留BJ欄欄位名稱"Revision"的值，讓系統可同步版本資訊</li>
-        <li>若Update時Excel中無"Revision"欄位資訊，系統將跳過版本檢查直接覆蓋現有資料</li>
-        <li style="color:red">
-            <b id="modReasonHint">※當CleanPanel到Warm Boot的欄位有異動，請在Excel螢光色欄位中附上修改原因"代號"</b>
-            <b id="modReasonHint2">※當CleanPanel到Warm Boot的欄位有異動，請在Excel螢光色欄位worktimeModReason處加上修改原因描述</b>
-        </li>
+        <li style="color:red">若Update時Excel中無"Revision"欄位資訊，系統將跳過版本檢查直接覆蓋現有資料</li>
     </ol>
 </div>

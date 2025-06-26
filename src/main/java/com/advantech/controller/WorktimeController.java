@@ -45,7 +45,7 @@ public class WorktimeController extends CrudController<Worktime> {
 
     @Autowired
     private WorktimeMailManager worktimeMailManager;
-    
+
     @Autowired
     private WorktimeValidator validator;
 
@@ -109,29 +109,20 @@ public class WorktimeController extends CrudController<Worktime> {
         if (bindingResult.hasErrors()) {
             return serverResponse(bindingResult.getFieldErrors());
         }
-        
+
         String modifyMessage;
-        
+
         removeModelNameExtraSpaceCharacter(worktime);
         validator.checkModelNameExists(worktime);
-        
-        //ProductionWt changed must add reason code
-        validator.checkProductionWtChanged(worktime);
-        
-        //Check reasonCode user input is valid
-        validator.checkReasonCode(worktime);
 
         resetEmptyCustomLabel(worktime);
-        
+
         resetNullableColumn(worktime);
-        
 
         modifyMessage = worktimeService.mergeWithMesUpload(worktime) == 1 ? this.SUCCESS_MESSAGE : FAIL_MESSAGE;
 
         return serverResponse(modifyMessage);
     }
-
-    
 
     @RequestMapping(value = DELETE_URL, method = {RequestMethod.POST})
     @Override
@@ -143,7 +134,7 @@ public class WorktimeController extends CrudController<Worktime> {
         }
         return serverResponse(modifyMessage);
     }
-    
+
     //編輯Cobots用
     @ResponseBody
     @RequestMapping(value = SELECT_URL + "/cobots", method = {RequestMethod.GET})
@@ -171,22 +162,21 @@ public class WorktimeController extends CrudController<Worktime> {
         if (worktime.getUserByEeOwnerId().getId() == 0) {
             worktime.setUserByEeOwnerId(null);
         }
-        
+
         if (worktime.getUserByMpmOwnerId().getId() == 0) {
             worktime.setUserByMpmOwnerId(null);
         }
-    }    
-    
-     private void resetEmptyCustomLabel(Worktime w) {    
-        if(w.getLabelCartonId().getId() != 1 ) {
+    }
+
+    private void resetEmptyCustomLabel(Worktime w) {
+        if (w.getLabelCartonId().getId() != 1) {
             w.setLabelCartonCustom("");
         }
-        
-        if(w.getLabelOuterId().getId() != 1 ) {
+
+        if (w.getLabelOuterId().getId() != 1) {
             w.setLabelOuterCustom("");
         }
     }
-   
 
     private void removeModelNameExtraSpaceCharacter(Worktime w) {
         String modelName = w.getModelName();

@@ -116,13 +116,13 @@ public class WorktimeM4fController extends CrudController<WorktimeM4f> {
 
         removeModelNameExtraSpaceCharacter(worktime);
         validator.checkModelNameExists(worktime);
-
-        //ProductionWt changed must add reason code
-        validator.checkProductionWtChanged(worktime);
-
-        //Check reasonCode user input is valid
-        validator.checkReasonCode(worktime);
-
+//
+//        //ProductionWt changed must add reason code
+//        validator.checkProductionWtChanged(worktime);
+//
+//        //Check reasonCode user input is valid
+//        validator.checkReasonCode(worktime);
+//
         resetEmptyCustomLabel(worktime);
         
         resetNullableColumn(worktime);

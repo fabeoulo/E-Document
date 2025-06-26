@@ -5,6 +5,7 @@
  */
 package com.advantech.excel;
 
+import static com.google.common.collect.Lists.newArrayList;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -12,6 +13,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 import javax.activation.UnsupportedDataTypeException;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -34,6 +36,15 @@ public class XlsWorkSheet {
     private final DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     private final List<String> _columnList = new ArrayList<>();
     private int _maxColumnNum = 0;
+    private List<String> _columnList_except = newArrayList(
+            "totalModule", "cleanPanel", "assy", "t1", "t2",
+            "t3", "t4", "hiPotLeakage", "coldBoot", "warmBoot",
+            "vibration", "upBiRi", "downBiRi", "packing", "assyStation",
+            "packingStation", "productionWt",
+            "workCenter", "machineWorktime", "setupTime", "biCost",
+            "assyToT1", "t2ToPacking", "biPower",
+            "assyLeadTime", "assyKanbanTime", "packingLeadTime",
+            "packingPalletTime", "packingKanbanTime", "cleanPanelAndAssembly", "sapWt", "reasonCode");
 
     public XlsWorkSheet(String sheetName, HSSFSheet sheet) {
         _sheet = sheet;
@@ -239,11 +250,15 @@ public class XlsWorkSheet {
 
     }
 
-    public <T extends Object> List<T> buildBeans(Class cls) throws Exception {
+    public <T extends Object> List<T> buildBeans(Class cls, Map<String, T> modelMap) throws Exception {
         List<T> list = new ArrayList<>();
 
-        Method[] ms = cls.getDeclaredMethods();
         DataFormatter formatter = new DataFormatter();
+        _columnList_except.replaceAll(String::toUpperCase);
+        HSSFCell modelNameCell = _sheet.getRow(0).getCell(1);
+        String modelNameColumn = formatter.formatCellValue(modelNameCell);
+
+        Method[] ms = cls.getDeclaredMethods();
         for (int row = 0, rowCount = this.getRowCount(); row < rowCount; row++) {
             HSSFCell checkedCell = _sheet.getRow(row).getCell(0);
             HSSFCell checkedCell2 = _sheet.getRow(row).getCell(1);
@@ -253,10 +268,14 @@ public class XlsWorkSheet {
                 continue;
             }
 
-            T bean = (T) cls.newInstance();
+            String modelName = this.getValue(row, modelNameColumn).toString();
+            T bean = modelMap.getOrDefault(modelName, (T) cls.newInstance());
             for (Method m : ms) {
                 String methodName = m.getName().toUpperCase();
-                if (methodName.startsWith("SET") && this._columnList.contains(methodName.substring(3))) {
+                if (methodName.startsWith("SET")
+                        && this._columnList.contains(methodName.substring(3))
+                        && !_columnList_except.contains(methodName.substring(3))) {
+
                     //System.out.println(ms[i].getGenericParameterTypes()[0].toString());  
                     String val = this.getValue(row, methodName.substring(3)).toString();
                     if (val == null) {

@@ -18,9 +18,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -128,10 +130,12 @@ public class WorktimeBatchModControllerTest {
     @Autowired
     WorktimeBatchModController instance;
             
-//    @Test
+    @Test
+    @Transactional
+    @Rollback(true)
     public void testTransToWorktimes() throws Exception {
         System.out.println("transToWorktimes");
-        File initialFile = new File("C:\\Users\\Justin.yeh\\Desktop\\TestWorktimeBatchModController\\worktime-template-up.xls");
+        File initialFile = new File("D:\\Users\\Justin.yeh\\Downloads\\worktime-template 2.xls");
         InputStream targetStream = new FileInputStream(initialFile);
         List<Worktime> result = instance.transToWorktimes(targetStream, false);
         assertEquals(1, result.size());

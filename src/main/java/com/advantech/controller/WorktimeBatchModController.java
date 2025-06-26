@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -121,13 +122,11 @@ public class WorktimeBatchModController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     protected String batchInsert(@RequestParam("file") MultipartFile file) throws Exception {
 
-        List<Worktime> hgList = this.transToWorktimes(file, false);
+        List<Worktime> hgList = this.transToWorktimes(file, false, false);
 
         hgList.forEach((w) -> {
             w.setId(0);
         });
-
-        worktimeValidator.checkModelNameExists(hgList);
 
         //Validate the column, throw exception when false.
         this.validateWorktime(hgList);
@@ -146,11 +145,8 @@ public class WorktimeBatchModController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     protected String batchUpdate(@RequestParam("file") MultipartFile file) throws Exception {
 
-        List<Worktime> hgList = this.transToWorktimes(file, true);
+        List<Worktime> hgList = this.transToWorktimes(file, true, true);
 
-        worktimeValidator.checkModelNameExists(hgList);
-        worktimeValidator.checkProductionWtChanged(hgList);
-        worktimeValidator.checkReasonCode(hgList);
         hgList.forEach((w) -> {
             if (w.getReasonCode() != null) {
                 String trimReasonCode = w.getReasonCode().trim();
@@ -170,7 +166,7 @@ public class WorktimeBatchModController {
     @ResponseBody
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     protected String batchDelete(@RequestParam("file") MultipartFile file) throws Exception {
-        List<Worktime> hgList = this.transToWorktimes(file, false);
+        List<Worktime> hgList = this.transToWorktimes(file, false, false);
         Integer[] ids = new Integer[hgList.size()];
         for (int i = 0; i < hgList.size(); i++) {
             ids[i] = hgList.get(i).getId();
@@ -191,7 +187,7 @@ public class WorktimeBatchModController {
         return true;
     }
 
-    private List<Worktime> transToWorktimes(MultipartFile file, boolean checkRevision) throws Exception {
+    private List<Worktime> transToWorktimes(MultipartFile file, boolean checkRevision, boolean isKeepStandardTime) throws Exception {
         //固定sheet name為sheet1
 
         try ( XlsWorkBook workbook = new XlsWorkBook(file.getInputStream())) {
@@ -200,8 +196,11 @@ public class WorktimeBatchModController {
                 throw new Exception("Sheet named \"sheet1\" not found");
             }
 
+            Map<String, Worktime> modelMap = isKeepStandardTime
+                    ? worktimeService.findAll().stream().collect(Collectors.toMap(Worktime::getModelName, w -> w))
+                    : new HashMap<>();
             //Init not relative column first.
-            List<Worktime> hgList = sheet.buildBeans(Worktime.class);
+            List<Worktime> hgList = sheet.buildBeans(Worktime.class, modelMap);
 
             //If id is zero, the action is add.
             if (checkRevision) {
@@ -226,7 +225,7 @@ public class WorktimeBatchModController {
             }
 
             //Init not relative column first.
-            List<Worktime> hgList = sheet.buildBeans(Worktime.class);
+            List<Worktime> hgList = sheet.buildBeans(Worktime.class, new HashMap<>());
 
             //If id is zero, the action is add.
             if (checkRevision) {

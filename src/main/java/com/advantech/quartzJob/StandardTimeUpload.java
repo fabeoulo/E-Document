@@ -75,7 +75,7 @@ public class StandardTimeUpload {
                 "totalModule", "cleanPanel", "assy", "t1", "t2",
                 "t3", "t4", "hiPotLeakage", "coldBoot", "warmBoot",
                 "vibration", "upBiRi", "downBiRi", "packing", "assyStation",
-                "packingStation","productionWt","cobotManualWt"
+                "packingStation", "productionWt", "cobotManualWt"
         );
     }
 
@@ -85,7 +85,7 @@ public class StandardTimeUpload {
 
         Integer[] ids = modifiedWorktimes.stream().map(Worktime::getId).toArray(Integer[]::new);
         List<Worktime> worktimes = this.worktimeService.findWithFlowRelationAndCobot(ids);
-        
+
         log.info("Begin upload standardtime to mes: " + modifiedWorktimes.size() + " datas.");
 
         port.initSettings();

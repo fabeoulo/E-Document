@@ -23,8 +23,7 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * @author Wei.Cheng CRUD都用同個XML & 相同 UploadType "A"// not same UploadType
- * 20230707
+ * @author Wei.Cheng
  */
 @Component
 public class StandardtimeUploadPort extends BasicUploadPort implements UploadPort {
@@ -66,8 +65,12 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override//245
+    @Override
     public void update(Worktime w) throws Exception {
+        if (true) {
+            throw new UnsupportedOperationException("Dismiss forever.");
+        }
+
         Map<String, String> errorFields = new HashMap();
         List<StandardWorkTime> standardWorktimes = worktimeQueryPort.query(w.getModelName());
 
@@ -91,29 +94,7 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
 
     @Override
     public void delete(Worktime w) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); 
-
-//dont execute it.//!!! important!!! be careful.
-//        //dont execute it.//!!! import!!! be careful.
-//        Map<String, String> errorFields = new HashMap();
-//        List<StandardWorkTime> standardWorktimes = worktimeQueryPort.query(w.getModelName());
-//
-//        settings.forEach((setting) -> {
-//            try {
-//                StandardWorkTime worktimeOnMes = standardWorktimes.stream()
-//                        .filter(p -> (Objects.equals(p.getSTATIONID(), setting.getStationId()) || (p.getSTATIONID() == -1 && setting.getStationId() == null))
-//                        && (p.getLINEID() == setting.getLineId())
-//                        && Objects.equals(p.getUNITNO(), setting.getColumnUnit())
-//                        && Objects.equals(p.getITEMNO(), w.getModelName()))
-//                        .findFirst().orElse(null);
-//                this.generateRootAndDelete(setting, worktimeOnMes, w);
-//            } catch (Exception e) {
-//                errorFields.put(setting.getColumnName(), e.getMessage());
-//            }
-//        });
-//        if (!errorFields.isEmpty()) {
-//            throw new Exception(errorFields.toString());
-//        }
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private void generateRootAndUpload(WorktimeAutouploadSetting setting, StandardWorkTime standardWorktime, Worktime w) throws Exception {
@@ -157,7 +138,7 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
                 swt.setMACHINECNT(1);
                 swt.setOPCNT(1);
             }
-            super.upload(root, standardWorktime == null ? UploadType.INSERT : UploadType.UPDATE);
+//            super.upload(root, standardWorktime == null ? UploadType.INSERT : UploadType.UPDATE);
         }
     }
 
@@ -170,20 +151,4 @@ public class StandardtimeUploadPort extends BasicUploadPort implements UploadPor
                 && !Objects.equals(stationPeople, standardWorktime.getOPCNT())
                 && (w.getReasonCode() == null || "0".equals(w.getReasonCode()));
     }
-
-    private void generateRootAndDelete(WorktimeAutouploadSetting setting, StandardWorkTime standardWorktime, Worktime w) throws Exception {
-        throw new UnsupportedOperationException("dont execute it."); 
-//        String columnUnit = setting.getColumnUnit();
-//
-//        StandardtimeRoot root = new StandardtimeRoot();
-//        StandardtimeRoot.STANDARDWORKTIME swt = root.getSTANDARDWORKTIME();
-//        swt.setUNITNO(columnUnit);
-//        swt.setSTATIONID(setting.getStationId() == null ? -1 : setting.getStationId());
-//        swt.setLINEID(setting.getLineId());
-//        swt.setITEMNO(w.getModelName());
-//        swt.setSIDE(5010);
-//
-//        super.upload(root, UploadType.DELETE);
-    }
-
 }

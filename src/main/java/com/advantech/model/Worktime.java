@@ -174,7 +174,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     private BigDecimal biTemperature;
 
     @JsonView(View.Public.class)
-    private String biPower;
+    private String biPower = "<300W";
 
     @JsonView(View.Public.class)
     private String assyPackingSop;
@@ -367,7 +367,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 
     @JsonView(View.Public.class)
     private String ssnOnTag;
-    
+
     @JsonView(View.Public.class)
     private OutLabel labelOuterId;
 
@@ -403,7 +403,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 
     @JsonView(View.Public.class)
     private String labelAssyInput;
-    
+
     @JsonView(View.Public.class)
     private String labelVariable1;
 
@@ -540,7 +540,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     public void setFlowByPackingFlowId(Flow flowByPackingFlowId) {
         this.flowByPackingFlowId = flowByPackingFlowId;
     }
-    
+
     @NotNull(message = "BAB_FLOW不可為空")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bab_flow_id")
@@ -881,6 +881,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.biTemperature = autoFixScale(biTemperature, 1);
     }
 
+    @NotAudited
     @NotNull
     @NotEmpty
     @Column(name = "bi_power", nullable = false, length = 30)
@@ -892,6 +893,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.biPower = biPower;
     }
 
+    @Transient
     @Size(min = 0, max = 500)
     @Column(name = "assy_packing_sop", length = 500)
     public String getAssyPackingSop() {
@@ -902,6 +904,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.assyPackingSop = assyPackingSop;
     }
 
+    @Transient
     @Size(min = 0, max = 500)
     @Column(name = "test_sop", length = 500)
     public String getTestSop() {
@@ -1339,6 +1342,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.bwField = bwFields;
     }
 
+    @Transient
     //@Audited(withModifiedFlag = false)
     @Column(name = "reasonCode", length = 10)
     public String getReasonCode() {
