@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.advantech.webservice.download;
+package com.advantech.webservice.download.db2;
 
 import com.advantech.model.db2.FlowGroupM4f;
 import com.advantech.model.db2.FlowM4f;
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
  * @author Justin.Yeh
  */
 @Component
-public class FlowM4fDownload extends BasicM4fDownload {
+public class FlowM4fDownload extends BasicM4fDownload<WorktimeM4f> {
 
     private static final Logger logger = LoggerFactory.getLogger(FlowM4fDownload.class);
 
@@ -59,7 +59,7 @@ public class FlowM4fDownload extends BasicM4fDownload {
     public WorktimeM4f download(WorktimeM4f wt) throws Exception {
         List<MaterialFlow> mesFlows = materialFlowQueryPort.queryM(wt, Factory.TWM9);
         Map<String, String> errorFields = new HashMap();
-        
+
         for (Section section : Section.values()) {
             try {
                 MaterialFlow mf = mesFlows.stream().filter(materialFlow -> materialFlow.getUnitNo().equals(section.getCode())).findFirst().orElse(null);

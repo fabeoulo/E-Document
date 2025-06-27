@@ -16,6 +16,8 @@ var worktimeCol = [
     {name: "packing", editable: false},
     {name: "upBiRi", editable: false},
     {name: "downBiRi", editable: false},
+    {name: "upRi", editable: false},
+    {name: "downRi", editable: false},
     {name: "biCost", editable: false},
     {name: "vibration", editable: false},
     {name: "hiPotLeakage", editable: false},

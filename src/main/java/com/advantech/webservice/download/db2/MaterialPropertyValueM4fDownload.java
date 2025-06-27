@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.advantech.webservice.download;
+package com.advantech.webservice.download.db2;
 
 import com.advantech.helper.SpringExpressionUtils;
 import com.advantech.model.db2.CartonLabelM4f;
@@ -33,7 +33,7 @@ import org.springframework.stereotype.Component;
  * @author Justin.Yeh
  */
 @Component
-public class MaterialPropertyValueM4fDownload extends BasicM4fDownload {
+public class MaterialPropertyValueM4fDownload extends BasicM4fDownload<WorktimeM4f> {
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialPropertyValueM4fDownload.class);
 
@@ -122,7 +122,7 @@ public class MaterialPropertyValueM4fDownload extends BasicM4fDownload {
 
         return wt;
     }
-    
+
     private String notNull(String s) {
         return s == null ? "" : s;
     }

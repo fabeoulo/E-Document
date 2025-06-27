@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.advantech.webservice.download;
+package com.advantech.webservice.download.db2;
 
 import com.advantech.helper.CustomPasswordEncoder;
 import com.advantech.model.Floor;
@@ -45,7 +45,7 @@ import org.springframework.stereotype.Component;
  * @author Justin.Yeh
  */
 @Component
-public class ModelResponsorM4fDownload extends BasicM4fDownload {
+public class ModelResponsorM4fDownload extends BasicM4fDownload<WorktimeM4f> {
 
     private static final Logger logger = LoggerFactory.getLogger(ModelResponsorM4fDownload.class);
 
@@ -64,7 +64,7 @@ public class ModelResponsorM4fDownload extends BasicM4fDownload {
     @Autowired
     private FloorM4fService floorService;
 
-    private Map<String, IUserM9> userOptions = new HashMap<>();
+    private Map<String, UserM4f> userOptions = new HashMap<>();
 
     private Map<String, UnitM4f> unitOptions = new HashMap<>();
 
@@ -84,7 +84,7 @@ public class ModelResponsorM4fDownload extends BasicM4fDownload {
     @Autowired
     private FloorService floorService1;
 
-    private Map<String, IUserM9> userOptions1 = new HashMap<>();
+    private Map<String, User> userOptions1 = new HashMap<>();
 
     private Map<String, Unit> unitOptions1 = new HashMap<>();
 
@@ -172,7 +172,7 @@ public class ModelResponsorM4fDownload extends BasicM4fDownload {
         if (!errorFields.isEmpty()) {
             throw new Exception(wt.getModelName() + " 機種負責人從MES讀取失敗: " + errorFields.toString());
         }
-        
+
         return wt;
     }
 }

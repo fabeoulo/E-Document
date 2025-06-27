@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.advantech.dao.db2;
+package com.advantech.dao;
 
 import com.advantech.jqgrid.PageInfo;
-import com.advantech.model.db2.M9ieWorktimeView;
+import com.advantech.model.M9ieWorktimeView;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
  *
  * @author Justin.Yeh
  */
-@Repository(value = "db2.M9ieWorktimeViewDAO")
+@Repository
 public class M9ieWorktimeViewDAO extends BasicDAOImpl<Integer, M9ieWorktimeView> {
 
     public List<M9ieWorktimeView> findAll(PageInfo info) {

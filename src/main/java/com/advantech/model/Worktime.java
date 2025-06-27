@@ -144,6 +144,12 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     private BigDecimal downBiRi = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
+    private BigDecimal upRi = BigDecimal.ZERO;
+
+    @JsonView(View.Public.class)
+    private BigDecimal downRi = BigDecimal.ZERO;
+
+    @JsonView(View.Public.class)
     private BigDecimal biCost = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
@@ -774,6 +780,26 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 
     public void setDownBiRi(BigDecimal downBiRi) {
         this.downBiRi = autoFixScale(downBiRi, 1);
+    }
+
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    @Column(name = "up_ri", precision = 10, scale = 1)
+    public BigDecimal getUpRi() {
+        return upRi;
+    }
+
+    public void setUpRi(BigDecimal upRi) {
+        this.upRi = autoFixScale(upRi, 1);
+    }
+
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    @Column(name = "down_ri", precision = 10, scale = 1)
+    public BigDecimal getDownRi() {
+        return downRi;
+    }
+
+    public void setDownRi(BigDecimal downRi) {
+        this.downRi = autoFixScale(downRi, 1);
     }
 
     @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
@@ -2000,10 +2026,10 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 //---------------------------------------------------------------------
 //  Default formula column caculate
     public void setDefaultProductWt() {
-        BigDecimal defaultValue = notEmpty(totalModule).add(notEmpty(cleanPanel))
+        BigDecimal defaultValue = notEmpty(totalModule)//.add(notEmpty(cleanPanel))
                 .add(notEmpty(assy)).add(notEmpty(t1)).add(notEmpty(t2))
-                .add(notEmpty(t3)).add(notEmpty(t4)).add(notEmpty(packing)).add(notEmpty(upBiRi))
-                .add(notEmpty(downBiRi)).add(notEmpty(biCost)).add(notEmpty(vibration)).add(notEmpty(hiPotLeakage))
+                .add(notEmpty(t3)).add(notEmpty(t4)).add(notEmpty(packing)).add(notEmpty(upBiRi)).add(notEmpty(upRi))
+                .add(notEmpty(downBiRi)).add(notEmpty(downRi)).add(notEmpty(biCost)).add(notEmpty(vibration)).add(notEmpty(hiPotLeakage))
                 .add(notEmpty(coldBoot)).add(notEmpty(warmBoot));
 
         this.setProductionWt(defaultValue);
@@ -2022,15 +2048,17 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     }
 
     public void setDefaultAssyToT1() {
-        BigDecimal defaultValue = notEmpty(cleanPanel).add(notEmpty(assy).add(notEmpty(totalModule))).add(notEmpty(t1))
-                .add(notEmpty(upBiRi)).add(notEmpty(vibration))
+        BigDecimal defaultValue = notEmpty( totalModule).add(notEmpty(assy))//.add(notEmpty(cleanPanel))
+                .add(notEmpty(t1))
+                .add(notEmpty(upBiRi)).add(notEmpty(upRi)).add(notEmpty(vibration))
                 .add(notEmpty(hiPotLeakage)).add(notEmpty(coldBoot)).add(notEmpty(warmBoot));
         this.setAssyToT1(defaultValue);
     }
 
     public void setDefaultT2ToPacking() {
         BigDecimal defaultValue = notEmpty(t2)
-                .add(notEmpty(t3)).add(notEmpty(t4)).add(notEmpty(packing).add(notEmpty(packingLeadTime))).add(notEmpty(downBiRi));
+                .add(notEmpty(t3)).add(notEmpty(t4)).add(notEmpty(packing).add(notEmpty(packingLeadTime))).add(notEmpty(downBiRi))
+                .add(notEmpty(downRi));
         this.setT2ToPacking(defaultValue);
     }
 

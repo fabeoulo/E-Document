@@ -12,6 +12,7 @@ import com.advantech.model.Unit;
 import com.advantech.model.User;
 import com.advantech.model.UserProfile;
 import com.advantech.model.Worktime;
+import com.advantech.model.*;
 import com.advantech.model.db2.*;
 import com.advantech.security.State;
 import com.advantech.service.db2.CartonLabelM4fService;
@@ -137,21 +138,21 @@ public class DownloadMesTest {
 //
 //    @Autowired
 //    private ModelResponsorQueryPort modelResponsorQueryPort;
-////=============================
-//
-//    @Autowired
-//    private StandardWorkTimeQueryPort worktimeQueryPort;
-//
-//    @Autowired
-//    private WorktimeAutodownloadSettingM4fService worktimeAutodownloadSettingService;
-//
-//    private List<WorktimeAutodownloadSettingM4f> autodownloadSettings = new ArrayList();
-////=============================    
-//
+//=============================
+
+    @Autowired
+    private StandardWorkTimeQueryPort worktimeQueryPort;
+
+    @Autowired
+    private WorktimeAutodownloadSettingService worktimeAutodownloadSettingService;
+
+    private List<WorktimeAutodownloadSetting> autodownloadSettings = new ArrayList();
+//=============================    
 
     @PostConstruct
     private void init() {
         List<String> modelNames = newArrayList("EKI-9516-P0IDH10E-TEST");
+//        List<String> modelNames = newArrayList("EKI-9516-P0IDH10E-TEST","EKI-7706G-2FI-AU","EKI-7706G-2F-AU","PDCW2402301-T","PDCW2402002-T");
         Preconditions.checkState(!modelNames.isEmpty(), "No model names. Finish.");
 
         modelNames.forEach(m -> {
@@ -190,12 +191,12 @@ public class DownloadMesTest {
 //        expressionUtils.setVariable("outLabelMap", outLabelOptions);
 //        expressionUtils.setVariable("cartonLabelMap", cartonLabelOptions);
 //
-//        autodownloadSettings = worktimeAutodownloadSettingService.findAll();
+        autodownloadSettings = worktimeAutodownloadSettingService.findAll();
     }
 
 //    @Test
 //    @Transactional
-//    @Rollback(false)
+//    @Rollback(true)
     public void testInsertByExcelModel() throws Exception {
         System.out.println("testInsertByExcelModel");
 
@@ -211,7 +212,7 @@ public class DownloadMesTest {
 //                dlFlow(wm4);
 //                dlMat(wm4);
 //                dlMtdTest(wm4);
-//                dlWt(wm4);
+                dlWt(wm4);
 
 //                setNotNullFieldDefault(wm4);
 //
@@ -226,46 +227,46 @@ public class DownloadMesTest {
 //        instance.insertByMesModels(l);
     }
 
-//    private Worktime dlWt(Worktime wt) throws Exception {
-//        List<StandardWorkTime> standardWorktimes = worktimeQueryPort.queryM(wt.getModelName(), Factory.TWM9);
-//        Map<String, String> errorFields = new HashMap();
-//
-//        wt.setAssyStation(1);
-//        wt.setPackingStation(1);
-//        autodownloadSettings.forEach((setting) -> {
-//            try {
-//                StandardWorkTime worktimeOnMes = standardWorktimes.stream()
-//                        .filter(p -> (Objects.equals(p.getSTATIONID(), setting.getStationId()) || (p.getSTATIONID() == -1 && setting.getStationId() == null))
-//                        && (p.getLINEID() == setting.getLineId())
-//                        && Objects.equals(p.getUNITNO(), setting.getColumnUnit())
-//                        && Objects.equals(p.getITEMNO(), wt.getModelName()))
-//                        .findFirst().orElse(null);
-//
-//                if (worktimeOnMes != null) {
-//                    Object totalctVal = expressionUtils.getValueFromFormula(worktimeOnMes, setting.getFormulaTotalct());
-//                    String dlColumn = (String) expressionUtils.getValueFromFormula(wt, setting.getFormulaColumn());
-//                    expressionUtils.setValueFromFormula(wt, dlColumn, totalctVal);
-//
-//                    String columnUnit = setting.getColumnUnit();
-//                    if ("B".equals(columnUnit) && setting.getStationId() != null) {
-//                        wt.setAssyStation(worktimeOnMes.getOPCNT());
-//                    } else if ("P".equals(columnUnit) && setting.getStationId() != null) {
-//                        wt.setPackingStation(worktimeOnMes.getOPCNT());
-//                    }
-//                }
-//
-//            } catch (Exception e) {
-//                errorFields.put(setting.getColumnName(), e.getMessage());
-//            }
-//        });
-//
-//        if (!errorFields.isEmpty()) {
-//            throw new Exception(wt.getModelName() + " 工時從MES讀取失敗: " + errorFields.toString());
-//        }
-//
-//        return wt;
-//    }
-//
+    private Worktime dlWt(Worktime wt) throws Exception {
+        List<StandardWorkTime> standardWorktimes = worktimeQueryPort.queryM(wt.getModelName(), Factory.TWM3);
+        Map<String, String> errorFields = new HashMap();
+
+        wt.setAssyStation(1);
+        wt.setPackingStation(1);
+        autodownloadSettings.forEach((setting) -> {
+            try {
+                StandardWorkTime worktimeOnMes = standardWorktimes.stream()
+                        .filter(p -> (Objects.equals(p.getSTATIONID(), setting.getStationId()) || (p.getSTATIONID() == -1 && setting.getStationId() == null))
+                        && (p.getLINEID() == setting.getLineId())
+                        && Objects.equals(p.getUNITNO(), setting.getColumnUnit())
+                        && Objects.equals(p.getITEMNO(), wt.getModelName()))
+                        .findFirst().orElse(null);
+
+                if (worktimeOnMes != null) {
+                    Object totalctVal = expressionUtils.getValueFromFormula(worktimeOnMes, setting.getFormulaTotalct());
+                    String dlColumn = (String) expressionUtils.getValueFromFormula(wt, setting.getFormulaColumn());
+                    expressionUtils.setValueFromFormula(wt, dlColumn, totalctVal);
+
+                    String columnUnit = setting.getColumnUnit();
+                    if ("B".equals(columnUnit) && setting.getStationId() != null) {
+                        wt.setAssyStation(worktimeOnMes.getOPCNT());
+                    } else if ("P".equals(columnUnit) && setting.getStationId() != null) {
+                        wt.setPackingStation(worktimeOnMes.getOPCNT());
+                    }
+                }
+
+            } catch (Exception e) {
+                errorFields.put(setting.getColumnName(), e.getMessage());
+            }
+        });
+
+        if (!errorFields.isEmpty()) {
+            throw new Exception(wt.getModelName() + " 工時從MES讀取失敗: " + errorFields.toString());
+        }
+
+        return wt;
+    }
+
     private void setNotNullFieldDefault(IWorktimeForWebService wt) throws Exception {
         Class clz = wt.getClass();
         Method[] methods = clz.getDeclaredMethods(); // includes super class method, i.e. getter may return diff type.
@@ -570,7 +571,7 @@ public class DownloadMesTest {
                 if (!((String) wtVal).equals(mesConvertVal)) {
                     HibernateObjectPrinter.print(wt.getModelName() + "," + wtVal.toString() + "," + mesConvertVal.toString());
                 }
-				
+
                 expressionUtils.setValueFromFormula(wt, dlColumn, mesConvertVal);
                 expressionUtils.setValueFromFormula(wt, dlAffColumn, mesConvertValAff);
                 expressionUtils.setValueFromFormula(wt, dlColumn2, mesConvertVal2);

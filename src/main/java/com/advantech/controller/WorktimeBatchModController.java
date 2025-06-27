@@ -147,14 +147,14 @@ public class WorktimeBatchModController {
 
         List<Worktime> hgList = this.transToWorktimes(file, true, true);
 
-        hgList.forEach((w) -> {
-            if (w.getReasonCode() != null) {
-                String trimReasonCode = w.getReasonCode().trim();
-                String reasonCode = trimReasonCode.equals("") ? "0" : trimReasonCode;
-                w.setReasonCode(reasonCode);
-            }
-        });
-
+//        hgList.forEach((w) -> {
+//            if (w.getReasonCode() != null) {
+//                String trimReasonCode = w.getReasonCode().trim();
+//                String reasonCode = trimReasonCode.equals("") ? "0" : trimReasonCode;
+//                w.setReasonCode(reasonCode);
+//            }
+//        });
+//
         //Validate the column, throw exception when false.
         validateWorktime(hgList);
 

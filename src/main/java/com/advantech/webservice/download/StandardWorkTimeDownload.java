@@ -5,10 +5,11 @@
 package com.advantech.webservice.download;
 
 import com.advantech.helper.SpringExpressionUtils;
-import com.advantech.model.db2.WorktimeAutodownloadSettingM4f;
-import com.advantech.model.db2.WorktimeM4f;
-import com.advantech.service.db2.WorktimeAutodownloadSettingM4fService;
+import com.advantech.model.WorktimeAutodownloadSetting;
+import com.advantech.model.Worktime;
+import com.advantech.service.WorktimeAutodownloadSettingService;
 import com.advantech.webservice.Factory;
+import com.advantech.webservice.download.db2.BasicM4fDownload;
 import com.advantech.webservice.port.StandardWorkTimeQueryPort;
 import com.advantech.webservice.unmarshallclass.StandardWorkTime;
 import java.util.ArrayList;
@@ -26,17 +27,17 @@ import org.springframework.stereotype.Component;
  * @author Justin.Yeh
  */
 @Component
-public class StandardWorkTimeM4fDownload extends BasicM4fDownload {
+public class StandardWorkTimeDownload extends BasicM4fDownload<Worktime> {
 
-    private static final Logger logger = LoggerFactory.getLogger(StandardWorkTimeM4fDownload.class);
+    private static final Logger logger = LoggerFactory.getLogger(StandardWorkTimeDownload.class);
 
     @Autowired
     private StandardWorkTimeQueryPort worktimeQueryPort;
 
     @Autowired
-    private WorktimeAutodownloadSettingM4fService propSettingService;
+    private WorktimeAutodownloadSettingService propSettingService;
 
-    private List<WorktimeAutodownloadSettingM4f> settings = new ArrayList();
+    private List<WorktimeAutodownloadSetting> settings = new ArrayList();
 
     @Autowired
     private SpringExpressionUtils expressionUtils;
@@ -50,13 +51,19 @@ public class StandardWorkTimeM4fDownload extends BasicM4fDownload {
     }
 
     @Override
-    public WorktimeM4f download(WorktimeM4f wt) throws Exception {
-        List<StandardWorkTime> standardWorktimes = worktimeQueryPort.queryM(wt.getModelName(), Factory.TWM9);
+    public Worktime download(Worktime wt) throws Exception {
         Map<String, String> errorFields = new HashMap();
+
+        List<StandardWorkTime> standardWorktimes = new ArrayList<>();
+        try {
+            standardWorktimes = worktimeQueryPort.queryM(wt.getModelName(), Factory.TWM3);
+        } catch (Exception e) {
+            errorFields.put(worktimeQueryPort.getClass().getName(), e.getMessage());
+        }
 
         wt.setAssyStation(1);
         wt.setPackingStation(1);
-        settings.forEach((setting) -> {
+        for (WorktimeAutodownloadSetting setting : settings) {
             try {
                 StandardWorkTime worktimeOnMes = standardWorktimes.stream()
                         .filter(p -> (Objects.equals(p.getSTATIONID(), setting.getStationId()) || (p.getSTATIONID() == -1 && setting.getStationId() == null))
@@ -73,15 +80,15 @@ public class StandardWorkTimeM4fDownload extends BasicM4fDownload {
                     String columnUnit = setting.getColumnUnit();
                     Integer opcnt = worktimeOnMes.getOPCNT();
                     if ("B".equals(columnUnit) && setting.getStationId() != null && opcnt > 0) {
-                        wt.setAssyStation(worktimeOnMes.getOPCNT());
+                        wt.setAssyStation(opcnt);
                     } else if ("P".equals(columnUnit) && setting.getStationId() != null && opcnt > 0) {
-                        wt.setPackingStation(worktimeOnMes.getOPCNT());
+                        wt.setPackingStation(opcnt);
                     }
                 }
             } catch (Exception e) {
                 errorFields.put(setting.getColumnName(), e.getMessage());
             }
-        });
+        }
 
         if (!errorFields.isEmpty()) {
             throw new Exception(wt.getModelName() + " 工時從MES讀取失敗: " + errorFields.toString());

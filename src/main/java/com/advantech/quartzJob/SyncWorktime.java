@@ -7,13 +7,13 @@ package com.advantech.quartzJob;
 
 import com.advantech.helper.MailManager;
 import com.advantech.model.User;
-import com.advantech.model.db2.M9ieWorktimeView;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model.M9ieWorktimeView;
+import com.advantech.model.Worktime;
 import com.advantech.service.UserNotificationService;
-import com.advantech.service.db2.M9ieWorktimeViewService;
-import com.advantech.service.db2.WorktimeDownloadMesM4fService;
-import com.advantech.service.db2.WorktimeM4fService;
-import com.advantech.webservice.download.db2.StandardWorkTimeM4fDownload;
+import com.advantech.service.M9ieWorktimeViewService;
+import com.advantech.service.WorktimeDownloadMesService;
+import com.advantech.service.WorktimeService;
+import com.advantech.webservice.download.StandardWorkTimeDownload;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,16 +23,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Justin.Yeh
  */
-@Component
-public class SyncWorktimeM4f {
+public class SyncWorktime {
 
-    private static final Logger log = LoggerFactory.getLogger(SyncWorktimeM4f.class);
+    private static final Logger log = LoggerFactory.getLogger(SyncWorktime.class);
 
     @Autowired
     private M9ieWorktimeViewService m9ieWorktimeViewService;
@@ -44,10 +43,10 @@ public class SyncWorktimeM4f {
     private MailManager mailManager;
 
     @Autowired
-    private WorktimeDownloadMesM4fService worktimeDownloadMesM4fService;
+    private WorktimeDownloadMesService worktimeDownloadMesService;
 
     @Autowired
-    private StandardWorkTimeM4fDownload standardWorkTimeM4fDownload;
+    private StandardWorkTimeDownload standardWorkTimeDownload;
 
     @Value("#{contextParameters[pageTitle] ?: ''}")
     private String pageTitle;
@@ -55,32 +54,36 @@ public class SyncWorktimeM4f {
     private final int failMaxAllow = 5;
 
     @Autowired
-    private WorktimeM4fService worktimeM4fService;
+    private WorktimeService worktimeService;
 
+    // keep all transactions in one session, prevent from detash and extra select, also enable lazy-fetch.
+    @Transactional
     public void syncModelFromM9ie() {
         List<String> errorMessages = new ArrayList();
 
         List<M9ieWorktimeView> views = m9ieWorktimeViewService.findAll();
-        Map<String, List> listMap = worktimeDownloadMesM4fService.filterByViewAndSetBg(views);
+        Map<String, List> listMap = worktimeDownloadMesService.filterByViewAndSetBg(views);
 
-        List<WorktimeM4f> wtIn = listMap.get("wtIn");
-        List<WorktimeM4f> wtNew = listMap.get("wtNew");
-        List<WorktimeM4f> wtRemove = listMap.get("wtRemove");
+        List<Worktime> wtIn = listMap.get("wtIn");
+        List<Worktime> wtNew = listMap.get("wtNew");
+        List<Worktime> wtRemove = listMap.get("wtRemove");
 
-        log.info("Begin add WorktimeM4f : " + wtNew.size() + " datas.");
-        if (!wtNew.isEmpty()) {
-            worktimeDownloadMesM4fService.portParamInit();
-            worktimeDownloadMesM4fService.insertMesDL(wtNew);
-        }
-
-        log.info("Begin udpate WorktimeM4f standardTime : " + wtIn.size() + " datas.");
+//        log.info("Begin add Worktime : " + wtNew.size() + " datas.");
+//        if (!wtNew.isEmpty()) {
+//            worktimeDownloadMesService.portParamInit();
+//            worktimeDownloadMesService.insertMesDL(wtNew);
+//        }
+//
+        log.info("Begin udpate Worktime standardTime : " + wtIn.size() + " datas.");
         int failCount = 0;
-        standardWorkTimeM4fDownload.initOptions();
-        for (WorktimeM4f w : wtIn) {
+        standardWorkTimeDownload.initOptions();
+        for (Worktime w : wtIn) {
             try {
-                standardWorkTimeM4fDownload.download(w);
+                log.info("Start to download: " + w.getModelName());
 
-                log.info("Download standardtime: " + w.getModelName());
+                standardWorkTimeDownload.download(w);
+//                w.setWorktimeModReason("sync work-time.");
+
             } catch (Exception e) {
                 String errorMessage = w.getModelName() + " download fail: " + e.getMessage();
                 errorMessages.add(errorMessage);
@@ -97,27 +100,27 @@ public class SyncWorktimeM4f {
                 }
             }
         }
-        worktimeM4fService.mergeByMesDL(wtIn);
+        worktimeService.mergeWithoutUpload(wtIn);
 
-        log.info("Begin delete WorktimeM4f : " + wtRemove.size() + " datas.");
-        try {
-            worktimeM4fService.deleteWithMesUpload(wtRemove);
-        } catch (Exception e) {
-            String errorMessage = "Delete WorktimeM4f fail: " + e.getMessage();
-            errorMessages.add(errorMessage);
-            log.error(errorMessage);
-        }
-
+//        log.info("Begin delete Worktime : " + wtRemove.size() + " datas.");
+//        try {
+//            worktimeService.deleteWithMesUpload(wtRemove);
+//        } catch (Exception e) {
+//            String errorMessage = "Delete Worktime fail: " + e.getMessage();
+//            errorMessages.add(errorMessage);
+//            log.error(errorMessage);
+//        }
+//
         this.notifyUser(errorMessages);
 
         log.info("Sync wtFromM9ie job finished.");
     }
 
     private void notifyUser(List<String> l) {
-        String[] to = getMailByNotification("worktimeM4f_sync_alarm");
+        String[] to = getMailByNotification("worktime_sync_alarm");
         String[] cc = new String[0];
 
-        String subject = "【" + pageTitle + "系統訊息】M9_4F大表機種工時下載";
+        String subject = "【" + pageTitle + "系統訊息】M9_3F大表機種工時下載";
         String text = generateTextBody(l);
 
         try {
@@ -146,7 +149,7 @@ public class SyncWorktimeM4f {
         return sb.toString();
     }
 
-    public String[] getMailByNotification(String notification) {
+    protected String[] getMailByNotification(String notification) {
         List<User> users = userNotificationService.findUsersByNotification(notification);
         String[] mails = users.stream()
                 .filter(u -> u.getEmail() != null || !"".endsWith(u.getEmail()))

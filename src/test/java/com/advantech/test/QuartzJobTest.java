@@ -10,6 +10,7 @@ import com.advantech.quartzJob.BackupDataToExcel;
 import com.advantech.quartzJob.StandardTimeUpload;
 import com.advantech.quartzJob.SyncEmployeeZoneUser;
 import com.advantech.quartzJob.SyncPreAssyModuleQty;
+import com.advantech.quartzJob.SyncWorktime;
 import com.advantech.quartzJob.SyncWorktimeM4f;
 import com.advantech.quartzJob.WorktimeEventLog;
 import com.advantech.quartzJob.WorktimeEventLog1;
@@ -18,9 +19,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -63,7 +66,19 @@ public class QuartzJobTest {
     @Autowired
     private SyncWorktimeM4f job9;
 
+    @Autowired
+    private SyncWorktime job10;
+
 //    @Test
+//    @Transactional("tx1")
+//    @Rollback(true)
+    public void testSyncWorktime() throws Exception {
+        job10.syncModelFromM9ie();
+    }
+    
+//    @Test
+//    @Transactional("tx2")
+//    @Rollback(true)
     public void testSyncWorktimeM4f() throws Exception {
         job9.syncModelFromM9ie();
     }

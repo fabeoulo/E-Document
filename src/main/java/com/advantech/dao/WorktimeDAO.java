@@ -41,7 +41,7 @@ public class WorktimeDAO extends BasicDAOImpl<Integer, Worktime> {
             "type", "businessGroup", "floor", "pending", "preAssy",
             "flowByBabFlowId", "flowByPackingFlowId", "flowByTestFlowId",
             "userBySpeOwnerId", "userByEeOwnerId", "userByQcOwnerId", "userByMpmOwnerId",
-            "labelOuterId","labelCartonId"
+            "labelOuterId", "labelCartonId"
         };
 
         Criteria criteria = createEntityCriteria();
@@ -57,6 +57,12 @@ public class WorktimeDAO extends BasicDAOImpl<Integer, Worktime> {
 
         List l = getByPaginateInfo(criteria, info);
         return l;
+    }
+
+    public List<Worktime> findAllWithFormula() {
+        Criteria criteria = createEntityCriteria();
+        criteria.setFetchMode("worktimeFormulaSettings", FetchMode.JOIN);
+        return criteria.list();
     }
 
     public int merge(Worktime pojo) {

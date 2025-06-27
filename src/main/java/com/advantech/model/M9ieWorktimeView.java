@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.advantech.model.db2;
+package com.advantech.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
  *
  * @author Justin.Yeh
  */
-@Entity(name = "db2.M9ieWorktimeView")
+@Entity
 @Table(name = "vw_Atmc_M9ie_Worktime")
 public class M9ieWorktimeView implements java.io.Serializable {
 
@@ -33,7 +33,7 @@ public class M9ieWorktimeView implements java.io.Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    
+
     @Column(name = "model_name", length = 50)
     public String getModelName() {
         return this.modelName;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.advantech.webservice.download;
+package com.advantech.webservice.download.db2;
 
 import com.advantech.model.db2.WorktimeM4f;
 import com.advantech.webservice.Factory;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  * @author Justin.Yeh
  */
 @Component
-public class MtdTestIntegrityM4fDownload extends BasicM4fDownload {
+public class MtdTestIntegrityM4fDownload extends BasicM4fDownload<WorktimeM4f> {
 
     private static final Logger logger = LoggerFactory.getLogger(MtdTestIntegrityM4fDownload.class);
 
@@ -41,7 +41,7 @@ public class MtdTestIntegrityM4fDownload extends BasicM4fDownload {
         wt.setT1ItemsQty(t1TestQty.get(1));
         wt.setT2StatusQty(t2TestQty.get(0));
         wt.setT2ItemsQty(t2TestQty.get(1));
-        
+
         return wt;
     }
 }

@@ -2135,7 +2135,7 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
 //---------------------------------------------------------------------
 //  Default formula column caculate
     public void setDefaultProductWt() {
-        BigDecimal defaultValue = notEmpty(totalModule).add(notEmpty(cleanPanel))
+        BigDecimal defaultValue = notEmpty(totalModule)//.add(notEmpty(cleanPanel))
                 .add(notEmpty(assy)).add(notEmpty(t1)).add(notEmpty(t2))
                 .add(notEmpty(t3)).add(notEmpty(t4)).add(notEmpty(packing))
                 .add(notEmpty(upBiRi)).add(notEmpty(downBiRi)).add(notEmpty(upRi)).add(notEmpty(downRi))
@@ -2158,7 +2158,8 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
     }
 
     public void setDefaultAssyToT1() {
-        BigDecimal defaultValue = notEmpty(cleanPanel).add(notEmpty(assy).add(notEmpty(totalModule))).add(notEmpty(t1))
+        BigDecimal defaultValue = notEmpty(totalModule).add(notEmpty(assy))//.add(notEmpty(cleanPanel))
+                .add(notEmpty(t1))
                 .add(notEmpty(upBiRi)).add(notEmpty(upRi)).add(notEmpty(vibration))
                 .add(notEmpty(hiPotLeakage)).add(notEmpty(coldBoot)).add(notEmpty(warmBoot));
         this.setAssyToT1(defaultValue);
