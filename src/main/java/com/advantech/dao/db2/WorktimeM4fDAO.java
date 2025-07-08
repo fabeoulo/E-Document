@@ -57,6 +57,12 @@ public class WorktimeM4fDAO extends BasicDAOImpl<Integer, WorktimeM4f> {
         return l;
     }
 
+    public List<WorktimeM4f> findAllWithFormula() {
+        Criteria criteria = createEntityCriteria();
+        criteria.setFetchMode("worktimeFormulaSettings", FetchMode.JOIN);
+        return criteria.list();
+    }
+
     public int merge(WorktimeM4f pojo) {
         getSession().merge(pojo);
         return 1;

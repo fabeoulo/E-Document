@@ -23,13 +23,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Justin.Yeh
  */
-@Component
 public class SyncWorktimeM4f {
 
     private static final Logger log = LoggerFactory.getLogger(SyncWorktimeM4f.class);
@@ -57,6 +56,8 @@ public class SyncWorktimeM4f {
     @Autowired
     private WorktimeM4fService worktimeM4fService;
 
+    // keep all transactions in one session, prevent from detash and extra select, also enable lazy-fetch.
+    @Transactional
     public void syncModelFromM9ie() {
         List<String> errorMessages = new ArrayList();
 
@@ -97,7 +98,7 @@ public class SyncWorktimeM4f {
                 }
             }
         }
-        worktimeM4fService.mergeByMesDL(wtIn);
+        worktimeM4fService.mergeWithoutUpload(wtIn);
 
         log.info("Begin delete WorktimeM4f : " + wtRemove.size() + " datas.");
         try {
@@ -146,7 +147,7 @@ public class SyncWorktimeM4f {
         return sb.toString();
     }
 
-    public String[] getMailByNotification(String notification) {
+    protected String[] getMailByNotification(String notification) {
         List<User> users = userNotificationService.findUsersByNotification(notification);
         String[] mails = users.stream()
                 .filter(u -> u.getEmail() != null || !"".endsWith(u.getEmail()))

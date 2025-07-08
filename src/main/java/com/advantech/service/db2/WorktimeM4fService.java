@@ -116,6 +116,10 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
         return result;
     }
 
+    public List<WorktimeM4f> findAllWithFormula() {
+        return dao.findAllWithFormula();
+    }
+
     private void trimSearchString(PageInfo info) {
         if (info.getSearchString() != null && !"".equals(info.getSearchString())) {
             info.setSearchString(info.getSearchString().trim());
@@ -287,11 +291,6 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
         return this.insertByMesDL(newArrayList(worktime));
     }
 
-    public int mergeByMesDL(List<WorktimeM4f> l) {
-        retriveFormulaSetting(l);
-        return this.mergeWithoutUpload(l);
-    }
-
     public int mergeWithoutUpload(List<WorktimeM4f> l) {
         int i = 1;
         for (WorktimeM4f w : l) {
@@ -416,10 +415,10 @@ public class WorktimeM4fService extends BasicServiceImpl<Integer, WorktimeM4f> {
         }
         if (isColumnCalculated(setting.getMachineWorktime())) {
             //Set machine worktime
-            w = setCobotWorktime(w);
+            setCobotWorktime(w);
         }
         if (isColumnCalculated(setting.getCobotManualWt())) {
-            w = setCobotManualWtFormula(w);
+            setCobotManualWtFormula(w);
         }
     }
 

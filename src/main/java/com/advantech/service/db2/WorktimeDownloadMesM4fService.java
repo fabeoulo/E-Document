@@ -91,7 +91,7 @@ public class WorktimeDownloadMesM4fService {
     public Map<String, List> filterByViewAndSetBg(List<M9ieWorktimeView> views) {
 
         Map<String, M9ieWorktimeView> m9Map = views.stream().collect(Collectors.toMap(v -> v.getModelName(), v -> v, (a, b) -> b));
-        Map<String, WorktimeM4f> wtMap = worktimeM4fService.findAll().stream().collect(Collectors.toMap(wt -> wt.getModelName(), wt -> wt));
+        Map<String, WorktimeM4f> wtMap = worktimeM4fService.findAllWithFormula().stream().collect(Collectors.toMap(wt -> wt.getModelName(), wt -> wt));
         Map<String, BusinessGroupM4f> buMap = businessGroupM4fService.findAll().stream().collect(Collectors.toMap(bu -> bu.getWorkCenter(), bu -> bu));
 
         logger.info("M9ieWorktimeView size : " + m9Map.size() + " WorktimeM4f size : " + wtMap.size());

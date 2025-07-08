@@ -72,6 +72,6 @@ public abstract class BasicDAOImpl<PK extends Serializable, T> extends Hibernate
     public void flushSession() {
         Session session = this.getSession();
         session.flush();
-        session.clear();
+//        session.clear();
     }
 }

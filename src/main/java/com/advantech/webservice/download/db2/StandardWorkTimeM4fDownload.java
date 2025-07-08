@@ -51,12 +51,18 @@ public class StandardWorkTimeM4fDownload extends BasicM4fDownload<WorktimeM4f> {
 
     @Override
     public WorktimeM4f download(WorktimeM4f wt) throws Exception {
-        List<StandardWorkTime> standardWorktimes = worktimeQueryPort.queryM(wt.getModelName(), Factory.TWM9);
         Map<String, String> errorFields = new HashMap();
+
+        List<StandardWorkTime> standardWorktimes = new ArrayList<>();
+        try {
+            standardWorktimes = worktimeQueryPort.queryM(wt.getModelName(), Factory.TWM9);
+        } catch (Exception e) {
+            errorFields.put(worktimeQueryPort.getClass().getName(), e.getMessage());
+        }
 
         wt.setAssyStation(1);
         wt.setPackingStation(1);
-        settings.forEach((setting) -> {
+        for (WorktimeAutodownloadSettingM4f setting : settings) {
             try {
                 StandardWorkTime worktimeOnMes = standardWorktimes.stream()
                         .filter(p -> (Objects.equals(p.getSTATIONID(), setting.getStationId()) || (p.getSTATIONID() == -1 && setting.getStationId() == null))
@@ -73,15 +79,15 @@ public class StandardWorkTimeM4fDownload extends BasicM4fDownload<WorktimeM4f> {
                     String columnUnit = setting.getColumnUnit();
                     Integer opcnt = worktimeOnMes.getOPCNT();
                     if ("B".equals(columnUnit) && setting.getStationId() != null && opcnt > 0) {
-                        wt.setAssyStation(worktimeOnMes.getOPCNT());
+                        wt.setAssyStation(opcnt);
                     } else if ("P".equals(columnUnit) && setting.getStationId() != null && opcnt > 0) {
-                        wt.setPackingStation(worktimeOnMes.getOPCNT());
+                        wt.setPackingStation(opcnt);
                     }
                 }
             } catch (Exception e) {
                 errorFields.put(setting.getColumnName(), e.getMessage());
             }
-        });
+        }
 
         if (!errorFields.isEmpty()) {
             throw new Exception(wt.getModelName() + " 工時從MES讀取失敗: " + errorFields.toString());
