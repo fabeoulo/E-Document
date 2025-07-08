@@ -7,6 +7,7 @@ package com.advantech.webservice.port;
 
 import com.advantech.webservice.root.PartMappingUserRoot;
 import com.advantech.model.Worktime;
+import com.advantech.webservice.Factory;
 import com.advantech.webservice.unmarshallclass.MesUserInfo;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
@@ -27,7 +28,7 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
 
     @Autowired
     private MesUserInfoQueryPort mesUserInfoQueryPort;
-    
+
     @Autowired
     private ModelResponsorQueryPort modelResponsorQueryPort;
 
@@ -72,7 +73,7 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
     @Override
     public void delete(Worktime w) throws Exception {
         try {
-            List l = modelResponsorQueryPort.query(w);
+            List l = modelResponsorQueryPort.queryM(w, Factory.TWM3_OG);
             if (!l.isEmpty()) {
                 PartMappingUserRoot root = new PartMappingUserRoot();
                 root.getUsers().setPARTNO(w.getModelName()); //機種

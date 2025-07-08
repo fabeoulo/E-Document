@@ -112,7 +112,7 @@ public class ModelResponsorM4fDownload extends BasicM4fDownload<WorktimeM4f> {
 
     @Override
     public WorktimeM4f download(WorktimeM4f wt) throws Exception {
-        List<ModelResponsor> mesOwners = modelResponsorQueryPort.queryM(wt, Factory.TWM9);
+        List<ModelResponsor> mesOwners = modelResponsorQueryPort.queryM(wt, Factory.TWM9_OG);
         Map<String, String> errorFields = new HashMap();
 
         CustomPasswordEncoder encoder = new CustomPasswordEncoder();
