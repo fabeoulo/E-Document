@@ -370,7 +370,6 @@
                 {label: 'BigCartonLable標籤名稱定義', name: "labelBigCarton", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '2D-標籤變量名稱', name: "label2D", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '客戶序號標籤名稱定義', name: "labelCustomerSn", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: '研華內部SN標籤名稱定義', name: "labelSn", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '料號綁定標簽', name: "labelPn", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'N機種A label名稱', name: "labelNmodelA", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'N機種B label名稱', name: "labelNmodelB", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},

@@ -213,7 +213,6 @@ public class WorktimeUploadMesService {
                 || !isEquals(prev.getLabelBigCarton(), current.getLabelBigCarton())
                 || !isEquals(prev.getLabel2D(), current.getLabel2D())
                 || !isEquals(prev.getLabelCustomerSn(), current.getLabelCustomerSn())
-                || !isEquals(prev.getLabelSn(), current.getLabelSn())
                 || !isEquals(prev.getLabelPn(), current.getLabelPn())
                 || !isEquals(prev.getLabelNmodelA(), current.getLabelNmodelA())
                 || !isEquals(prev.getLabelNmodelB(), current.getLabelNmodelB())
@@ -248,7 +247,12 @@ public class WorktimeUploadMesService {
                 || !isEquals(prev.getLabelPacking9(), current.getLabelPacking9())
                 || !isEquals(prev.getLabelPacking10(), current.getLabelPacking10())
                 || !isEquals(prev.getLabelAssyInput(), current.getLabelAssyInput())
-                || !isEquals(prev.getSsnOnTag(), current.getSsnOnTag());
+                || !isEquals(prev.getSsnOnTag(), current.getSsnOnTag())
+                || !isEquals(prev.getKeypartValueLabel(), current.getKeypartValueLabel())
+                || !isEquals(prev.getShippingPallet(), current.getShippingPallet())
+                || !isEquals(prev.getAssyCheckSsn(), current.getAssyCheckSsn())
+                || !isEquals(prev.getSsnPrefix(), current.getSsnPrefix())
+                || !isEquals(prev.getSsnLength(), current.getSsnLength());
         return b;
     }
 

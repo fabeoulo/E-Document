@@ -15,6 +15,7 @@ import com.advantech.service.OutLabelService;
 import com.advantech.service.CartonLabelService;
 import com.advantech.service.PendingService;
 import com.advantech.service.WorktimeMaterialPropertyUploadSettingService;
+import com.advantech.webservice.Factory;
 import com.advantech.webservice.root.MaterialPropertyBatchUploadRoot;
 import com.advantech.webservice.unmarshallclass.MaterialProperty;
 import com.advantech.webservice.unmarshallclass.MaterialPropertyUserPermission;
@@ -92,13 +93,13 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
     }
 
     public void initSettings(List<WorktimeMaterialPropertyUploadSetting> settings) throws Exception {
-        temp_MaterialPropertys = materialPropertyQueryPort.query("");
+        temp_MaterialPropertys = materialPropertyQueryPort.queryM("", Factory.TWM3);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
-            temp_MaterialPropertyUserPermissions = permissionQueryPort.query("SYSTEM");
+            temp_MaterialPropertyUserPermissions = permissionQueryPort.queryM("SYSTEM", Factory.TWM3);
         } else {
             User user = (User) auth.getPrincipal();
-            temp_MaterialPropertyUserPermissions = permissionQueryPort.query(user.getJobnumber());
+            temp_MaterialPropertyUserPermissions = permissionQueryPort.queryM(user.getJobnumber(), Factory.TWM3);
         }
         this.settings = settings;
     }
@@ -109,7 +110,7 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
         retrieveWorktimeBabFlowRelative(w);
 
         //Query to prevent override the exists setting on MES.
-        List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.query(w);
+        List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.queryM(w, Factory.TWM3);
         MaterialPropertyBatchUploadRoot root = this.checkDifferenceAndGenerateRoot(remotePropSettings, w);
         super.upload(root, UploadType.UPDATE);
     }
@@ -119,7 +120,7 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
         //Mes upload port need to get babFlow name in proxy lazy init object of "Flow"
         retrieveWorktimeBabFlowRelative(w);
 
-        List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.query(w);
+        List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.queryM(w, Factory.TWM3);
         MaterialPropertyBatchUploadRoot root = this.checkDifferenceAndGenerateRoot(remotePropSettings, w);
         super.upload(root, UploadType.UPDATE);
     }
@@ -127,7 +128,7 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
     @Override   //done
     public void delete(Worktime w) throws Exception {
         //因為要刪除全部設定，固直接將遠端setting丟給checkMatPermission檢查即可
-        List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.query(w);
+        List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.queryM(w, Factory.TWM3);
         this.checkMatPermission(remotePropSettings);
 
         if (!remotePropSettings.isEmpty()) {

@@ -414,9 +414,6 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
     private String labelCustomerSn;
 
     @JsonView(View.Public.class)
-    private String labelSn;
-
-    @JsonView(View.Public.class)
     private String labelPn;
 
     @JsonView(View.Public.class)
@@ -1674,16 +1671,6 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
 
     public void setLabelCustomerSn(String labelCustomerSn) {
         this.labelCustomerSn = labelCustomerSn;
-    }
-
-    @Size(min = 0, max = 150)
-    @Column(name = "label_sn", length = 150)
-    public String getLabelSn() {
-        return labelSn;
-    }
-
-    public void setLabelSn(String labelSn) {
-        this.labelSn = labelSn;
     }
 
     @Size(min = 0, max = 150)

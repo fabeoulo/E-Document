@@ -109,7 +109,6 @@ var worktimeCol = [
     {name: "labelBigCarton"},
     {name: "label2D"},
     {name: "labelCustomerSn"},
-    {name: "labelSn"},
     {name: "labelPn"},
     {name: "labelNmodelA"},
     {name: "labelNmodelB"},
@@ -143,7 +142,12 @@ var worktimeCol = [
     {name: "labelPacking7"},
     {name: "labelPacking8"},
     {name: "labelPacking9"},
-    {name: "labelPacking10"}
+    {name: "labelPacking10"},
+    {name: "keypartValueLabel"},
+    {name: "shippingPallet"},
+    {name: "assyCheckSsn"},
+    {name: "ssnPrefix"},
+    {name: "ssnLength"}
 ];
 
 //不受show / hide 影響
@@ -175,7 +179,8 @@ var group = [
         Type0: ['tr_modelName', 'tr_type.id', 'tr_businessGroup.id', 'tr_userBySpeOwnerId.id', 'tr_userByEeOwnerId.id', 'tr_userByQcOwnerId.id', 'tr_floor.id',
             'tr_userByMpmOwnerId.id', 'tr_keypartA', 'tr_keypartB', 'tr_partLink', 'tr_ce', 'tr_ul', 'tr_rohs', 'tr_weee', 'tr_madeInTaiwan',
             'tr_fcc', 'tr_eac', 'tr_kc', 'tr_nsInOneCollectionBox', 'tr_partNoAttributeMaintain', 'tr_weight', 'tr_weightAff', 'tr_tolerance', 'tr_preAssyModuleQty',
-            'tr_burnInQuantity', 'tr_createDate', 'tr_modifiedDate', 'tr_twm2Flag', 'tr_cobots']
+            'tr_burnInQuantity', 'tr_createDate', 'tr_modifiedDate', 'tr_twm2Flag', 'tr_cobots',
+            'tr_keypartValueLabel', 'tr_shippingPallet']
     },
     {
         Type1: ['tr_preAssy.id', 'tr_flowByBabFlowId.id', 'tr_flowByTestFlowId.id', 'tr_flowByPackingFlowId.id',
@@ -183,10 +188,11 @@ var group = [
             'tr_workCenter', 'tr_assyLeadTime', 'tr_packingLeadTime', 'tr_packingPalletTime']
     },
     {
-        Type2: ['tr_labelYN', 'tr_ssnOnTag', 'tr_labelOuterId.id', 'tr_labelOuterCustom', 'tr_labelCartonId.id', 'tr_labelCartonCustom', 'tr_labelBigCarton', 'tr_label2D', 'tr_labelCustomerSn', 'tr_labelSn', 'tr_labelPn', 'tr_labelNmodelA', 'tr_labelNmodelB', , 'tr_labelAssyInput',
+        Type2: ['tr_labelYN', 'tr_ssnOnTag', 'tr_labelOuterId.id', 'tr_labelOuterCustom', 'tr_labelCartonId.id', 'tr_labelCartonCustom', 'tr_labelBigCarton', 'tr_label2D', 'tr_labelCustomerSn', 'tr_labelPn', 'tr_labelNmodelA', 'tr_labelNmodelB', , 'tr_labelAssyInput',
             'tr_labelVariable1', 'tr_labelVariable2', 'tr_labelVariable3', 'tr_labelVariable4', 'tr_labelVariable5', 'tr_labelVariable6', 'tr_labelVariable7', 'tr_labelVariable8', 'tr_labelVariable9', 'tr_labelVariable10',
             'tr_labelVariable1Aff', 'tr_labelVariable2Aff', 'tr_labelVariable3Aff', 'tr_labelVariable4Aff', 'tr_labelVariable5Aff', 'tr_labelVariable6Aff', 'tr_labelVariable7Aff', 'tr_labelVariable8Aff', 'tr_labelVariable9Aff', 'tr_labelVariable10Aff',
-            'tr_labelPacking1', 'tr_labelPacking2', 'tr_labelPacking3', 'tr_labelPacking4', 'tr_labelPacking5', 'tr_labelPacking6', 'tr_labelPacking7', 'tr_labelPacking8', 'tr_labelPacking9', 'tr_labelPacking10']
+            'tr_labelPacking1', 'tr_labelPacking2', 'tr_labelPacking3', 'tr_labelPacking4', 'tr_labelPacking5', 'tr_labelPacking6', 'tr_labelPacking7', 'tr_labelPacking8', 'tr_labelPacking9', 'tr_labelPacking10',
+            'tr_assyCheckSsn', 'tr_ssnPrefix', 'tr_ssnLength']
     },
     {
         Type3: ['tr_macTotalQty', 'tr_macPrintedQty', 'tr_labelMac', 'tr_macPrintedLocation', 'tr_macPrintedFrom', 'tr_etlVariable1', 'tr_etlVariable2', 'tr_etlVariable3', 'tr_etlVariable1Aff', 'tr_etlVariable2Aff', 'tr_etlVariable3Aff']

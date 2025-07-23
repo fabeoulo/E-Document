@@ -396,9 +396,6 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     private String labelCustomerSn;
 
     @JsonView(View.Public.class)
-    private String labelSn;
-
-    @JsonView(View.Public.class)
     private String labelPn;
 
     @JsonView(View.Public.class)
@@ -499,6 +496,21 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 
     @JsonView(View.Public.class)
     private String labelPacking10;
+
+    @JsonView(View.Public.class)
+    private String keypartValueLabel;
+
+    @JsonView(View.Public.class)
+    private String shippingPallet;
+
+    @JsonView(View.Public.class)
+    private String assyCheckSsn;
+
+    @JsonView(View.Public.class)
+    private String ssnPrefix;
+
+    @JsonView(View.Public.class)
+    private Integer ssnLength = 0;
 
     public Worktime() {
     }
@@ -1602,16 +1614,6 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     }
 
     @Size(min = 0, max = 150)
-    @Column(name = "label_sn", length = 150)
-    public String getLabelSn() {
-        return labelSn;
-    }
-
-    public void setLabelSn(String labelSn) {
-        this.labelSn = labelSn;
-    }
-
-    @Size(min = 0, max = 150)
     @Column(name = "label_pn", length = 150)
     public String getLabelPn() {
         return labelPn;
@@ -1951,6 +1953,51 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.labelPacking10 = labelPacking10;
     }
 
+    @Size(min = 0, max = 150)
+    @Column(name = "label_keypartValue", length = 150)
+    public String getKeypartValueLabel() {
+        return keypartValueLabel;
+    }
+
+    public void setKeypartValueLabel(String keypartValueLabel) {
+        this.keypartValueLabel = keypartValueLabel;
+    }
+
+    public String getShippingPallet() {
+        return shippingPallet;
+    }
+
+    public void setShippingPallet(String shippingPallet) {
+        this.shippingPallet = shippingPallet;
+    }
+
+    @NotNull
+    @NotEmpty
+    @Column(name = "assyCheckSsn", nullable = false, length = 1)
+    public String getAssyCheckSsn() {
+        return assyCheckSsn;
+    }
+
+    public void setAssyCheckSsn(String assyCheckSsn) {
+        this.assyCheckSsn = assyCheckSsn;
+    }
+
+    public String getSsnPrefix() {
+        return ssnPrefix;
+    }
+
+    public void setSsnPrefix(String ssnPrefix) {
+        this.ssnPrefix = ssnPrefix;
+    }
+
+    public Integer getSsnLength() {
+        return ssnLength;
+    }
+
+    public void setSsnLength(Integer ssnLength) {
+        this.ssnLength = ssnLength;
+    }
+
     @Digits(integer = 10 /*precision*/, fraction = 3 /*scale*/)
     @Column(name = "sapWt", precision = 10, scale = 3)
     public BigDecimal getSapWt() {
@@ -2048,7 +2095,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     }
 
     public void setDefaultAssyToT1() {
-        BigDecimal defaultValue = notEmpty( totalModule).add(notEmpty(assy))//.add(notEmpty(cleanPanel))
+        BigDecimal defaultValue = notEmpty(totalModule).add(notEmpty(assy))//.add(notEmpty(cleanPanel))
                 .add(notEmpty(t1))
                 .add(notEmpty(upBiRi)).add(notEmpty(upRi)).add(notEmpty(vibration))
                 .add(notEmpty(hiPotLeakage)).add(notEmpty(coldBoot)).add(notEmpty(warmBoot));
