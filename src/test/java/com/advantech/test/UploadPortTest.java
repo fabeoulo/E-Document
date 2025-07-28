@@ -198,7 +198,7 @@ public class UploadPortTest {
     @Rollback(true)
     public void testMaterialPropertyUploadPort() throws Exception {
 
-        Integer[] ids = {2344};
+        Integer[] ids = {2357};
         List<Worktime> l = worktimeService.findByPrimaryKeys(ids);
         materialPropertyUploadPort.initSetting();
 

@@ -296,6 +296,21 @@ public class Worktime implements java.io.Serializable {
 
     @JsonView(View.Public.class)
     private int splitFlag;
+    
+    @JsonView(View.Public.class)
+    private String labelPacking1;
+
+    @JsonView(View.Public.class)
+    private String labelPacking2;
+
+    @JsonView(View.Public.class)
+    private String labelPacking3;
+
+    @JsonView(View.Public.class)
+    private String labelPacking4;
+
+    @JsonView(View.Public.class)
+    private String labelPacking5;
 
     public Worktime() {
     }
@@ -963,6 +978,8 @@ public class Worktime implements java.io.Serializable {
         this.labelInformation = labelInformation;
     }
 
+    
+    
     @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 4 /*scale*/)
     @Column(name = "[weight]", nullable = false, precision = 10, scale = 4)
@@ -1138,6 +1155,56 @@ public class Worktime implements java.io.Serializable {
 
     public void setSplitFlag(int splitFlag) {
         this.splitFlag = splitFlag;
+    }
+
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_1", length = 150)
+    public String getLabelPacking1() {
+        return labelPacking1;
+    }
+
+    public void setLabelPacking1(String labelPacking1) {
+        this.labelPacking1 = labelPacking1;
+    }
+
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_2", length = 150)
+    public String getLabelPacking2() {
+        return labelPacking2;
+    }
+
+    public void setLabelPacking2(String labelPacking2) {
+        this.labelPacking2 = labelPacking2;
+    }
+
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_3", length = 150)
+    public String getLabelPacking3() {
+        return labelPacking3;
+    }
+
+    public void setLabelPacking3(String labelPacking3) {
+        this.labelPacking3 = labelPacking3;
+    }
+
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_4", length = 150)
+    public String getLabelPacking4() {
+        return labelPacking4;
+    }
+
+    public void setLabelPacking4(String labelPacking4) {
+        this.labelPacking4 = labelPacking4;
+    }
+
+    @Size(min = 0, max = 150)
+    @Column(name = "label_packing_5", length = 150)
+    public String getLabelPacking5() {
+        return labelPacking5;
+    }
+
+    public void setLabelPacking5(String labelPacking5) {
+        this.labelPacking5 = labelPacking5;
     }
 
 //  Default formula column caculate 

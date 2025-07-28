@@ -169,7 +169,12 @@ public class WorktimeUploadMesService {
                 || !isEquals(prev.getWeightAff(), current.getWeightAff())
                 || !isEquals(prev.getTolerance(), current.getTolerance())
                 || !isEquals(prev.getPartNoAttributeMaintain(), current.getPartNoAttributeMaintain())
-                || !isEquals(prev.getPartLink(), current.getPartLink());
+                || !isEquals(prev.getPartLink(), current.getPartLink())
+                || !isEquals(prev.getLabelPacking1(), current.getLabelPacking1())
+                || !isEquals(prev.getLabelPacking2(), current.getLabelPacking2())
+                || !isEquals(prev.getLabelPacking3(), current.getLabelPacking3())
+                || !isEquals(prev.getLabelPacking4(), current.getLabelPacking4())
+                || !isEquals(prev.getLabelPacking5(), current.getLabelPacking5());
 
         return b;
     }

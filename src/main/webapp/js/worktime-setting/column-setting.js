@@ -59,6 +59,11 @@ var worktimeCol = [
     {name: "kc"},
     {name: "nsInOneCollectionBox"},
     {name: "partNoAttributeMaintain"},
+    {name: "labelPacking1"},
+    {name: "labelPacking2"},
+    {name: "labelPacking3"},
+    {name: "labelPacking4"},
+    {name: "labelPacking5"},
     {name: "labelInformation"},
     {name: "weight"},
     {name: "weightAff"},
@@ -119,7 +124,7 @@ var levelColumn = [
     "t3",
     "packing",
     "upBiRi",
-    "downBiRi",    
+    "downBiRi",
     "pressureCookerCost",
     "biCost"
 ];
