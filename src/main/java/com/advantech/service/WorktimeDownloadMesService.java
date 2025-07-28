@@ -7,6 +7,7 @@ package com.advantech.service;
 import com.advantech.model.BusinessGroup;
 import com.advantech.model.M9ieWorktimeView;
 import com.advantech.model.Worktime;
+import com.advantech.webservice.download.MaterialPropertyValueDownload;
 import com.advantech.webservice.download.StandardWorkTimeDownload;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,15 +49,15 @@ public class WorktimeDownloadMesService {
 //    private MtdTestIntegrityM4fDownload mtdTestIntegrityM4fDownload;
 //
 //    @Autowired
-//    private MaterialPropertyValueM4fDownload materialPropertyValueM4fDownload;
-//    
+    private MaterialPropertyValueDownload materialPropertyValueDownload;
+    
     @Autowired
     private StandardWorkTimeDownload standardWorkTimeDownload;
 
     public void portParamInit() {
 //        flowM4fDownload.initOptions();
 //        modelResponsorM4fDownload.initOptions();
-//        materialPropertyValueM4fDownload.initOptions();
+//        materialPropertyValueDownload.initOptions();
         standardWorkTimeDownload.initOptions();
 
     }
@@ -154,7 +155,7 @@ public class WorktimeDownloadMesService {
     }
 
     private void downloadFromMes(Worktime wm4) throws Exception {
-//        materialPropertyValueM4fDownload.download(wm4);
+//        materialPropertyValueDownload.download(wm4);
 //        modelResponsorM4fDownload.download(wm4);
 //        flowM4fDownload.download(wm4);
 //        mtdTestIntegrityM4fDownload.download(wm4);

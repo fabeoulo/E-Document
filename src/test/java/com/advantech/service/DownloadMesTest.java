@@ -15,10 +15,6 @@ import com.advantech.model.Worktime;
 import com.advantech.model.*;
 import com.advantech.model.db2.*;
 import com.advantech.security.State;
-import com.advantech.service.db2.CartonLabelM4fService;
-import com.advantech.service.db2.OutLabelM4fService;
-import com.advantech.service.db2.PendingM4fService;
-import com.advantech.service.db2.WorktimeMaterialPropertyDownloadSettingM4fService;
 import com.advantech.test.ExcelTest;
 import com.advantech.webservice.Factory;
 import com.advantech.webservice.port.MaterialFlowQueryPort;
@@ -73,7 +69,7 @@ public class DownloadMesTest {
     @Autowired
     private WorktimeService instance;
 
-    private final List<Worktime> l = newArrayList();
+    private List<Worktime> l = newArrayList();
 //
 ////=============================
 //    @Autowired
@@ -90,26 +86,26 @@ public class DownloadMesTest {
 //
 //    @Autowired
 //    private MaterialFlowQueryPort materialFlowQueryPort;
-////=============================
-//    @Autowired
-//    private WorktimeMaterialPropertyDownloadSettingM4fService propSettingService;
-//
-//    private List<WorktimeMaterialPropertyDownloadSettingM4f> settings = new ArrayList();
-//
+//=============================
+    @Autowired
+    private WorktimeMaterialPropertyDownloadSettingService propSettingService;
+
+    private List<WorktimeMaterialPropertyDownloadSetting> settings = new ArrayList();
+
     @Autowired
     private SpringExpressionUtils expressionUtils;
-//
-//    @Autowired
-//    private PendingM4fService pendingService;
-//    @Autowired
-//    private CartonLabelM4fService cartonLabelService;
-//    @Autowired
-//    private OutLabelM4fService outLabelService;
-//
-//    private Map<String, PendingM4f> pendingOptions;
-//    private Map<String, OutLabelM4f> outLabelOptions;
-//    private Map<String, CartonLabelM4f> cartonLabelOptions;
-//
+
+    @Autowired
+    private PendingService pendingService;
+    @Autowired
+    private CartonLabelService cartonLabelService;
+    @Autowired
+    private OutLabelService outLabelService;
+
+    private Map<String, Pending> pendingOptions;
+    private Map<String, OutLabel> outLabelOptions;
+    private Map<String, CartonLabel> cartonLabelOptions;
+
     @Autowired
     private MaterialPropertyValueQueryPort materialPropertyValueQueryPort;
 ////=============================
@@ -186,14 +182,40 @@ public class DownloadMesTest {
 //        outLabelOptions = toSelectOptions(outLabelService.findAll());
 //        cartonLabelOptions = toSelectOptions(cartonLabelService.findAll());
 //
-//        settings = propSettingService.findAll();
+        settings = propSettingService.findAll();
 //        expressionUtils.setVariable("pendingMap", pendingOptions);
 //        expressionUtils.setVariable("outLabelMap", outLabelOptions);
 //        expressionUtils.setVariable("cartonLabelMap", cartonLabelOptions);
 //
-        autodownloadSettings = worktimeAutodownloadSettingService.findAll();
+//        autodownloadSettings = worktimeAutodownloadSettingService.findAll();
     }
 
+//    @Test
+//    @Transactional
+//    @Rollback(true)
+    public void testDlMatWithUpdate() throws Exception {
+        System.out.println("testDlMatWithUpdate");
+
+        l = instance.findAll();
+        
+        initOptions();
+        for (Worktime wm4 : l) {
+            HibernateObjectPrinter.print("Processing: " + wm4.getModelName() + " in thread: " + Thread.currentThread().getName());
+            try {
+                dlMat(wm4);
+
+//                setNotNullFieldDefault(wm4);
+//
+                instance.update(wm4);
+                HibernateObjectPrinter.print(wm4);
+            } catch (Exception e) {
+//            logger.error(e.getMessage(), e);
+                HibernateObjectPrinter.print(e.getMessage());
+                throw e;
+            }
+        }
+    }
+    
 //    @Test
 //    @Transactional
 //    @Rollback(true)
@@ -210,9 +232,9 @@ public class DownloadMesTest {
             try {
 //                dlOwner(wm4);
 //                dlFlow(wm4);
-//                dlMat(wm4);
+                dlMat(wm4);
 //                dlMtdTest(wm4);
-                dlWt(wm4);
+//                dlWt(wm4);
 
 //                setNotNullFieldDefault(wm4);
 //
@@ -321,8 +343,8 @@ public class DownloadMesTest {
             }
         } else if (type.equals(FloorM4f.class)) {
             return new FloorM4f(6, "4F");
-        } else if (type.equals(PendingM4f.class)) {
-            return new PendingM4f(3);
+        } else if (type.equals(Pending.class)) {
+            return new Pending(3);
         } else if (type.equals(TypeM4f.class)) {
             return new TypeM4f(6, "MP");
         } else if (type.equals(BusinessGroupM4f.class)) {
@@ -346,7 +368,7 @@ public class DownloadMesTest {
     }
 
 //    private Worktime dlOwner(Worktime wt) throws Exception {
-//        List<ModelResponsor> mesOwners = modelResponsorQueryPort.queryM(wt, Factory.TWM9);
+//        List<ModelResponsor> mesOwners = modelResponsorQueryPort.queryM(wt, Factory.TWM3);
 //        Map<String, String> errorFields = new HashMap();
 //
 //        CustomPasswordEncoder encoder = new CustomPasswordEncoder();
@@ -420,7 +442,7 @@ public class DownloadMesTest {
 //    }
 ////
 //    private Worktime dlFlow(Worktime wt) throws Exception {
-//        List<MaterialFlow> mesFlows = materialFlowQueryPort.queryM(wt, Factory.TWM9);
+//        List<MaterialFlow> mesFlows = materialFlowQueryPort.queryM(wt, Factory.TWM3);
 //        Map<String, String> errorFields = new HashMap();
 //
 //        for (Section section : Section.values()) {
@@ -526,17 +548,17 @@ public class DownloadMesTest {
     }
 
     private void dlNewMatM3(Worktime wt) throws Exception {
-        WorktimeMaterialPropertyDownloadSettingM4f dlSetting = new WorktimeMaterialPropertyDownloadSettingM4f();
+        WorktimeMaterialPropertyDownloadSetting dlSetting = new WorktimeMaterialPropertyDownloadSetting();
         dlSetting.setMatPropNo("FL");
         dlSetting.setDlColumn("ssnOnTag");
         dlSetting.setDlFormula("\"Y\".equals(value) ? \"Y\" : \"N\"");
 
-        WorktimeMaterialPropertyDownloadSettingM4f dlSetting2 = new WorktimeMaterialPropertyDownloadSettingM4f();
+        WorktimeMaterialPropertyDownloadSetting dlSetting2 = new WorktimeMaterialPropertyDownloadSetting();
         dlSetting2.setMatPropNo("AO");
         dlSetting2.setDlColumn("labelAssyInput");
         dlSetting2.setDlFormula("value.length() > 150 ? value.substring(0, 150) : value");
 
-        List<WorktimeMaterialPropertyDownloadSettingM4f> settings = newArrayList(dlSetting, dlSetting2);
+        List<WorktimeMaterialPropertyDownloadSetting> settings = newArrayList(dlSetting, dlSetting2);
 
         List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.queryM(wt, Factory.TWM3);
         Map<String, String> errorFields = new HashMap();
@@ -585,55 +607,55 @@ public class DownloadMesTest {
 
     }
 
-//    private void dlMat(Worktime wt) throws Exception {
-//        List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.queryM(wt, Factory.TWM9);
-//        Map<String, String> errorFields = new HashMap();
-//
-////        settings = settings.stream().filter(s -> s.getMatPropNo().equals("IW")).collect(toList());
-//        settings.forEach((setting) -> {
-//            try {
-//                MaterialPropertyValue mp = remotePropSettings.stream()
-//                        .filter(r -> Objects.equals(wt.getModelName(), r.getItemNo()) && Objects.equals(setting.getMatPropNo(), r.getMatPropertyNo()))
-//                        .findFirst().orElse(null);
-//
-//                if (mp == null) {
-//                    mp = new MaterialPropertyValue();
-//                    mp.setValue("");
-//                    mp.setAffPropertyValue("");
-//                } else {
-//                    mp.setValue(notNull(mp.getValue()));
-//                    mp.setAffPropertyValue(notNull(mp.getAffPropertyValue()));
-//                }
-//
-//                String dlFormula = setting.getDlFormula();
-//                String dlColumn = setting.getDlColumn();
-//                String dlAffFormula = setting.getDlAffFormula();
-//                String dlAffColumn = setting.getDlAffColumn();
-//                String dlFormula2 = setting.getDlFormula2();
-//                String dlColumn2 = setting.getDlColumn2();
-//
-//                Object mesConvertVal = expressionUtils.getValueFromFormula(mp, dlFormula);
-//                Object mesConvertValAff = expressionUtils.getValueFromFormula(mp, dlAffFormula);
-//                Object mesConvertVal2 = expressionUtils.getValueFromFormula(mp, dlFormula2);
-//
-//                expressionUtils.setValueFromFormula(wt, dlColumn, mesConvertVal);
-//                expressionUtils.setValueFromFormula(wt, dlAffColumn, mesConvertValAff);
-//                expressionUtils.setValueFromFormula(wt, dlColumn2, mesConvertVal2);
-//            } catch (Exception e) {
-//                errorFields.put(setting.getMatPropNo() + ":==", e.getMessage());
-//            }
-//        });
-//        if (!errorFields.isEmpty()) {
-//            throw new Exception(wt.getModelName() + " 屬性從MES讀取失敗: " + errorFields.toString());
-//        }
-//    }
-//
+    private void dlMat(Worktime wt) throws Exception {
+        List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.queryM(wt, Factory.TWM3);
+        Map<String, String> errorFields = new HashMap();
+
+//        settings = settings.stream().filter(s -> s.getMatPropNo().equals("IW")).collect(toList());
+        settings.forEach((setting) -> {
+            try {
+                MaterialPropertyValue mp = remotePropSettings.stream()
+                        .filter(r -> Objects.equals(wt.getModelName(), r.getItemNo()) && Objects.equals(setting.getMatPropNo(), r.getMatPropertyNo()))
+                        .findFirst().orElse(null);
+
+                if (mp == null) {
+                    mp = new MaterialPropertyValue();
+                    mp.setValue("");
+                    mp.setAffPropertyValue("");
+                } else {
+                    mp.setValue(notNull(mp.getValue()));
+                    mp.setAffPropertyValue(notNull(mp.getAffPropertyValue()));
+                }
+
+                String dlFormula = setting.getDlFormula();
+                String dlColumn = setting.getDlColumn();
+                String dlAffFormula = setting.getDlAffFormula();
+                String dlAffColumn = setting.getDlAffColumn();
+                String dlFormula2 = setting.getDlFormula2();
+                String dlColumn2 = setting.getDlColumn2();
+
+                Object mesConvertVal = expressionUtils.getValueFromFormula(mp, dlFormula);
+                Object mesConvertValAff = expressionUtils.getValueFromFormula(mp, dlAffFormula);
+                Object mesConvertVal2 = expressionUtils.getValueFromFormula(mp, dlFormula2);
+
+                expressionUtils.setValueFromFormula(wt, dlColumn, mesConvertVal);
+                expressionUtils.setValueFromFormula(wt, dlAffColumn, mesConvertValAff);
+                expressionUtils.setValueFromFormula(wt, dlColumn2, mesConvertVal2);
+            } catch (Exception e) {
+                errorFields.put(setting.getMatPropNo() + ":==", e.getMessage());
+            }
+        });
+        if (!errorFields.isEmpty()) {
+            throw new Exception(wt.getModelName() + " 屬性從MES讀取失敗: " + errorFields.toString());
+        }
+    }
+
     private String notNull(String s) {
         return s == null ? "" : s;
     }
 
 //    private Worktime dlMtdTest(Worktime wt) throws Exception {
-//        List<MtdTestIntegrity> mtdTestIntegritys = mtdTestIntegrityQueryPort.queryM(wt, Factory.TWM9);
+//        List<MtdTestIntegrity> mtdTestIntegritys = mtdTestIntegrityQueryPort.queryM(wt, Factory.TWM3);
 //
 //        MtdTestIntegrity t1TestIntegrity = mtdTestIntegritys.stream().filter(t -> "T1".equals(t.getStationName())).findFirst().orElse(null);
 //        MtdTestIntegrity t2TestIntegrity = mtdTestIntegritys.stream().filter(t -> "T2".equals(t.getStationName())).findFirst().orElse(null);
