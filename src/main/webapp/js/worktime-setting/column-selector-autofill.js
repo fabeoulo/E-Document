@@ -3,7 +3,7 @@
 var babFlow_default_value = 355;
 var testFlow_default_value = 356;
 var preAssy_default_value = 10;
-//var pkgFlow_default_value = ;
+var pkgFlow_default_value = 365;
 
 var burnIn_select_event = [
     {
@@ -103,7 +103,7 @@ var pkgFlow_select_event = [
     {
         type: 'change',
         fn: function (e) {
-//            reset_value_zero($(this), pkgFlow_default_value);
+            reset_value_zero($(this), pkgFlow_default_value);
         }
     }
 ];

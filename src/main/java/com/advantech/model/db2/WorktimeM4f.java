@@ -561,6 +561,7 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
         this.flowByTestFlowId = flowByTestFlowId;
     }
 
+//    @NotNull(message = "PACKING_FLOW不可為空")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "packing_flow_id")
     public FlowM4f getFlowByPackingFlowId() {

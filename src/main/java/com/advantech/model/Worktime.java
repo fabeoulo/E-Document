@@ -549,6 +549,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.flowByTestFlowId = flowByTestFlowId;
     }
 
+    @NotNull(message = "PACKING_FLOW不可為空")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "packing_flow_id")
     public Flow getFlowByPackingFlowId() {
@@ -714,6 +715,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.preAssyModuleQty = preAssyModuleQty;
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "assy", precision = 10, scale = 1)
     public BigDecimal getAssy() {
@@ -724,6 +726,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.assy = autoFixScale(assy, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "t1", precision = 10, scale = 1)
     public BigDecimal getT1() {
@@ -734,6 +737,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.t1 = autoFixScale(t1, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "t2", precision = 10, scale = 1)
     public BigDecimal getT2() {
@@ -744,6 +748,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.t2 = autoFixScale(t2, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "t3", precision = 10, scale = 1)
     public BigDecimal getT3() {
@@ -754,6 +759,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.t3 = autoFixScale(t3, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "t4", precision = 10, scale = 1)
     public BigDecimal getT4() {
@@ -764,6 +770,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.t4 = autoFixScale(t4, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "packing", precision = 10, scale = 1)
     public BigDecimal getPacking() {
@@ -774,6 +781,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.packing = autoFixScale(packing, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "up_bi_ri", precision = 10, scale = 1)
     public BigDecimal getUpBiRi() {
@@ -784,6 +792,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.upBiRi = autoFixScale(upBiRi, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "down_bi_ri", precision = 10, scale = 1)
     public BigDecimal getDownBiRi() {
@@ -794,6 +803,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.downBiRi = autoFixScale(downBiRi, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "up_ri", precision = 10, scale = 1)
     public BigDecimal getUpRi() {
@@ -804,6 +814,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.upRi = autoFixScale(upRi, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "down_ri", precision = 10, scale = 1)
     public BigDecimal getDownRi() {
@@ -814,6 +825,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.downRi = autoFixScale(downRi, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
     @Column(name = "bi_cost", precision = 10, scale = 2)
     public BigDecimal getBiCost() {
@@ -824,6 +836,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.biCost = autoFixScale(biCost, 2);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "vibration", precision = 10, scale = 1)
     public BigDecimal getVibration() {
@@ -834,6 +847,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.vibration = autoFixScale(vibration, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "hi_pot_leakage", precision = 10, scale = 1)
     public BigDecimal getHiPotLeakage() {
@@ -844,6 +858,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.hiPotLeakage = autoFixScale(hiPotLeakage, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "cold_boot", precision = 10, scale = 1)
     public BigDecimal getColdBoot() {
@@ -854,6 +869,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.coldBoot = autoFixScale(coldBoot, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "warm_boot", precision = 10, scale = 1)
     public BigDecimal getWarmBoot() {
@@ -1099,6 +1115,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.partNoAttributeMaintain = partNoAttributeMaintain;
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 4 /*scale*/)
     @Column(name = "[weight]", nullable = false, precision = 10, scale = 4)
     public BigDecimal getWeight() {
@@ -1110,6 +1127,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     }
 
     //附加屬性質給使用者維護(特例)
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 4 /*scale*/)
     @Column(name = "weight_aff", nullable = false, precision = 10, scale = 4)
     public BigDecimal getWeightAff() {
@@ -1180,7 +1198,8 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     public void setGndValue(String gndValue) {
         this.gndValue = gndValue;
     }
-
+    
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 4 /*scale*/)
     @Column(name = "tolerance", nullable = false, precision = 10, scale = 4)
     public BigDecimal getTolerance() {
@@ -1190,7 +1209,8 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     public void setTolerance(BigDecimal tolerance) {
         this.tolerance = this.autoFixScale(tolerance, 4);
     }
-
+    
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "assy_lead_time", precision = 10, scale = 1)
     public BigDecimal getAssyLeadTime() {
@@ -1201,6 +1221,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.assyLeadTime = autoFixScale(assyLeadTime, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "packing_lead_time", precision = 10, scale = 1)
     public BigDecimal getPackingLeadTime() {
@@ -1211,6 +1232,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.packingLeadTime = autoFixScale(packingLeadTime, 1);
     }
 
+    @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "packing_pallet_time", precision = 10, scale = 1)
     public BigDecimal getPackingPalletTime() {
@@ -1220,7 +1242,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     public void setPackingPalletTime(BigDecimal packingPalletTime) {
         this.packingPalletTime = packingPalletTime;
     }
-
+    
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "productionWt", precision = 10, scale = 1)
     public BigDecimal getProductionWt() {

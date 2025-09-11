@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="<c:url value="/js/jqgrid-custom-setting.js" />"></script>
+<script src="<c:url value="/js/worktime-setting/column-custom-callback.js" />"></script>
 <script>
     var scrollPosition = 0;
 
@@ -30,7 +31,7 @@
 //            guiStyle: "bootstrap",
             colModel: [
                 {label: 'id', name: "id", width: 60, key: true, editable: true, search: false, editoptions: {readonly: 'readonly', disabled: true, defaultValue: "0"}},
-                {label: 'name', name: "name", width: 60, editable: true, editrules: {required: true}, formoptions: {elmsuffix: "(*必填)"}},
+                {label: 'name', name: "name", width: 60, editable: true, editrules: {required: true}, editoptions: {dataEvents: trimText_event}, formoptions: {elmsuffix: "(*必填)"}},
                 {label: 'flow_group', name: "flowGroup.id", editable: true, formatter: selectOptions["flowGroup_func"], edittype: 'select', editoptions: {value: selectOptions["flowGroup"]}, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["flowGroup"], sopt: ['eq'], dataInit: selectOptions["flowGroup_sinit"]}}
             ],
             rowNum: 20,

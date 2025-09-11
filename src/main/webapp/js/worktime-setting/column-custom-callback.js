@@ -16,3 +16,12 @@ var upperCase_event = [
 var autoUpperCase = function (el) {
     $(el).css('text-transform', 'uppercase');
 };
+
+var trimText_event = [
+    {
+        type: 'blur',
+        fn: function (e) {
+            $(this).val($.trim($(this).val()));
+        }
+    }
+];

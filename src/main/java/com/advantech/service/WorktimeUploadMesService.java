@@ -107,7 +107,7 @@ public class WorktimeUploadMesService {
                 try {
                     responsorUploadPort.update(w);
                 } catch (Exception e) {
-                    throw new Exception("機種負責人更新至MES失敗<br />" + e.getMessage());
+                    throw new Exception(w.getModelName() + "<br />機種負責人更新至MES失敗<br />" + e.getMessage());
                 }
             }
 
