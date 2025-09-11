@@ -192,7 +192,11 @@
     </bean>
     
     <!--regist for WsClient.class use, -->
-    <bean id="objectFactory" class="org.tempuri.ObjectFactory" />
+    <bean id="objectFactory" class="org.tempuri.ObjectFactory" />    
+    <!--
+    spring manage ReactorResourceFactory auto calling destroy method.
+    fix memory leak : thread named [reactor-http-nio-*] and [webflux-http-nio-*]
+    -->
     <bean id="reactorResourceFactory" class="org.springframework.http.client.reactive.ReactorResourceFactory" />
     
     <!--regist web api config-->

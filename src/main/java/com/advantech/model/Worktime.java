@@ -775,6 +775,7 @@ public class Worktime implements java.io.Serializable {
         this.keypartB = keypartB;
     }
 
+    @NotNull(message = "PRE-ASSY不可為空")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pre_assy_id", nullable = true)
     public PreAssy getPreAssy() {
@@ -785,6 +786,7 @@ public class Worktime implements java.io.Serializable {
         this.preAssy = preAssy;
     }
 
+    @NotNull(message = "BAB_FLOW不可為空")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bab_flow_id", nullable = true)
     public Flow getFlowByBabFlowId() {
@@ -795,6 +797,7 @@ public class Worktime implements java.io.Serializable {
         this.flowByBabFlowId = flowByBabFlowId;
     }
 
+    @NotNull(message = "TEST_FLOW不可為空")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "test_flow_id", nullable = true)
     public Flow getFlowByTestFlowId() {
@@ -805,6 +808,7 @@ public class Worktime implements java.io.Serializable {
         this.flowByTestFlowId = flowByTestFlowId;
     }
 
+    @NotNull(message = "PACKING_FLOW不可為空")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "packing_flow_id", nullable = true)
     public Flow getFlowByPackingFlowId() {
