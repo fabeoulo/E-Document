@@ -178,16 +178,19 @@ public class PartMappingUserRoot {
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
         "partno",
-        "useriDs",
-        "type",})
+        "userIds",
+        "type",
+        "deptIds",})
     public static class PartMappingUsers {
 
         @XmlElement(name = "PART_NO", required = true, nillable = true)
         protected String partno;
         @XmlElement(name = "USER_IDs", required = true, nillable = true)
-        protected String useriDs;
+        protected String userIds;
         @XmlElement(name = "TYPE", required = true, nillable = true)
         protected String type;
+        @XmlElement(name = "DEPT_IDs", required = true, nillable = true)
+        protected String deptIds;
 
         /**
          * 取得 partno 特性的值.
@@ -210,25 +213,45 @@ public class PartMappingUserRoot {
         }
 
         /**
-         * 取得 useriDs 特性的值.
+         * 取得 userIds 特性的值.
          *
          * @return possible object is {@link String }
          *
          */
         public String getUSERIDs() {
-            return useriDs;
+            return userIds;
         }
 
         /**
-         * 設定 useriDs 特性的值.
+         * 設定 userIds 特性的值.
          *
          * @param value allowed object is {@link String }
          *
          */
         public void setUSERIDs(String value) {
-            this.useriDs = value;
+            this.userIds = value;
         }
 
+        /**
+         * 取得 userIds 特性的值.
+         *
+         * @return possible object is {@link String }
+         *
+         */
+        public String getDEPTIDs() {
+            return deptIds;
+        }
+
+        /**
+         * 設定 deptIds 特性的值.
+         *
+         * @param value allowed object is {@link String }
+         *
+         */
+        public void setDEPTIDs(String value) {
+            this.deptIds = value;
+        }
+        
         /**
          * 取得 type 特性的值.
          *

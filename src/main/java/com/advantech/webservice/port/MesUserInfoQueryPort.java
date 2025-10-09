@@ -20,6 +20,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.advantech.model.db2.IWorktimeForWebService;
+import com.advantech.webservice.Factory;
+import com.advantech.webservice.root.DeptIdM9;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -33,6 +37,9 @@ public class MesUserInfoQueryPort extends BasicQueryPort {
     @Autowired
     private UserService userService;
 
+    private final Integer sysSpe3f = DeptIdM9.SPE3F.getCode();
+    private final Integer sysBpe3f = DeptIdM9.EE3F.getCode();
+
     @Override
     protected void initJaxb() {
         try {
@@ -42,9 +49,10 @@ public class MesUserInfoQueryPort extends BasicQueryPort {
         }
     }
 
+    // OK
     @Override
-    public List query(Worktime w) throws Exception {
-        return (List<MesUserInfo>) super.query(w);
+    public List queryM(IWorktimeForWebService w, Factory f) throws Exception {
+        return (List<MesUserInfo>) super.queryM(w, f);
     }
 
     @Override // OK
@@ -81,5 +89,21 @@ public class MesUserInfoQueryPort extends BasicQueryPort {
         m.put("qcOwner", userService.findByPrimaryKey(qcOwner.getId()).getJobnumber());
 
         return m;
+    }
+
+    public void setSpeEeDept(List<MesUserInfo> l, Worktime w) {
+        Map<String, String> m = this.getJobnumber(w);
+
+        if (m.containsKey("eeOwner")) {
+            String jobNo = m.get("eeOwner");
+            List<MesUserInfo> o = l.stream().filter(mu -> jobNo.equals(mu.getJobnumber())).collect(Collectors.toList());
+            o.forEach(mu -> mu.setDeptId(sysBpe3f));
+        }
+
+        if (m.containsKey("speOwner")) {
+            String jobNo = m.get("speOwner");
+            Optional<MesUserInfo> o = l.stream().filter(mu -> jobNo.equals(mu.getJobnumber())).findFirst();
+            o.ifPresent(mu -> mu.setDeptId(sysSpe3f));
+        }
     }
 }

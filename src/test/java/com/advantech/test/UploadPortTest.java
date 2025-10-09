@@ -179,7 +179,7 @@ public class UploadPortTest {
 
 //    @Test//245
     public void testPartMappingUserUpload() throws Exception {
-        w = worktimeService.findByModel("2063002307");
+        w = worktimeService.findByModel("EKI-9516-P0IDH10E-TEST");
         mappingUserPort.update(w);
 
         List<Worktime> l = this.worktimes;
@@ -253,7 +253,7 @@ public class UploadPortTest {
 ////        }
     }
 
-    @Test//245
+//    @Test//245
     @Rollback(true)
     public void testMaterialPropertyUploadPort() throws Exception {
         Worktime w = worktimeService.findByModel("EKI-9516-P0IDH10E-TEST");

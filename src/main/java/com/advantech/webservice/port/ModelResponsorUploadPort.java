@@ -10,7 +10,6 @@ import com.advantech.model.Worktime;
 import com.advantech.webservice.Factory;
 import com.advantech.webservice.unmarshallclass.MesUserInfo;
 import java.util.List;
-import static java.util.stream.Collectors.toList;
 import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,10 +54,14 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
     @Override   //done
     public void update(Worktime w) throws Exception {
         try {
-            String userIdsString = concatUserId(getWorktimeOwners(w));
+            List<MesUserInfo> userInfos = getWorktimeOwners(w);
+            mesUserInfoQueryPort.setSpeEeDept(userInfos, w);
+            String deptIdsString = concatDeptId(userInfos);
+            String userIdsString = concatUserId(userInfos);
             PartMappingUserRoot root = new PartMappingUserRoot();
             root.getUsers().setPARTNO(w.getModelName()); //機種
             root.getUsers().setUSERIDs(userIdsString); //人員代碼
+            root.getUsers().setDEPTIDs(deptIdsString); //default value if empty
             super.upload(root, UploadType.UPDATE);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -87,17 +90,27 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
     }
 
     private List<MesUserInfo> getWorktimeOwners(Worktime w) throws Exception {
-        List<MesUserInfo> l = mesUserInfoQueryPort.query(w);
+        List<MesUserInfo> l = mesUserInfoQueryPort.queryM(w, Factory.TWM3);
         return l;
     }
 
     private String concatUserId(List<MesUserInfo> l) {
-        l = l.stream().distinct().collect(toList());
 
         StringBuilder sb = new StringBuilder();
         l.forEach((info) -> {
             sb.append("/");
             sb.append(info.getId());
+        });
+
+        return sb.toString();
+    }
+
+    private String concatDeptId(List<MesUserInfo> l) {
+
+        StringBuilder sb = new StringBuilder();
+        l.forEach((info) -> {
+            sb.append("/");
+            sb.append(info.getDeptId());
         });
 
         return sb.toString();

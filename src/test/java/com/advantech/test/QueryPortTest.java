@@ -158,12 +158,12 @@ public class QueryPortTest {
 
 //    @Test // OK
     public void testMesUserInfoQueryPort() throws Exception {
-        //M9-201
-        List l = mesUserQueryPort.queryM(wM, Factory.TWM9);
+//        //M9-201
+//        List l = mesUserQueryPort.queryM(wM, Factory.TWM9);
 
         //M3f-245
-//        List l0 = mesUserQueryPort.query(w);
-//        List l = mesUserQueryPort.queryM(w, Factory.TWM3);
+        List l0 = mesUserQueryPort.query(w);
+        List l = mesUserQueryPort.queryM(w, Factory.TWM3);
         assertEquals(4, l.size());
         HibernateObjectPrinter.print(l);
 
