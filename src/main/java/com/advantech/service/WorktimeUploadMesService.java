@@ -192,8 +192,7 @@ public class WorktimeUploadMesService {
                 || !isEquals(prev.getWeight(), current.getWeight())
                 || !isEquals(prev.getWeightAff(), current.getWeightAff())
                 || !isEquals(prev.getTolerance(), current.getTolerance())
-                || (current.getPartNoAttributeMaintain() != ' '
-                && !isEquals(prev.getPartNoAttributeMaintain(), current.getPartNoAttributeMaintain()))
+                || !isEquals(prev.getPartNoAttributeMaintain(), current.getPartNoAttributeMaintain())
                 || !isEquals(prev.getPartLink(), current.getPartLink())
                 || !isEquals(prev.getBurnInQuantity(), current.getBurnInQuantity())
                 || !isEquals(prev.getLabelMac(), current.getLabelMac())

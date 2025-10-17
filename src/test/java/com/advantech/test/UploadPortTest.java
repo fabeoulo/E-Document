@@ -254,12 +254,12 @@ public class UploadPortTest {
     }
 
 //    @Test//245
-    @Rollback(true)
+//    @Rollback(true)
     public void testMaterialPropertyUploadPort() throws Exception {
         Worktime w = worktimeService.findByModel("EKI-9516-P0IDH10E-TEST");
 
 //        List<Worktime> l = worktimeService.findWithFlowRelation();
-        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(66, 67, 68, 69, 70);
+        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(14);
 //        assertEquals(5, settings.size());
         materialPropertyUploadPort.initSettings(settings);
         materialPropertyUploadPort.update(w);
