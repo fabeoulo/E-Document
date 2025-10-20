@@ -4,8 +4,8 @@
  */
 package com.advantech.helper;
 
-import com.advantech.model.db2.WorktimeFormulaSettingM4f;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.WorktimeFormulaSettingM4f;
+import com.advantech.model2.WorktimeM4f;
 import com.advantech.service.db2.WorktimeFormulaSettingM4fService;
 import com.advantech.service.db2.WorktimeM4fService;
 import com.advantech.webservice.port.StandardWorkReasonQueryPort;

@@ -9,7 +9,7 @@ import static com.advantech.helper.JqGridResponseUtils.toJqGridResponse;
 import com.advantech.jqgrid.PageInfo;
 import com.advantech.jqgrid.JqGridResponse;
 import com.advantech.model.View;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.WorktimeM4f;
 import com.advantech.service.db2.WorktimeAuditM4fService;
 import com.advantech.service.db2.WorktimeM4fService;
 import com.fasterxml.jackson.annotation.JsonView;

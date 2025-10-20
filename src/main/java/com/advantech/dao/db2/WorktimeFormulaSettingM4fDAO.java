@@ -5,7 +5,7 @@
  */
 package com.advantech.dao.db2;
 
-import com.advantech.model.db2.WorktimeFormulaSettingM4f;
+import com.advantech.model2.WorktimeFormulaSettingM4f;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;

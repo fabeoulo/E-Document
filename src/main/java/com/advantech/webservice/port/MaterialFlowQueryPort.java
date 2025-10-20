@@ -17,7 +17,7 @@ import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import com.advantech.model.db2.IWorktimeForWebService;
+import com.advantech.model2.IWorktimeForWebService;
 
 /**
  *

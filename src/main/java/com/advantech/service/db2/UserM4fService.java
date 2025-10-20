@@ -10,7 +10,7 @@ import com.advantech.helper.CustomPasswordEncoder;
 import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.Unit;
 import com.advantech.model.UserProfile;
-import com.advantech.model.db2.UserM4f;
+import com.advantech.model2.UserM4f;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Hibernate;

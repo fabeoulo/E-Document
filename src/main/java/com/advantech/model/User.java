@@ -1,7 +1,7 @@
 package com.advantech.model;
 // Generated 2017/4/7 下午 02:26:06 by Hibernate Tools 4.3.1
 
-import com.advantech.model.db2.IUserM9;
+import com.advantech.model2.IUserM9;
 import com.advantech.security.State;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;

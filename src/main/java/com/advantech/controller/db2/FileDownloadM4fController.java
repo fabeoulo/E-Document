@@ -9,7 +9,7 @@ import com.advantech.converter.CobotConverter;
 import com.advantech.excel.JxlsExcelView;
 import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.SheetView;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.WorktimeM4f;
 import com.advantech.service.SheetViewService;
 import com.advantech.service.db2.WorktimeAuditM4fService;
 import com.advantech.service.db2.WorktimeM4fService;

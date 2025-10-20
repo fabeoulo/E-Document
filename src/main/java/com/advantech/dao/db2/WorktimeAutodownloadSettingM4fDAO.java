@@ -5,7 +5,7 @@
  */
 package com.advantech.dao.db2;
 
-import com.advantech.model.db2.WorktimeAutodownloadSettingM4f;
+import com.advantech.model2.WorktimeAutodownloadSettingM4f;
 import org.springframework.stereotype.Repository;
 
 /**

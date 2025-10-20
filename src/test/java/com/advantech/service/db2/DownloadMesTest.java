@@ -4,6 +4,23 @@
  */
 package com.advantech.service.db2;
 
+import com.advantech.model2.TypeM4f;
+import com.advantech.model2.IWorktimeForWebService;
+import com.advantech.model2.PreAssyM4f;
+import com.advantech.model2.CartonLabelM4f;
+import com.advantech.model2.UserProfileM4f;
+import com.advantech.model2.BusinessGroupM4f;
+import com.advantech.model2.WorktimeM4f;
+import com.advantech.model2.OutLabelM4f;
+import com.advantech.model2.UnitM4f;
+import com.advantech.model2.IUserM9;
+import com.advantech.model2.WorktimeMaterialPropertyDownloadSettingM4f;
+import com.advantech.model2.FlowGroupM4f;
+import com.advantech.model2.FloorM4f;
+import com.advantech.model2.FlowM4f;
+import com.advantech.model2.PendingM4f;
+import com.advantech.model2.UserM4f;
+import com.advantech.model2.WorktimeAutodownloadSettingM4f;
 import com.advantech.helper.CustomPasswordEncoder;
 import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.helper.SpringExpressionUtils;
@@ -11,7 +28,6 @@ import com.advantech.model.Floor;
 import com.advantech.model.Unit;
 import com.advantech.model.User;
 import com.advantech.model.UserProfile;
-import com.advantech.model.db2.*;
 import com.advantech.security.State;
 import com.advantech.service.FloorService;
 import com.advantech.service.UnitService;

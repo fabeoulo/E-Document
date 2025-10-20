@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.tempuri.RvResponse;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import com.advantech.model.db2.IWorktimeForWebService;
+import com.advantech.model2.IWorktimeForWebService;
 
 /**
  *

@@ -5,7 +5,7 @@
 package com.advantech.dao.db2;
 
 import com.advantech.jqgrid.PageInfo;
-import com.advantech.model.db2.CobotM4f;
+import com.advantech.model2.CobotM4f;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 

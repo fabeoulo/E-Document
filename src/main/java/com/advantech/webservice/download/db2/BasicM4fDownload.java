@@ -5,8 +5,8 @@
  */
 package com.advantech.webservice.download.db2;
 
-import com.advantech.model.db2.IUserM9;
-import com.advantech.model.db2.IWorktimeForWebService;
+import com.advantech.model2.IUserM9;
+import com.advantech.model2.IWorktimeForWebService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

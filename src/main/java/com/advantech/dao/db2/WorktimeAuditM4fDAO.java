@@ -7,7 +7,7 @@ package com.advantech.dao.db2;
 
 import com.advantech.dao.AuditAction;
 import com.advantech.jqgrid.PageInfo;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.WorktimeM4f;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -128,7 +128,7 @@ public class WorktimeAuditM4fDAO implements AuditAction<WorktimeM4f, Integer> {
         if (info.getSearchField() != null) {
             addSearchQuery(info, q);
         }
-
+        
         info.setMaxNumOfRows(((Long) q.addProjection(AuditEntity.id().count()).getSingleResult()).intValue());
 
         //Paginate rows

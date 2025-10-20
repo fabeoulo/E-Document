@@ -7,8 +7,8 @@ package com.advantech.service.db2;
 
 import com.advantech.dao.db2.*;
 import com.advantech.jqgrid.PageInfo;
-import com.advantech.model.db2.FlowGroupM4f;
-import com.advantech.model.db2.FlowM4f;
+import com.advantech.model2.FlowGroupM4f;
+import com.advantech.model2.FlowM4f;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

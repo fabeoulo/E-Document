@@ -13,7 +13,7 @@ import com.advantech.model.Worktime;
 import com.advantech.model.WorktimeAutouploadSetting;
 import com.advantech.model.WorktimeFormulaSetting;
 import com.advantech.model.WorktimeMaterialPropertyUploadSetting;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.WorktimeM4f;
 import com.advantech.service.WorktimeAuditService;
 import com.advantech.service.WorktimeAutouploadSettingService;
 import com.advantech.service.WorktimeService;

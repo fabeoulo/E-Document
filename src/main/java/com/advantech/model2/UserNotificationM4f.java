@@ -1,4 +1,4 @@
-package com.advantech.model.db2;
+package com.advantech.model2;
 // Generated 2017/6/27 下午 04:37:51 by Hibernate Tools 4.3.1
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;

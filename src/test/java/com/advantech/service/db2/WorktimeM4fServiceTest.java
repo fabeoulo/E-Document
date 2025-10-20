@@ -5,8 +5,8 @@
 package com.advantech.service.db2;
 
 import com.advantech.jqgrid.PageInfo;
-import com.advantech.model.db2.IWorktimeForWebService;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.IWorktimeForWebService;
+import com.advantech.model2.WorktimeM4f;
 import static com.google.common.collect.Lists.newArrayList;
 import java.util.List;
 import org.junit.After;

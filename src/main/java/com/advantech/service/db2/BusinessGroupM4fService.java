@@ -7,7 +7,7 @@ package com.advantech.service.db2;
 
 import com.advantech.dao.db2.BasicDAOImpl;
 import com.advantech.dao.db2.BusinessGroupM4fDAO;
-import com.advantech.model.db2.BusinessGroupM4f;
+import com.advantech.model2.BusinessGroupM4f;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;

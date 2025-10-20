@@ -5,11 +5,10 @@
  */
 package com.advantech.service.db2;
 
-import com.advantech.service.*;
 import com.advantech.dao.AuditAction;
 import com.advantech.dao.db2.WorktimeAuditM4fDAO;
 import com.advantech.jqgrid.PageInfo;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.WorktimeM4f;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

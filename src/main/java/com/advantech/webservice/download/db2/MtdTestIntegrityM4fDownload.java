@@ -5,7 +5,7 @@
  */
 package com.advantech.webservice.download.db2;
 
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.WorktimeM4f;
 import com.advantech.webservice.Factory;
 import com.advantech.webservice.port.MtdTestIntegrityQueryPort;
 import com.advantech.webservice.unmarshallclass.MtdTestIntegrity;

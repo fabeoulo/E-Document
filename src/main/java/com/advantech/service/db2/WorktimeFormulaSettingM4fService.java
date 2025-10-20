@@ -7,7 +7,7 @@ package com.advantech.service.db2;
 
 import com.advantech.dao.db2.BasicDAOImpl;
 import com.advantech.dao.db2.WorktimeFormulaSettingM4fDAO;
-import com.advantech.model.db2.WorktimeFormulaSettingM4f;
+import com.advantech.model2.WorktimeFormulaSettingM4f;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

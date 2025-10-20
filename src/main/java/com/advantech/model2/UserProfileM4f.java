@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.advantech.model.db2;
+package com.advantech.model2;
 
 import com.advantech.security.UserProfileType;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;

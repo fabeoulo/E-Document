@@ -244,7 +244,7 @@
                                                 <a class="redirect-link" href="admin/worktime_permission.jsp">欄位權限設定</a>
                                             </li>
                                             <li>
-                                                <a class="redirect-link" href="admin/worktime_permission_m4f.jsp">欄位權限設定4f</a>
+                                                <a class="redirect-link" href="admin/worktime_permission_m4f.jsp">欄位權限設定4f(OK)</a>
                                             </li>
                                             <li>
                                                 <a class="redirect-link" href="admin/wowface.jsp">Not exist page</a>
@@ -319,9 +319,6 @@
                                             <sec:authorize access="hasRole('ADMIN')">
                                                 <li>
                                                     <a class="redirect-link" href="admin/fileupload.jsp">Excel文件上傳</a>
-                                                </li>
-                                                <li>
-                                                    <a class="redirect-link" href="admin/worktime_permission.jsp">欄位權限設定</a>
                                                 </li>
                                                 <li>
                                                     <a class="redirect-link" href="admin/worktime_permission_m4f.jsp">欄位權限設定4f</a>

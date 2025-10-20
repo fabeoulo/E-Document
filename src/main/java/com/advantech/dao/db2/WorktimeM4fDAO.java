@@ -5,7 +5,7 @@
 package com.advantech.dao.db2;
 
 import com.advantech.jqgrid.PageInfo;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.WorktimeM4f;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;

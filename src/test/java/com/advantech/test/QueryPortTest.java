@@ -7,7 +7,7 @@ package com.advantech.test;
 
 import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.model.Worktime;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.WorktimeM4f;
 import com.advantech.model.WorktimeMaterialPropertyUploadSetting;
 import com.advantech.service.db2.WorktimeM4fService;
 import com.advantech.service.WorktimeMaterialPropertyUploadSettingService;

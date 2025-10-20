@@ -8,7 +8,7 @@ package com.advantech.service.db2;
 import com.advantech.dao.db2.BasicDAOImpl;
 import com.advantech.dao.db2.WorktimeColumnGroupM4fDAO;
 import com.advantech.jqgrid.PageInfo;
-import com.advantech.model.db2.WorktimeColumnGroupM4f;
+import com.advantech.model2.WorktimeColumnGroupM4f;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,8 +7,8 @@ package com.advantech.quartzJob;
 
 import com.advantech.helper.MailManager;
 import com.advantech.model.User;
-import com.advantech.model.db2.M9ieWorktimeView;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.M9ieWorktimeView;
+import com.advantech.model2.WorktimeM4f;
 import com.advantech.service.UserNotificationService;
 import com.advantech.service.db2.M9ieWorktimeViewService;
 import com.advantech.service.db2.WorktimeDownloadMesM4fService;

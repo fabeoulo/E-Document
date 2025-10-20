@@ -79,8 +79,8 @@
                 <prop key="hibernate.query.factory_class">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</prop>
                 <prop key="hibernate.jdbc.batch_size">${HIBERNATE.JDBC.BATCHSIZE}</prop>
                 <prop key="hibernate.id.new_generator_mappings" >false</prop>
-                <!--<prop key="hibernate.show_sql">true</prop>-->
-                <!--<prop key="hibernate.format_sql">true</prop>-->
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
                 <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
             </props> 
         </property> 
@@ -107,7 +107,7 @@
         <property name="dataSource" ref="dataSource2" /> 
 
         <!--指定ORM物件關聯表映射檔的設定檔位置--> 
-        <property name="packagesToScan" value="com.advantech.model.db2" />
+        <property name="packagesToScan" value="com.advantech.model2" />
         
         <!--捨棄原hibernate.cfg.xml檔或
         覆蓋原hibernate.cfg.xml檔的部份設定 -->

@@ -6,7 +6,7 @@
 package com.advantech.service.db2;
 
 import com.advantech.dao.db2.*;
-import com.advantech.model.db2.FloorM4f;
+import com.advantech.model2.FloorM4f;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

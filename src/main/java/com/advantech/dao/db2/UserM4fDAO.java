@@ -7,7 +7,7 @@ package com.advantech.dao.db2;
 
 import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.Unit;
-import com.advantech.model.db2.UserM4f;
+import com.advantech.model2.UserM4f;
 import com.advantech.security.State;
 import java.util.List;
 import org.hibernate.Criteria;

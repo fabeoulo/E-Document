@@ -5,7 +5,7 @@
  */
 package com.advantech.controller.db2;
 
-import com.advantech.model.db2.WorktimeFormulaSettingM4f;
+import com.advantech.model2.WorktimeFormulaSettingM4f;
 import com.advantech.service.db2.WorktimeFormulaSettingM4fService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

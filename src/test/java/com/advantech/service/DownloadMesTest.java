@@ -4,6 +4,12 @@
  */
 package com.advantech.service;
 
+import com.advantech.model2.TypeM4f;
+import com.advantech.model2.IWorktimeForWebService;
+import com.advantech.model2.IUserM9;
+import com.advantech.model2.BusinessGroupM4f;
+import com.advantech.model2.FloorM4f;
+import com.advantech.model2.UserM4f;
 import com.advantech.helper.CustomPasswordEncoder;
 import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.helper.SpringExpressionUtils;
@@ -13,7 +19,6 @@ import com.advantech.model.User;
 import com.advantech.model.UserProfile;
 import com.advantech.model.Worktime;
 import com.advantech.model.*;
-import com.advantech.model.db2.*;
 import com.advantech.security.State;
 import com.advantech.test.ExcelTest;
 import com.advantech.webservice.Factory;

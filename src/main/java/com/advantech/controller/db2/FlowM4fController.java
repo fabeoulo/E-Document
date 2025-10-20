@@ -11,7 +11,7 @@ import com.advantech.converter.CrudActionControllerConverter;
 import static com.advantech.helper.JqGridResponseUtils.toJqGridResponse;
 import com.advantech.jqgrid.PageInfo;
 import com.advantech.jqgrid.JqGridResponse;
-import com.advantech.model.db2.FlowM4f;
+import com.advantech.model2.FlowM4f;
 import com.advantech.service.db2.FlowGroupM4fService;
 import com.advantech.service.db2.FlowM4fService;
 import java.util.ArrayList;

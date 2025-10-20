@@ -4,9 +4,9 @@
  */
 package com.advantech.service.db2;
 
-import com.advantech.model.db2.BusinessGroupM4f;
-import com.advantech.model.db2.M9ieWorktimeView;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.BusinessGroupM4f;
+import com.advantech.model2.M9ieWorktimeView;
+import com.advantech.model2.WorktimeM4f;
 import com.advantech.webservice.download.db2.FlowM4fDownload;
 import com.advantech.webservice.download.db2.MaterialPropertyValueM4fDownload;
 import com.advantech.webservice.download.db2.ModelResponsorM4fDownload;

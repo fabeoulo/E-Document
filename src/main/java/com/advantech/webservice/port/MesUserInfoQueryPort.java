@@ -6,7 +6,7 @@
 package com.advantech.webservice.port;
 
 import com.advantech.model.Worktime;
-import com.advantech.model.db2.IUserM9;
+import com.advantech.model2.IUserM9;
 import com.advantech.service.UserService;
 import com.advantech.webservice.root.MesUserInfoQueryRoot;
 import com.advantech.webservice.unmarshallclass.MesUserInfo;
@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.advantech.model.db2.IWorktimeForWebService;
+import com.advantech.model2.IWorktimeForWebService;
 import com.advantech.webservice.Factory;
 import com.advantech.webservice.root.DeptIdM9;
 import java.util.Optional;

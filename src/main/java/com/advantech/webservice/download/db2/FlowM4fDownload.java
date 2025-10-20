@@ -5,10 +5,10 @@
  */
 package com.advantech.webservice.download.db2;
 
-import com.advantech.model.db2.FlowGroupM4f;
-import com.advantech.model.db2.FlowM4f;
-import com.advantech.model.db2.PreAssyM4f;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.FlowGroupM4f;
+import com.advantech.model2.FlowM4f;
+import com.advantech.model2.PreAssyM4f;
+import com.advantech.model2.WorktimeM4f;
 import com.advantech.service.db2.FlowM4fService;
 import com.advantech.service.db2.PreAssyM4fService;
 import com.advantech.webservice.Factory;

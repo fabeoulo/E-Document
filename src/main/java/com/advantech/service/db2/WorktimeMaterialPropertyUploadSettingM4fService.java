@@ -7,7 +7,7 @@ package com.advantech.service.db2;
 
 import com.advantech.dao.db2.BasicDAOImpl;
 import com.advantech.dao.db2.WorktimeMaterialPropertyUploadSettingM4fDAO;
-import com.advantech.model.db2.WorktimeMaterialPropertyUploadSettingM4f;
+import com.advantech.model2.WorktimeMaterialPropertyUploadSettingM4f;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

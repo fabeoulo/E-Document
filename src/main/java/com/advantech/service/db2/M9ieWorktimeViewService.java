@@ -7,7 +7,7 @@ package com.advantech.service.db2;
 
 import com.advantech.dao.db2.*;
 import com.advantech.jqgrid.PageInfo;
-import com.advantech.model.db2.M9ieWorktimeView;
+import com.advantech.model2.M9ieWorktimeView;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

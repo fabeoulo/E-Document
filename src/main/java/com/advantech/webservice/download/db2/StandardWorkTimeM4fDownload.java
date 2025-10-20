@@ -5,8 +5,8 @@
 package com.advantech.webservice.download.db2;
 
 import com.advantech.helper.SpringExpressionUtils;
-import com.advantech.model.db2.WorktimeAutodownloadSettingM4f;
-import com.advantech.model.db2.WorktimeM4f;
+import com.advantech.model2.WorktimeAutodownloadSettingM4f;
+import com.advantech.model2.WorktimeM4f;
 import com.advantech.service.db2.WorktimeAutodownloadSettingM4fService;
 import com.advantech.webservice.Factory;
 import com.advantech.webservice.port.StandardWorkTimeQueryPort;

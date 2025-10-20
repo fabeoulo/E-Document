@@ -5,7 +5,7 @@
  */
 package com.advantech.dao.db2;
 
-import com.advantech.model.db2.UserProfileM4f;
+import com.advantech.model2.UserProfileM4f;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;

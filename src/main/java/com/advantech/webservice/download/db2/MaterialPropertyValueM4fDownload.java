@@ -6,11 +6,11 @@
 package com.advantech.webservice.download.db2;
 
 import com.advantech.helper.SpringExpressionUtils;
-import com.advantech.model.db2.CartonLabelM4f;
-import com.advantech.model.db2.OutLabelM4f;
-import com.advantech.model.db2.PendingM4f;
-import com.advantech.model.db2.WorktimeM4f;
-import com.advantech.model.db2.WorktimeMaterialPropertyDownloadSettingM4f;
+import com.advantech.model2.CartonLabelM4f;
+import com.advantech.model2.OutLabelM4f;
+import com.advantech.model2.PendingM4f;
+import com.advantech.model2.WorktimeM4f;
+import com.advantech.model2.WorktimeMaterialPropertyDownloadSettingM4f;
 import com.advantech.service.db2.CartonLabelM4fService;
 import com.advantech.service.db2.OutLabelM4fService;
 import com.advantech.service.db2.PendingM4fService;

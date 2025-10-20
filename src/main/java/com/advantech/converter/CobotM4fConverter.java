@@ -5,7 +5,7 @@
  */
 package com.advantech.converter;
 
-import com.advantech.model.db2.CobotM4f;
+import com.advantech.model2.CobotM4f;
 import com.advantech.service.db2.CobotM4fService;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
