@@ -67,6 +67,7 @@
 <script src="<c:url value="/js/selectBar.js" />"></script>
 
 <script>
+//    debugger
     $(function () {
         //保持Edit完畢的scroll position
         var scrollPosition = 0;
@@ -113,15 +114,17 @@
                 {name: "user", nameprefix: "qc_", isNullable: false, dataToServer: "QC"},
                 {name: "user", nameprefix: "mpm_", isNullable: true, dataToServer: "MPM"},
                 {name: "type", isNullable: false},
-                {name: "flow", nameprefix: "bab_", isNullable: true, dataToServer: "1"},
-                {name: "flow", nameprefix: "test_", isNullable: true, dataToServer: "3"},
-                {name: "flow", nameprefix: "pkg_", isNullable: true, dataToServer: "2"},
-                {name: "preAssy", isNullable: true},
+                {name: "flow", nameprefix: "bab_", isNullable: false, dataToServer: "1"},
+                {name: "flow", nameprefix: "test_", isNullable: false, dataToServer: "3"},
+                {name: "flow", nameprefix: "pkg_", isNullable: false, dataToServer: "2"},
+                {name: "preAssy", isNullable: false},
                 {name: "pending", isNullable: false},
                 {name: "modReasonCode", isNullable: true},
                 {name: "cobots", isNullable: false},
                 {name: "cartonlabel", isNullable: false},
-                {name: "outlabel", isNullable: false}
+                {name: "outlabel", isNullable: false},
+                {name: "labelVariable", nameprefix: "11Aff_", isNullable: false, dataToServer: "1"},
+                {name: "labelVariable", nameprefix: "12Aff_", isNullable: false, dataToServer: "2"}
             ]
         });
 
@@ -240,7 +243,7 @@
             }
         ];
 
-        var labelOuter_change_event = [
+        var labelOuter_events = [
             {
                 type: 'change',
                 fn: function (e) {
@@ -253,7 +256,7 @@
                 }
             }
         ];
-        var labelCarton_change_event = [
+        var labelCarton_events = [
             {
                 type: 'change',
                 fn: function (e) {
@@ -279,10 +282,10 @@
                 {label: 'Model', name: "modelName", frozen: true, editable: true, searchrules: {required: true}, searchoptions: search_string_options, editrules: {required: true}, editoptions: {dataEvents: upperCase_event}, formoptions: required_form_options},
                 {label: 'TYPE', name: "type.id", edittype: "select", editoptions: {value: selectOptions["type"]}, formatter: selectOptions["type_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["type"], sopt: ['eq']}},
                 {label: 'BU', name: "businessGroup.id", edittype: "select", editoptions: {value: selectOptions["businessGroup"], dataInit: selectOptions["businessGroup_init"], defaultValue: "EDIS"}, formatter: selectOptions["businessGroup_func"], width: 100, formoptions: {elmsuffix: "<b class='danger'>新機種請確認BU</b>"}, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["businessGroup"], sopt: ['eq'], dataInit: selectOptions["businessGroup_sinit"]}},
-                {label: 'PRE-ASSY', name: "preAssy.id", edittype: "select", editoptions: {value: selectOptions["preAssy"], dataEvents: preAssy_select_event, defaultValue: preAssy_default_value}, formatter: selectOptions["preAssy_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["preAssy"], sopt: ['eq']}},
-                {label: 'BAB_FLOW', name: "flowByBabFlowId.id", edittype: "select", editoptions: {value: selectOptions["bab_flow"], dataEvents: babFlow_select_event, defaultValue: babFlow_default_value}, formatter: selectOptions["bab_flow_func"], cellattr: hideEmptyBabFlow, width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["bab_flow"], sopt: ['eq']}},
+                {label: 'PRE-ASSY', name: "preAssy.id", edittype: "select", editoptions: {value: selectOptions["preAssy"], defaultValue: preAssy_default_value}, formatter: selectOptions["preAssy_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["preAssy"], sopt: ['eq']}},
+                {label: 'BAB_FLOW', name: "flowByBabFlowId.id", edittype: "select", editoptions: {value: selectOptions["bab_flow"], dataEvents: babFlow_select_event, defaultValue: babFlow_default_value.toString()}, formatter: selectOptions["bab_flow_func"], cellattr: hideEmptyBabFlow, width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["bab_flow"], sopt: ['eq']}},
                 {label: 'TEST_FLOW', name: "flowByTestFlowId.id", edittype: "select", editoptions: {value: selectOptions["test_flow"], dataEvents: testFlow_select_event, defaultValue: testFlow_default_value}, formatter: selectOptions["test_flow_func"], width: 100, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["test_flow"], sopt: ['eq']}},
-                {label: 'PACKING_FLOW', name: "flowByPackingFlowId.id", edittype: "select", editoptions: {value: selectOptions["pkg_flow"], dataEvents: pkgFlow_select_event, defaultValue: pkgFlow_default_value}, formatter: selectOptions["pkg_flow_func"], width: 140, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["pkg_flow"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>確認秤重途程</b>"}},
+                {label: 'PACKING_FLOW', name: "flowByPackingFlowId.id", edittype: "select", editoptions: {value: selectOptions["pkg_flow"], defaultValue: pkgFlow_default_value}, formatter: selectOptions["pkg_flow_func"], width: 140, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["pkg_flow"], sopt: ['eq']}, formoptions: {elmsuffix: "<b class='danger'>確認秤重途程</b>"}},
                 {hidden: true, editable: true, label: 'CleanPanel', name: "cleanPanel", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {hidden: true, editable: true, label: 'Total Module', name: "totalModule", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
                 {hidden: true, editable: true, label: 'Assembly', name: "assy", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
@@ -332,11 +335,11 @@
                 {label: 'MAC列印位置', name: "macPrintedLocation", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤列印MAC來源', name: "macPrintedFrom", width: 100, edittype: "select", editoptions: {value: "E:E;K:K"}, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'ETL取值標籤變量1', name: "etlVariable1", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: 'ETL取值標籤變量1(附加屬性質)', name: "etlVariable1Aff", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'ETL取值標籤變量1(附加屬性值)', name: "etlVariable1Aff", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'ETL取值標籤變量2', name: "etlVariable2", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: 'ETL取值標籤變量2(附加屬性質)', name: "etlVariable2Aff", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'ETL取值標籤變量2(附加屬性值)', name: "etlVariable2Aff", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'ETL取值標籤變量3', name: "etlVariable3", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: 'ETL取值標籤變量3(附加屬性質)', name: "etlVariable3Aff", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: 'ETL取值標籤變量3(附加屬性值)', name: "etlVariable3Aff", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'PART-LINK', name: "partLink", edittype: "select", editoptions: {value: "Y:Y;N:N", defaultValue: 'Y'}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: 'CE', name: "ce", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
                 {label: 'UL', name: "ul", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
@@ -353,9 +356,9 @@
                 {label: '掛卡產生客戶序號', name: "ssnOnTag", edittype: "select", editoptions: {value: "Y:Y;N:N", defaultValue: 'N'}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: '客戶序號卡關前綴碼', name: "ssnPrefix", width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: '客戶序號長度設定', name: "ssnLength", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: 'OuterLable標準套版選單', name: "labelOuterId.id", width: 100, edittype: "select", editoptions: {value: selectOptions["outlabel"], dataEvents: labelOuter_change_event}, formatter: selectOptions["outlabel_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["outlabel"], sopt: ['eq']}},
+                {label: 'OuterLable標準套版選單', name: "labelOuterId.id", width: 100, edittype: "select", editoptions: {value: selectOptions["outlabel"], defaultValue: '1', dataEvents: labelOuter_events}, formatter: selectOptions["outlabel_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["outlabel"], sopt: ['eq']}},
                 {label: 'OuterLable標籤名稱定義', name: "labelOuterCustom", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: 'CartonLable標準套版選單', name: "labelCartonId.id", width: 100, edittype: "select", editoptions: {value: selectOptions["cartonlabel"], dataEvents: labelCarton_change_event}, formatter: selectOptions["cartonlabel_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["cartonlabel"], sopt: ['eq']}},
+                {label: 'CartonLable標準套版選單', name: "labelCartonId.id", width: 100, edittype: "select", editoptions: {value: selectOptions["cartonlabel"], defaultValue: '1', dataEvents: labelCarton_events}, formatter: selectOptions["cartonlabel_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["cartonlabel"], sopt: ['eq']}},
                 {label: 'CartonLable標籤名稱定義', name: "labelCartonCustom", width: 130, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'BigCartonLable標籤名稱定義', name: "labelBigCarton", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '2D-標籤變量名稱', name: "label2D", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
@@ -375,25 +378,29 @@
                 {label: 'Packing09標籤名稱', name: "labelPacking9", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: 'Packing10標籤名稱', name: "labelPacking10", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱1', name: "labelVariable1", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: '標籤變量名稱1(附加屬性質)', name: "labelVariable1Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱1(附加屬性值)', name: "labelVariable1Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱2', name: "labelVariable2", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: '標籤變量名稱2(附加屬性質)', name: "labelVariable2Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱2(附加屬性值)', name: "labelVariable2Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱3', name: "labelVariable3", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: '標籤變量名稱3(附加屬性質)', name: "labelVariable3Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱3(附加屬性值)', name: "labelVariable3Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱4', name: "labelVariable4", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: '標籤變量名稱4(附加屬性質)', name: "labelVariable4Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱4(附加屬性值)', name: "labelVariable4Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱5', name: "labelVariable5", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: '標籤變量名稱5(附加屬性質)', name: "labelVariable5Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱5(附加屬性值)', name: "labelVariable5Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱6', name: "labelVariable6", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: '標籤變量名稱6(附加屬性質)', name: "labelVariable6Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱6(附加屬性值)', name: "labelVariable6Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱7', name: "labelVariable7", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: '標籤變量名稱7(附加屬性質)', name: "labelVariable7Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱7(附加屬性值)', name: "labelVariable7Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱8', name: "labelVariable8", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: '標籤變量名稱8(附加屬性質)', name: "labelVariable8Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱8(附加屬性值)', name: "labelVariable8Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱9', name: "labelVariable9", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: '標籤變量名稱9(附加屬性質)', name: "labelVariable9Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱9(附加屬性值)', name: "labelVariable9Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                 {label: '標籤變量名稱10', name: "labelVariable10", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
-                {label: '標籤變量名稱10(附加屬性質)', name: "labelVariable10Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱10(附加屬性值)', name: "labelVariable10Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                {label: '標籤變量名稱11', name: "labelVariable11", width: 100, edittype: "select", editoptions: {value: "empty:empty;COO:COO", defaultValue: 'empty'}, searchrules: {required: true}, searchoptions: search_string_options},
+                {label: '標籤變量名稱11(附加屬性值)', name: "labelVariable11AffId.id", width: 100, edittype: "select", editoptions: {value: selectOptions["11Aff_labelVariable"], defaultValue: labelVariable11AffId_default_value, dataEvents: labelVariable11Aff_events}, formatter: selectOptions["11Aff_labelVariable_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["11Aff_labelVariable"], sopt: ['eq']}},
+                {label: '標籤變量名稱12', name: "labelVariable12", width: 100, edittype: "select", editoptions: {value: "empty:empty;COO_2D:COO_2D", defaultValue: 'empty'}, searchrules: {required: true}, searchoptions: search_string_options},
+                {label: '標籤變量名稱12(附加屬性值)', name: "labelVariable12AffId.id", width: 100, edittype: "select", editoptions: {value: selectOptions["12Aff_labelVariable"], defaultValue: labelVariable12AffId_default_value}, formatter: selectOptions["12Aff_labelVariable_func"], searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["12Aff_labelVariable"], sopt: ['eq']}},
                 {label: 'Test Profile', name: "testProfile", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;M5:M5;601:601;B-B:B-B;EKI9528:EKI9528;EKI9516:EKI9516;EKI9520:EKI9520;ITA:ITA;EKI-9508:EKI-9508;DMS-SJ2627:DMS-SJ2627", defaultValue: "0", dataEvents: testProfile_select_event}},
                 {label: 'ACW Voltage', name: "acwVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
                 {label: 'DCW Voltage', name: "dcwVoltage", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
@@ -401,7 +408,7 @@
                 {label: 'GND Value', name: "gndValue", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
                 {label: 'LLT Value', name: "lltValue", width: 100, search: true, searchrules: {required: true}, searchoptions: search_string_options, edittype: "text", editrules: {required: true}},
                 {label: '禮盒總重量(含配件)', name: "weight", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0'}},
-                {label: '禮盒總重量(附加屬性質)', name: "weightAff", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0.05'}},
+                {label: '禮盒總重量(附加屬性值)', name: "weightAff", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0.05'}},
                 {label: '整箱總重量誤差值', name: "tolerance", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true, required: true}, editoptions: {defaultValue: '0.05'}},
                 {label: '專案機種出貨棧板需求', name: "shippingPallet", edittype: "select", editoptions: {value: " :empty;Y:Y", defaultValue: ' '}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: '前置模組數', name: "preAssyModuleQty", width: 80, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},
@@ -478,7 +485,7 @@
             groupHeaders: [
                 {startColumnName: 'macTotalQty', numberOfColumns: 11, titleText: '<em>MAC</em>'},
                 {startColumnName: 'ce', numberOfColumns: 8, titleText: '<em>外箱Label產品資訊 (1：要印   0：不印)</em>'},
-                {startColumnName: 'partNoAttributeMaintain', numberOfColumns: 47, titleText: '<em>料號屬性值維護</em>'},
+                {startColumnName: 'partNoAttributeMaintain', numberOfColumns: 51, titleText: '<em>料號屬性值維護</em>'},
 //                {startColumnName: 'assyLeadTime', numberOfColumns: 2, titleText: '<em>組裝相關工時</em>'},
                 {startColumnName: 'packingLeadTime', numberOfColumns: 3, titleText: '<em>包裝相關工時</em>'},
                 {startColumnName: 'testProfile', numberOfColumns: 6, titleText: '<em>hi-pot Test</em>'},
@@ -499,8 +506,8 @@
                     beforeSubmit: before_edit,
                     beforeShowForm: function (form) {
                         setTimeout(function () {
-                            $("#flowByBabFlowId\\.id, #flowByTestFlowId\\.id, #flowByPackingFlowId\\.id, #preAssy\\.id").trigger("change");
-                            $("#businessGroup\\.id").trigger("change");
+                            $("#flowByBabFlowId\\.id, #flowByTestFlowId\\.id").trigger("change");
+                            $("#businessGroup\\.id, #testProfile, #labelVariable11AffId\\.id").trigger("change");
                             checkLabelisEmpty();
                             settingFormulaCheckbox();
                             addModReasonCode();
@@ -536,8 +543,8 @@
                         setTimeout(function () {
                             // do here all what you need (like alert('yey');)
                             $("#businessGroup\\.id > option:disabled").hide();
-                            $("#flowByBabFlowId\\.id, #flowByTestFlowId\\.id, #flowByPackingFlowId\\.id, #preAssy\\.id").trigger("change");
-                            $("#businessGroup\\.id, #testProfile").trigger("change");
+                            $("#flowByBabFlowId\\.id, #flowByTestFlowId\\.id").trigger("change");
+                            $("#businessGroup\\.id, #testProfile, #labelVariable11AffId\\.id").trigger("change");
                             addNarPage();
                             addType();
                         }, 50);

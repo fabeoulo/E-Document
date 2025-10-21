@@ -6,7 +6,7 @@
 package com.advantech.dao;
 
 import com.advantech.jqgrid.PageInfo;
-import com.advantech.model.Flow;
+import com.advantech.model.LabelVariable;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
@@ -18,24 +18,24 @@ import org.springframework.stereotype.Repository;
  * @author Wei.Cheng
  */
 @Repository
-public class FlowDAO extends BasicDAOImpl<Integer, Flow> {
+public class LabelVariableDAO extends BasicDAOImpl<Integer, LabelVariable> {
 
-    public List<Flow> findAll(PageInfo info) {
+    public List<LabelVariable> findAll(PageInfo info) {
         return super.getByPaginateInfo(info);
     }
 
-    public List<Flow> findByFlowGroup(int flowGroupId) {
+    public List<LabelVariable> findByLabelVariableGroup(int labelVariableGroupId) {
         Criteria criteria = createEntityCriteria();
-        criteria.createAlias("flowGroup", "group");
-        criteria.add(Restrictions.eq("group.id", flowGroupId));
+        criteria.createAlias("labelVariableGroup", "group");
+        criteria.add(Restrictions.eq("group.id", labelVariableGroupId));
         criteria.addOrder(Order.asc("name"));
         return criteria.list();
     }
 
-    public Flow findByFlowName(String flowName) {
+    public LabelVariable findByLabelVariableName(String labelVariableName) {
         Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("name", flowName));
-        return (Flow) criteria.uniqueResult();
+        criteria.add(Restrictions.eq("name", labelVariableName)).setMaxResults(1);
+        return (LabelVariable) criteria.uniqueResult();
     }
 
 }

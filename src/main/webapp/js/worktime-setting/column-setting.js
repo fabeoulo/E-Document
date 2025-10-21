@@ -123,6 +123,8 @@ var worktimeCol = [
     {name: "labelVariable8"},
     {name: "labelVariable9"},
     {name: "labelVariable10"},
+    {name: "labelVariable11"},
+    {name: "labelVariable12"},
     {name: "labelVariable1Aff"},
     {name: "labelVariable2Aff"},
     {name: "labelVariable3Aff"},
@@ -133,6 +135,8 @@ var worktimeCol = [
     {name: "labelVariable8Aff"},
     {name: "labelVariable9Aff"},
     {name: "labelVariable10Aff"},
+    {name: "labelVariable11AffId.id"},
+    {name: "labelVariable12AffId.id"},
     {name: "labelPacking1"},
     {name: "labelPacking2"},
     {name: "labelPacking3"},
@@ -189,8 +193,8 @@ var group = [
     },
     {
         Type2: ['tr_labelYN', 'tr_ssnOnTag', 'tr_labelOuterId.id', 'tr_labelOuterCustom', 'tr_labelCartonId.id', 'tr_labelCartonCustom', 'tr_labelBigCarton', 'tr_label2D', 'tr_labelCustomerSn', 'tr_labelPn', 'tr_labelNmodelA', 'tr_labelNmodelB', , 'tr_labelAssyInput',
-            'tr_labelVariable1', 'tr_labelVariable2', 'tr_labelVariable3', 'tr_labelVariable4', 'tr_labelVariable5', 'tr_labelVariable6', 'tr_labelVariable7', 'tr_labelVariable8', 'tr_labelVariable9', 'tr_labelVariable10',
-            'tr_labelVariable1Aff', 'tr_labelVariable2Aff', 'tr_labelVariable3Aff', 'tr_labelVariable4Aff', 'tr_labelVariable5Aff', 'tr_labelVariable6Aff', 'tr_labelVariable7Aff', 'tr_labelVariable8Aff', 'tr_labelVariable9Aff', 'tr_labelVariable10Aff',
+            'tr_labelVariable1', 'tr_labelVariable2', 'tr_labelVariable3', 'tr_labelVariable4', 'tr_labelVariable5', 'tr_labelVariable6', 'tr_labelVariable7', 'tr_labelVariable8', 'tr_labelVariable9', 'tr_labelVariable10', 'tr_labelVariable11', 'tr_labelVariable12',
+            'tr_labelVariable1Aff', 'tr_labelVariable2Aff', 'tr_labelVariable3Aff', 'tr_labelVariable4Aff', 'tr_labelVariable5Aff', 'tr_labelVariable6Aff', 'tr_labelVariable7Aff', 'tr_labelVariable8Aff', 'tr_labelVariable9Aff', 'tr_labelVariable10Aff', 'tr_labelVariable11AffId.id', 'tr_labelVariable12AffId.id',
             'tr_labelPacking1', 'tr_labelPacking2', 'tr_labelPacking3', 'tr_labelPacking4', 'tr_labelPacking5', 'tr_labelPacking6', 'tr_labelPacking7', 'tr_labelPacking8', 'tr_labelPacking9', 'tr_labelPacking10',
             'tr_assyCheckSsn', 'tr_ssnPrefix', 'tr_ssnLength']
     },

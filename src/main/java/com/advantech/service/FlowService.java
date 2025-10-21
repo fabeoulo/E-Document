@@ -8,12 +8,10 @@ package com.advantech.service;
 import com.advantech.dao.*;
 import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.Flow;
-import com.advantech.model.FlowGroup;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.PostConstruct;
 import org.hibernate.Hibernate;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,15 +46,12 @@ public class FlowService extends BasicServiceImpl<Integer, Flow> {
     }
 
     public List<Flow> findByFlowGroup(int flowGroupId) {
-        FlowGroup fg = flowGroupService.findByPrimaryKey(flowGroupId);
-        return dao.findByFlowGroup(fg);
+        return dao.findByFlowGroup(flowGroupId);
     }
 
     public List<Flow> findByParent(Integer parent_id) {
-        List l = new ArrayList();
         Flow f = this.findByPrimaryKey(parent_id);
-        l.addAll(f.getFlowsForTestFlowId());
-        return l;
+        return f == null ? new ArrayList() : new ArrayList(f.getFlowsForTestFlowId());
     }
 
     public List<Flow> findFlowWithSub() {
@@ -92,7 +87,7 @@ public class FlowService extends BasicServiceImpl<Integer, Flow> {
 
         return 1;
     }
-    
+
     public int delete(int id) {
         Flow flow = this.findByPrimaryKey(id);
         return dao.delete(flow);

@@ -41,7 +41,7 @@ public class WorktimeDAO extends BasicDAOImpl<Integer, Worktime> {
             "type", "businessGroup", "floor", "pending", "preAssy",
             "flowByBabFlowId", "flowByPackingFlowId", "flowByTestFlowId",
             "userBySpeOwnerId", "userByEeOwnerId", "userByQcOwnerId", "userByMpmOwnerId",
-            "labelOuterId", "labelCartonId"
+            "labelOuterId", "labelCartonId", "labelVariable11AffId", "labelVariable12AffId"
         };
 
         Criteria criteria = createEntityCriteria();

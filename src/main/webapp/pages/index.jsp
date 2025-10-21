@@ -225,6 +225,9 @@
                                                 <a class="redirect-link" href="mod/cartonlabel.jsp">CartonLabel</a>
                                             </li>
                                             <li>
+                                                <a class="redirect-link" href="mod/labelVariable.jsp">LabelVariable</a>
+                                            </li>
+                                            <li>
                                                 <a class="redirect-link" href="mod/batchUpdate.jsp">大表批次更新</a>
                                             </li>
                                         </sec:authorize>
@@ -242,9 +245,6 @@
                                             </li>
                                             <li>
                                                 <a class="redirect-link" href="admin/worktime_permission.jsp">欄位權限設定</a>
-                                            </li>
-                                            <li>
-                                                <a class="redirect-link" href="admin/worktime_permission_m4f.jsp">欄位權限設定4f(OK)</a>
                                             </li>
                                             <li>
                                                 <a class="redirect-link" href="admin/wowface.jsp">Not exist page</a>
@@ -308,32 +308,29 @@
                                         </sec:authorize>
                                     </ul>
                                 </li>
-
-                                <sec:authorize access="hasRole('ADMIN')">
-                                    <li>
-                                        <a href="#"><i class="fa fa-wrench fa-fw"></i> 4F_UI Elements<span class="fa arrow"></span></a>
-                                        <ul class="nav nav-second-level"> 
+                                <li>
+                                    <a href="#"><i class="fa fa-wrench fa-fw"></i> 4F_UI Elements<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level"> 
+                                        <li>
+                                            <a class="redirect-link" href="audit_m4f.jsp">資料版本查詢</a>
+                                        </li>
+                                        <sec:authorize access="hasRole('ADMIN')">
                                             <li>
-                                                <a class="redirect-link" href="audit_m4f.jsp">資料版本查詢</a>
+                                                <a class="redirect-link" href="admin/fileupload.jsp">Excel文件上傳</a>
                                             </li>
-                                            <sec:authorize access="hasRole('ADMIN')">
-                                                <li>
-                                                    <a class="redirect-link" href="admin/fileupload.jsp">Excel文件上傳</a>
-                                                </li>
-                                                <li>
-                                                    <a class="redirect-link" href="admin/worktime_permission_m4f.jsp">欄位權限設定4f</a>
-                                                </li>
-                                                <li>
-                                                    <a class="redirect-link" href="admin/wowface.jsp">Not exist page</a>
-                                                </li>
-                                                <li>
-                                                    <a href="test/test.jsp" onclick="">測試區</a>
-                                                </li>
-                                            </sec:authorize>
-                                        </ul>
-                                        <!-- /.nav-second-level -->
-                                    </li>
-                                </sec:authorize>
+                                            <li>
+                                                <a class="redirect-link" href="admin/worktime_permission_m4f.jsp">欄位權限設定4f(OK)</a>
+                                            </li>
+                                            <li>
+                                                <a class="redirect-link" href="admin/wowface.jsp">Not exist page</a>
+                                            </li>
+                                            <li>
+                                                <a href="test/test.jsp" onclick="">測試區</a>
+                                            </li>
+                                        </sec:authorize>
+                                    </ul>
+                                    <!-- /.nav-second-level -->
+                                </li>
                             </ul>
                         </div>
                         <!-- /.sidebar-collapse -->

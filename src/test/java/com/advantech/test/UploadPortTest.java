@@ -259,7 +259,7 @@ public class UploadPortTest {
         Worktime w = worktimeService.findByModel("EKI-9516-P0IDH10E-TEST");
 
 //        List<Worktime> l = worktimeService.findWithFlowRelation();
-        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(14);
+        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(72, 73);
 //        assertEquals(5, settings.size());
         materialPropertyUploadPort.initSettings(settings);
         materialPropertyUploadPort.update(w);

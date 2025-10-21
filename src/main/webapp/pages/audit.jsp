@@ -40,9 +40,12 @@
                 {name: "pending", isNullable: false},
                 {name: "modReasonCode", isNullable: true},
                 {name: "cartonlabel", isNullable: false},
-                {name: "outlabel", isNullable: false}
+                {name: "outlabel", isNullable: false},
+                {name: "labelVariable", nameprefix: "11Aff_", isNullable: true, dataToServer: "1"},
+                {name: "labelVariable", nameprefix: "12Aff_", isNullable: true, dataToServer: "2"}
             ]
         });
+
         $("#send").click(function () {
             var id = $("#id").val();
             var modelName = $("#modelName").val();
@@ -166,6 +169,10 @@
                     {label: '標籤變量名稱9(附加屬性質)', name: "labelVariable9Aff", jsonmap: "0.labelVariable9Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
                     {label: '標籤變量名稱10', name: "labelVariable10", jsonmap: "0.labelVariable10", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},
                     {label: '標籤變量名稱10(附加屬性質)', name: "labelVariable10Aff", jsonmap: "0.labelVariable10Aff", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
+                    {label: '標籤變量名稱11', name: "labelVariable11", jsonmap: "0.labelVariable11", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},
+                    {label: '標籤變量名稱11(附加屬性質)', name: "labelVariable11AffId", jsonmap: "0.labelVariable11AffId.id", formatter: selectOptions["11Aff_labelVariable_func"], width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
+                    {label: '標籤變量名稱12', name: "labelVariable12", jsonmap: "0.labelVariable12", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},
+                    {label: '標籤變量名稱12(附加屬性質)', name: "labelVariable12AffId", jsonmap: "0.labelVariable12AffId.id", formatter: selectOptions["12Aff_labelVariable_func"], width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Packing01標籤名稱', name: "labelPacking1", jsonmap: "0.labelPacking1", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},
                     {label: 'Packing02標籤名稱', name: "labelPacking2", jsonmap: "0.labelPacking2", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},
                     {label: 'Packing03標籤名稱', name: "labelPacking3", jsonmap: "0.labelPacking3", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},

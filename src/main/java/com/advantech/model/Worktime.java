@@ -438,6 +438,12 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     private String labelVariable10;
 
     @JsonView(View.Public.class)
+    private String labelVariable11;
+
+    @JsonView(View.Public.class)
+    private String labelVariable12;
+
+    @JsonView(View.Public.class)
     private String labelVariable1Aff;
 
     @JsonView(View.Public.class)
@@ -466,6 +472,12 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 
     @JsonView(View.Public.class)
     private String labelVariable10Aff;
+
+    @JsonView(View.Public.class)
+    private LabelVariable labelVariable11AffId;
+
+    @JsonView(View.Public.class)
+    private LabelVariable labelVariable12AffId;
 
     @JsonView(View.Public.class)
     private String labelPacking1;
@@ -1198,7 +1210,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     public void setGndValue(String gndValue) {
         this.gndValue = gndValue;
     }
-    
+
     @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 4 /*scale*/)
     @Column(name = "tolerance", nullable = false, precision = 10, scale = 4)
@@ -1209,7 +1221,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     public void setTolerance(BigDecimal tolerance) {
         this.tolerance = this.autoFixScale(tolerance, 4);
     }
-    
+
     @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "assy_lead_time", precision = 10, scale = 1)
@@ -1242,7 +1254,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     public void setPackingPalletTime(BigDecimal packingPalletTime) {
         this.packingPalletTime = packingPalletTime;
     }
-    
+
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "productionWt", precision = 10, scale = 1)
     public BigDecimal getProductionWt() {
@@ -1775,6 +1787,30 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.labelVariable10 = labelVariable10;
     }
 
+    @NotNull(message = "Must have something.")
+    @NotEmpty(message = "Must have something.")
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_11", length = 150)
+    public String getLabelVariable11() {
+        return labelVariable11;
+    }
+
+    public void setLabelVariable11(String labelVariable11) {
+        this.labelVariable11 = labelVariable11;
+    }
+
+    @NotNull(message = "Must have something.")
+    @NotEmpty(message = "Must have something.")
+    @Size(min = 0, max = 150)
+    @Column(name = "label_variable_12", length = 150)
+    public String getLabelVariable12() {
+        return labelVariable12;
+    }
+
+    public void setLabelVariable12(String labelVariable12) {
+        this.labelVariable12 = labelVariable12;
+    }
+
     @Size(min = 0, max = 150)
     @Column(name = "label_variable_1_aff", length = 150)
     public String getLabelVariable1Aff() {
@@ -1873,6 +1909,28 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 
     public void setLabelVariable10Aff(String labelVariable10Aff) {
         this.labelVariable10Aff = labelVariable10Aff;
+    }
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "label_variable_11_aff_id", nullable = true)
+    public LabelVariable getLabelVariable11AffId() {
+        return labelVariable11AffId;
+    }
+
+    public void setLabelVariable11AffId(LabelVariable labelVariable11AffId) {
+        this.labelVariable11AffId = labelVariable11AffId;
+    }
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "label_variable_12_aff_id", nullable = true)
+    public LabelVariable getLabelVariable12AffId() {
+        return labelVariable12AffId;
+    }
+
+    public void setLabelVariable12AffId(LabelVariable labelVariable12AffId) {
+        this.labelVariable12AffId = labelVariable12AffId;
     }
 
     @Size(min = 0, max = 150)

@@ -19,6 +19,8 @@ import com.advantech.model.UserNotification;
 import com.advantech.model.UserProfile;
 import com.advantech.model.OutLabel;
 import com.advantech.model.CartonLabel;
+import com.advantech.model.LabelVariable;
+import com.advantech.model.LabelVariableGroup;
 import com.advantech.service.BusinessGroupService;
 import com.advantech.service.CobotService;
 import com.advantech.service.FloorService;
@@ -33,6 +35,8 @@ import com.advantech.service.UserNotificationService;
 import com.advantech.service.UserProfileService;
 import com.advantech.service.OutLabelService;
 import com.advantech.service.CartonLabelService;
+import com.advantech.service.LabelVariableGroupService;
+import com.advantech.service.LabelVariableService;
 import com.advantech.webservice.port.StandardWorkReasonQueryPort;
 import com.advantech.webservice.unmarshallclass.StandardWorkReason;
 import java.util.List;
@@ -96,6 +100,12 @@ public class WorktimeSelectOptionController {
 
     @Autowired
     private CartonLabelService cartonlabelService;
+
+    @Autowired
+    private LabelVariableService labelVariableService;
+
+    @Autowired
+    private LabelVariableGroupService labelVariableGroupService;
 
     @ResponseBody
     @RequestMapping(value = "/outlabel", method = {RequestMethod.GET})
@@ -173,7 +183,6 @@ public class WorktimeSelectOptionController {
         return pendingService.findAll();
     }
 
-
     @ResponseBody
     @RequestMapping(value = "/unit", method = {RequestMethod.GET})
     protected List<Unit> getUnitOption() {
@@ -216,5 +225,23 @@ public class WorktimeSelectOptionController {
     @RequestMapping(value = "/cobots", method = {RequestMethod.GET})
     protected List<Cobot> getCobotOption() throws Exception {
         return cobotService.findAll();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/labelVariable/{labelVariableGroupId}", method = {RequestMethod.GET})
+    protected List<LabelVariable> getLabelVariableOption(@PathVariable(value = "labelVariableGroupId") final int labelVariableGroupId) {
+        return labelVariableService.findByLabelVariableGroup(labelVariableGroupId);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/labelVariableGroup", method = {RequestMethod.GET})
+    protected List<LabelVariableGroup> getLabelVariableGroupOption() {
+        return labelVariableGroupService.findAll();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/labelVariable-byParent/{parentLabelVariableId}", method = {RequestMethod.GET})
+    protected List<LabelVariable> getLabelVariableOptionByParent(@PathVariable(value = "parentLabelVariableId") final int parentLabelVariableId) {
+        return labelVariableService.findByParent(parentLabelVariableId);
     }
 }

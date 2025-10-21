@@ -14,6 +14,7 @@ import com.advantech.model.CartonLabel;
 import com.advantech.model.Cobot;
 import com.advantech.model.Floor;
 import com.advantech.model.Flow;
+import com.advantech.model.LabelVariable;
 import com.advantech.model.OutLabel;
 import com.advantech.model.Pending;
 import com.advantech.model.PreAssy;
@@ -26,6 +27,7 @@ import com.advantech.service.CartonLabelService;
 import com.advantech.service.CobotService;
 import com.advantech.service.FloorService;
 import com.advantech.service.FlowService;
+import com.advantech.service.LabelVariableService;
 import com.advantech.service.OutLabelService;
 import com.advantech.service.PendingService;
 import com.advantech.service.PreAssyService;
@@ -101,6 +103,9 @@ public class WorktimeBatchModController {
 
     @Autowired
     private CartonLabelService cartonLabelService;
+
+    @Autowired
+    private LabelVariableService labelVariableService;
 
     @Autowired
     private WorktimeAuditService auditService;
@@ -324,6 +329,8 @@ public class WorktimeBatchModController {
         Map<String, Cobot> cobotOptions = toSelectOptions(cobotService.findAll());
         Map<String, OutLabel> outLabelOptions = toSelectOptions(outLabelService.findAll());
         Map<String, CartonLabel> cartonLabelOptions = toSelectOptions(cartonLabelService.findAll());
+        Map<String, LabelVariable> labelVariable11AffOptions = toSelectOptions(labelVariableService.findByLabelVariableGroup(1));
+        Map<String, LabelVariable> labelVariable12AffOptions = toSelectOptions(labelVariableService.findByLabelVariableGroup(2));
 
         //設定關聯by name
         for (int i = 0; i < hgList.size(); i++) {
@@ -348,6 +355,12 @@ public class WorktimeBatchModController {
             w.setFlowByBabFlowId(valid(babFlowName, flowOptions.get(babFlowName)));
             w.setFlowByPackingFlowId(valid(pkgFlowName, flowOptions.get(pkgFlowName)));
             w.setFlowByTestFlowId(valid(testFlowName, flowOptions.get(testFlowName)));
+
+            String labelVariable11AffName = getCell(sheet, i, "labelVariable11AffName");
+            String labelVariable12AffName = getCell(sheet, i, "labelVariable12AffName");
+
+            w.setLabelVariable11AffId(valid(labelVariable11AffName, labelVariable11AffOptions.get(labelVariable11AffName)));
+            w.setLabelVariable12AffId(valid(labelVariable12AffName, labelVariable12AffOptions.get(labelVariable12AffName)));
 
             w.setPending(pendingOptions.get(getCell(sheet, i, "pendingName")));
 

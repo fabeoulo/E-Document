@@ -13,6 +13,7 @@ import com.advantech.model.WorktimeMaterialPropertyUploadSetting;
 import com.advantech.service.FlowService;
 import com.advantech.service.OutLabelService;
 import com.advantech.service.CartonLabelService;
+import com.advantech.service.LabelVariableService;
 import com.advantech.service.PendingService;
 import com.advantech.service.WorktimeMaterialPropertyUploadSettingService;
 import com.advantech.webservice.Factory;
@@ -67,6 +68,9 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
 
     @Autowired
     private CartonLabelService cartonlabelService;
+
+    @Autowired
+    private LabelVariableService labelVariableService;
 
     @Autowired
     private FlowService flowService;
@@ -148,6 +152,8 @@ public class MaterialPropertyUploadPort extends BasicUploadPort implements Uploa
         w.setPending(pendingService.findByPrimaryKey(w.getPending().getId()));
         w.setLabelOuterId(outlabelService.findByPrimaryKey(w.getLabelOuterId().getId()));
         w.setLabelCartonId(cartonlabelService.findByPrimaryKey(w.getLabelCartonId().getId()));
+        w.setLabelVariable11AffId(labelVariableService.findByPrimaryKey(w.getLabelVariable11AffId().getId()));
+        w.setLabelVariable12AffId(labelVariableService.findByPrimaryKey(w.getLabelVariable12AffId().getId()));
 
         Set<String> localMatPropNo = settings.stream()
                 .map(WorktimeMaterialPropertyUploadSetting::getMatPropNo)

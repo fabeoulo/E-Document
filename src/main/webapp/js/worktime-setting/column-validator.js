@@ -8,6 +8,11 @@ var preAssy = "preAssy\\.id",
         testFlow = "flowByTestFlowId\\.id",
         packingFlow = "flowByPackingFlowId\\.id";
 var AND = "AND", OR = "OR";
+
+
+var labelVariable11AffId_default_value = 16;
+var labelVariable12AffId_default_value = 17;
+
 //Other field check logic
 var notZeroOrNull = function (obj) {
     return obj != null && obj != 0;
@@ -208,9 +213,23 @@ var op_endS = function (oField, oVal) {
 };
 
 var field_check_field_logic = [
-    {srcColumn: {name: "modelName", operate: op_endS, value: "-ES", description: " 內容為 \"-ES\""}, targetColumn: {name: "businessGroup.id", selOption: "businessGroup_options", operate: op_eq, value: "ES", description: "內容為ES"}},
-    {srcColumn: {name: "businessGroup.id", selOption: "businessGroup_options", operate: op_eq, value: "ES", description: "內容為ES"}, targetColumn: {name: "modelName", operate: op_endS, value: "-ES", description: " 內容為 \"-ES\""}},
-    {srcColumn: {name: "ssnOnTag", operate: op_eq, value: "Y", description: "內容為Y"}, targetColumn: {name: "labelAssyInput", operate: op_neq, value: "", description: "不為空"}}
+    {srcColumn: {name: "modelName", operate: op_endS, value: "-ES", description: " 內容為 \"-ES\""}, targetColumn: [{name: "businessGroup.id", selOption: "businessGroup_options", operate: op_eq, value: "ES", description: "內容為ES"}]},
+    {srcColumn: {name: "businessGroup.id", selOption: "businessGroup_options", operate: op_eq, value: "ES", description: "內容為ES"}, targetColumn: [{name: "modelName", operate: op_endS, value: "-ES", description: " 內容為 \"-ES\""}]},
+    {srcColumn: {name: "ssnOnTag", operate: op_eq, value: "Y", description: "內容為Y"}, targetColumn: [{name: "labelAssyInput", operate: op_neq, value: "", description: "不為空"}]},
+    {srcColumn: {name: "labelVariable11", operate: op_neq, value: "empty", description: "不為空"},
+        targetColumn: [
+            {name: "labelVariable12", operate: op_neq, value: "empty", description: "不為空"},
+            {name: "labelVariable11AffId.id", operate: op_neq, value: labelVariable11AffId_default_value, description: "不為空"},
+            {name: "labelVariable12AffId.id", operate: op_neq, value: labelVariable12AffId_default_value, description: "不為空"}
+        ]
+    },
+    {srcColumn: {name: "labelVariable11", operate: op_eq, value: "empty", description: "為空"},
+        targetColumn: [
+            {name: "labelVariable12", operate: op_eq, value: "empty", description: "為空"},
+            {name: "labelVariable11AffId.id", operate: op_eq, value: labelVariable11AffId_default_value, description: "為空"},
+            {name: "labelVariable12AffId.id", operate: op_eq, value: labelVariable12AffId_default_value, description: "為空"}
+        ]
+    }
 ];
 
 function fieldCheckField(postdata, formid) {
@@ -225,20 +244,22 @@ function fieldCheckField(postdata, formid) {
         var srcLabel = getColLabel(formid, srcColName);
         var srcDesc = srcInfo.description;
 
-        var targetColInfo = logic.targetColumn;
-        var targetColName = targetColInfo.name;
-        var targetFieldVal = !targetColInfo.selOption ? postdata[targetColName] : getNameBySelectValue(targetColInfo.selOption, postdata[targetColName]);
-        var targetVal = targetColInfo.value;
-        var targetLabel = getColLabel(formid, targetColName);
-        var targetDesc = targetColInfo.description;
+        for (var j = 0; j < logic.targetColumn.length; j++) {
+            var targetColInfo = logic.targetColumn[j];
+            var targetColName = targetColInfo.name;
+            var targetFieldVal = !targetColInfo.selOption ? postdata[targetColName] : getNameBySelectValue(targetColInfo.selOption, postdata[targetColName]);
+            var targetVal = targetColInfo.value;
+            var targetLabel = getColLabel(formid, targetColName);
+            var targetDesc = targetColInfo.description;
 
-        if (srcInfo.operate(srcFieldVal, srcVal)) {
-            var isTarValid = targetColInfo.operate(targetFieldVal, targetVal);
-            if (!isTarValid) {
-                var errorResult = {};
-                errorResult.field = getSelectorFormat(targetColName);
-                errorResult.code = srcLabel + srcDesc + ' , ' + targetLabel + targetDesc;
-                validationErrors.push(errorResult);
+            if (srcInfo.operate(srcFieldVal, srcVal)) {
+                var isTarValid = targetColInfo.operate(targetFieldVal, targetVal);
+                if (!isTarValid) {
+                    var errorResult = {};
+                    errorResult.field = getSelectorFormat(targetColName);
+                    errorResult.code = srcLabel + srcDesc + ' , ' + targetLabel + targetDesc;
+                    validationErrors.push(errorResult);
+                }
             }
         }
     }
