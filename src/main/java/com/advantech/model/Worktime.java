@@ -511,6 +511,9 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 
     @JsonView(View.Public.class)
     private String keypartValueLabel;
+    
+    @JsonView(View.Public.class)
+    private String keypartBlockFlag;
 
     @JsonView(View.Public.class)
     private String shippingPallet;
@@ -2041,6 +2044,16 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 
     public void setKeypartValueLabel(String keypartValueLabel) {
         this.keypartValueLabel = keypartValueLabel;
+    }
+
+    @NotNull
+    @Column(name = "keypartBlockFlag", length = 1)
+    public String getKeypartBlockFlag() {
+        return keypartBlockFlag;
+    }
+
+    public void setKeypartBlockFlag(String keypartBlockFlag) {
+        this.keypartBlockFlag = keypartBlockFlag;
     }
 
     public String getShippingPallet() {

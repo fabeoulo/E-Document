@@ -103,6 +103,7 @@
                     {label: 'KEYPART_A', name: "keypartA", jsonmap: "0.keypartA", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'KEYPART_B', name: "keypartB", jsonmap: "0.keypartB", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'KeyPart取值標籤變量', name: "keypartValueLabel", jsonmap: "0.keypartValueLabel", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
+                    {label: 'KP是否卡關替代料(Y/N)', name: "keypartBlockFlag", jsonmap: "0.keypartBlockFlag", width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                     {label: 'T1狀態數', name: "t1StatusQty", jsonmap: "0.t1StatusQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'T1項目數', name: "t1ItemsQty", jsonmap: "0.t1ItemsQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'T2狀態數', name: "t2StatusQty", jsonmap: "0.t2StatusQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},

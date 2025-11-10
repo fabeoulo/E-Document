@@ -255,7 +255,8 @@ public class WorktimeUploadMesService {
                 || !isEquals(prev.getShippingPallet(), current.getShippingPallet())
                 || !isEquals(prev.getAssyCheckSsn(), current.getAssyCheckSsn())
                 || !isEquals(prev.getSsnPrefix(), current.getSsnPrefix())
-                || !isEquals(prev.getSsnLength(), current.getSsnLength());
+                || !isEquals(prev.getSsnLength(), current.getSsnLength())
+                || !isEquals(prev.getKeypartBlockFlag(), current.getKeypartBlockFlag());
         return b;
     }
 

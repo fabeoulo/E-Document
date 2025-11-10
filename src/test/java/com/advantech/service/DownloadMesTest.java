@@ -202,7 +202,7 @@ public class DownloadMesTest {
         System.out.println("testDlMatWithUpdate");
 
         l = instance.findAll();
-        
+
         initOptions();
         for (Worktime wm4 : l) {
             HibernateObjectPrinter.print("Processing: " + wm4.getModelName() + " in thread: " + Thread.currentThread().getName());
@@ -220,7 +220,7 @@ public class DownloadMesTest {
             }
         }
     }
-    
+
 //    @Test
 //    @Transactional
 //    @Rollback(true)
@@ -538,13 +538,13 @@ public class DownloadMesTest {
 //    @Rollback(false)
     public void dlMatTest() throws Exception {
 
-//        List<Worktime> wts = instance.findByModelNames("EKI-9516-P0IDH10E-TEST");
-        List<Worktime> wts = instance.findAll();
+        List<Worktime> wts = instance.findByModelNames("EKI-9516-P0IDH10E-TEST");
+//        List<Worktime> wts = instance.findAll();
         wts.forEach(wt -> {
             try {
                 dlNewMatM3(wt);
 
-                HibernateObjectPrinter.print(wt.getModelName() + "," + wt.getSsnOnTag() + "," + wt.getLabelAssyInput());
+                HibernateObjectPrinter.print(wt.getModelName() + "," + wt.getKeypartBlockFlag() + "," + wt.getKeypartBlockFlag());
 //                instance.update(wt);
             } catch (Exception ex) {
                 HibernateObjectPrinter.print(ex);
@@ -553,21 +553,22 @@ public class DownloadMesTest {
     }
 
     private void dlNewMatM3(Worktime wt) throws Exception {
-        WorktimeMaterialPropertyDownloadSetting dlSetting = new WorktimeMaterialPropertyDownloadSetting();
-        dlSetting.setMatPropNo("FL");
-        dlSetting.setDlColumn("ssnOnTag");
-        dlSetting.setDlFormula("\"Y\".equals(value) ? \"Y\" : \"N\"");
+//        WorktimeMaterialPropertyDownloadSetting dlSetting = new WorktimeMaterialPropertyDownloadSetting();
+//        dlSetting.setMatPropNo("KPA");
+//        dlSetting.setDlColumn("keypartBlockFlag");
+//        dlSetting.setDlFormula("\"Y\".equals(value) ? \"Y\" : \"N\"");
 
-        WorktimeMaterialPropertyDownloadSetting dlSetting2 = new WorktimeMaterialPropertyDownloadSetting();
-        dlSetting2.setMatPropNo("AO");
-        dlSetting2.setDlColumn("labelAssyInput");
-        dlSetting2.setDlFormula("value.length() > 150 ? value.substring(0, 150) : value");
-
-        List<WorktimeMaterialPropertyDownloadSetting> settings = newArrayList(dlSetting, dlSetting2);
+//        WorktimeMaterialPropertyDownloadSetting dlSetting2 = new WorktimeMaterialPropertyDownloadSetting();
+//        dlSetting2.setMatPropNo("KPA");
+//        dlSetting2.setDlColumn("keypartBlockFlag");
+//        dlSetting2.setDlFormula("value.length() > 1 ? value.substring(0, 1) :value.length() ==0 ? \"N\" : value");
+//        List<WorktimeMaterialPropertyDownloadSetting> settings = newArrayList(dlSetting2);
+//
+        initOptions();
+        settings = settings.stream().filter(s -> s.getMatPropNo().equals("KPA")).collect(toList());
 
         List<MaterialPropertyValue> remotePropSettings = materialPropertyValueQueryPort.queryM(wt, Factory.TWM3);
         Map<String, String> errorFields = new HashMap();
-//        settings = settings.stream().filter(s -> s.getMatPropNo().equals("IW")).collect(toList());
         settings.forEach((setting) -> {
             try {
                 MaterialPropertyValue mp = remotePropSettings.stream()
@@ -594,14 +595,15 @@ public class DownloadMesTest {
                 Object mesConvertValAff = expressionUtils.getValueFromFormula(mp, dlAffFormula);
                 Object mesConvertVal2 = expressionUtils.getValueFromFormula(mp, dlFormula2);
 
-                Object wtVal = expressionUtils.getValueFromFormula(wt, dlColumn);
-                if (!((String) wtVal).equals(mesConvertVal)) {
-                    HibernateObjectPrinter.print(wt.getModelName() + "," + wtVal.toString() + "," + mesConvertVal.toString());
-                }
-
                 expressionUtils.setValueFromFormula(wt, dlColumn, mesConvertVal);
                 expressionUtils.setValueFromFormula(wt, dlAffColumn, mesConvertValAff);
                 expressionUtils.setValueFromFormula(wt, dlColumn2, mesConvertVal2);
+
+                Object wtVal = expressionUtils.getValueFromFormula(wt, dlColumn);
+                if (wtVal != null && !wtVal.toString().equals(mesConvertVal)) {
+                    HibernateObjectPrinter.print(wt.getModelName() + "," + wtVal.toString() + "," + mesConvertVal.toString());
+                }
+
             } catch (Exception e) {
                 errorFields.put(setting.getMatPropNo() + ":==", e.getMessage());
             }

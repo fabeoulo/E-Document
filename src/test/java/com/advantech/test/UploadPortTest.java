@@ -256,20 +256,20 @@ public class UploadPortTest {
 //    @Test//245
 //    @Rollback(true)
     public void testMaterialPropertyUploadPort() throws Exception {
-        Worktime w = worktimeService.findByModel("EKI-9516-P0IDH10E-TEST");
+//        Worktime w = worktimeService.findByModel("EKI-9516-P0IDH10E-TEST");
 
-//        List<Worktime> l = worktimeService.findWithFlowRelation();
-        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(72, 73);
+        List<Worktime> l = worktimeService.findWithFlowRelation();
+        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys( 73);
 //        assertEquals(5, settings.size());
         materialPropertyUploadPort.initSettings(settings);
-        materialPropertyUploadPort.update(w);
+//        materialPropertyUploadPort.update(w);
 
 //        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findAll();
 //        materialPropertyUploadPort.initSettings(settings);
-//        for (Worktime worktime : l) {
-//            System.out.println("Upload " + worktime.getModelName());
-//            materialPropertyUploadPort.update(worktime);
-//        }
+        for (Worktime worktime : l) {
+            System.out.println("Upload " + worktime.getModelName());
+            materialPropertyUploadPort.update(worktime);
+        }
 //        materialPropertyUploadPort.update(worktime);
 //        materialPropertyUploadPort.delete(worktime);
     }

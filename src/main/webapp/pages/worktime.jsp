@@ -325,6 +325,7 @@
                 {label: 'KEYPART_A', name: "keypartA", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'KEYPART_B', name: "keypartB", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'KeyPart取值標籤變量', name: "keypartValueLabel", width: 100, searchrules: {required: true}, searchoptions: search_string_options, editoptions: {placeholder: "組件料號，分號(;)區隔"}},
+                {label: 'KP是否卡關替代料(Y/N)', name: "keypartBlockFlag", edittype: "select", editoptions: {value: "N:N;Y:Y", defaultValue: 'N'}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: 'T1狀態數', name: "t1StatusQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T1項目數', name: "t1ItemsQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T2狀態數', name: "t2StatusQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},

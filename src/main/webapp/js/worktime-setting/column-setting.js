@@ -148,6 +148,7 @@ var worktimeCol = [
     {name: "labelPacking9"},
     {name: "labelPacking10"},
     {name: "keypartValueLabel"},
+    {name: "keypartBlockFlag"},
     {name: "shippingPallet"},
     {name: "assyCheckSsn"},
     {name: "ssnPrefix"},
@@ -184,7 +185,7 @@ var group = [
             'tr_userByMpmOwnerId.id', 'tr_keypartA', 'tr_keypartB', 'tr_partLink', 'tr_ce', 'tr_ul', 'tr_rohs', 'tr_weee', 'tr_madeInTaiwan',
             'tr_fcc', 'tr_eac', 'tr_kc', 'tr_nsInOneCollectionBox', 'tr_partNoAttributeMaintain', 'tr_weight', 'tr_weightAff', 'tr_tolerance', 'tr_preAssyModuleQty',
             'tr_burnInQuantity', 'tr_createDate', 'tr_modifiedDate', 'tr_twm2Flag', 'tr_cobots',
-            'tr_keypartValueLabel', 'tr_shippingPallet']
+            'tr_keypartValueLabel', 'tr_keypartBlockFlag', 'tr_shippingPallet']
     },
     {
         Type1: ['tr_preAssy.id', 'tr_flowByBabFlowId.id', 'tr_flowByTestFlowId.id', 'tr_flowByPackingFlowId.id',
