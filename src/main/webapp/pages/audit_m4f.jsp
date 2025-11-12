@@ -95,10 +95,12 @@
                     {label: 'CleanPanel', name: "cleanPanel", jsonmap: "0.cleanPanel", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Total Module', name: "totalModule", jsonmap: "0.totalModule", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Assembly', name: "assy", jsonmap: "0.assy", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
+                    {label: 'T0', name: "t0", jsonmap: "0.t0", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'T1', name: "t1", jsonmap: "0.t1", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'T2', name: "t2", jsonmap: "0.t2", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'T3', name: "t3", jsonmap: "0.t3", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'T4', name: "t4", jsonmap: "0.t4", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options},
+                    {label: 'T5', name: "t5", jsonmap: "0.t5", width: 60, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Packing', name: "packing", jsonmap: "0.packing", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Up_BI', name: "upBiRi", jsonmap: "0.upBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Down_BI', name: "downBiRi", jsonmap: "0.downBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
@@ -281,7 +283,7 @@
                     }
                 },
                 navOptions: {reloadGridOptions: {fromServer: true}},
-                caption: "Worktime_AUD",
+                caption: "Worktime_AUD_4f",
                 height: 450,
                 sortname: 'REVTSTMP', sortorder: 'desc',
                 error: function (xhr, ajaxOptions, thrownError) {

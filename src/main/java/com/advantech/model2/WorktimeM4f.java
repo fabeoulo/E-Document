@@ -524,6 +524,9 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
     @JsonView(View.Public.class)
     private BigDecimal loadDefault = BigDecimal.ZERO;
 
+    @JsonView(View.Public.class)
+    private BigDecimal t5 = BigDecimal.ZERO;
+
     public WorktimeM4f() {
     }
 
@@ -2036,7 +2039,6 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
         this.wwan = autoFixScale(wwan, 1);
     }
 
-    @NotAudited
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
     @Column(name = "t0", precision = 10, scale = 1)
     public BigDecimal getT0() {
@@ -2045,6 +2047,16 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
 
     public void setT0(BigDecimal t0) {
         this.t0 = autoFixScale(t0, 1);
+    }
+
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    @Column(name = "t5", precision = 10, scale = 1)
+    public BigDecimal getT5() {
+        return t5;
+    }
+
+    public void setT5(BigDecimal t5) {
+        this.t5 = autoFixScale(t5, 1);
     }
 
     @NotAudited

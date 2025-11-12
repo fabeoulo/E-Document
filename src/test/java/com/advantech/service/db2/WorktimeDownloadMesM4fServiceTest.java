@@ -196,7 +196,7 @@ public class WorktimeDownloadMesM4fServiceTest {
         System.out.println("testStandardWorkTimeM4fDownload");
 
 //        getExcelModels();
-        l = instance.findByModelNames("DLV72122010-T", "DMS-AF55SFM-S5A1", "EBC-AF52T8F-U0A1");
+        l = instance.findByModelNames("MIC733AO2511-T");
 
         standardWorkTimeM4fDownload.initOptions();
         try {

@@ -84,11 +84,16 @@ public class AuditController {
                 l = worktimeAuditService.findByDate(id, info, d1.toDate(), d2.toDate());
             }
         } else if (startDate == null && endDate == null) {
+            DateTime d1 = DateTime.now().minusYears(50);
+            DateTime d2 = DateTime.now();
+
             if (id != null) {
-                l = worktimeAuditService.findByPrimaryKey(id);
+                l = worktimeAuditService.findByDate(id, info, d1.toDate(), d2.toDate());
             } else if (modelName != null && !"".equals(modelName)) {
-                PageInfo tempInfo = addModelNameFilterAndGetClone(info, modelName);
-                l = worktimeAuditService.findAll(tempInfo);
+                Worktime w = worktimeService.findByModel(modelName);
+                if (w != null) {
+                    l = worktimeAuditService.findByDate(w.getId(), info, d1.toDate(), d2.toDate());
+                }
             }
         }
         return l;
