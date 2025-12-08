@@ -131,11 +131,11 @@ public class UploadPortTest {
     public void testStandardtimeUpload() throws Exception {
         List<Worktime> l = worktimeService.findAll();
 //        assertNotNull(l.get(0));
-        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(2);
+        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(20, 21);
         standardtimePort.initSettings(settings);
 //        standardtimePort.initSettings();
 
-//        Worktime w = worktimeService.findByModel("IDK1112P240TEST");
+//        Worktime w = worktimeService.findByModel("TEST1111");
 //        standardtimePort.update(w);
 //
         l.forEach((worktime) -> {

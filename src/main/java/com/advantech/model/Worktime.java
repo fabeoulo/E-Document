@@ -175,6 +175,9 @@ public class Worktime implements java.io.Serializable {
     private BigDecimal biTemperature;
 
     @JsonView(View.Public.class)
+    private BigDecimal biPower;
+    
+    @JsonView(View.Public.class)
     private User userBySpeOwnerId;
 
     @JsonView(View.Public.class)
@@ -706,6 +709,17 @@ public class Worktime implements java.io.Serializable {
 
     public void setBiTemperature(BigDecimal biTemperature) {
         this.biTemperature = autoFixScale(biTemperature, 1);
+    }
+
+    @NotNull(message = "bi Power 不可為空")
+    @Min(value = 0, message = "bi Power is wrong.")
+    @Column(name = "bi_power", nullable = false)
+    public BigDecimal getBiPower() {
+        return biPower;
+    }
+
+    public void setBiPower(BigDecimal biPower) {
+        this.biPower = biPower;
     }
 
 //    @NotNull

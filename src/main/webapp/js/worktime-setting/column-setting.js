@@ -35,6 +35,7 @@ var worktimeCol = [
     {name: "burnIn"},
     {name: "biTime"},
     {name: "biTemperature"},
+    {name: "biPower"},
     {name: "userBySpeOwnerId.id"},
     {name: "userByEeOwnerId.id"},
     {name: "userByQcOwnerId.id"},

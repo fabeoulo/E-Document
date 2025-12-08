@@ -257,7 +257,9 @@ var field_check_field_logic = [
     {srcColumn: {name: "pressureCooker", operate: op_eq, value: "Y", description: "內容為Y"}, targetColumn: {name: "pressureCookerCost", operate: op_neq, value: 0, description: not_null_and_zero_message}},
     {srcColumn: {name: "pressureCookerCost", operate: op_neq, value: 0, description: when_not_empty_or_null}, targetColumn: {name: "pressureCooker", operate: op_eq, value: "Y", description: "內容為Y"}},
     {srcColumn: {name: "modelName", operate: op_endS, value: "-ES", description: " do contain \"-ES\""}, targetColumn: {name: "businessGroup.id", selOption: "businessGroup_options", operate: op_eq, value: "ES", description: "內容為ES"}},
-    {srcColumn: {name: "businessGroup.id", selOption: "businessGroup_options", operate: op_eq, value: "ES", description: "內容為ES"}, targetColumn: {name: "modelName", operate: op_endS, value: "-ES", description: " do contain \"-ES\""}}
+    {srcColumn: {name: "businessGroup.id", selOption: "businessGroup_options", operate: op_eq, value: "ES", description: "內容為ES"}, targetColumn: {name: "modelName", operate: op_endS, value: "-ES", description: " do contain \"-ES\""}},
+    {srcColumn: {name: "burnIn", operate: op_eq, value: "BI", description: "內容為BI"}, targetColumn: {name: "biPower", operate: op_neq, value: 0, description: not_null_and_zero_message}},
+    {srcColumn: {name: "biPower", operate: op_neq, value: 0, description: when_not_empty_or_null}, targetColumn: {name: "burnIn", operate: op_eq, value: "BI", description: "內容為BI"}}
 ];
 
 function fieldCheckField(postdata, formid) {
