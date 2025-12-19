@@ -328,8 +328,10 @@
                 {label: 'KP是否卡關替代料(Y/N)', name: "keypartBlockFlag", edittype: "select", editoptions: {value: "N:N;Y:Y", defaultValue: 'N'}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: 'T1狀態數', name: "t1StatusQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T1項目數', name: "t1ItemsQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'T1自動測試', name: "t1Autotest", width: 100, edittype: "select", editoptions: {value: "Y:Y;N:N", defaultValue: 'Y'}, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: 'T2狀態數', name: "t2StatusQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'T2項目數', name: "t2ItemsQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},
+                {label: 'T2自動測試', name: "t2Autotest", width: 100, edittype: "select", editoptions: {value: "Y:Y;N:N", defaultValue: 'Y'}, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: '自動帶入MAC數', name: "macTotalQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: '確校數量', name: "macPrintedQty", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {integer: true, required: true}, editoptions: {defaultValue: '0'}},
                 {label: 'MAC標籤', name: "labelMac", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
@@ -492,7 +494,7 @@
                 {startColumnName: 'testProfile', numberOfColumns: 6, titleText: '<em>hi-pot Test</em>'},
                 {startColumnName: 'weight', numberOfColumns: 3, titleText: '<em>包裝重量</em>'},
                 {startColumnName: 'twm2Flag', numberOfColumns: 2, titleText: '<em>M2機種</em>'},
-                {startColumnName: 't1StatusQty', numberOfColumns: 4, titleText: '<em>T1/T2_測試訊息資料維護</em>'}
+                {startColumnName: 't1StatusQty', numberOfColumns: 6, titleText: '<em>T1/T2_測試訊息資料維護</em>'}
             ]
         });
         grid.jqGrid('navGrid', '#pager',

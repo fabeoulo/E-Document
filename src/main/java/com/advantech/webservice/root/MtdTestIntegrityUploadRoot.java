@@ -6,6 +6,7 @@
 //
 package com.advantech.webservice.root;
 
+import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -202,7 +203,9 @@ public class MtdTestIntegrityUploadRoot {
         "dutpartno",
         "stationname",
         "totalstate",
-        "totaltestitem"
+        "totaltestitem",
+        "testct",
+        "isautotest"
     })
     public static class MTDTESTINTEGRITY {
 
@@ -214,6 +217,10 @@ public class MtdTestIntegrityUploadRoot {
         protected String totalstate;
         @XmlElement(name = "TOTALTESTITEM", required = true)
         protected String totaltestitem;
+        @XmlElement(name = "TEST_CT", required = true)
+        protected BigDecimal testct;
+        @XmlElement(name = "IS_AUTO_TEST", required = true)
+        protected String isautotest;
 
         /**
          * 取得 dutpartno 特性的值.
@@ -295,6 +302,21 @@ public class MtdTestIntegrityUploadRoot {
             this.totaltestitem = value;
         }
 
+        public BigDecimal getTESTCT() {
+            return testct;
+        }
+
+        public void setTESTCT(BigDecimal value) {
+            this.testct = value;
+        }
+
+        public String getISAUTOTEST() {
+            return isautotest;
+        }
+
+        public void setISAUTOTEST(String value) {
+            this.isautotest = value;
+        }
     }
 
 }

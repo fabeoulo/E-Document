@@ -75,11 +75,11 @@ public class DownloadMesTest {
     private WorktimeService instance;
 
     private List<Worktime> l = newArrayList();
-//
-////=============================
-//    @Autowired
-//    private MtdTestIntegrityQueryPort mtdTestIntegrityQueryPort;
-////=============================
+
+//=============================
+    @Autowired
+    private MtdTestIntegrityQueryPort mtdTestIntegrityQueryPort;
+//=============================
 //
 //    @Autowired
 //    private PreAssyM4fService preAssyService;
@@ -152,7 +152,7 @@ public class DownloadMesTest {
 
     @PostConstruct
     private void init() {
-        List<String> modelNames = newArrayList("EKI-9516-P0IDH10E-TEST");
+        List<String> modelNames = newArrayList("DMS-SA55-01A2E");
 //        List<String> modelNames = newArrayList("EKI-9516-P0IDH10E-TEST","EKI-7706G-2FI-AU","EKI-7706G-2F-AU","PDCW2402301-T","PDCW2402002-T");
         Preconditions.checkState(!modelNames.isEmpty(), "No model names. Finish.");
 
@@ -202,12 +202,13 @@ public class DownloadMesTest {
         System.out.println("testDlMatWithUpdate");
 
         l = instance.findAll();
+//        l = instance.findByModelNames("DMS-SA55-01A2E", "EKI-9516-P0IDH10E-TEST", "UNO-4683-D34E");
 
-        initOptions();
+//        initOptions();
         for (Worktime wm4 : l) {
             HibernateObjectPrinter.print("Processing: " + wm4.getModelName() + " in thread: " + Thread.currentThread().getName());
             try {
-                dlMat(wm4);
+                dlMtdTest(wm4);
 
 //                setNotNullFieldDefault(wm4);
 //
@@ -661,22 +662,27 @@ public class DownloadMesTest {
         return s == null ? "" : s;
     }
 
-//    private Worktime dlMtdTest(Worktime wt) throws Exception {
-//        List<MtdTestIntegrity> mtdTestIntegritys = mtdTestIntegrityQueryPort.queryM(wt, Factory.TWM3);
-//
-//        MtdTestIntegrity t1TestIntegrity = mtdTestIntegritys.stream().filter(t -> "T1".equals(t.getStationName())).findFirst().orElse(null);
-//        MtdTestIntegrity t2TestIntegrity = mtdTestIntegritys.stream().filter(t -> "T2".equals(t.getStationName())).findFirst().orElse(null);
+    private Worktime dlMtdTest(Worktime wt) throws Exception {
+        List<MtdTestIntegrity> mtdTestIntegritys = mtdTestIntegrityQueryPort.queryM(wt, Factory.TWM3);
+
+        MtdTestIntegrity t1TestIntegrity = mtdTestIntegritys.stream().filter(t -> "T1".equals(t.getStationName())).findFirst().orElse(null);
+        MtdTestIntegrity t2TestIntegrity = mtdTestIntegritys.stream().filter(t -> "T2".equals(t.getStationName())).findFirst().orElse(null);
 //        List<Integer> t1TestQty = t1TestIntegrity == null ? newArrayList(0, 0) : newArrayList(t1TestIntegrity.getStateCnt(), t1TestIntegrity.getItemCnt());
 //        List<Integer> t2TestQty = t2TestIntegrity == null ? newArrayList(0, 0) : newArrayList(t2TestIntegrity.getStateCnt(), t2TestIntegrity.getItemCnt());
-//
+
+        String t1_isAutotest = t1TestIntegrity == null || t1TestIntegrity.getIsautotest() == null ? "Y" : t1TestIntegrity.getIsautotest();
+        String t2_isAutotest = t2TestIntegrity == null || t2TestIntegrity.getIsautotest() == null ? "Y" : t2TestIntegrity.getIsautotest();
+
 //        wt.setT1StatusQty(t1TestQty.get(0));
 //        wt.setT1ItemsQty(t1TestQty.get(1));
+        wt.setT1Autotest(t1_isAutotest);
 //        wt.setT2StatusQty(t2TestQty.get(0));
 //        wt.setT2ItemsQty(t2TestQty.get(1));
-//
-//        return wt;
-//    }
-//
+        wt.setT2Autotest(t2_isAutotest);
+
+        return wt;
+    }
+
     private <T extends Object> Map<String, T> toSelectOptions(List l) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Map m = new HashMap();
         if (!l.isEmpty()) {

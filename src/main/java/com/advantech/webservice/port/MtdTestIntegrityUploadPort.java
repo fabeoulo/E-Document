@@ -8,6 +8,7 @@ package com.advantech.webservice.port;
 import com.advantech.model.Worktime;
 import com.advantech.webservice.root.MtdTestIntegrityUploadRoot;
 import com.advantech.webservice.unmarshallclass.MtdTestIntegrity;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
@@ -57,8 +58,8 @@ public class MtdTestIntegrityUploadPort extends BasicUploadPort implements Uploa
             MtdTestIntegrity t1TestIntegrity = l.stream().filter(t -> "T1".equals(t.getStationName())).findFirst().orElse(null);
             MtdTestIntegrity t2TestIntegrity = l.stream().filter(t -> "T2".equals(t.getStationName())).findFirst().orElse(null);
 
-            checkAndUpload(t1TestIntegrity, w.getModelName(), "T1", w.getT1StatusQty(), w.getT1ItemsQty(), type);
-            checkAndUpload(t2TestIntegrity, w.getModelName(), "T2", w.getT2StatusQty(), w.getT2ItemsQty(), type);
+            checkAndUpload(t1TestIntegrity, w.getModelName(), "T1", w.getT1StatusQty(), w.getT1ItemsQty(), w.getT1Autotest(), type);
+            checkAndUpload(t2TestIntegrity, w.getModelName(), "T2", w.getT2StatusQty(), w.getT2ItemsQty(), w.getT2Autotest(), type);
 
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -66,7 +67,7 @@ public class MtdTestIntegrityUploadPort extends BasicUploadPort implements Uploa
         }
     }
 
-    private void checkAndUpload(MtdTestIntegrity mesData, String modelName, String stationName, Integer statusQty, Integer itemQty, UploadType type) throws Exception {
+    private void checkAndUpload(MtdTestIntegrity mesData, String modelName, String stationName, Integer statusQty, Integer itemQty, String isAutotest, UploadType type) throws Exception {
         //Don't upload anything when local data not present
         if (statusQty == null && itemQty == null) {
             return;
@@ -80,6 +81,12 @@ public class MtdTestIntegrityUploadPort extends BasicUploadPort implements Uploa
             type = UploadType.DELETE;
         }
 
+        BigDecimal testCt = mesData == null || mesData.getTestct() == null ? BigDecimal.ZERO : mesData.getTestct();
+
+        if (isRootEqualMes(mesData, statusQty, itemQty, isAutotest)) {
+            return;
+        }
+
         MtdTestIntegrityUploadRoot root = new MtdTestIntegrityUploadRoot();
         MtdTestIntegrityUploadRoot.MTDTESTINTEGRITY t = root.getMTDTESTINTEGRITY();
         //Get T1 T2 state & items cnt from worktime field
@@ -87,6 +94,9 @@ public class MtdTestIntegrityUploadPort extends BasicUploadPort implements Uploa
         t.setSTATIONNAME(stationName);
         t.setTOTALSTATE(nullIntegerToString(statusQty));
         t.setTOTALTESTITEM(nullIntegerToString(itemQty));
+        t.setTESTCT(testCt);
+        t.setISAUTOTEST(isAutotest);
+
         if (mesData == null && type == UploadType.UPDATE) {
             super.upload(root, UploadType.INSERT);
         } else if (mesData != null && type == UploadType.INSERT) {
@@ -99,5 +109,12 @@ public class MtdTestIntegrityUploadPort extends BasicUploadPort implements Uploa
     private String nullIntegerToString(Integer i) {
         i = i == null ? 0 : i;
         return i.toString();
+    }
+
+    private boolean isRootEqualMes(MtdTestIntegrity mesData, Integer statusQty, Integer itemQty, String isAutotest) {
+        return mesData != null
+                && mesData.getItemCnt() == itemQty
+                && mesData.getStateCnt() == statusQty
+                && isAutotest.equals(mesData.getIsautotest());
     }
 }

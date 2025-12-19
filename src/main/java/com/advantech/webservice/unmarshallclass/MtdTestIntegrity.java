@@ -5,6 +5,7 @@
  */
 package com.advantech.webservice.unmarshallclass;
 
+import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -36,6 +37,12 @@ public class MtdTestIntegrity {
 
     @XmlElement(name = "UPDATE_DATE")
     private DateTime updateDate;
+
+    @XmlElement(name = "TEST_CT")
+    private BigDecimal testct;
+
+    @XmlElement(name = "IS_AUTO_TEST")
+    private String isautotest;
 
     public String getModelName() {
         return modelName;
@@ -83,6 +90,22 @@ public class MtdTestIntegrity {
 
     public void setUpdateDate(DateTime updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public BigDecimal getTestct() {
+        return testct;
+    }
+
+    public void setTestct(BigDecimal testct) {
+        this.testct = testct;
+    }
+
+    public String getIsautotest() {
+        return isautotest;
+    }
+
+    public void setIsautotest(String isautotest) {
+        this.isautotest = isautotest;
     }
 
 }

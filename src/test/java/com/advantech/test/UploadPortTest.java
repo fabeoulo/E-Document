@@ -102,8 +102,8 @@ public class UploadPortTest {
 
     @Before
     public void initTestData() {
-        w = worktimeService.findByModel("ADAM-4017+-CE");
-        worktimes = worktimeService.findAll();
+        w = worktimeService.findByModel("SPC618WEPUD75AE-ES");
+//        worktimes = worktimeService.findAll();
 //        worktimes = newArrayList(w);
 //        worktimes = worktimes.stream().filter(o -> o.getTwm2Flag() == 1).collect(toList());
     }
@@ -259,7 +259,7 @@ public class UploadPortTest {
 //        Worktime w = worktimeService.findByModel("EKI-9516-P0IDH10E-TEST");
 
         List<Worktime> l = worktimeService.findWithFlowRelation();
-        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys( 73);
+        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(73);
 //        assertEquals(5, settings.size());
         materialPropertyUploadPort.initSettings(settings);
 //        materialPropertyUploadPort.update(w);
@@ -299,10 +299,17 @@ public class UploadPortTest {
     }
 
 //    @Test//245
-    @Rollback(true)
+//    @Rollback(true)
     public void testmtdTestIntegrityUpload() throws Exception {
-        mtdTestIntegrityUploadPort.update(w);
+        List<Worktime> l = worktimeService.findByModelNames("HPC190A2301-T", "HPC612050ZAMAT3-ES");
+        l.forEach((worktime) -> {
+            try {
+                mtdTestIntegrityUploadPort.update(worktime);
 
-        HibernateObjectPrinter.print("");
+                HibernateObjectPrinter.print(worktime.getModelName());
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        });
     }
 }

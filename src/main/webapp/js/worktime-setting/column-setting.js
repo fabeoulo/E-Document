@@ -86,8 +86,10 @@ var worktimeCol = [
     {name: "hrcValues"},
     {name: "t1StatusQty"},
     {name: "t1ItemsQty"},
+    {name: "t1Autotest"},
     {name: "t2StatusQty"},
     {name: "t2ItemsQty"},
+    {name: "t2Autotest"},
     {name: "machineWorktime", editable: false},
     {name: "cobots"},
     {name: "cobotManualWt"},
@@ -206,7 +208,7 @@ var group = [
         Type4: ['tr_testProfile', 'tr_acwVoltage', 'tr_dcwVoltage', 'tr_irVoltage', 'tr_gndValue', 'tr_lltValue']
     },
     {
-        Type5: ['tr_t1StatusQty', 'tr_t1ItemsQty', 'tr_t2StatusQty', 'tr_t2ItemsQty']
+        Type5: ['tr_t1StatusQty', 'tr_t1ItemsQty', 'tr_t1Autotest', 'tr_t2StatusQty', 'tr_t2ItemsQty', 'tr_t2Autotest']
     }
 ];
 

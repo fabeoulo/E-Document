@@ -309,10 +309,16 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     private Integer t1ItemsQty = 0;
 
     @JsonView(View.Public.class)
+    private String t1Autotest = "Y";
+
+    @JsonView(View.Public.class)
     private Integer t2StatusQty = 0;
 
     @JsonView(View.Public.class)
     private Integer t2ItemsQty = 0;
+
+    @JsonView(View.Public.class)
+    private String t2Autotest = "Y";
 
     @JsonView(View.Public.class)
     private Date createDate;
@@ -511,7 +517,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 
     @JsonView(View.Public.class)
     private String keypartValueLabel;
-    
+
     @JsonView(View.Public.class)
     private String keypartBlockFlag;
 
@@ -2119,6 +2125,17 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
         this.t1ItemsQty = t1ItemsQty;
     }
 
+    @NotNull
+    @NotEmpty
+    @Column(name = "t1_autotest", nullable = false, length = 1)
+    public String getT1Autotest() {
+        return t1Autotest;
+    }
+
+    public void setT1Autotest(String t1Autotest) {
+        this.t1Autotest = t1Autotest;
+    }
+
     @Column(name = "t2_statusQty")
     public Integer getT2StatusQty() {
         return t2StatusQty;
@@ -2135,6 +2152,17 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 
     public void setT2ItemsQty(Integer t2ItemsQty) {
         this.t2ItemsQty = t2ItemsQty;
+    }
+
+    @NotNull
+    @NotEmpty
+    @Column(name = "t2_autotest", nullable = false, length = 1)
+    public String getT2Autotest() {
+        return t2Autotest;
+    }
+
+    public void setT2Autotest(String t2Autotest) {
+        this.t2Autotest = t2Autotest;
     }
 
 //    @NotAudited

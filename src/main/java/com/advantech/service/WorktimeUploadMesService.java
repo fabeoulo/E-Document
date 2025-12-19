@@ -264,8 +264,10 @@ public class WorktimeUploadMesService {
         return isModelNameChanged(prev, current)
                 || !isEquals(prev.getT1ItemsQty(), current.getT1ItemsQty())
                 || !isEquals(prev.getT1StatusQty(), current.getT1StatusQty())
+                || !isEquals(prev.getT1Autotest(), current.getT1Autotest())
                 || !isEquals(prev.getT2ItemsQty(), current.getT2ItemsQty())
-                || !isEquals(prev.getT2StatusQty(), current.getT2StatusQty());
+                || !isEquals(prev.getT2StatusQty(), current.getT2StatusQty())
+                || !isEquals(prev.getT2Autotest(), current.getT2Autotest());
     }
 
     private <T extends Comparable> boolean isEquals(T o1, T o2) {
