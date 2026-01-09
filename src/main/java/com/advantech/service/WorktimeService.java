@@ -224,7 +224,7 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
         return 1;
     }
 
-    public int updateWithMesUpload(List<Worktime> l) throws Exception {
+    public int updateWithMesUpload(List<Worktime> l, boolean isUpdatedMes) throws Exception {
         uploadMesService.portParamInit();
         int i = 1;
         for (Worktime w : l) {
@@ -232,14 +232,20 @@ public class WorktimeService extends BasicServiceImpl<Integer, Worktime> {
             dao.update(w);
             worktimeFormulaSettingService.update(w.getWorktimeFormulaSettings().get(0));
             worktimeLevelSettingService.update(w.getWorktimeLevelSettings().get(0));
-            uploadMesService.update(w);
+            if (isUpdatedMes) {
+                uploadMesService.update(w);
+            }
             flushIfReachFetchSize(i++);
         }
         return 1;
     }
 
     public int updateWithMesUpload(Worktime worktime) throws Exception {
-        return this.updateWithMesUpload(newArrayList(worktime));
+        return this.updateWithMesUpload(newArrayList(worktime), true);
+    }
+
+    public int updateWithoutMesUpload(Worktime worktime) throws Exception {
+        return this.updateWithMesUpload(newArrayList(worktime), false);
     }
 
     public int mergeWithMesUpload(List<Worktime> l) throws Exception {

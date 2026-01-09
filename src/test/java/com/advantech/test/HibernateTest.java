@@ -9,28 +9,39 @@ import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.Flow;
 import com.advantech.model.Pending;
+import com.advantech.model.SuggestionWorktimeHistory;
 import com.advantech.model.Worktime;
 import com.advantech.model.WorktimeAutouploadSetting;
 import com.advantech.model.WorktimeLevelSetting;
 import com.advantech.model.WorktimeMaterialPropertyUploadSetting;
+import com.advantech.model3.WorktimeReviseddownHistory;
+import com.advantech.service.SqlViewService;
+import com.advantech.service.SuggestionWorktimeHistoryService;
 import com.advantech.service.WorktimeAuditService;
 import com.advantech.service.WorktimeAutouploadSettingService;
 import com.advantech.service.WorktimeLevelSettingService;
 import com.advantech.service.WorktimeMaterialPropertyUploadSettingService;
 import com.advantech.service.WorktimeService;
 import com.advantech.service.WorktimeUploadMesService;
+import com.advantech.service.db3.WorktimeReviseddownHistoryService;
+import com.advantech.webservice.port.StandardtimeUploadPort;
+import com.advantech.webservice.root.Section;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.collect.Lists;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.transaction.Transactional;
 import javax.validation.Validator;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.Session;
@@ -40,6 +51,8 @@ import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditEntity;
 import org.hibernate.envers.query.AuditQuery;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,6 +62,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -88,6 +102,12 @@ public class HibernateTest {
     @Autowired
     private WorktimeAutouploadSettingService worktimeAutouploadSettingService;
 
+    @Autowired
+    private SuggestionWorktimeHistoryService suggestionWorktimeHistoryService;
+
+    @Autowired
+    private WorktimeReviseddownHistoryService worktimeReviseddownHistoryService;
+
     @Before
     public void setUp() {
 //        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -95,25 +115,8 @@ public class HibernateTest {
     }
 
 //    @Test
-    public void testWorktimeAutouploadSettingService() {
-        PageInfo info = new PageInfo();
-        info.setRows(-1);
-        info.setSearchField("stationId");
-        info.setSearchOper("ne");
-        info.setSearchString(null);
-        List<WorktimeAutouploadSetting> l = worktimeAutouploadSettingService.findAll(info);
-
-        List<JsonObject> l3 = l.stream()
-                .map(i
-                        -> Json.createObjectBuilder()
-                        .add("id", i.getId())
-                        .add("name", i.getColumnName())
-                        .build()
-                )
-                .sorted(Comparator.comparing(
-                        js -> js.getString("name"),
-                        String.CASE_INSENSITIVE_ORDER))
-                .collect(Collectors.toList());
+    public void testWorktimeReviseddownHistoryService() {
+        List<WorktimeReviseddownHistory> l = worktimeReviseddownHistoryService.findAll();
     }
 
     @Autowired
@@ -276,6 +279,33 @@ public class HibernateTest {
     }
 
 //    @Test
+    public void testSuggestionWorktimeHistoryService() {
+        List<SuggestionWorktimeHistory> l = suggestionWorktimeHistoryService.findAll();
+    }
+
+//    @Test
+    public void testWorktimeAutouploadSettingService() {
+        PageInfo info = new PageInfo();
+        info.setRows(-1);
+        info.setSearchField("stationId");
+        info.setSearchOper("ne");
+        info.setSearchString(null);
+        List<WorktimeAutouploadSetting> l = worktimeAutouploadSettingService.findAll(info);
+
+        List<JsonObject> l3 = l.stream()
+                .map(i
+                        -> Json.createObjectBuilder()
+                        .add("id", i.getId())
+                        .add("name", i.getColumnName())
+                        .build()
+                )
+                .sorted(Comparator.comparing(
+                        js -> js.getString("name"),
+                        String.CASE_INSENSITIVE_ORDER))
+                .collect(Collectors.toList());
+    }
+
+//    @Test
     @Transactional
     @Rollback(false)
     public void testWorktimeMaterialPropertyUploadSettingService() {
@@ -301,7 +331,7 @@ public class HibernateTest {
             WorktimeLevelSetting pojo = new WorktimeLevelSetting(n);
             worktimeLevelSettingService.insert(pojo);
         });
-        List<WorktimeLevelSetting> l = worktimeLevelSettingService.findByWorktime(2261);		
+        List<WorktimeLevelSetting> l = worktimeLevelSettingService.findByWorktime(2261);
     }
 
 //    @Transactional

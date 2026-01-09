@@ -7,6 +7,7 @@ package com.advantech.test;
 
 import com.advantech.helper.HibernateObjectPrinter;
 import com.advantech.quartzJob.StandardTimeUpload;
+import com.advantech.quartzJob.StandardTimeUploadByBw;
 import com.advantech.quartzJob.SyncEmployeeZoneUser;
 import com.advantech.quartzJob.WorktimeEventLog;
 import com.advantech.quartzJob.WorktimeEventLog1;
@@ -45,6 +46,14 @@ public class QuartzJobTest {
     @Qualifier("syncEmployeeZoneUser")
     private SyncEmployeeZoneUser job4;
    
+    @Autowired
+    private StandardTimeUploadByBw standardTimeUploadByBw;
+    
+//    @Test
+    public void testStandardTimeUploadByBw() {
+        standardTimeUploadByBw.uploadToMes();
+    }
+            
 //    @Test
     public void testWorktimeEventLog1() {
         job1.execute();

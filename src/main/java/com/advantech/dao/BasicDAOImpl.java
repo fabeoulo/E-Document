@@ -5,7 +5,12 @@
 package com.advantech.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import javax.persistence.Tuple;
+import javax.persistence.TupleElement;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -14,6 +19,8 @@ import org.springframework.stereotype.Repository;
 /**
  *
  * @author Wei.Cheng
+ * @param <PK> Unique private key
+ * @param <T> Entity type
  */
 @Repository
 public abstract class BasicDAOImpl<PK extends Serializable, T> extends HibernateBaseDAO<PK, T> implements BasicDAO<PK, T> {
@@ -30,8 +37,24 @@ public abstract class BasicDAOImpl<PK extends Serializable, T> extends Hibernate
 
     public List<T> findByPrimaryKeys(PK... id) {
         Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.in("id", id));
+        criteria.add(Restrictions.in("id", (Object[]) id));
         return criteria.list();
+    }
+
+    public List<Map> setResultTransformer(List<Tuple> tuples) {
+
+        List<Map> result = new ArrayList<>();
+
+        for (Tuple tuple : tuples) {
+            Map<String, Object> row = new LinkedHashMap<>();
+            for (TupleElement<?> element : tuple.getElements()) {
+                String alias = element.getAlias();
+                row.put(alias, tuple.get(alias));
+            }
+            result.add(row);
+        }
+
+        return result;
     }
 
     @Override
@@ -45,7 +68,7 @@ public abstract class BasicDAOImpl<PK extends Serializable, T> extends Hibernate
         this.getSession().update(pojo);
         return 1;
     }
-    
+
     public int merge(T pojo) {
         this.getSession().merge(pojo);
         return 1;

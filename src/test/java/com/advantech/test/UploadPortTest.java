@@ -24,9 +24,10 @@ import com.advantech.webservice.port.FlowUploadPort;
 import com.advantech.webservice.port.MaterialPropertyUploadPort;
 import com.advantech.webservice.port.ModelResponsorUploadPort;
 import com.advantech.webservice.port.StandardtimeUploadPort;
+import static com.google.common.collect.Lists.newArrayList;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import static junit.framework.Assert.*;
 import org.apache.commons.beanutils.BeanUtils;
@@ -129,11 +130,23 @@ public class UploadPortTest {
 
 //    @Test//216
     public void testStandardtimeUpload() throws Exception {
+
+//        String models
+//                = newArrayList("IDS3127WG2502-T", "IDS3127WG2501-T", "IDS3127WP2501-T", "IDS3127WG2401-T", "IDS3127WP2401-T", "IDS3212P2301-T")
+//                        .stream().collect(Collectors.joining(","));
+//
+//        PageInfo tempInfo = new PageInfo();
+//        tempInfo.setRows(-1);
+//        tempInfo.setSearchField("modelName");
+//        tempInfo.setSearchOper("in");
+//        tempInfo.setSearchString(models);
+//        List<Worktime> l = worktimeService.findAll(tempInfo);
+//
         List<Worktime> l = worktimeService.findAll();
 //        assertNotNull(l.get(0));
-        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(20, 21);
-        standardtimePort.initSettings(settings);
-//        standardtimePort.initSettings();
+//        List<WorktimeAutouploadSetting> settings = worktimeAutouploadSettingService.findByPrimaryKeys(20, 21);
+//        standardtimePort.initSettings(settings);
+        standardtimePort.initSettings();
 
 //        Worktime w = worktimeService.findByModel("TEST1111");
 //        standardtimePort.update(w);
@@ -209,16 +222,6 @@ public class UploadPortTest {
             materialPropertyUploadPort.update(worktime);
 //            materialPropertyUploadPort.delete(worktime);
         }
-    }
-
-    //QUARTZ
-    @Autowired
-    private StandardTimeUpload standardTimeUpload;
-
-    @Test//216
-    @Rollback(true)
-    public void testStandardTimeUploadJob() {
-        standardTimeUpload.uploadToMes();
     }
 
 //    @Test

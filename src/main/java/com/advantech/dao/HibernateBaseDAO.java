@@ -30,6 +30,10 @@ public abstract class HibernateBaseDAO<PK extends Serializable, T> {
     @Autowired
     private SessionFactory sessionFactory;
 
+    protected void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     public HibernateBaseDAO() {
         this.persistentClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
     }
@@ -46,7 +50,7 @@ public abstract class HibernateBaseDAO<PK extends Serializable, T> {
         Criteria criteria = this.createEntityCriteria();
         return paginateDAO.paginateResult(criteria, persistentClass, info);
     }
-    
+
     protected List<T> getByPaginateInfo(Criteria criteria, PageInfo info) {
         return paginateDAO.paginateResult(criteria, persistentClass, info);
     }
@@ -54,5 +58,5 @@ public abstract class HibernateBaseDAO<PK extends Serializable, T> {
     protected Criteria createEntityCriteria() {
         return getSession().createCriteria(persistentClass);
     }
-    
+
 }

@@ -5,9 +5,11 @@
  */
 package com.advantech.helper;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +24,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 public class MailManager {
 
     private static final Logger log = LoggerFactory.getLogger(MailManager.class);
-    
+
     private String hostName;
 
     private JavaMailSender mailSender;
@@ -30,7 +32,7 @@ public class MailManager {
     public void setMailSender(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
-    
+
     @PostConstruct
     protected void initHostName() {
         Map<String, String> env = System.getenv();
@@ -61,6 +63,32 @@ public class MailManager {
         helper.setCc(cc);
         helper.setSubject(subject);
         helper.setFrom(hostName);
+
+        try {
+            this.mailSender.send(mimeMessage);
+            flag = true;
+        } catch (MailException ex) {
+            // simply log it and go on...
+            log.error(ex.getMessage());
+        }
+
+        return flag;
+    }
+
+    public boolean sendMail(String[] to, String[] cc, String subject, String text, String sernderName) throws MessagingException, UnsupportedEncodingException {
+        boolean flag = false;
+
+        // Do the business calculations...
+        // Call the collaborators to persist the order...
+        // Create a thread safe "copy" of the template message and customize it
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
+        helper.setText(text, true);
+        helper.setTo(to);
+        helper.setCc(cc);
+        helper.setSubject(subject);
+        helper.setFrom(new InternetAddress(hostName, sernderName, "UTF-8"));
+//        helper.setReplyTo("support@mycompany.com");
 
         try {
             this.mailSender.send(mimeMessage);
