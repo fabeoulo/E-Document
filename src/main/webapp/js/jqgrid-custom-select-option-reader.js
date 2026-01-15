@@ -28,7 +28,7 @@ function getSelectOption(columnName, isNullable, data) {
     var result = new Map();
     var url = rootUrl + 'SelectOption/' + (data == null ? columnName : columnName + '/' + data);
     $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: url,
         async: false,
         success: function (response) {

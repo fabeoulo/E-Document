@@ -24,6 +24,7 @@
         <link href="<c:url value="/css/jquery-ui.custom.theme.min.css" />" rel="stylesheet">
 
         <%--<link href="<c:url value="/webjars/jquery-ui-themes/1.12.1/ui-lightness/jquery-ui.min.css" />" rel="stylesheet">--%>
+        <link href="<c:url value="/webjars/select2/4.0.13/css/select2.min.css" />" rel="stylesheet"/>
 
         <link href="<c:url value="/webjars/free-jqgrid/4.15.5/css/ui.jqgrid.min.css" />" rel="stylesheet"/>
         <link href="<c:url value="/webjars/free-jqgrid/4.15.5/plugins/css/ui.multiselect.css" />" rel="stylesheet"/>
@@ -44,6 +45,7 @@
         <script src="<c:url value="/webjars/bootstrap/3.3.7/js/bootstrap.min.js" />"></script>
 
         <script src="<c:url value="/webjars/jquery-ui/1.12.1/jquery-ui.min.js" />"></script>
+        <script src="<c:url value="/webjars/select2/4.0.13/js/select2.min.js" />"></script>
 
         <script src="<c:url value="/webjars/jquery-form/4.2.1/jquery.form.min.js" />"></script>
 
@@ -208,15 +210,20 @@
                                         <li>
                                             <a class="redirect-link" href="flowPermutations.jsp">重工途程排列組合表</a>
                                         </li>
+                                        <sec:authorize access="hasAnyRole('ADMIN', 'CONTRIBUTOR')">
+                                            <li>
+                                                <a class="redirect-link" id="" href="worktimeExtra.jsp">線外工時</a>
+                                            </li>
+                                        </sec:authorize>
                                         <sec:authorize access="hasAnyRole('ADMIN', 'OPER')">
                                             <li>
                                                 <a class="redirect-link" href="mod/flow.jsp">Flow</a>
                                             </li>
                                             <li>
-                                                <a class="redirect-link" id="" href="mod/user.jsp">User</a>
+                                                <a class="redirect-link" href="mod/preAssy.jsp">PreAssy</a>
                                             </li>
                                             <li>
-                                                <a class="redirect-link" href="mod/preAssy.jsp">PreAssy</a>
+                                                <a class="redirect-link" id="" href="mod/user.jsp">User</a>
                                             </li>
                                             <li>
                                                 <a class="redirect-link" href="mod/type.jsp">Type</a>

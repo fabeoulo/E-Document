@@ -7,7 +7,9 @@ package com.advantech.service;
 
 import com.advantech.dao.BasicDAOImpl;
 import com.advantech.dao.WorktimeAutouploadSettingDAO;
+import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.WorktimeAutouploadSetting;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,4 +30,7 @@ public class WorktimeAutouploadSettingService extends BasicServiceImpl<Integer, 
         return this.dao;
     }
 
+    public List<WorktimeAutouploadSetting> findAll(PageInfo info) {
+        return dao.findAll(info);
+    }
 }

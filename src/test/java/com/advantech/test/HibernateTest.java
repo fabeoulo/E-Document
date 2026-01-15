@@ -10,9 +10,11 @@ import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.Flow;
 import com.advantech.model.Pending;
 import com.advantech.model.Worktime;
+import com.advantech.model.WorktimeAutouploadSetting;
 import com.advantech.model.WorktimeLevelSetting;
 import com.advantech.model.WorktimeMaterialPropertyUploadSetting;
 import com.advantech.service.WorktimeAuditService;
+import com.advantech.service.WorktimeAutouploadSettingService;
 import com.advantech.service.WorktimeLevelSettingService;
 import com.advantech.service.WorktimeMaterialPropertyUploadSettingService;
 import com.advantech.service.WorktimeService;
@@ -22,8 +24,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.transaction.Transactional;
 import javax.validation.Validator;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -76,10 +82,197 @@ public class HibernateTest {
     @Autowired
     private WorktimeMaterialPropertyUploadSettingService propSettingService;
 
+    @Autowired
+    private SqlViewService sqlViewService;
+
+    @Autowired
+    private WorktimeAutouploadSettingService worktimeAutouploadSettingService;
+
     @Before
     public void setUp() {
 //        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 //        validator = factory.getValidator();
+    }
+
+//    @Test
+    public void testWorktimeAutouploadSettingService() {
+        PageInfo info = new PageInfo();
+        info.setRows(-1);
+        info.setSearchField("stationId");
+        info.setSearchOper("ne");
+        info.setSearchString(null);
+        List<WorktimeAutouploadSetting> l = worktimeAutouploadSettingService.findAll(info);
+
+        List<JsonObject> l3 = l.stream()
+                .map(i
+                        -> Json.createObjectBuilder()
+                        .add("id", i.getId())
+                        .add("name", i.getColumnName())
+                        .build()
+                )
+                .sorted(Comparator.comparing(
+                        js -> js.getString("name"),
+                        String.CASE_INSENSITIVE_ORDER))
+                .collect(Collectors.toList());
+    }
+
+    @Autowired
+    private StandardtimeUploadPort port;
+    private final DateTimeFormatter df = DateTimeFormat.forPattern("yyyy-MM-dd");
+
+//    @Test
+//    @Transactional
+//    @Rollback(false)
+    public void testSqlViewService() {
+        List<Map> view = sqlViewService.findSuggestionWorkTime();
+        List<Map> viewUpdated = Lists.newArrayList();
+
+        String models = view.stream().map(m -> (String) m.get("modelName"))
+                .filter(Objects::nonNull)
+                .collect(Collectors.joining(","));
+
+//        models = models + ",TEST1111";
+//
+        PageInfo tempInfo = new PageInfo();
+        tempInfo.setRows(-1);
+        tempInfo.setSearchField("modelName");
+        tempInfo.setSearchOper("in");
+        tempInfo.setSearchString(models);
+
+        Map<String, Worktime> worktimeMap = worktimeService.findWithFullRelation(tempInfo)
+                .stream()
+                .collect(Collectors.toMap(w -> w.getModelName(), w -> w, (a, b) -> a));
+
+        port.initSettings();
+        String today = df.print(new DateTime());
+        List<String> errorMessages = Lists.newArrayList();
+
+        view.forEach(m -> {
+            String model = (String) m.get("modelName");
+            String station = convertStation((String) m.get("station"));
+            String process = convertProcess((String) m.get("station"));
+            BigDecimal wt = (BigDecimal) m.get("standardTime");
+            BigDecimal suggestWt = (BigDecimal) m.get("suggestSt");
+
+//            model = "TEST1111";
+//            wt = BigDecimal.valueOf(0);
+//
+            Worktime worktime = worktimeMap.get(model);
+            if (worktime != null) {
+                try {
+                    Field field = worktime.getClass().getDeclaredField(station);
+                    field.setAccessible(true);
+                    Class type = field.getType();
+                    BigDecimal v = (BigDecimal) field.get(worktime);
+
+                    if (type.equals(BigDecimal.class) && v.compareTo(wt) == 0) {
+//                        field.set(worktime, suggestWt);
+//                        worktimeService.updateWithoutMesUpload(worktime);
+
+//                        port.update(worktime);
+//                        HibernateObjectPrinter.print("Upload standardtime of model " + worktime.getModelName() + " on station " + station);
+////                        log.info("Upload standardtime of model " + worktime.getModelName() + " on station " + station);
+                        BigDecimal percent = wt.compareTo(BigDecimal.ZERO) > 0
+                                ? wt.subtract(suggestWt).abs().multiply(BigDecimal.valueOf(100))
+                                        .divide(wt, 2, RoundingMode.HALF_UP)
+                                : BigDecimal.ZERO;
+
+                        m.put("datetime", today);
+                        m.put("process", process);
+                        m.put("workCenter", worktime.getWorkCenter().getName());
+                        m.put("revisedDownPercent", percent);
+                        viewUpdated.add(m);
+                    }
+                } catch (Exception e) {
+                    String errorMessage = worktime.getModelName() + " on station " + station + " upload fail: " + e.getMessage();
+                    errorMessages.add(errorMessage);
+//                    log.error(errorMessage);
+                    HibernateObjectPrinter.print(errorMessage);
+                }
+            }
+        });
+    }
+
+    private String convertStation(String station) {
+        String fieldName = "";
+
+        if (station != null) {
+            switch (station.toUpperCase()) {
+                case "T1":
+                    fieldName = "t1";
+                    break;
+                case "T2":
+                    fieldName = "t2";
+                    break;
+                case "T3":
+                    fieldName = "t3";
+                    break;
+                case "SL":
+                    fieldName = "seal";
+                    break;
+                case "SL1":
+                    fieldName = "seal1";
+                    break;
+                case "ASSY1":
+                    fieldName = "bondedSealingFrame";
+                    break;
+                case "ASSY2":
+                    fieldName = "assy2";
+                    break;
+                case "OB":
+                    fieldName = "opticalBonding";
+                    break;
+                case "OB1":
+                    fieldName = "opticalBonding1";
+                    break;
+                case "OB2":
+                    fieldName = "opticalBonding2";
+                    break;
+                case "ASSY":
+                    fieldName = "assy";
+                    break;
+                case "PACKAGE":
+                    fieldName = "packing";
+                    break;
+                case "PRE_ASSY":
+                    fieldName = "pi";
+                    break;
+                default:
+            }
+        }
+        return fieldName;
+    }
+
+    private String convertProcess(String station) {
+        String flowName = "";
+
+        if (station != null) {
+            switch (station.toUpperCase()) {
+                case "T1":
+                case "T2":
+                case "T3":
+                    flowName = Section.TEST.getCode();
+                    break;
+                case "SL":
+                case "SL1":
+                case "ASSY1":
+                case "ASSY2":
+                case "OB":
+                case "OB1":
+                case "OB2":
+                case "ASSY":
+                    flowName = Section.BAB.getCode();
+                    break;
+                case "PACKAGE":
+                    flowName = Section.PACKAGE.getCode();
+                    break;
+                case "PRE_ASSY":
+                    flowName = Section.PREASSY.getCode();
+                    break;
+                default:
+            }
+        }
+        return flowName;
     }
 
 //    @Test

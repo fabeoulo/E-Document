@@ -5,7 +5,9 @@
  */
 package com.advantech.dao;
 
+import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.WorktimeAutouploadSetting;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,4 +17,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class WorktimeAutouploadSettingDAO extends BasicDAOImpl<Integer, WorktimeAutouploadSetting> {
 
+    public List<WorktimeAutouploadSetting> findAll(PageInfo info) {
+        return getByPaginateInfo(info);
+    }
 }

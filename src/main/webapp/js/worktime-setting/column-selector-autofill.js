@@ -60,7 +60,7 @@ var babFlow_select_event = [
 //            var sel2 = $("#flowByTestFlowId\\.id");
 //            var sel2Val = sel2.val();
 //            var selectedValue = testFlow_default_value;
-//            $.get('../SelectOption/flow-byParent/' + $(this).val(), function (data) {
+//            $.post('../SelectOption/flow-byParent/' + $(this).val(), function (data) {
 //                sel2.html("");
 //                sel2.append("<option role='option' value=" + testFlow_default_value + ">NO TEST PROCESS</option>");
 //                for (var i = 0; i < data.length; i++) {
@@ -112,7 +112,7 @@ var businessGroup_select_event = [
     {
         type: 'change', fn: function (e) {
             var sel3 = $("#workCenter\\.id");
-            $.get('../SelectOption/workCenter/' + $(this).val(), function (data) {
+            $.post('../SelectOption/workCenter/' + $(this).val(), function (data) {
                 sel3.html("");
 //                sel2.append("<option role='option' value=0>empty</option>");
                 for (var i = 0; i < data.length; i++) {
