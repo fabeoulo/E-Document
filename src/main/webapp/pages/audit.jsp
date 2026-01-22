@@ -11,10 +11,10 @@
         background-color: yellow;
     }
 </style>
-<link href="<c:url value="/webjars/free-jqgrid/4.14.1/plugins/css/ui.multiselect.min.css" />" rel="stylesheet">
+<link href="<c:url value="/webjars/free-jqgrid/4.15.5/plugins/css/ui.multiselect.min.css" />" rel="stylesheet">
 <script src="<c:url value="/js/jqgrid-custom-select-option-reader.js" />"></script>
 <script src="<c:url value="/js/moment.js" />"></script>
-<script src="<c:url value="/webjars/free-jqgrid/4.14.1/plugins/min/ui.multiselect.js" />"></script>
+<script src="<c:url value="/webjars/free-jqgrid/4.15.5/plugins/min/ui.multiselect.js" />"></script>
 <script>
     $(function () {
         var grid = $("#list");
