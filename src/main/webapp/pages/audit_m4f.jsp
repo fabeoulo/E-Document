@@ -11,10 +11,10 @@
         background-color: yellow;
     }
 </style>
-<link href="<c:url value="/webjars/free-jqgrid/4.14.1/plugins/css/ui.multiselect.min.css" />" rel="stylesheet">
+<link href="<c:url value="/webjars/free-jqgrid/4.15.5/plugins/css/ui.multiselect.min.css" />" rel="stylesheet">
 <script src="<c:url value="/js/jqgrid-custom-select-option-reader.js" />"></script>
 <script src="<c:url value="/js/moment.js" />"></script>
-<script src="<c:url value="/webjars/free-jqgrid/4.14.1/plugins/min/ui.multiselect.js" />"></script>
+<script src="<c:url value="/webjars/free-jqgrid/4.15.5/plugins/min/ui.multiselect.js" />"></script>
 <script>
     $(function () {
         var grid = $("#list");
@@ -104,8 +104,6 @@
                     {label: 'Packing', name: "packing", jsonmap: "0.packing", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Up_BI', name: "upBiRi", jsonmap: "0.upBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Down_BI', name: "downBiRi", jsonmap: "0.downBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
-                    {label: 'Up_RI', name: "upRi", jsonmap: "0.upBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
-                    {label: 'Down_RI', name: "downRi", jsonmap: "0.downBiRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Up_RI', name: "upRi", jsonmap: "0.upRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Down_RI', name: "downRi", jsonmap: "0.downRi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'BI Cost', name: "biCost", jsonmap: "0.biCost", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},

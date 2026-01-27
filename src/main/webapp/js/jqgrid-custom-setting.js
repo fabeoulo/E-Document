@@ -63,3 +63,40 @@ var errorTextFormatF = function (data) {
 var clearCheckErrorIcon = function () {
     $(".glyphicon-alert").remove();
 };
+
+var select2_onForm = function (elem) {
+    var $el = $(elem);
+    var $parent = $el.closest('table');
+
+    $el.select2({
+        width: '100%',
+        placeholder: 'Please input',
+        allowClear: false,
+        dropdownParent: $parent,
+        minimumInputLength: 0 // begain searching
+    })
+            .on('select2:open', function () {
+                $el.next('.select2-container').parents('.ui-jqdialog, .FormGrid')
+                        .css({overflow: 'visible'});
+            });
+};
+
+// need to adjust
+var select2_onForm_multiple = function (elem) {
+    var $el = $(elem);
+    var $parent = $el.closest('table');
+
+    $el.select2({
+        width: '100%',
+        placeholder: 'Please input',
+        allowClear: true,
+        dropdownParent: $parent,
+
+        multiple: true,
+//        maximumSelectionLength: 3,
+        tokenSeparators: [',', ' ']
+    })
+            .on('select2:open', function () {})
+            .on('select2:select', function (e) {})
+            .on('select2:clear', function () {});
+};

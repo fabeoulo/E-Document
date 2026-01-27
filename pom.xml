@@ -4,7 +4,7 @@
 
     <groupId>com.advantech</groupId>
     <artifactId>E-Document</artifactId>
-    <version>1.8.7-b08</version>
+    <version>1.8.7-b09</version>
     <packaging>war</packaging>
 
     <pluginRepositories>
@@ -221,7 +221,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>select2</artifactId>
+            <version>4.0.13</version>
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -577,7 +581,7 @@
         <dependency>
             <groupId>org.webjars.bower</groupId>
             <artifactId>free-jqgrid</artifactId>
-            <version>4.14.1</version>
+            <version>4.15.5</version>
         </dependency>
         
         <!--http://www.baeldung.com/maven-webjars-->

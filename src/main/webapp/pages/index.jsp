@@ -21,9 +21,10 @@
         <link href="<c:url value="/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css" />" rel="stylesheet">
         <link href="<c:url value="/webjars/font-awesome/4.7.0/css/font-awesome.min.css" />" rel="stylesheet">
         <link href="<c:url value="/webjars/jquery-ui-themes/1.12.1/redmond/jquery-ui.min.css" />" rel="stylesheet">
+        <link href="<c:url value="/webjars/select2/4.0.13/css/select2.min.css" />" rel="stylesheet"/>
 
-        <link href="<c:url value="/webjars/free-jqgrid/4.14.1/css/ui.jqgrid.min.css" />" rel="stylesheet"/>
-        <link href="<c:url value="/webjars/free-jqgrid/4.14.1/plugins/css/ui.multiselect.css" />" rel="stylesheet"/>
+        <link href="<c:url value="/webjars/free-jqgrid/4.15.5/css/ui.jqgrid.min.css" />" rel="stylesheet"/>
+        <link href="<c:url value="/webjars/free-jqgrid/4.15.5/plugins/css/ui.multiselect.css" />" rel="stylesheet"/>
 
         <link href="<c:url value="/css/sb-admin-2.min.css" />" rel="stylesheet">
         <link href="<c:url value="/css/metisMenu.min.css" />" rel="stylesheet">
@@ -35,14 +36,15 @@
         <script src="<c:url value="/webjars/bootstrap/3.3.7/js/bootstrap.min.js" />"></script>
 
         <script src="<c:url value="/webjars/jquery-ui/1.12.1/jquery-ui.min.js" />"></script>
+        <script src="<c:url value="/webjars/select2/4.0.13/js/select2.min.js" />"></script>
 
         <script src="<c:url value="/webjars/jquery-form/4.2.1/jquery.form.min.js" />"></script>
 
-        <script src="<c:url value="/webjars/free-jqgrid/4.14.1/js/jquery.jqgrid.min.js" />"></script>
-        <script src="<c:url value="/webjars/free-jqgrid/4.14.1/js/grid.jqueryui.js" />"></script>
-        <script src="<c:url value="/webjars/free-jqgrid/4.14.1/js/grid.formedit.js" />"></script>
-        <script src="<c:url value="/webjars/free-jqgrid/4.14.1/js/jqmodal.js" />"></script>
-        <script src="<c:url value="/webjars/free-jqgrid/4.14.1/plugins/min/ui.multiselect.js" />"></script>
+        <script src="<c:url value="/webjars/free-jqgrid/4.15.5/js/jquery.jqgrid.min.js" />"></script>
+        <script src="<c:url value="/webjars/free-jqgrid/4.15.5/js/grid.jqueryui.js" />"></script>
+        <script src="<c:url value="/webjars/free-jqgrid/4.15.5/js/grid.formedit.js" />"></script>
+        <script src="<c:url value="/webjars/free-jqgrid/4.15.5/js/jqmodal.js" />"></script>
+        <script src="<c:url value="/webjars/free-jqgrid/4.15.5/plugins/min/ui.multiselect.js" />"></script>
 
         <script src="<c:url value="/js/sb-admin-2.min.js" />"></script>
         <script src="<c:url value="/js/metisMenu.min.js" />"></script>
