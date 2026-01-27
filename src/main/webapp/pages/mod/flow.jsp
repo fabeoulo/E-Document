@@ -18,10 +18,21 @@
         setSelectOptions({
             rootUrl: "<c:url value="/" />",
             columnInfo: [
-                {name: "flow", nameprefix: "test_", isNullable: true, dataToServer: "3"},
+                {name: "flow", nameprefix: "test_", isNullable: false, dataToServer: "3"},
+                {name: "flow", nameprefix: "pkg_", isNullable: false, dataToServer: "2"},
                 {name: "flowGroup", isNullable: false}
             ]
         });
+
+        var getSubSelectOption = function (rowId) {
+            var rowData = grid.jqGrid("getRowData", rowId);
+            var flowGroupName = rowData["flowGroup.id"]; // 'BAB','TEST'...
+            const flowGroupId = [...selectOptions["flowGroup_options"]].find(([k, v]) => v === flowGroupName)?.[0];
+
+            return flowGroupId === 1 ? selectOptions["test_flow"] :
+                    flowGroupId === 3 ? selectOptions["pkg_flow"] :
+                    "";
+        };
 
         grid.jqGrid({
             url: '<c:url value="/Flow/read" />',
@@ -79,10 +90,12 @@
                 "reloadOnExpand": false,
                 "selectOnExpand": true,
                 hasSubgrid: function (options) {
-                    return options.data["flowGroup.id"] == 1;
+                    return options.data["flowGroup.id"] === 1 || options.data["flowGroup.id"] === 3;
                 }
             },
             subGridRowExpanded: function (subgrid_id, row_id) {
+                let subSelectOption = getSubSelectOption(row_id);
+
                 var subgrid_table_id, pager_id;
                 subgrid_table_id = subgrid_id + "_t";
                 pager_id = "p_" + subgrid_table_id;
@@ -98,7 +111,7 @@
                     },
                     colNames: ['id', 'name'],
                     colModel: [
-                        {name: "id", index: "id", width: 80, key: true, editable: true, sortable: true, edittype: 'select', editoptions: {value: selectOptions["test_flow"]}},
+                        {name: "id", index: "id", width: 80, key: true, editable: true, sortable: true, edittype: 'select', editoptions: {value: subSelectOption, dataInit: select2_onForm}},
                         {name: "name", index: "name", width: 130, sortable: true}
                     ],
                     rowNum: 20,

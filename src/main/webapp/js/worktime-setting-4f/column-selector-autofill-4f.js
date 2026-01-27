@@ -65,7 +65,7 @@ var babFlow_select_event_m4f = [
 
             flow_LK_hint();
             var sel2 = $("#flowByTestFlowId\\.id");
-            var sel2Val = sel2.val();
+            var sel2Val = Number(sel2.val());
             var selectedValue = testFlow_default_value_m4f;
 
             $.get('../SelectOptionM4f/flow-byParent/' + $(this).val(), function (data) {
@@ -73,7 +73,7 @@ var babFlow_select_event_m4f = [
                 sel2.append("<option role='option' value=" + testFlow_default_value_m4f + ">No TEST Process</option>");
                 for (var i = 0; i < data.length; i++) {
                     sel2.append("<option role='option' value=" + data[i].id + ">" + data[i].name + "</option>");
-                    selectedValue = data[i].id == sel2Val ? sel2Val : selectedValue;
+                    selectedValue = data[i].id === sel2Val ? sel2Val : selectedValue;
                 }
                 sel2.val(selectedValue);
             });
@@ -86,6 +86,20 @@ var testFlow_select_event_m4f = [
         type: 'change',
         fn: function (e) {
             flow_LK_hint();
+
+//            var sel2 = $("#flowByPackingFlowId\\.id");
+//            var sel2Val = Number(sel2.val());
+//            var selectedValue = pkgFlow_default_value_m4f;
+//
+//            $.get('../SelectOptionM4f/flow-byParent/' + $(this).val(), function (data) {
+//                sel2.html("");
+//                sel2.append("<option role='option' value=" + pkgFlow_default_value_m4f + ">NO PACKING PROCESS</option>");
+//                for (var i = 0; i < data.length; i++) {
+//                    sel2.append("<option role='option' value=" + data[i].id + ">" + data[i].name + "</option>");
+//                    selectedValue = data[i].id === sel2Val ? sel2Val : selectedValue;
+//                }
+//                sel2.val(selectedValue);
+//            });
         }
     }
 ];
@@ -109,8 +123,7 @@ var pkgFlow_select_event_m4f = [
 ];
 
 function reset_value_zero($sel, selectedValue) {
-    var val = $sel.val();
-    if (val == 0) {
+    if ($sel.val() == 0) {
         $sel.val(selectedValue);
     }
     $sel.find('option[value="0"]').remove();

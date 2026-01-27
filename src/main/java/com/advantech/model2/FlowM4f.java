@@ -119,8 +119,8 @@ public class FlowM4f implements java.io.Serializable, Comparable<FlowM4f> {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Flow_REF", joinColumns = {
-        @JoinColumn(name = "bab_flow_id", nullable = false, updatable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "test_flow_id", nullable = false, updatable = false)})
+        @JoinColumn(name = "parent_flow_id", nullable = false, updatable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "child_flow_id", nullable = false, updatable = false)})
     public Set<FlowM4f> getFlowsForTestFlowId() {
         return this.flowsForTestFlowId;
     }
@@ -131,8 +131,8 @@ public class FlowM4f implements java.io.Serializable, Comparable<FlowM4f> {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Flow_REF", joinColumns = {
-        @JoinColumn(name = "test_flow_id", nullable = false, updatable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "bab_flow_id", nullable = false, updatable = false)})
+        @JoinColumn(name = "child_flow_id", nullable = false, updatable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "parent_flow_id", nullable = false, updatable = false)})
     public Set<FlowM4f> getFlowsForBabFlowId() {
         return this.flowsForBabFlowId;
     }

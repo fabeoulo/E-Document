@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="<c:url value="/js/jqgrid-custom-setting.js" />"></script>
+<script src="<c:url value="/js/worktime-setting/column-custom-callback.js" />"></script>
 <script>
     var scrollPosition = 0;
 
@@ -17,10 +18,21 @@
         setSelectOptionsM4f({
             rootUrl: "<c:url value="/" />",
             columnInfo: [
-                {name: "flow", nameprefix: "test_", isNullable: true, dataToServer: "3"},
+                {name: "flow", nameprefix: "test_", isNullable: false, dataToServer: "3"},
+                {name: "flow", nameprefix: "pkg_", isNullable: false, dataToServer: "2"},
                 {name: "flowGroup", isNullable: false}
             ]
         });
+
+        var getSubSelectOption = function (rowId) {
+            var rowData = grid.jqGrid("getRowData", rowId);
+            var flowGroupName = rowData["flowGroup.id"]; // 'BAB','TEST'...
+            const flowGroupId = [...selectOptions["flowGroup_options"]].find(([k, v]) => v === flowGroupName)?.[0];
+
+            return flowGroupId === 1 ? selectOptions["test_flow"] :
+                    flowGroupId === 3 ? selectOptions["pkg_flow"] :
+                    "";
+        };
 
         grid.jqGrid({
             url: '<c:url value="/FlowM4f/read" />',
@@ -30,7 +42,7 @@
 //            guiStyle: "bootstrap",
             colModel: [
                 {label: 'id', name: "id", width: 60, key: true, editable: true, search: false, editoptions: {readonly: 'readonly', disabled: true, defaultValue: "0"}},
-                {label: 'name', name: "name", width: 60, editable: true, editrules: {required: true}, formoptions: {elmsuffix: "(*必填)"}},
+                {label: 'name', name: "name", width: 60, editable: true, editrules: {required: true}, editoptions: {dataEvents: trimText_event}, formoptions: {elmsuffix: "(*必填)"}},
                 {label: 'flow_group', name: "flowGroup.id", editable: true, formatter: selectOptions["flowGroup_func"], edittype: 'select', editoptions: {value: selectOptions["flowGroup"]}, searchrules: {required: true}, stype: "select", searchoptions: {value: selectOptions["flowGroup"], sopt: ['eq'], dataInit: selectOptions["flowGroup_sinit"]}}
             ],
             rowNum: 20,
@@ -78,10 +90,12 @@
                 "reloadOnExpand": false,
                 "selectOnExpand": true,
                 hasSubgrid: function (options) {
-                    return options.data["flowGroup.id"] == 1;
+                    return options.data["flowGroup.id"] === 1 || options.data["flowGroup.id"] === 3;
                 }
             },
             subGridRowExpanded: function (subgrid_id, row_id) {
+                let subSelectOption = getSubSelectOption(row_id);
+
                 var subgrid_table_id, pager_id;
                 subgrid_table_id = subgrid_id + "_t";
                 pager_id = "p_" + subgrid_table_id;
@@ -97,7 +111,7 @@
                     },
                     colNames: ['id', 'name'],
                     colModel: [
-                        {name: "id", index: "id", width: 80, key: true, editable: true, sortable: true, edittype: 'select', editoptions: {value: selectOptions["test_flow"]}},
+                        {name: "id", index: "id", width: 80, key: true, editable: true, sortable: true, edittype: 'select', editoptions: {value: subSelectOption, dataInit: select2_onForm}},
                         {name: "name", index: "name", width: 130, sortable: true}
                     ],
                     rowNum: 20,

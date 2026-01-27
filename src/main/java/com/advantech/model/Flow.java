@@ -119,8 +119,8 @@ public class Flow implements java.io.Serializable, Comparable<Flow> {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Flow_REF", joinColumns = {
-        @JoinColumn(name = "bab_flow_id", nullable = false, updatable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "test_flow_id", nullable = false, updatable = false)})
+        @JoinColumn(name = "parent_flow_id", nullable = false, updatable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "child_flow_id", nullable = false, updatable = false)})
     public Set<Flow> getFlowsForTestFlowId() {
         return this.flowsForTestFlowId;
     }
@@ -131,8 +131,8 @@ public class Flow implements java.io.Serializable, Comparable<Flow> {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Flow_REF", joinColumns = {
-        @JoinColumn(name = "test_flow_id", nullable = false, updatable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "bab_flow_id", nullable = false, updatable = false)})
+        @JoinColumn(name = "child_flow_id", nullable = false, updatable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "parent_flow_id", nullable = false, updatable = false)})
     public Set<Flow> getFlowsForBabFlowId() {
         return this.flowsForBabFlowId;
     }

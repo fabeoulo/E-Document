@@ -63,7 +63,7 @@ var babFlow_select_event = [
         fn: function (e) {
             flow_LK_hint();
             var sel2 = $("#flowByTestFlowId\\.id");
-            var sel2Val = sel2.val();
+            var sel2Val = Number(sel2.val());
             var selectedValue = testFlow_default_value;
 
             $.get('../SelectOption/flow-byParent/' + $(this).val(), function (data) {
@@ -71,7 +71,7 @@ var babFlow_select_event = [
                 sel2.append("<option role='option' value=" + testFlow_default_value + ">NO TEST PROCESS</option>");
                 for (var i = 0; i < data.length; i++) {
                     sel2.append("<option role='option' value=" + data[i].id + ">" + data[i].name + "</option>");
-                    selectedValue = data[i].id == sel2Val ? sel2Val : selectedValue;
+                    selectedValue = data[i].id === sel2Val ? sel2Val : selectedValue;
                 }
                 sel2.val(selectedValue);
             });
@@ -84,6 +84,20 @@ var testFlow_select_event = [
         type: 'change',
         fn: function (e) {
             flow_LK_hint();
+
+            var sel2 = $("#flowByPackingFlowId\\.id");
+            var sel2Val = Number(sel2.val());
+            var selectedValue = pkgFlow_default_value;
+
+            $.get('../SelectOption/flow-byParent/' + $(this).val(), function (data) {
+                sel2.html("");
+                sel2.append("<option role='option' value=" + pkgFlow_default_value + ">NO PACKING PROCESS</option>");
+                for (var i = 0; i < data.length; i++) {
+                    sel2.append("<option role='option' value=" + data[i].id + ">" + data[i].name + "</option>");
+                    selectedValue = data[i].id === sel2Val ? sel2Val : selectedValue;
+                }
+                sel2.val(selectedValue);
+            });
         }
     }
 ];
@@ -93,7 +107,7 @@ var labelVariable11Aff_events = [
         type: 'change',
         fn: function (e) {
             var sel2 = $("#labelVariable12AffId\\.id");
-            var sel2Val = sel2.val();
+            var sel2Val = Number(sel2.val());
             var selectedValue = labelVariable12AffId_default_value;
 
             $.get('../SelectOption/labelVariable-byParent/' + $(this).val(), function (data) {
@@ -101,7 +115,7 @@ var labelVariable11Aff_events = [
                 sel2.append("<option role='option' value=" + selectedValue + " >empty</option>");
                 for (var i = 0; i < data.length; i++) {
                     sel2.append("<option role='option' value=" + data[i].id + ">" + data[i].name + "</option>");
-                    selectedValue = data[i].id == sel2Val ? sel2Val : selectedValue;
+                    selectedValue = data[i].id === sel2Val ? sel2Val : selectedValue;
                 }
                 sel2.val(selectedValue);
             });
