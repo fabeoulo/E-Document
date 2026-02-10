@@ -104,6 +104,8 @@
     
     <!--job8 setting-->
     <!--Sync M9 standardTime-->
+    <!--Webservice port in different thread Concurrently may cause error.-->
+    <!--Non-overlapping execution required for job8 and job9.-->
     <bean id="syncWorktimeM4f" class="com.advantech.quartzJob.SyncWorktimeM4f"/>
     
     <bean id="jobDetail8" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -113,11 +115,13 @@
     
     <bean id="cronTrigger8" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="jobDetail8"/>
-        <property name="cronExpression" value="0 50 22 ? * MON-SAT *"/>
+        <property name="cronExpression" value="0 30 23 ? * MON-SAT *"/>
     </bean>
     
     <!--job9 setting-->
-    <!--Sync M9 standardTime for M3，M9工時大表即時更新至MES工時-->
+    <!--Sync M9 standardTime for M3。M9工時大表即時更新至MES工時-->
+    <!--Webservice port in different thread Concurrently may cause error.-->
+    <!--Non-overlapping execution required for job8 and job9.-->
     <bean id="syncWorktime" class="com.advantech.quartzJob.SyncWorktime"/>
     
     <bean id="jobDetail9" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -127,7 +131,7 @@
         
     <bean id="cronTrigger9" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="jobDetail9"/>
-        <property name="cronExpression" value="0 55 22 ? * MON-SAT *"/>
+        <property name="cronExpression" value="0 50 22 ? * MON-SAT *"/>
     </bean>
     
     <!-- Quartz JobFactory，supporting Spring Autowiring -->

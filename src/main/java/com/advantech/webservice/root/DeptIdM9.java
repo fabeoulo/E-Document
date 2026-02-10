@@ -13,7 +13,9 @@ public enum DeptIdM9 {
     SPE(17),
     EE(53),
     QC(15),
-    MPM(65),
+    MPM(14), //MPM(65),
+    QC3F(15),
+    MPM3F(56),
     SPE3F(19),
     EE3F(17);
 
