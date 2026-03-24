@@ -26,6 +26,7 @@ import com.advantech.webservice.port.MtdTestIntegrityUploadPort;
 import com.advantech.webservice.port.StandardtimeUploadPort;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 import javax.transaction.Transactional;
 import static org.junit.Assert.*;
@@ -256,10 +257,11 @@ public class UploadPortTest {
 //    @Test//245
 //    @Rollback(true)
     public void testMaterialPropertyUploadPort() throws Exception {
-//        Worktime w = worktimeService.findByModel("EKI-9516-P0IDH10E-TEST");
+//        Worktime w = worktimeService.findByModel("TPC-1051WP-E3AE");
 
         List<Worktime> l = worktimeService.findWithFlowRelation();
-        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(73);
+//        l = l.stream().filter(w -> w.getBiSampling().equals("Y")).collect(Collectors.toList());
+        List<WorktimeMaterialPropertyUploadSetting> settings = propService.findByPrimaryKeys(3);
 //        assertEquals(5, settings.size());
         materialPropertyUploadPort.initSettings(settings);
 //        materialPropertyUploadPort.update(w);

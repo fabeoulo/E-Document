@@ -165,6 +165,9 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     private BigDecimal warmBoot = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
+    private BigDecimal wifi = BigDecimal.ZERO;
+
+    @JsonView(View.Public.class)
     private BigDecimal pendingTime;
 
     @JsonView(View.Public.class)
@@ -899,6 +902,17 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 
     public void setWarmBoot(BigDecimal warmBoot) {
         this.warmBoot = autoFixScale(warmBoot, 1);
+    }
+
+    @NotNull
+    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
+    @Column(name = "wifi", precision = 10, scale = 1)
+    public BigDecimal getWifi() {
+        return wifi;
+    }
+
+    public void setWifi(BigDecimal wifi) {
+        this.wifi = autoFixScale(wifi, 1);
     }
 
     @NotNull(message = "Pending Time 不可為空")
@@ -2198,7 +2212,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
                 .add(notEmpty(assy)).add(notEmpty(t1)).add(notEmpty(t2))
                 .add(notEmpty(t3)).add(notEmpty(t4)).add(notEmpty(packing)).add(notEmpty(upBiRi)).add(notEmpty(upRi))
                 .add(notEmpty(downBiRi)).add(notEmpty(downRi)).add(notEmpty(biCost)).add(notEmpty(vibration)).add(notEmpty(hiPotLeakage))
-                .add(notEmpty(coldBoot)).add(notEmpty(warmBoot));
+                .add(notEmpty(coldBoot)).add(notEmpty(warmBoot)).add(notEmpty(wifi));
 
         this.setProductionWt(defaultValue);
     }
@@ -2226,7 +2240,7 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     public void setDefaultT2ToPacking() {
         BigDecimal defaultValue = notEmpty(t2)
                 .add(notEmpty(t3)).add(notEmpty(t4)).add(notEmpty(packing).add(notEmpty(packingLeadTime))).add(notEmpty(downBiRi))
-                .add(notEmpty(downRi));
+                .add(notEmpty(downRi)).add(notEmpty(wifi));
         this.setT2ToPacking(defaultValue);
     }
 

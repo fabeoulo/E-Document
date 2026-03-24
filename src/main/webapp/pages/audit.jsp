@@ -223,6 +223,7 @@
                     {label: 'Hi-Pot/Leakage', name: "hiPotLeakage", jsonmap: "0.hiPotLeakage", width: 120, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Cold Boot', name: "coldBoot", jsonmap: "0.coldBoot", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'Warm Boot', name: "warmBoot", jsonmap: "0.warmBoot", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
+                    {label: 'Wifi', name: "wifi", jsonmap: "0.wifi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'ASS_T1', name: "assyToT1", jsonmap: "0.assyToT1", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'T2_PACKING', name: "t2ToPacking", jsonmap: "0.t2ToPacking", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: '組裝排站人數', name: "assyStation", jsonmap: "0.assyStation", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},

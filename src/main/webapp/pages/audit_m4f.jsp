@@ -115,6 +115,7 @@
                     {label: 'Pending Station', name: "pendingStation", jsonmap: "0.pendingStation", width: 100, searchrules: {required: true}, searchoptions: search_decimal_options, formoptions: required_form_options},
                     {label: 'Bi Sampling', name: "biSampling", jsonmap: "0.biSampling", width: 100, searchrules: {required: true}, searchoptions: search_string_options},
                     {label: 'Warm Boot', name: "warmBoot", jsonmap: "0.warmBoot", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
+                    {label: 'Wifi', name: "wifi", jsonmap: "0.wifi", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'ASS_T1', name: "assyToT1", jsonmap: "0.assyToT1", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'T2_PACKING', name: "t2ToPacking", jsonmap: "0.t2ToPacking", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'BurnIn', name: "burnIn", jsonmap: "0.burnIn", width: 100, searchrules: {required: true}, searchoptions: search_string_options},

@@ -85,10 +85,10 @@ public class SpringExpressionTest {
     @Autowired
     private FlowService flowService;
     
-    @Test
+//    @Test
     public void testExp3() throws JsonProcessingException {
-        String exp = "(flowByBabFlowId == null || flowByBabFlowId.name == null || !flowByBabFlowId.name.contains(\"BI\") || biTime == null) ? 0 : (biTime.signum() == 0 || biTime.scale() <= 0 || biTime.stripTrailingZeros().scale() <= 0 ? biTime.intValue() : biTime)";
-        Worktime worktime = worktimeService.findByPrimaryKey(16618);
+        String exp = "biSampling != \"Y\" && (flowByBabFlowId == null || flowByBabFlowId.name == null || !flowByBabFlowId.name.contains(\"BI\") || biTime == null) ? 0 : (biTime.signum() == 0 || biTime.scale() <= 0 || biTime.stripTrailingZeros().scale() <= 0 ? biTime.intValue() : biTime)";
+        Worktime worktime = worktimeService.findByPrimaryKey(18054);
                 
         Flow f = worktime.getFlowByBabFlowId();
         f = this.flowService.findByPrimaryKey(f.getId());

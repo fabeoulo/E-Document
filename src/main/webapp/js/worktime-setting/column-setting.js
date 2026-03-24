@@ -23,6 +23,7 @@ var worktimeCol = [
     {name: "hiPotLeakage", editable: false},
     {name: "coldBoot", editable: false},
     {name: "warmBoot", editable: false},
+    {name: "wifi", editable: false},
     {name: "assyToT1", editable: false},
     {name: "t2ToPacking", editable: false},
     {name: "floor.id", editable: false},
@@ -162,7 +163,8 @@ var do_not_change_columns = [
     "id", "rowId", "modifiedDate", "bwFields.0.assyAvg", "bwFields.0.packingAvg", "createDate", "floor.id",
     "assyStation", "packingStation", "assyKanbanTime", "packingKanbanTime", "biPower"
 //    "machineWorktime", "productionWt", "setupTime", "cleanPanel", "totalModule", "assy", "t1", "t2", "t3", "t4", "packing", "upBiRi", "downBiRi", "vibration", "hiPotLeakage", "coldBoot", "warmBoot", "assyToT1", "t2ToPacking", "packingLeadTime", "packingPalletTime", "cleanPanelAndAssembly", "sapWt",
-//    "workCenter", "biCost", "assyLeadTime"
+//    "workCenter", "biCost", "assyLeadTime",
+//    "wifi"
 ];
 
 //指定的column要有checkbox，且新增時候預設1

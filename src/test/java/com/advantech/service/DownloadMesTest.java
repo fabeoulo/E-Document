@@ -187,12 +187,12 @@ public class DownloadMesTest {
 //        outLabelOptions = toSelectOptions(outLabelService.findAll());
 //        cartonLabelOptions = toSelectOptions(cartonLabelService.findAll());
 //
-        settings = propSettingService.findAll();
+//        settings = propSettingService.findAll();
 //        expressionUtils.setVariable("pendingMap", pendingOptions);
 //        expressionUtils.setVariable("outLabelMap", outLabelOptions);
 //        expressionUtils.setVariable("cartonLabelMap", cartonLabelOptions);
 //
-//        autodownloadSettings = worktimeAutodownloadSettingService.findAll();
+        autodownloadSettings = worktimeAutodownloadSettingService.findAll();
     }
 
 //    @Test
@@ -220,6 +220,35 @@ public class DownloadMesTest {
                 throw e;
             }
         }
+    }
+
+//    @Test
+//    @Transactional
+//    @Rollback(true)
+    public void testMergeWithoutUpload() throws Exception {
+        System.out.println("testMergeWithoutUpload");
+
+//        getExcelModels();
+//
+        l = instance.findByModelNames("USM500W4000AA2-ES-TEST");
+        initOptions();
+        for (Worktime wm4 : l) {
+//
+            HibernateObjectPrinter.print("Processing: " + wm4.getModelName() + " in thread: " + Thread.currentThread().getName());
+            try {
+                dlWt(wm4);
+
+//                setNotNullFieldDefault(wm4);
+//
+            } catch (Exception e) {
+//            logger.error(e.getMessage(), e);
+                HibernateObjectPrinter.print(e.getMessage());
+                throw e;
+            }
+        }
+
+        HibernateObjectPrinter.print(l);
+//        instance.mergeWithoutUpload(l);
     }
 
 //    @Test

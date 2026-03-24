@@ -72,10 +72,9 @@ public class StandardWorkTimeDownload extends BasicM4fDownload<Worktime> {
                         && Objects.equals(p.getITEMNO(), wt.getModelName()))
                         .findFirst().orElse(null);
 
+                Object totalctVal;
                 if (worktimeOnMes != null) {
-                    Object totalctVal = expressionUtils.getValueFromFormula(worktimeOnMes, setting.getFormulaTotalct());
-                    String dlColumn = (String) expressionUtils.getValueFromFormula(wt, setting.getFormulaColumn());
-                    expressionUtils.setValueFromFormula(wt, dlColumn, totalctVal);
+                    totalctVal = expressionUtils.getValueFromFormula(worktimeOnMes, setting.getFormulaTotalct());
 
                     String columnUnit = setting.getColumnUnit();
                     Integer opcnt = worktimeOnMes.getOPCNT();
@@ -84,7 +83,13 @@ public class StandardWorkTimeDownload extends BasicM4fDownload<Worktime> {
                     } else if ("P".equals(columnUnit) && setting.getStationId() != null && opcnt > 0) {
                         wt.setPackingStation(opcnt);
                     }
+                } else {
+                    totalctVal = 0;
                 }
+
+                String dlColumn = (String) expressionUtils.getValueFromFormula(wt, setting.getFormulaColumn());
+                expressionUtils.setValueFromFormula(wt, dlColumn, totalctVal);
+
             } catch (Exception e) {
                 errorFields.put(setting.getColumnName(), e.getMessage());
             }
