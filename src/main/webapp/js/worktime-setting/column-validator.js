@@ -45,8 +45,8 @@ var flow_check_logic = {
         {keyword: ["T3"], checkColumn: ["t3"], message: not_null_and_zero_message, prmValid: notZeroOrNull}
     ],
     PKG: [
-        {keyword: ["PKG", "PKG(WET)"], checkColumn: ["packing"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
-        {keyword: ["PKG(WET)"], checkColumn: ["weight"], message: not_null_and_zero_message, prmValid: notZeroOrNull}
+        {keyword: ["PKG"], checkColumn: ["packing"], message: not_null_and_zero_message, prmValid: notZeroOrNull},
+        {keyword: ["WET"], checkColumn: ["weight"], message: not_null_and_zero_message, prmValid: notZeroOrNull}
     ]
 };
 
@@ -69,8 +69,8 @@ var field_check_flow_logic = [
     {checkColumn: {name: "biCost", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: babFlow, keyword: ["BI"]}},
     {checkColumn: {name: "t2", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: testFlow, keyword: ["T2"]}},
     {checkColumn: {name: "t3", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: testFlow, keyword: ["T3"]}},
-    {checkColumn: {name: "packing", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: packingFlow, keyword: ["PKG", "PKG(WET)"]}},
-    {checkColumn: {name: "weight", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: packingFlow, keyword: ["PKG(WET)"]}}
+    {checkColumn: {name: "packing", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: packingFlow, keyword: ["PKG"]}},
+    {checkColumn: {name: "weight", equals: false, value: 0}, description: when_not_empty_or_null, targetColumn: {name: packingFlow, keyword: ["WET"]}}
 ];
 
 //Flow check logic
@@ -162,6 +162,8 @@ function flowSplit(category, fullFlow) {
     } else if (category === "TEST" || category === testFlow) {
         fullFlow = fullFlow.replace(/\([^)]*\)/g, ""); // replace (xxx) by ""
         flowParts = fullFlow.split(/[-_]/);
+    } else if (category === "PKG" || category === packingFlow) {
+        flowParts = fullFlow.split(/[-_()]/);
     } else {
         flowParts = fullFlow.split(/[-_]/); // split by '-' or '_'    
     }
