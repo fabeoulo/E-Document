@@ -160,7 +160,7 @@ public class WorktimeDownloadMesM4fService {
 
     private void downloadFromMes(WorktimeM4f wm4) throws Exception {
         materialPropertyValueM4fDownload.download(wm4);
-        modelResponsorM4fDownload.download(wm4);
+//        modelResponsorM4fDownload.download(wm4);
         flowM4fDownload.download(wm4);
         mtdTestIntegrityM4fDownload.download(wm4);
         standardWorkTimeM4fDownload.download(wm4);

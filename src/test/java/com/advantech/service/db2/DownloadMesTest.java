@@ -219,6 +219,7 @@ public class DownloadMesTest {
 //
             HibernateObjectPrinter.print("Processing: " + wm4.getModelName() + " in thread: " + Thread.currentThread().getName());
             try {
+                List<ModelResponsor> mesOwners = modelResponsorQueryPort.queryM(wm4, Factory.TWM9);
 //                dlOwner(wm4);
 //                dlFlow(wm4);
 //                dlMat(wm4);

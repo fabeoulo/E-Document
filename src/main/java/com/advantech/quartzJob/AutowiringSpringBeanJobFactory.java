@@ -13,6 +13,7 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 /**
  *
  * @author Justin.Yeh
+ * <br> Trigger @Autowired in class of JobDetailFactoryBean
  */
 public class AutowiringSpringBeanJobFactory extends SpringBeanJobFactory implements ApplicationContextAware {
 

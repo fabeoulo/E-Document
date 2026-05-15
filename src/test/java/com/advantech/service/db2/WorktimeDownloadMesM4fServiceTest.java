@@ -113,7 +113,7 @@ public class WorktimeDownloadMesM4fServiceTest {
 //        HibernateObjectPrinter.print(l);
 //
 //        List<String> modelNames = ExcelTest.getExcelModels();
-        List<String> modelNames = Arrays.asList("USM-D64-E80");
+        List<String> modelNames = Arrays.asList("USM-S67-E0WP0");
         worktimeDownloadMesM4fService.saveOrUpdateByModels(modelNames);
 
     }

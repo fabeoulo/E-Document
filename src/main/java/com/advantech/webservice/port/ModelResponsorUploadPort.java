@@ -76,13 +76,13 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
     @Override
     public void delete(Worktime w) throws Exception {
         try {
-            List l = modelResponsorQueryPort.queryM(w, Factory.TWM3_OG);
-            if (!l.isEmpty()) {
-                PartMappingUserRoot root = new PartMappingUserRoot();
-                root.getUsers().setPARTNO(w.getModelName()); //機種
-                root.getUsers().setUSERIDs(""); //人員代碼
-                super.upload(root, UploadType.UPDATE);
-            }
+//            List l = modelResponsorQueryPort.queryM(w, Factory.TWM3_OG);
+//            if (!l.isEmpty()) {
+            PartMappingUserRoot root = new PartMappingUserRoot();
+            root.getUsers().setPARTNO(w.getModelName()); //機種
+            root.getUsers().setUSERIDs(""); //人員代碼
+            super.upload(root, UploadType.UPDATE);
+//            }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw e;

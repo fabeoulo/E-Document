@@ -598,7 +598,7 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
         this.userByEeOwnerId = userByEeOwnerId;
     }
 
-    @NotNull
+//    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "qc_owner_id", nullable = true)
     @Override
@@ -610,7 +610,7 @@ public class WorktimeM4f implements java.io.Serializable, IWorktimeForWebService
         this.userByQcOwnerId = userByQcOwnerId;
     }
 
-    @NotNull
+//    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spe_owner_id", nullable = true)
     @Override

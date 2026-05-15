@@ -18,20 +18,6 @@
         <property name="cronExpression" value="0 0 0 ? * MON-SAT *"/>
     </bean>
     
-    <!--job2 setting-->
-    <!--上傳標工-->
-    <bean id="targetClass2" class="com.advantech.quartzJob.StandardTimeUpload"/>
-    
-    <bean id="jobDetail2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="targetClass2"/>
-        <property name="targetMethod" value="uploadToMes"/>
-    </bean>
-    
-    <bean id="cronTrigger2" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="jobDetail" ref="jobDetail2"/>
-        <property name="cronExpression" value="0 0 23 ? * MON-SAT *"/>
-    </bean>
-    
     <!--job3 setting-->
     <!--備份資料-->
     <bean id="targetClass3" class="com.advantech.quartzJob.BackupDataToExcel"/>
@@ -135,7 +121,7 @@
     </bean>
     
     <!-- Quartz JobFactory，supporting Spring Autowiring -->
-    <!--for org.springframework.scheduling.quartz.JobDetailFactoryBean-->
+    <!-- for org.springframework.scheduling.quartz.JobDetailFactoryBean -->
     <bean id="jobFactory" class="com.advantech.quartzJob.AutowiringSpringBeanJobFactory"/>
 
     <!--schedule jobs-->

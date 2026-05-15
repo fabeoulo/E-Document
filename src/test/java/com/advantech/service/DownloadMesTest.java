@@ -137,8 +137,8 @@ public class DownloadMesTest {
 //    private Map<String, IUserM9> userOptions1;
 //    private Map<String, Unit> unitOptions1;
 //
-//    @Autowired
-//    private ModelResponsorQueryPort modelResponsorQueryPort;
+    @Autowired
+    private ModelResponsorQueryPort modelResponsorQueryPort;
 //=============================
 
     @Autowired
@@ -265,6 +265,8 @@ public class DownloadMesTest {
 //
             HibernateObjectPrinter.print("Processing: " + wm4.getModelName() + " in thread: " + Thread.currentThread().getName());
             try {
+                List<ModelResponsor> mesOwners = modelResponsorQueryPort.query(wm4);
+                List<ModelResponsor> mesOwners2 = modelResponsorQueryPort.queryM(wm4, Factory.TWM3);
 //                dlOwner(wm4);
 //                dlFlow(wm4);
                 dlMat(wm4);
