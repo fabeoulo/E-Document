@@ -43,7 +43,7 @@
     
     <bean id="cronTrigger4" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="jobDetail4"/>
-        <property name="cronExpression" value="0 0 11,16 ? * MON-SAT *"/>
+        <property name="cronExpression" value="0 0 11,16 ? * * *"/>
     </bean>
     
     <!--job5 setting-->
@@ -57,7 +57,7 @@
     
     <bean id="cronTrigger5" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="jobDetail5"/>
-        <property name="cronExpression" value="0 0 11,16 ? * MON-SAT *"/>
+        <property name="cronExpression" value="0 0 11,16 ? * * *"/>
     </bean>
     
     <!--job6 setting-->
@@ -85,7 +85,7 @@
     
     <bean id="cronTrigger7" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="jobDetail7"/>
-        <property name="cronExpression" value="0 0 21 ? * MON-SAT *"/>
+        <property name="cronExpression" value="0 0 21 ? * * *"/>
     </bean>
     
     <!--job8 setting-->
@@ -101,7 +101,7 @@
     
     <bean id="cronTrigger8" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="jobDetail8"/>
-        <property name="cronExpression" value="0 30 23 ? * MON-SAT *"/>
+        <property name="cronExpression" value="0 30 23 ? * * *"/>
     </bean>
     
     <!--job9 setting-->
@@ -117,7 +117,7 @@
         
     <bean id="cronTrigger9" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="jobDetail9"/>
-        <property name="cronExpression" value="0 50 22 ? * MON-SAT *"/>
+        <property name="cronExpression" value="0 50 22 ? * * *"/>
     </bean>
     
     <!-- Quartz JobFactory，supporting Spring Autowiring -->

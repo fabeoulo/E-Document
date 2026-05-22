@@ -58,7 +58,7 @@ public class SyncWorktime {
     @Autowired
     private WorktimeService worktimeService;
 
-    // keep all transactions in one session, prevent from detash and extra select, also enable lazy-fetch.
+    // keep all transactions in one session, prevent from detash and extra select error, also enable lazy-fetch.
     @Transactional
     public void syncModelFromM9ie() {
         List<String> errorMessages = new ArrayList();
@@ -84,7 +84,6 @@ public class SyncWorktime {
                 log.info("Start to download: " + w.getModelName());
 
                 standardWorkTimeDownload.download(w);
-//                w.setWorktimeModReason("sync work-time.");
 
             } catch (Exception e) {
                 String errorMessage = w.getModelName() + " download fail: " + e.getMessage();
@@ -102,7 +101,14 @@ public class SyncWorktime {
                 }
             }
         }
-        worktimeService.mergeWithoutUpload(wtIn);
+        try {
+            // Merge at one time make audit easy to trace.
+            worktimeService.mergeWithoutUpload(wtIn);
+        } catch (Exception e) {
+            String errorMessage = "MergeWithoutUpload Worktime fail: " + e.getMessage();
+            errorMessages.add(errorMessage);
+            log.error(errorMessage);
+        }
 
 //        log.info("Begin delete Worktime : " + wtRemove.size() + " datas.");
 //        try {

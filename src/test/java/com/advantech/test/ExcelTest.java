@@ -14,7 +14,6 @@ import com.advantech.model.Worktime;
 import com.advantech.service.UserService;
 import com.advantech.service.WorktimeService;
 import com.advantech.webservice.port.ModelResponsorUploadPort;
-import com.advantech.webservice.port.SopUploadPort;
 import static com.google.common.collect.Lists.newArrayList;
 import com.google.gson.Gson;
 import java.io.File;
@@ -186,9 +185,6 @@ public class ExcelTest {
 //            int result = instance.mergeByExcel(l);
         }
     }
-
-    @Autowired
-    private SopUploadPort sopPort;
 
     @Autowired
     private ModelResponsorUploadPort mappingUserPort;

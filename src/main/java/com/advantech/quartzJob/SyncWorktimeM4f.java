@@ -58,7 +58,7 @@ public class SyncWorktimeM4f {
     @Autowired
     private WorktimeM4fService worktimeM4fService;
 
-    // keep all transactions in one session, prevent from detash and extra select, also enable lazy-fetch.
+    // keep all transactions in one session, prevent from detash and extra select error, also enable lazy-fetch.
     @Transactional
     public void syncModelFromM9ie() {
         List<String> errorMessages = new ArrayList();
@@ -81,9 +81,10 @@ public class SyncWorktimeM4f {
         standardWorkTimeM4fDownload.initOptions();
         for (WorktimeM4f w : wtIn) {
             try {
+                log.info("Start to download: " + w.getModelName());
+
                 standardWorkTimeM4fDownload.download(w);
 
-                log.info("Download standardtime: " + w.getModelName());
             } catch (Exception e) {
                 String errorMessage = w.getModelName() + " download fail: " + e.getMessage();
                 errorMessages.add(errorMessage);
@@ -100,7 +101,14 @@ public class SyncWorktimeM4f {
                 }
             }
         }
-        worktimeM4fService.mergeWithoutUpload(wtIn);
+        try {
+            // Merge at one time make audit easy to trace.
+            worktimeM4fService.mergeWithoutUpload(wtIn);
+        } catch (Exception e) {
+            String errorMessage = "MergeWithoutUpload WorktimeM4f fail: " + e.getMessage();
+            errorMessages.add(errorMessage);
+            log.error(errorMessage);
+        }
 
         log.info("Begin delete WorktimeM4f : " + wtRemove.size() + " datas.");
         try {

@@ -120,7 +120,7 @@ function getSinitFn() {
 }
 
 function businessGroupInit(elem) {
-    $(elem).find('option:disabled').detach().appendTo(elem);
+    $(elem).find('option[disabled]').detach().appendTo(elem);
 }
 
 function setJsonOptions(info) {

@@ -140,12 +140,6 @@ public class WorktimeUploadMesService {
         return !prev.getModelName().equals(current.getModelName());
     }
 
-    private boolean isSopChanged(Worktime prev, Worktime current) {
-        return isModelNameChanged(prev, current)
-                || !isEquals(prev.getAssyPackingSop(), current.getAssyPackingSop())
-                || !isEquals(prev.getTestSop(), current.getTestSop());
-    }
-
     //Revision entity relation object are lasy loading.
     private boolean isModelResponsorChanged(Worktime prev, Worktime current) {
         return isModelNameChanged(prev, current)

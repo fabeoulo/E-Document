@@ -45,9 +45,9 @@ public class WorktimeDownloadMesM4fService {
     @Autowired
     private FlowM4fDownload flowM4fDownload;
 
-    @Autowired
-    private ModelResponsorM4fDownload modelResponsorM4fDownload;
-
+//    @Autowired
+//    private ModelResponsorM4fDownload modelResponsorM4fDownload;
+//
     @Autowired
     private MtdTestIntegrityM4fDownload mtdTestIntegrityM4fDownload;
 
@@ -59,7 +59,7 @@ public class WorktimeDownloadMesM4fService {
 
     public void portParamInit() {
         flowM4fDownload.initOptions();
-        modelResponsorM4fDownload.initOptions();
+//        modelResponsorM4fDownload.initOptions();
         materialPropertyValueM4fDownload.initOptions();
         standardWorkTimeM4fDownload.initOptions();
 

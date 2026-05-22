@@ -50,7 +50,7 @@ public class WorktimeDownloadMesService {
 //
 //    @Autowired
     private MaterialPropertyValueDownload materialPropertyValueDownload;
-    
+
     @Autowired
     private StandardWorkTimeDownload standardWorkTimeDownload;
 
