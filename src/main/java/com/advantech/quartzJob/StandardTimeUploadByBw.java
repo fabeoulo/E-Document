@@ -4,22 +4,20 @@
  */
 package com.advantech.quartzJob;
 
+import com.advantech.helper.HostUtils;
 import com.advantech.helper.MailManager;
 import com.advantech.jqgrid.PageInfo;
 import com.advantech.model.SuggestionWorktimeHistory;
-import com.advantech.model.User;
 import com.advantech.model.Worktime;
 import com.advantech.model3.WorktimeReviseddownHistory;
 import com.advantech.service.SqlViewService;
 import com.advantech.service.SuggestionWorktimeHistoryService;
-import com.advantech.service.UserNotificationService;
 import com.advantech.service.WorktimeService;
 import com.advantech.service.db3.WorktimeReviseddownHistoryService;
 import com.advantech.webservice.port.StandardtimeUploadPort;
 import com.advantech.webservice.root.Section;
 import com.google.common.collect.Lists;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
+import java.beans.PropertyDescriptor;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -27,7 +25,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.mail.MessagingException;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -43,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Justin.Yeh
  */
 @Component
-public class StandardTimeUploadByBw {
+public class StandardTimeUploadByBw extends SendEmailBase {
 
     private static final Logger log = LoggerFactory.getLogger(StandardTimeUploadByBw.class);
 
@@ -67,15 +64,14 @@ public class StandardTimeUploadByBw {
     private PageInfo tempInfo;
 
     @Autowired
-    private UserNotificationService userNotificationService;
-
-    @Autowired
     private MailManager mailManager;
 
     @Value("#{contextParameters[pageTitle] ?: ''}")
     private String pageTitle;
 
     private List<SuggestionWorktimeHistory> viewUpdated_s, viewUpdated_f;
+
+    private List<String> errorMessages;
 
     @PostConstruct
     public void init() {
@@ -87,25 +83,44 @@ public class StandardTimeUploadByBw {
 
     @Transactional
     public void uploadToMes() {
-        List<Map> view = sqlViewService.findSuggestionWorkTime();
+        if (!HostUtils.isServer()) {
+            return;
+        }
+
         viewUpdated_s = Lists.newArrayList();
         viewUpdated_f = Lists.newArrayList();
+        errorMessages = Lists.newArrayList();
 
+        List<Map> view = GetSuggestionWorkTimeAndSend();
+
+        CheckAndSaveViewLocal(view);
+
+        SaveViewRemoteAndSend();
+
+        this.notifySystem(errorMessages);
+
+        log.info("Upload standardtime job finished.");
+    }
+
+    private List<Map> GetSuggestionWorkTimeAndSend() {
+        List<Map> view = sqlViewService.findSuggestionWorkTime();
         this.notifyUserOgBw(view);
+        return view;
+    }
+
+    private void CheckAndSaveViewLocal(List<Map> view) {
 
         String models = view.stream().map(m -> (String) m.get("modelName"))
                 .filter(Objects::nonNull)
                 .collect(Collectors.joining(","));
 
         this.updatePageInfo(models);
-        Map<String, Worktime> worktimeMap = worktimeService.findWithFullRelation(tempInfo)
+        Map<String, Worktime> worktimeMap = worktimeService.findAll(tempInfo)
                 .stream()
                 .collect(Collectors.toMap(w -> w.getModelName(), w -> w, (a, b) -> a));
 
         port.initSettings();
         DateTime dt = new DateTime();
-        String today = df.print(dt);
-        List<String> errorMessages = Lists.newArrayList();
 
         view.forEach(m -> {
             String model = (String) m.get("modelName");
@@ -135,13 +150,13 @@ public class StandardTimeUploadByBw {
             }
 
             try {
-                Field field = worktime.getClass().getDeclaredField(station);
-                field.setAccessible(true);
-                Class type = field.getType();
-                BigDecimal v = (BigDecimal) field.get(worktime);
+                PropertyDescriptor pd = new PropertyDescriptor(station, worktime.getClass());
+                Class type = pd.getPropertyType();
+                BigDecimal v = (BigDecimal) pd.getReadMethod().invoke(worktime);
 
                 if (BigDecimal.class.equals(type) && wt.compareTo(v) == 0) {
-                    field.set(worktime, wtSuggest);
+                    pd.getWriteMethod().invoke(worktime, wtSuggest);
+
                     worktimeService.updateWithoutMesUpload(worktime);
 
                     port.update(worktime);
@@ -168,7 +183,9 @@ public class StandardTimeUploadByBw {
                 log.error(errorMessage);
             }
         });
+    }
 
+    private void SaveViewRemoteAndSend() {
         try {
             suggestionWorktimeHistoryService.insert(viewUpdated_s);
             suggestionWorktimeHistoryService.insert(viewUpdated_f);
@@ -182,10 +199,6 @@ public class StandardTimeUploadByBw {
             String errorMessage = "Db fail: " + e.getMessage();
             log.error(errorMessage);
         }
-
-        this.notifySystem(errorMessages);
-
-        log.info("Upload standardtime job finished.");
     }
 
     private void updatePageInfo(String models) {
@@ -218,7 +231,7 @@ public class StandardTimeUploadByBw {
                 case "ASSY2":
                     fieldName = "assy2";
                     break;
-                case "OB":
+                case "OPTICAL BONDING":
                     fieldName = "opticalBonding";
                     break;
                 case "OB1":
@@ -232,6 +245,9 @@ public class StandardTimeUploadByBw {
                     break;
                 case "PACKAGE":
                     fieldName = "packing";
+                    break;
+                case "CLEANPANEL":
+                    fieldName = "cleanPanel";
                     break;
                 case "PRE_ASSY":
                     fieldName = "pi";
@@ -256,10 +272,11 @@ public class StandardTimeUploadByBw {
                 case "SL1":
                 case "ASSY1":
                 case "ASSY2":
-                case "OB":
+                case "OPTICAL BONDING":
                 case "OB1":
                 case "OB2":
                 case "ASSY":
+                case "CLEANPANEL":
                     flowName = Section.BAB.getCode();
                     break;
                 case "PACKAGE":
@@ -275,15 +292,18 @@ public class StandardTimeUploadByBw {
     }
 
     private void notifyUserOgBw(List<Map> viewBw) {
-        String[] to = getMailByNotification("worktime_downgrade_alarm");
-        String[] cc = getMailByNotification("worktime_downgrade_alarm_cc");
+        String[] to = super.findEmailByNotify("worktime_downgrade_alarm");
+        String[] cc = super.findEmailByNotify("worktime_downgrade_alarm_cc");
 
-        String subject = "【" + pageTitle + "系統訊息】MH12上週工時下修清單";
+        String subject = "【" + pageTitle + "系統訊息】MH12工時下修清單";
         String text = generateTextBodyOgBw(viewBw);
 
         try {
             mailManager.sendMail(to, cc, subject, text, "【" + pageTitle + "系統訊息】");
-        } catch (MessagingException | UnsupportedEncodingException ex) {
+
+//            // debug
+//            super.sendByApi(to, cc, subject, text, "【" + pageTitle + "系統訊息】");
+        } catch (Exception ex) {
             log.error("Send mail fail when upload mes job fail." + ex.toString());
         }
     }
@@ -308,7 +328,7 @@ public class StandardTimeUploadByBw {
 
         sb.append("<table>");
         sb.append("<tr><th colspan='6'>");
-        sb.append("<h1>上週工時下修清單</h1>");
+        sb.append("<h1>工時下修清單</h1>");
         sb.append("</th></tr>");
         sb.append("<tr>");
         sb.append("<th width='35%'>料號</th>");
@@ -351,7 +371,7 @@ public class StandardTimeUploadByBw {
         return sb.toString();
     }
 
-//    @Transactional("transactionManager2")
+//    @Transactional("transactionManager3")
     private void saveRemote(List<SuggestionWorktimeHistory> m6History) {
         List<WorktimeReviseddownHistory> l = m6History.stream()
                 .map(m6h -> new WorktimeReviseddownHistory(m6h))
@@ -360,15 +380,18 @@ public class StandardTimeUploadByBw {
     }
 
     private void notifyUser() {
-        String[] to = getMailByNotification("worktime_downgrade_alarm");
-        String[] cc = getMailByNotification("worktime_downgrade_alarm_cc");
+        String[] to = super.findEmailByNotify("worktime_downgrade_alarm");
+        String[] cc = super.findEmailByNotify("worktime_downgrade_alarm_cc");
 
         String subject = "【" + pageTitle + "系統訊息】工時自動下修";
         String text = generateTextBody();
 
         try {
             mailManager.sendMail(to, cc, subject, text, "【" + pageTitle + "系統訊息】");
-        } catch (MessagingException | UnsupportedEncodingException ex) {
+
+//            // debug
+//            super.sendByApi(to, cc, subject, text, "【" + pageTitle + "系統訊息】");
+        } catch (Exception ex) {
             log.error("Send mail fail when upload mes job fail." + ex.toString());
         }
     }
@@ -489,15 +512,18 @@ public class StandardTimeUploadByBw {
     }
 
     private void notifySystem(List<String> l) {
-        String[] to = getMailByNotification("worktime_ie_alarm_cc");
-        String[] cc = getMailByNotification("worktime_ie_alarm_cc");
+        String[] to = super.findEmailByNotify("worktime_ie_alarm_cc");
+        String[] cc = super.findEmailByNotify("worktime_ie_alarm_cc");
 
         String subject = "工時自動下修System";
         String text = generateTextBodySystem(l);
 
         try {
             mailManager.sendMail(to, cc, subject, text, "【" + pageTitle + "系統訊息】");
-        } catch (MessagingException | UnsupportedEncodingException ex) {
+
+//            // debug
+//            super.sendByApi(to, cc, subject, text, "【" + pageTitle + "系統訊息】");
+        } catch (Exception ex) {
             log.error("Send mail fail when upload mes job fail." + ex.toString());
         }
     }
@@ -520,15 +546,4 @@ public class StandardTimeUploadByBw {
         return sb.toString();
     }
 
-    private String[] getMailByNotification(String notification) {
-        List<User> users = userNotificationService.findUsersByNotification(notification);
-        String[] mails = new String[users.size()];
-        for (int i = 0; i < mails.length; i++) {
-            String mail = users.get(i).getEmail();
-            if (mail != null && !"".equals(mail)) {
-                mails[i] = mail;
-            }
-        }
-        return mails;
-    }
 }

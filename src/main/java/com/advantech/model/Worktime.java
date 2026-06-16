@@ -176,7 +176,7 @@ public class Worktime implements java.io.Serializable {
 
     @JsonView(View.Public.class)
     private BigDecimal biPower;
-    
+
     @JsonView(View.Public.class)
     private User userBySpeOwnerId;
 
@@ -299,7 +299,7 @@ public class Worktime implements java.io.Serializable {
 
     @JsonView(View.Public.class)
     private int splitFlag;
-    
+
     @JsonView(View.Public.class)
     private String labelPacking1;
 
@@ -395,7 +395,7 @@ public class Worktime implements java.io.Serializable {
     }
 
     @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
-    @Column(name = "productionWt", precision = 10, scale = 2)
+    @Column(name = "productionWt", precision = 12, scale = 2)
     public BigDecimal getProductionWt() {
         return productionWt;
     }
@@ -404,74 +404,74 @@ public class Worktime implements java.io.Serializable {
         this.productionWt = autoFixScale(productionWt, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "setup_time", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "setup_time", precision = 12, scale = 2)
     public BigDecimal getSetupTime() {
         return setupTime;
     }
 
     public void setSetupTime(BigDecimal setupTime) {
-        this.setupTime = autoFixScale(setupTime, 1);
+        this.setupTime = autoFixScale(setupTime, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "arFilmAttachment", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "arFilmAttachment", precision = 12, scale = 2)
     public BigDecimal getArFilmAttachment() {
         return arFilmAttachment;
     }
 
     public void setArFilmAttachment(BigDecimal arFilmAttachment) {
-        this.arFilmAttachment = autoFixScale(arFilmAttachment, 1);
+        this.arFilmAttachment = autoFixScale(arFilmAttachment, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "seal", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "seal", precision = 12, scale = 2)
     public BigDecimal getSeal() {
         return seal;
     }
 
     public void setSeal(BigDecimal seal) {
-        this.seal = autoFixScale(seal, 1);
+        this.seal = autoFixScale(seal, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "seal1", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "seal1", precision = 12, scale = 2)
     public BigDecimal getSeal1() {
         return seal1;
     }
 
     public void setSeal1(BigDecimal seal1) {
-        this.seal1 = autoFixScale(seal1, 1);
+        this.seal1 = autoFixScale(seal1, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "opticalBonding", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "opticalBonding", precision = 12, scale = 2)
     public BigDecimal getOpticalBonding() {
         return opticalBonding;
     }
 
     public void setOpticalBonding(BigDecimal opticalBonding) {
-        this.opticalBonding = autoFixScale(opticalBonding, 1);
+        this.opticalBonding = autoFixScale(opticalBonding, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "opticalBonding1", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "opticalBonding1", precision = 12, scale = 2)
     public BigDecimal getOpticalBonding1() {
         return opticalBonding1;
     }
 
     public void setOpticalBonding1(BigDecimal opticalBonding1) {
-        this.opticalBonding1 = autoFixScale(opticalBonding1, 1);
+        this.opticalBonding1 = autoFixScale(opticalBonding1, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "opticalBonding2", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "opticalBonding2", precision = 12, scale = 2)
     public BigDecimal getOpticalBonding2() {
         return opticalBonding2;
     }
 
     public void setOpticalBonding2(BigDecimal opticalBonding2) {
-        this.opticalBonding2 = autoFixScale(opticalBonding2, 1);
+        this.opticalBonding2 = autoFixScale(opticalBonding2, 2);
     }
 
     @Size(min = 0, max = 10)
@@ -485,7 +485,7 @@ public class Worktime implements java.io.Serializable {
     }
 
     @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
-    @Column(name = "pressureCooker_Cost", precision = 10, scale = 2)
+    @Column(name = "pressureCooker_Cost", precision = 12, scale = 2)
     public BigDecimal getPressureCookerCost() {
         return pressureCookerCost;
     }
@@ -494,138 +494,138 @@ public class Worktime implements java.io.Serializable {
         this.pressureCookerCost = autoFixScale(pressureCookerCost, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "clean_panel", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "clean_panel", precision = 12, scale = 2)
     public BigDecimal getCleanPanel() {
         return this.cleanPanel;
     }
 
     public void setCleanPanel(BigDecimal cleanPanel) {
-        this.cleanPanel = autoFixScale(cleanPanel, 1);
+        this.cleanPanel = autoFixScale(cleanPanel, 2);
     }
 
     @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
-    @Column(name = "machine_worktime", precision = 10, scale = 2)
+    @Column(name = "machine_worktime", precision = 12, scale = 2)
     public BigDecimal getMachineWorktime() {
         return machineWorktime;
     }
 
     public void setMachineWorktime(BigDecimal machineWorktime) {
-        this.machineWorktime = machineWorktime;
+        this.machineWorktime = autoFixScale(machineWorktime, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "[pi]", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "[pi]", precision = 12, scale = 2)
     public BigDecimal getPi() {
         return pi;
     }
 
     public void setPi(BigDecimal pi) {
-        this.pi = autoFixScale(pi, 1);
+        this.pi = autoFixScale(pi, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "assy", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "assy", precision = 12, scale = 2)
     public BigDecimal getAssy() {
         return this.assy;
     }
 
     public void setAssy(BigDecimal assy) {
-        this.assy = autoFixScale(assy, 1);
+        this.assy = autoFixScale(assy, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "assy2", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "assy2", precision = 12, scale = 2)
     public BigDecimal getAssy2() {
         return assy2;
     }
 
     public void setAssy2(BigDecimal assy2) {
-        this.assy2 = autoFixScale(assy2, 1);
+        this.assy2 = autoFixScale(assy2, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "high_bright", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "high_bright", precision = 12, scale = 2)
     public BigDecimal getHighBright() {
         return highBright;
     }
 
     public void setHighBright(BigDecimal highBright) {
-        this.highBright = highBright;
+        this.highBright = autoFixScale(highBright, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "bonded_sealing_frame", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "bonded_sealing_frame", precision = 12, scale = 2)
     public BigDecimal getBondedSealingFrame() {
         return bondedSealingFrame;
     }
 
     public void setBondedSealingFrame(BigDecimal bondedSealingFrame) {
-        this.bondedSealingFrame = bondedSealingFrame;
+        this.bondedSealingFrame = autoFixScale(bondedSealingFrame, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "t1", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "t1", precision = 12, scale = 2)
     public BigDecimal getT1() {
         return this.t1;
     }
 
     public void setT1(BigDecimal t1) {
-        this.t1 = autoFixScale(t1, 1);
+        this.t1 = autoFixScale(t1, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "t2", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "t2", precision = 12, scale = 2)
     public BigDecimal getT2() {
         return this.t2;
     }
 
     public void setT2(BigDecimal t2) {
-        this.t2 = autoFixScale(t2, 1);
+        this.t2 = autoFixScale(t2, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "t3", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "t3", precision = 12, scale = 2)
     public BigDecimal getT3() {
         return t3;
     }
 
     public void setT3(BigDecimal t3) {
-        this.t3 = t3;
+        this.t3 = autoFixScale(t3, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "packing", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "packing", precision = 12, scale = 2)
     public BigDecimal getPacking() {
         return this.packing;
     }
 
     public void setPacking(BigDecimal packing) {
-        this.packing = autoFixScale(packing, 1);
+        this.packing = autoFixScale(packing, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "up_bi_ri", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "up_bi_ri", precision = 12, scale = 2)
     public BigDecimal getUpBiRi() {
         return this.upBiRi;
     }
 
     public void setUpBiRi(BigDecimal upBiRi) {
-        this.upBiRi = autoFixScale(upBiRi, 1);
+        this.upBiRi = autoFixScale(upBiRi, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "down_bi_ri", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "down_bi_ri", precision = 12, scale = 2)
     public BigDecimal getDownBiRi() {
         return this.downBiRi;
     }
 
     public void setDownBiRi(BigDecimal downBiRi) {
-        this.downBiRi = autoFixScale(downBiRi, 1);
+        this.downBiRi = autoFixScale(downBiRi, 2);
     }
 
     @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
-    @Column(name = "bi_cost", precision = 10, scale = 2)
+    @Column(name = "bi_cost", precision = 12, scale = 2)
     public BigDecimal getBiCost() {
         return this.biCost;
     }
@@ -646,24 +646,24 @@ public class Worktime implements java.io.Serializable {
         this.cleanRoomLevel = cleanRoomLevel;
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "assy_to_t1", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "assy_to_t1", precision = 12, scale = 2)
     public BigDecimal getAssyToT1() {
         return assyToT1;
     }
 
     public void setAssyToT1(BigDecimal assyToT1) {
-        this.assyToT1 = autoFixScale(assyToT1, 1);
+        this.assyToT1 = autoFixScale(assyToT1, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "t2_to_packing", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "t2_to_packing", precision = 12, scale = 2)
     public BigDecimal getT2ToPacking() {
         return t2ToPacking;
     }
 
     public void setT2ToPacking(BigDecimal t2ToPacking) {
-        this.t2ToPacking = autoFixScale(t2ToPacking, 1);
+        this.t2ToPacking = autoFixScale(t2ToPacking, 2);
     }
 
     @NotAudited
@@ -691,7 +691,7 @@ public class Worktime implements java.io.Serializable {
 
     @NotNull(message = "Bi Time 不可為空")
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "bi_time", nullable = false, precision = 10, scale = 1)
+    @Column(name = "bi_time", nullable = false, precision = 11, scale = 1)
     public BigDecimal getBiTime() {
         return this.biTime;
     }
@@ -702,7 +702,7 @@ public class Worktime implements java.io.Serializable {
 
     @NotNull(message = "Bi Temperature 不可為空")
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "bi_temperature", nullable = false, precision = 10, scale = 1)
+    @Column(name = "bi_temperature", nullable = false, precision = 11, scale = 1)
     public BigDecimal getBiTemperature() {
         return this.biTemperature;
     }
@@ -965,7 +965,7 @@ public class Worktime implements java.io.Serializable {
     }
 
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "ns_in_one_collection_box", precision = 10, scale = 1)
+    @Column(name = "ns_in_one_collection_box", precision = 11, scale = 1)
     public BigDecimal getNsInOneCollectionBox() {
         return this.nsInOneCollectionBox;
     }
@@ -992,8 +992,6 @@ public class Worktime implements java.io.Serializable {
         this.labelInformation = labelInformation;
     }
 
-    
-    
     @NotNull
     @Digits(integer = 10 /*precision*/, fraction = 4 /*scale*/)
     @Column(name = "[weight]", nullable = false, precision = 10, scale = 4)
@@ -1044,24 +1042,24 @@ public class Worktime implements java.io.Serializable {
         this.materialVolumeB = materialVolumeB;
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "assy_lead_time", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "assy_lead_time", precision = 12, scale = 2)
     public BigDecimal getAssyLeadTime() {
         return this.assyLeadTime;
     }
 
     public void setAssyLeadTime(BigDecimal assyLeadTime) {
-        this.assyLeadTime = autoFixScale(assyLeadTime, 1);
+        this.assyLeadTime = autoFixScale(assyLeadTime, 2);
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "test", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "test", precision = 12, scale = 2)
     public BigDecimal getTest() {
         return test;
     }
 
     public void setTest(BigDecimal test) {
-        this.test = autoFixScale(test, 1);
+        this.test = autoFixScale(test, 2);
     }
 
     @NotAudited
@@ -1149,14 +1147,14 @@ public class Worktime implements java.io.Serializable {
         this.cobots = cobots;
     }
 
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "tp_worktime", precision = 10, scale = 1)
+    @Digits(integer = 10 /*precision*/, fraction = 2 /*scale*/)
+    @Column(name = "tp_worktime", precision = 12, scale = 2)
     public BigDecimal getTpWorktime() {
         return tpWorktime;
     }
 
     public void setTpWorktime(BigDecimal tpWorktime) {
-        this.tpWorktime = tpWorktime;
+        this.tpWorktime = autoFixScale(tpWorktime, 2);
     }
 
     @NotNull

@@ -14,9 +14,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -34,7 +36,7 @@ public class TestQuartzJobs {
 
     @Autowired
     private StandardTimeUpload standardTimeUpload;
-    
+
     @Autowired
     private WorktimeEventLog worktimeEventLog;
 
@@ -43,7 +45,7 @@ public class TestQuartzJobs {
 
     @Autowired
     private StandardTimeUploadByBw standardTimeUploadByBw;
-    
+
 //    @Test
     public void testTestLineTypeRecord() throws JobExecutionException, Exception {
         backupExcel.backupToDisk();
@@ -58,13 +60,16 @@ public class TestQuartzJobs {
     public void testWorktimeEventLog() {
         worktimeEventLog.execute();
     }
-    
+
 //    @Test
     public void testWorktimeEventLog1() {
         worktimeEventLog1.execute();
     }
-    
+
 //    @Test
+//    @Transactional("transactionManager3")
+////    @Transactional
+//    @Rollback(true)
     public void testStandardTimeUploadByBw() {
         standardTimeUploadByBw.uploadToMes();
     }

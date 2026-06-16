@@ -19,7 +19,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
@@ -115,8 +114,6 @@ public class SuggestionWorktimeHistory implements Serializable {
         this.statusMessage = statusMessage;
     }
 
-    @NotNull
-    @NotEmpty
     @Column(name = "workCenter", nullable = true, length = 50)
     public String getWorkCenter() {
         return workCenter;
@@ -127,8 +124,7 @@ public class SuggestionWorktimeHistory implements Serializable {
     }
 
     @NotNull
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "workTime", nullable = false, precision = 10, scale = 1)
+    @Column(name = "workTime", nullable = false, precision = 16, scale = 6)
     public BigDecimal getWorkTime() {
         return workTime;
     }
@@ -138,8 +134,7 @@ public class SuggestionWorktimeHistory implements Serializable {
     }
 
     @NotNull
-    @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)
-    @Column(name = "workTime_down", nullable = false, precision = 10, scale = 1)
+    @Column(name = "workTime_down", nullable = false, precision = 16, scale = 6)
     public BigDecimal getWorkTimeDown() {
         return workTimeDown;
     }

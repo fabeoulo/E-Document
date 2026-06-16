@@ -6,7 +6,7 @@
 
     <!--job2 setting-->
     <!--上傳標工-->
-<!--    <bean id="targetClass2" class="com.advantech.quartzJob.StandardTimeUpload"/>
+    <!--    <bean id="targetClass2" class="com.advantech.quartzJob.StandardTimeUpload"/>
     
     <bean id="jobDetail2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="targetClass2"/>
@@ -97,7 +97,7 @@
     
     <bean id="cronTrigger7" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="jobDetail7"/>
-        <property name="cronExpression" value="0 30 7 ? * MON *"/>
+        <property name="cronExpression" value="0 0 9 ? * * *"/>
     </bean>
     
     <!--schedule jobs-->

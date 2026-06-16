@@ -97,7 +97,7 @@ public class WorktimeExtra implements java.io.Serializable {
     }
 
     @NotNull()
-    @Column(name = "extra_time", nullable = false, precision = 10, scale = 1)
+    @Column(name = "extra_time", nullable = false, precision = 12, scale = 2)
     public BigDecimal getExtraTime() {
         return extraTime;
     }

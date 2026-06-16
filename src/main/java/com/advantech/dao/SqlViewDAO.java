@@ -17,10 +17,10 @@ import org.springframework.stereotype.Repository;
 public class SqlViewDAO extends BasicDAOImpl<Integer, Object> {
 
     public List<Map> findSuggestionWorkTime() {
-        String sql = "SELECT modelName , station, totalCnt, "
-                + "CONVERT (numeric(10,1),  [standardTime])  standardTime, "
-                + "CONVERT (numeric(10,2),  [opTime]) opTime, "
-                + "CONVERT (numeric(10,1),  [suggestSt]) suggestSt, "
+        String sql = "SELECT modelName, station, totalCnt, "
+                + "CONVERT (numeric(16,6),  [standardTime])  standardTime, "
+                + "CONVERT (numeric(16,6),  [opTime]) opTime, "
+                + "CONVERT (numeric(16,6),  [suggestSt]) suggestSt, "
                 + "decide "
                 + "FROM Vw_SuggestionWorkTime_Down ";
 
