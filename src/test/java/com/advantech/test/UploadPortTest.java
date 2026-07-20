@@ -103,7 +103,7 @@ public class UploadPortTest {
 
     @Before
     public void initTestData() {
-        w = worktimeService.findByModel("SPC618WEPUD75AE-ES");
+        w = worktimeService.findByModel("EKI-9516-P0IDH10E-TEST");
 //        worktimes = worktimeService.findAll();
 //        worktimes = newArrayList(w);
 //        worktimes = worktimes.stream().filter(o -> o.getTwm2Flag() == 1).collect(toList());

@@ -32,6 +32,7 @@ import com.advantech.webservice.root.Section;
 import com.advantech.webservice.unmarshallclass.*;
 import com.google.common.base.Preconditions;
 import static com.google.common.collect.Lists.newArrayList;
+import io.netty.util.internal.ObjectUtil;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -51,6 +52,7 @@ import static java.util.stream.Collectors.toList;
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,17 +82,17 @@ public class DownloadMesTest {
     @Autowired
     private MtdTestIntegrityQueryPort mtdTestIntegrityQueryPort;
 //=============================
-//
-//    @Autowired
-//    private PreAssyM4fService preAssyService;
-//    @Autowired
-//    private FlowM4fService flowService;
-//
-//    private Map<String, PreAssyM4f> preAssyOptions;
-//    private Map<String, FlowM4f> flowOptions;
-//
-//    @Autowired
-//    private MaterialFlowQueryPort materialFlowQueryPort;
+
+    @Autowired
+    private PreAssyService preAssyService;
+    @Autowired
+    private FlowService flowService;
+
+    private Map<String, PreAssy> preAssyOptions;
+    private Map<String, Flow> flowOptions;
+
+    @Autowired
+    private MaterialFlowQueryPort materialFlowQueryPort;
 //=============================
     @Autowired
     private WorktimeMaterialPropertyDownloadSettingService propSettingService;
@@ -152,7 +154,7 @@ public class DownloadMesTest {
 
     @PostConstruct
     private void init() {
-        List<String> modelNames = newArrayList("DMS-SA55-01A2E");
+        List<String> modelNames = newArrayList("9653012000E");
 //        List<String> modelNames = newArrayList("EKI-9516-P0IDH10E-TEST","EKI-7706G-2FI-AU","EKI-7706G-2F-AU","PDCW2402301-T","PDCW2402002-T");
         Preconditions.checkState(!modelNames.isEmpty(), "No model names. Finish.");
 
@@ -180,9 +182,9 @@ public class DownloadMesTest {
 //        userOptions1 = toSelectOptions(userService1.findAll());
 //        unitOptions1 = toSelectOptions(unitService1.findAll());
 //
-//        preAssyOptions = toSelectOptions(preAssyService.findAll());
-//        flowOptions = toSelectOptions(flowService.findAll());
-//
+        preAssyOptions = toSelectOptions(preAssyService.findAll());
+        flowOptions = toSelectOptions(flowService.findAll());
+
 //        pendingOptions = toSelectOptions(pendingService.findAll());
 //        outLabelOptions = toSelectOptions(outLabelService.findAll());
 //        cartonLabelOptions = toSelectOptions(cartonLabelService.findAll());
@@ -259,17 +261,18 @@ public class DownloadMesTest {
 
 //        getExcelModels();
 //
+        l = instance.findAll();
         initOptions();
         for (Worktime wm4 : l) {
 //                Worktime wm4 = (Worktime) wt;
 //
             HibernateObjectPrinter.print("Processing: " + wm4.getModelName() + " in thread: " + Thread.currentThread().getName());
             try {
-                List<ModelResponsor> mesOwners = modelResponsorQueryPort.query(wm4);
-                List<ModelResponsor> mesOwners2 = modelResponsorQueryPort.queryM(wm4, Factory.TWM3);
+//                List<ModelResponsor> mesOwners = modelResponsorQueryPort.query(wm4);
+//                List<ModelResponsor> mesOwners2 = modelResponsorQueryPort.queryM(wm4, Factory.TWM3);
 //                dlOwner(wm4);
-//                dlFlow(wm4);
-                dlMat(wm4);
+                dlFlow(wm4);
+//                dlMat(wm4);
 //                dlMtdTest(wm4);
 //                dlWt(wm4);
 
@@ -477,97 +480,115 @@ public class DownloadMesTest {
 //
 //        return wt;
 //    }
-////
-//    private Worktime dlFlow(Worktime wt) throws Exception {
-//        List<MaterialFlow> mesFlows = materialFlowQueryPort.queryM(wt, Factory.TWM3);
-//        Map<String, String> errorFields = new HashMap();
 //
-//        for (Section section : Section.values()) {
-//            try {
-//                MaterialFlow mf = mesFlows.stream().filter(materialFlow -> materialFlow.getUnitNo().equals(section.getCode())).findFirst().orElse(null);
-//                if (mf == null) {
-//                    continue;
-//                }
-//
-//                String flowName = mf.getFlowRuleName();
-//                if (isNullOrEmpty(flowName)) {
-//                    continue;
-//                }
-//
-//                switch (section) {
-//                    case PREASSY:
-//                        PreAssyM4f preAssy = preAssyOptions.get(flowName);
-//                        if (preAssy == null) {
-//                            preAssy = new PreAssyM4f();
-//                            preAssy.setName(flowName);
-//                            preAssyService.insert(preAssy);
-//                            preAssyOptions.put(flowName, preAssy);
-//                        }
-//                        wt.setPreAssy(preAssy);
-//                        break;
-//                    case BAB:
-//                        FlowM4f babFlow = flowOptions.get(flowName);
-//                        if (babFlow == null) {
-//                            babFlow = new FlowM4f();
-//                            babFlow.setName(flowName);
-//                            babFlow.setFlowGroup(new FlowGroupM4f(1));
-//                            flowService.insert(babFlow);
-//                            flowOptions.put(flowName, babFlow);
-//                        }
-//                        wt.setFlowByBabFlowId(babFlow);
-//                        break;
-//                    case TEST:
-//                        FlowM4f testFlow = flowOptions.get(flowName);
-//                        if (testFlow == null) {
-//                            testFlow = new FlowM4f();
-//                            testFlow.setName(flowName);
-//                            testFlow.setFlowGroup(new FlowGroupM4f(3));
-//                            flowService.insert(testFlow);
-//                            flowOptions.put(flowName, testFlow);
-//                        }
-//                        wt.setFlowByTestFlowId(testFlow);
-//                        break;
-//                    case PACKAGE:
-//                        FlowM4f pkgFlow = flowOptions.get(flowName);
-//                        if (pkgFlow == null) {
-//                            pkgFlow = new FlowM4f();
-//                            pkgFlow.setName(flowName);
-//                            pkgFlow.setFlowGroup(new FlowGroupM4f(2));
-//                            flowService.insert(pkgFlow);
-//                            flowOptions.put(flowName, pkgFlow);
-//                        }
-//                        wt.setFlowByPackingFlowId(pkgFlow);
-//                        break;
-//                    default:
-//                        break;
-//                }
-//            } catch (Exception e) {
-//                errorFields.put(section + "_Flow", e.getMessage());
-//            }
-//        }
-//
-//        if (!errorFields.isEmpty()) {
-//            throw new Exception(wt.getModelName() + " 徒程從MES讀取失敗: " + errorFields.toString());
-//        }
-//
-//        if (wt.getFlowByBabFlowId() != null && wt.getFlowByTestFlowId() != null) {
-//            int babFlowId = wt.getFlowByBabFlowId().getId();
-//            int testFlowId = wt.getFlowByTestFlowId().getId();
-//
-//            List<FlowM4f> testFlows = flowService.findByParent(babFlowId);
-//            if (testFlows.stream().noneMatch(f -> f.getId() == testFlowId)) {
-//                List<Integer> addSubIds = new ArrayList();
-//                addSubIds.add(testFlowId);
-//                flowService.addSub(babFlowId, addSubIds);
-//            }
-//        }
-//
-//        return wt;
-//    }
+    private Worktime dlFlow(Worktime wt) throws Exception {
+        List<MaterialFlow> mesFlows = materialFlowQueryPort.queryM(wt, Factory.TWM3);
+        Map<String, String> errorFields = new HashMap();
+
+        for (Section section : Section.values()) {
+            try {
+                MaterialFlow mf = mesFlows.stream().filter(materialFlow -> materialFlow.getUnitNo().equals(section.getCode())).findFirst().orElse(null);
+                if (mf == null) {
+                    continue;
+                }
+
+                String flowName = mf.getFlowRuleName();
+                if (isNullOrEmpty(flowName)) {
+                    continue;
+                }
+
+                PreAssy preAssyFlow = wt.getPreAssy();
+                Flow flowByBabFlow = wt.getFlowByBabFlowId();
+                Flow flowByPKFlow = wt.getFlowByPackingFlowId();
+                Flow flowByTESTFlow = wt.getFlowByTestFlowId();
+
+                switch (section) {
+                    case PREASSY:
+                        PreAssy preAssy = preAssyOptions.get(flowName);
+                        if (preAssy == null) {
+                            preAssy = new PreAssy();
+                            preAssy.setName(flowName);
+                            preAssyService.insert(preAssy);
+                            preAssyOptions.put(flowName, preAssy);
+                        }
+                        wt.setPreAssy(preAssy);
+                        break;
+                    case BAB:
+                        Flow babFlow = flowOptions.get(flowName);
+                        if (babFlow == null) {
+                            babFlow = new Flow();
+                            babFlow.setName(flowName);
+                            babFlow.setFlowGroup(new FlowGroup(1));
+                            flowService.insert(babFlow);
+                            flowOptions.put(flowName, babFlow);
+                        }
+                        wt.setFlowByBabFlowId(babFlow);
+                        break;
+                    case TEST:
+                        Flow testFlow = flowOptions.get(flowName);
+                        if (testFlow == null) {
+                            testFlow = new Flow();
+                            testFlow.setName(flowName);
+                            testFlow.setFlowGroup(new FlowGroup(3));
+                            flowService.insert(testFlow);
+                            flowOptions.put(flowName, testFlow);
+                        }
+                        wt.setFlowByTestFlowId(testFlow);
+                        break;
+                    case PACKAGE:
+                        Flow pkgFlow = flowOptions.get(flowName);
+                        if (pkgFlow == null) {
+                            pkgFlow = new Flow();
+                            pkgFlow.setName(flowName);
+                            pkgFlow.setFlowGroup(new FlowGroup(2));
+                            flowService.insert(pkgFlow);
+                            flowOptions.put(flowName, pkgFlow);
+                        }
+                        wt.setFlowByPackingFlowId(pkgFlow);
+                        break;
+                    default:
+                        break;
+                }
+
+//                PreAssy preAssyFlow = wt.getPreAssy();
+//                Flow flowByBabFlow = wt.getFlowByBabFlowId();
+//                Flow flowByPKFlow = wt.getFlowByPackingFlowId();
+//                Flow flowByTESTFlow = wt.getFlowByTestFlowId();
+                if (!EqualsBuilder.reflectionEquals(preAssyFlow, wt.getPreAssy())
+                        || !EqualsBuilder.reflectionEquals(flowByBabFlow, wt.getFlowByBabFlowId())
+                        || !EqualsBuilder.reflectionEquals(flowByPKFlow, wt.getFlowByPackingFlowId())
+                        || !EqualsBuilder.reflectionEquals(flowByTESTFlow, wt.getFlowByTestFlowId())) {
+                    String stop = "";
+                }
+
+            } catch (Exception e) {
+                errorFields.put(section + "_Flow", e.getMessage());
+            }
+        }
+
+        if (!errorFields.isEmpty()) {
+            throw new Exception(wt.getModelName() + " 徒程從MES讀取失敗: " + errorFields.toString());
+        }
+
+        if (wt.getFlowByBabFlowId() != null && wt.getFlowByTestFlowId() != null) {
+            int babFlowId = wt.getFlowByBabFlowId().getId();
+            int testFlowId = wt.getFlowByTestFlowId().getId();
+
+            List<Flow> testFlows = flowService.findByParent(babFlowId);
+            if (testFlows.stream().noneMatch(f -> f.getId() == testFlowId)) {
+                List<Integer> addSubIds = new ArrayList();
+                addSubIds.add(testFlowId);
+                flowService.addSub(babFlowId, addSubIds);
+            }
+        }
+
+        return wt;
+    }
 //
 //    @Test
 //    @Transactional
 //    @Rollback(false)
+
     public void dlMatTest() throws Exception {
 
         List<Worktime> wts = instance.findByModelNames("EKI-9516-P0IDH10E-TEST");

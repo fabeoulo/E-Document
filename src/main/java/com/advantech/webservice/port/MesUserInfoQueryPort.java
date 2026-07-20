@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import com.advantech.model2.IWorktimeForWebService;
 import com.advantech.webservice.Factory;
 import com.advantech.webservice.root.DeptIdM9;
+import com.google.common.base.Preconditions;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -91,7 +92,10 @@ public class MesUserInfoQueryPort extends BasicQueryPort {
         return m;
     }
 
-    public void setSpeEeDept(List<MesUserInfo> l, Worktime w) {
+    public void setSpeEeDept(List<MesUserInfo> l, Worktime w) throws Exception {
+        boolean deptIdInvalid = l.stream().anyMatch(mu -> mu.getDeptId() == 0);
+        Preconditions.checkState(!deptIdInvalid, "Dept id invalid.");
+
         Map<String, String> m = this.getJobnumber(w);
 
         if (m.containsKey("eeOwner")) {

@@ -275,7 +275,9 @@ public class WorktimeUploadMesService {
                 try {
                     responsorUploadPort.delete(w);
                 } catch (Exception e) {
-                    throw new Exception("機種負責人刪除至MES失敗<br />" + e.getMessage());
+                    if (!e.getMessage().contains("No data transaction!")) {
+                        throw new Exception("機種負責人刪除至MES失敗<br />" + e.getMessage());
+                    }
                 }
             }
 
