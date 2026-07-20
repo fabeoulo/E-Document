@@ -46,7 +46,7 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
     }
 
     /*
-        抓到MES該機種所有負責人
+        抓到MES該機種所有負責人(接口不支援，取消)
         抓取本地該機種負責人
         比對看是否有更新，有則去MES抓人員ID作update
         假使是新增則呼叫新增UploadType
