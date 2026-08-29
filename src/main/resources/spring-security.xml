@@ -32,6 +32,14 @@
         
         <!--<csrf disabled="true"/>-->
         
+        <!--Https setting-->
+        <port-mappings>
+            <port-mapping http="8080" https="8443"/>
+            <port-mapping http="8050" https="5443"/>
+            <port-mapping http="8880" https="8843"/>
+        </port-mappings>
+        <intercept-url pattern="/**" requires-channel="https"/>
+        
         <!--Global system access setting-->
         <intercept-url pattern="/login.jsp" access="permitAll" />
         <intercept-url pattern="/pages/admin/**" access="hasRole('ADMIN')" />
