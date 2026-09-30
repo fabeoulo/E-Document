@@ -176,6 +176,7 @@ public class WorktimeUploadMesService {
                 || !isEquals(prev.getFcc(), current.getFcc())
                 || !isEquals(prev.getEac(), current.getEac())
                 || !isEquals(prev.getKc(), current.getKc())
+                || !isEquals(prev.getQrcode(), current.getQrcode())
                 || !isEquals(prev.getNsInOneCollectionBox(), current.getNsInOneCollectionBox())
                 || !isEquals(prev.getAcwVoltage(), current.getAcwVoltage())
                 || !isEquals(prev.getDcwVoltage(), current.getDcwVoltage())

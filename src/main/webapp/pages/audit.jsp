@@ -134,6 +134,7 @@
                     {label: 'FCC', name: "fcc", jsonmap: "0.fcc", width: 60, searchrules: number_search_rule, searchoptions: search_string_options},
                     {label: 'EAC', name: "eac", jsonmap: "0.eac", width: 60, searchrules: number_search_rule, searchoptions: search_string_options},
                     {label: 'KC', name: "kc", jsonmap: "0.kc", width: 60, searchrules: number_search_rule, searchoptions: search_string_options},
+                    {label: 'QR code', name: "qrcode", jsonmap: "0.qrcode", width: 60, searchrules: number_search_rule, searchoptions: search_string_options},
                     {label: 'N合1集合箱', name: "nsInOneCollectionBox", jsonmap: "0.nsInOneCollectionBox", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'SN是否等於SSN', name: "partNoAttributeMaintain", jsonmap: "0.partNoAttributeMaintain", width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                     {label: '標籤信息是否啟用料號屬性定義', name: "labelYN", jsonmap: "0.labelYN", width: 100, searchrules: date_search_rule, searchoptions: search_string_options, editoptions: {defaultValue: '0'}},

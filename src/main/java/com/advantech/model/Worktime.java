@@ -231,6 +231,9 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
     private int kc;
 
     @JsonView(View.Public.class)
+    private int qrcode;
+
+    @JsonView(View.Public.class)
     private BigDecimal nsInOneCollectionBox = BigDecimal.ZERO;
 
     @JsonView(View.Public.class)
@@ -1128,6 +1131,16 @@ public class Worktime implements java.io.Serializable, IWorktimeForWebService {
 
     public void setKc(int kc) {
         this.kc = kc;
+    }
+
+    @NotNull
+    @Column(name = "qrcode", nullable = false)
+    public int getQrcode() {
+        return qrcode;
+    }
+
+    public void setQrcode(int qrcode) {
+        this.qrcode = qrcode;
     }
 
     @Digits(integer = 10 /*precision*/, fraction = 1 /*scale*/)

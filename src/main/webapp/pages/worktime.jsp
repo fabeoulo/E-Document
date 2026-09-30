@@ -353,6 +353,7 @@
                 {label: 'FCC', name: "fcc", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
                 {label: 'EAC', name: "eac", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
                 {label: 'KC', name: "kc", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
+                {label: 'QR code', name: "qrcode", width: 60, searchrules: number_search_rule, searchoptions: search_string_options, edittype: "select", editoptions: {value: "0:0;1:1"}},
                 {label: 'N合1集合箱', name: "nsInOneCollectionBox", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options, editrules: {number: true}, editoptions: {defaultValue: '0', dataEvents: nsInOneCollectionBox_change_event}},
                 {label: 'SN是否等於SSN', name: "partNoAttributeMaintain", edittype: "select", editoptions: {value: "N:N; :empty", defaultValue: ' '}, width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                 {label: '標籤信息是否啟用料號屬性定義', name: "labelYN", edittype: "select", editoptions: {value: "Y:Y;N:N", defaultValue: 'Y'}, width: 100, searchrules: {required: true}, searchoptions: search_string_options},
@@ -487,8 +488,9 @@
         grid.jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
             groupHeaders: [
+			
                 {startColumnName: 'macTotalQty', numberOfColumns: 11, titleText: '<em>MAC</em>'},
-                {startColumnName: 'ce', numberOfColumns: 8, titleText: '<em>外箱Label產品資訊 (1：要印   0：不印)</em>'},
+                {startColumnName: 'ce', numberOfColumns: 9, titleText: '<em>外箱Label產品資訊 (1：要印   0：不印)</em>'},
                 {startColumnName: 'partNoAttributeMaintain', numberOfColumns: 51, titleText: '<em>料號屬性值維護</em>'},
 //                {startColumnName: 'assyLeadTime', numberOfColumns: 2, titleText: '<em>組裝相關工時</em>'},
                 {startColumnName: 'packingLeadTime', numberOfColumns: 3, titleText: '<em>包裝相關工時</em>'},
