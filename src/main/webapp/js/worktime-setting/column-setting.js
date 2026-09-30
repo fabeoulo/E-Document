@@ -58,6 +58,7 @@ var worktimeCol = [
     {name: "fcc"},
     {name: "eac"},
     {name: "kc"},
+    {name: "qrcode"},
     {name: "nsInOneCollectionBox"},
     {name: "partNoAttributeMaintain"},
     {name: "labelPacking1"},

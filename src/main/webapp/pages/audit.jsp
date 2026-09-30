@@ -142,6 +142,7 @@
                     {label: 'FCC', name: "fcc", jsonmap: "0.fcc", width: 60, searchrules: number_search_rule, searchoptions: search_string_options},
                     {label: 'EAC', name: "eac", jsonmap: "0.eac", width: 60, searchrules: number_search_rule, searchoptions: search_string_options},
                     {label: 'KC', name: "kc", jsonmap: "0.kc", width: 60, searchrules: number_search_rule, searchoptions: search_string_options},
+                    {label: 'QR code', name: "qrcode", jsonmap: "0.qrcode", width: 60, searchrules: number_search_rule, searchoptions: search_string_options},
                     {label: 'N合1集合箱', name: "nsInOneCollectionBox", jsonmap: "0.nsInOneCollectionBox", width: 100, searchrules: number_search_rule, searchoptions: search_decimal_options},
                     {label: 'SN是否等於SSN', name: "partNoAttributeMaintain", jsonmap: "0.partNoAttributeMaintain", width: 120, searchrules: {required: true}, searchoptions: search_string_options},
                     {label: 'Packing01標籤名稱', name: "labelPacking1", jsonmap: "0.labelPacking1", width: 100, searchrules: date_search_rule, searchoptions: search_string_options},
