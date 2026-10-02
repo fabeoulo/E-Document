@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Wei.Cheng
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "Table1")
+@XmlRootElement(name = "QryUserInfo002") 
 public class MesUserInfo implements Serializable {
 
     @XmlElement(name = "USER_ID")
@@ -25,8 +25,8 @@ public class MesUserInfo implements Serializable {
     @XmlElement(name = "USER_NO")
     private String jobnumber;
 
-    @XmlElement(name = "USER_NAME_CH")
-    private String userName;
+//    @XmlElement(name = "DEPT_ID")
+//    protected int deptId;
 
     public int getId() {
         return id;
@@ -44,12 +44,37 @@ public class MesUserInfo implements Serializable {
         this.jobnumber = jobnumber;
     }
 
-    public String getUserName() {
-        return userName;
+//    public int getDeptId() {
+//        return deptId;
+//    }
+//
+//    public void setDeptId(int deptId) {
+//        this.deptId = deptId;
+//    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 89 * hash + this.id;
+        return hash;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MesUserInfo other = (MesUserInfo) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
     }
 
 }

@@ -88,7 +88,7 @@ public class UploadPortTest {
 
     @Before
     public void initTestData() {
-        w = worktimeService.findByModel("IDP31-215WP25HIC1");
+        w = worktimeService.findByModel("TEST1111");
 
 //        worktimes = worktimeService.findAll();
 //        worktimes = newArrayList(w);
@@ -183,7 +183,13 @@ public class UploadPortTest {
     public void testWorktimeUploadPort() throws Exception {
 
         modelResponsorUploadPort.update(w);//216
-//        this.testSopUpload();//216
+
+//        List<Worktime> l = worktimeService.findAll();
+//        for (Worktime worktime : l) {
+//            System.out.println(worktime.getModelName());
+//            modelResponsorUploadPort.update(worktime);//216
+//        }
+
 //        this.testFlowUpload();//216
 //        materialPropertyUploadPort.update(w);//216
     }

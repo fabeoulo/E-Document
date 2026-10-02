@@ -8,7 +8,9 @@ package com.advantech.webservice.port;
 import com.advantech.webservice.root.PartMappingUserRoot;
 import com.advantech.model.Worktime;
 import com.advantech.webservice.unmarshallclass.MesUserInfo;
+import static com.google.common.base.Preconditions.*;
 import java.util.List;
+import java.util.Map;
 import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,6 +89,10 @@ public class ModelResponsorUploadPort extends BasicUploadPort implements UploadP
 
     private List<MesUserInfo> getWorktimeOwners(Worktime w) throws Exception {
         List<MesUserInfo> l = mesUserInfoQueryPort.query(w);
+
+        Map<String, String> m = mesUserInfoQueryPort.getJobnumber(w);
+        checkArgument(l.size() == m.size(), "Find MES user Error.");
+
         return l;
     }
 

@@ -57,7 +57,7 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "method",
-    "users",
+    "userinfo",
     "extdept"
 })
 @XmlRootElement(name = "root")
@@ -65,14 +65,14 @@ public class MesUserInfoQueryRoot {
 
     @XmlElement(name = "METHOD", required = true)
     protected MesUserInfoQueryRoot.METHOD method;
-    @XmlElement(name = "USERS", required = true)
-    protected MesUserInfoQueryRoot.USERS users;
+    @XmlElement(name = "USER_INFO", required = true)
+    protected MesUserInfoQueryRoot.USERINFO userinfo;
     @XmlElement(name = "EXT_DEPT", required = true)
     protected String extdept = "PD03";
 
     public MesUserInfoQueryRoot() {
         this.method = new MesUserInfoQueryRoot.METHOD();
-        this.users = new MesUserInfoQueryRoot.USERS();
+        this.userinfo = new MesUserInfoQueryRoot.USERINFO();
     }
 
     /**
@@ -101,8 +101,8 @@ public class MesUserInfoQueryRoot {
      * @return possible object is {@link Root.USERS }
      *
      */
-    public MesUserInfoQueryRoot.USERS getUSERS() {
-        return users;
+    public MesUserInfoQueryRoot.USERINFO getUSERS() {
+        return userinfo;
     }
 
     /**
@@ -111,8 +111,8 @@ public class MesUserInfoQueryRoot {
      * @param value allowed object is {@link Root.USERS }
      *
      */
-    public void setUSERS(MesUserInfoQueryRoot.USERS value) {
-        this.users = value;
+    public void setUSERS(MesUserInfoQueryRoot.USERINFO value) {
+        this.userinfo = value;
     }
 
     public String getExtdept() {
@@ -151,7 +151,7 @@ public class MesUserInfoQueryRoot {
         @XmlValue
         protected String value;
         @XmlAttribute(name = "ID")
-        protected String id = "Advantech.IMG.SYS.BLL.QryRoleUser003";
+        protected String id = "Advantech.IMG.SYS.BLL.QryUserInfo002"; 
 
         /**
          * 取得 value 特性的值.
@@ -218,12 +218,16 @@ public class MesUserInfoQueryRoot {
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "userno"
+        "userno",
+        "userid"
     })
-    public static class USERS {
+    public static class USERINFO {
 
         @XmlElement(name = "USER_NO", required = true, nillable = true)
         protected String userno;
+
+        @XmlElement(name = "USER_ID", required = true, nillable = true)
+        protected String userid;
 
         /**
          * 取得 userno 特性的值.
@@ -243,6 +247,14 @@ public class MesUserInfoQueryRoot {
          */
         public void setUSERNO(String value) {
             this.userno = value;
+        }
+
+        public String getUSERID() {
+            return userid;
+        }
+
+        public void setUSERID(String value) {
+            this.userid = value;
         }
 
     }
