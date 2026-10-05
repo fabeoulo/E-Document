@@ -111,11 +111,13 @@
                     },
                     colNames: ['id', 'name'],
                     colModel: [
-                        {name: "id", index: "id", width: 80, key: true, editable: true, sortable: true, edittype: 'select', editoptions: {value: subSelectOption, dataInit: select2_onForm}},
-                        {name: "name", index: "name", width: 130, sortable: true}
+                        {name: "id", index: "id", width: 80, key: true, sortable: false, sorttype: "int", editable: true, edittype: 'select', editoptions: {value: subSelectOption, dataInit: select2_onForm}},
+                        {name: "name", index: "name", width: 130, sortable: false}
                     ],
-                    rowNum: 20,
-                    pager: pager_id,
+//                    loadonce: true,
+                    rowNum: 100,
+                    pager: "#" + pager_id,
+                    viewrecords: true,
                     sortname: "id",
                     sortorder: "asc",
                     autowidth: true,
@@ -130,10 +132,11 @@
                     height: '100%'
                 });
                 subgrid.jqGrid('navGrid', "#" + pager_id,
-                        {edit: false, add: true, del: true, search: false},
+                        {edit: false, add: true, del: true, search: false, refresh: false},
                         {},
                         {
                             zIndex: 9999,
+                            reloadAfterSubmit: true,
                             beforeSubmit: function (postdata, form) {
                                 if (row_id != null) {
                                     // additional parameters
@@ -145,6 +148,7 @@
                         },
                         {
                             zIndex: 9999,
+                            reloadAfterSubmit: true,
                             onclickSubmit: function (rowid) {
                                 var val = $("#" + subgrid_table_id).getCell(rowid, 'id');
                                 return {id: val, parentFlowId: row_id};

@@ -64,11 +64,14 @@ var babFlow_select_event = [
             flow_LK_hint();
             var sel2 = $("#flowByTestFlowId\\.id");
             var sel2Val = Number(sel2.val());
-            var selectedValue = testFlow_default_value;
+            var selectedValue = ""; // editrules: {required: true} will not pass "" value.
 
             $.get('../SelectOption/flow-byParent/' + $(this).val(), function (data) {
                 sel2.html("");
-                sel2.append("<option role='option' value=" + testFlow_default_value + ">NO TEST PROCESS</option>");
+//                sel2.append("<option role='option' value=" + testFlow_default_value + ">NO TEST PROCESS</option>");
+
+//                 editrules: {required: true} needs "" option.
+                sel2.append("<option role='option' value=''></option>");
                 for (var i = 0; i < data.length; i++) {
                     sel2.append("<option role='option' value=" + data[i].id + ">" + data[i].name + "</option>");
                     selectedValue = data[i].id === sel2Val ? sel2Val : selectedValue;
@@ -87,11 +90,14 @@ var testFlow_select_event = [
 
             var sel2 = $("#flowByPackingFlowId\\.id");
             var sel2Val = Number(sel2.val());
-            var selectedValue = pkgFlow_default_value;
+            var selectedValue = ""; // editrules: {required: true} will not pass "" value.
 
             $.get('../SelectOption/flow-byParent/' + $(this).val(), function (data) {
                 sel2.html("");
-                sel2.append("<option role='option' value=" + pkgFlow_default_value + ">NO PACKING PROCESS</option>");
+//                sel2.append("<option role='option' value=" + pkgFlow_default_value + ">NO PACKING PROCESS</option>");
+
+//                 editrules: {required: true} needs "" option.
+                sel2.append("<option role='option' value=''></option>"); 
                 for (var i = 0; i < data.length; i++) {
                     sel2.append("<option role='option' value=" + data[i].id + ">" + data[i].name + "</option>");
                     selectedValue = data[i].id === sel2Val ? sel2Val : selectedValue;

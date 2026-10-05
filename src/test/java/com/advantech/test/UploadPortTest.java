@@ -197,22 +197,6 @@ public class UploadPortTest {
         });
     }
 
-//    @Test//245 // sopPort won't use anymore.
-//    public void testSopUpload() throws Exception {
-////        w = worktimeService.findByModel("2063002307");
-////        w.setAssyPackingSop("M-07-TP2397");
-////        sopPort.update(w);
-//
-////        w.setAssyPackingSop(null);
-////        w.setTestSop(null);
-////        sopPort.update(w);
-//
-//        List<Worktime> l = this.worktimes;
-//        for (Worktime worktime : l) {
-//            System.out.println("Upload " + worktime.getModelName());
-//            sopPort.update(worktime);
-//        }
-//    }
     //暫時用
 //    @Test
     public void testStandardtimeUploadAll() throws Exception {

@@ -84,7 +84,7 @@
                     {label: 'CPK', name: '0.cpk', width: 60, key: true, frozen: true, hidden: true, search: false, sortable: false},
                     {label: 'revtstmp', name: "REVTSTMP", jsonmap: "1.revtstmp", frozen: true, hidden: false, search: false, formatter: timestampFormat},
                     {label: 'REV', name: "REV", jsonmap: "1.rev", width: 60, frozen: true, hidden: true, search: false},
-                    {label: 'username', name: "username", jsonmap: "1.username", width: 60, frozen: true, hidden: false, search: false},
+                    {label: 'username', name: "username", jsonmap: "1.username", width: 80, frozen: true, hidden: false, search: false},
                     {label: 'REVTYPE', name: "REVTYPE", jsonmap: "2", width: 60, frozen: true, hidden: false, search: false},
                     {label: 'id', name: "id", jsonmap: "0.id", width: 60, frozen: true, hidden: false, search: false},
                     {label: 'Model', name: "modelName", jsonmap: "0.modelName", frozen: true, searchrules: {required: true}, searchoptions: search_string_options, formoptions: required_form_options},
